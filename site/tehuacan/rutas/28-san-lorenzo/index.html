@@ -7,45 +7,79 @@
 <meta name="description" content="Ruta 28 - San Lorenzo en Tehuacán: recorrido, colonias y mapa de la combi. Pasa por tehuacán.">
 <link rel="canonical" href="https://quecombi.mx/tehuacan/rutas/28-san-lorenzo/">
 <style>
-:root{--bg:#fff;--panel:#f7f7f8;--ink:#1a1a1e;--ink2:#55555e;--line:#e2e2e6;--accent:#0f62fe}
-@media(prefers-color-scheme:dark){:root{--bg:#17171b;--panel:#1f1f24;--ink:#ececf0;--ink2:#a5a5b0;--line:#33333a;--accent:#6ea6ff}}
-*{box-sizing:border-box}body{margin:0;font:16px/1.55 system-ui,-apple-system,sans-serif;color:var(--ink);background:var(--bg)}
-.wrap{max-width:860px;margin:0 auto;padding:20px}
-header.site{padding:14px 0;border-bottom:1px solid var(--line)}
-header.site a{color:var(--ink);text-decoration:none;font-weight:700;font-size:18px}
-header.site a span{color:var(--accent)}
-h1{font-size:26px;margin:.6em 0 .3em}h2{font-size:19px;margin:1.4em 0 .5em}
+:root{--bg:#fff;--panel:#f7f7f8;--ink:#1a1a1e;--ink2:#55555e;--line:#e2e2e6;--accent:#0f62fe;--chip:#fff}
+@media(prefers-color-scheme:dark){:root{--bg:#17171b;--panel:#1f1f24;--ink:#ececf0;--ink2:#a5a5b0;--line:#33333a;--accent:#6ea6ff;--chip:#26262c}}
+*{box-sizing:border-box}
+body{margin:0;font:16px/1.55 system-ui,-apple-system,sans-serif;color:var(--ink);background:var(--bg)}
+header.site{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;
+ padding:0 14px;height:50px;border-bottom:1px solid var(--line);background:var(--panel)}
+header.site .brand{color:var(--ink);text-decoration:none;font-weight:700;font-size:17px;flex:none}
+header.site .brand span{color:var(--accent)}
+header.site nav{display:flex;gap:2px;margin-left:auto;overflow-x:auto}
+header.site nav a{color:var(--ink2);text-decoration:none;font-size:14px;padding:6px 10px;border-radius:8px;white-space:nowrap}
+header.site nav a.on,header.site nav a:active{color:var(--ink);background:var(--chip)}
+.crumbs{font-size:13px;color:var(--ink2);padding:10px 0 0}
+.crumbs a{color:var(--ink2);text-decoration:none}
+.crumbs a:active,.crumbs a:hover{color:var(--accent)}
+.crumbs .sep{margin:0 6px;opacity:.6}
+.wrap{max-width:900px;margin:0 auto;padding:0 16px 28px}
+h1{font-size:23px;margin:.7em 0 .35em;line-height:1.25}
+h2{font-size:18px;margin:1.5em 0 .5em}
 p{margin:.5em 0}.muted{color:var(--ink2);font-size:14px}
 a{color:var(--accent)}
-.btn{display:inline-block;background:var(--accent);color:#fff;padding:11px 22px;border-radius:10px;
- text-decoration:none;font-weight:600;margin:6px 8px 6px 0}
+.btn{display:block;text-align:center;background:var(--accent);color:#fff;padding:12px 20px;border-radius:10px;
+ text-decoration:none;font-weight:600;margin:8px 0}
 .btn.ghost{background:var(--panel);color:var(--ink);border:1px solid var(--line)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;padding:0;list-style:none}
+.btnrow{margin:14px 0}
+.grid{display:grid;grid-template-columns:1fr;gap:10px;padding:0;list-style:none}
 .card{border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--panel)}
 .card a{text-decoration:none;color:var(--ink);font-weight:600}
 .card .sub{font-size:12.5px;color:var(--ink2);margin-top:3px}
-.tag{font-size:11px;border:1px solid var(--line);border-radius:999px;padding:1px 8px;color:var(--ink2)}
-svg.thumb{width:100%;height:auto;background:var(--panel);border:1px solid var(--line);border-radius:12px}
-footer{margin-top:40px;padding:18px 0;border-top:1px solid var(--line);font-size:13px;color:var(--ink2)}
+.tag{font-size:11px;border:1px solid var(--line);border-radius:999px;padding:1px 8px;color:var(--ink2);vertical-align:middle}
+.mapembed{width:100%;height:52vh;min-height:300px;border:1px solid var(--line);border-radius:12px;display:block}
+footer.site{margin-top:36px;padding:18px 16px calc(18px + env(safe-area-inset-bottom));
+ border-top:1px solid var(--line);font-size:13px;color:var(--ink2)}
+footer.site .cols{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:8px}
+footer.site a{color:var(--ink2)}
+@media(min-width:640px){
+ h1{font-size:27px}
+ .grid{grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+ .btn{display:inline-block;margin:6px 10px 6px 0}
+ .mapembed{height:440px}
+ footer.site .cols{flex-direction:row;justify-content:space-between}
+}
 </style>
 </head>
 <body>
+<header class="site">
+<a class="brand" href="/">Que<span>Combi</span></a>
+<nav>
+<a href="/tehuacan/mapa/" >Mapa</a>
+<a href="/tehuacan/" class="on">Rutas</a>
+<a href="/acerca/" >Acerca</a>
+</nav>
+</header>
 <div class="wrap">
-<header class="site"><a href="/">Que<span>Combi</span></a></header>
+<nav class="crumbs" aria-label="ruta de navegación"><a href="/">Inicio</a><span class="sep">›</span><a href="/tehuacan/">Tehuacán</a><span class="sep">›</span><span>Ruta 28 - San Lorenzo</span></nav>
 
 <h1>Ruta 28 - San Lorenzo <span class="tag">local</span></h1>
 <p class="muted">Combi / transporte colectivo en Tehuacán, Puebla</p>
-<svg class="thumb" viewBox="0 0 560 300" role="img" aria-label="croquis del recorrido"><path d="M41.5 44.8 L59.4 48.1 L73.8 50.1 L80.6 51.1 L91.4 52.2 L97.1 52.8 L103.0 53.8 L120.6 56.1 L131.5 57.5 L143.3 59.0 L147.8 59.3 L151.6 57.9 L157.7 61.4 L177.1 71.8 L186.0 76.2 L206.1 81.9 L232.0 88.9 L250.7 94.0 L268.9 98.9 L281.1 101.8 L292.1 105.2 L302.8 107.9 L311.3 109.8 L319.2 110.5 L328.4 110.8 L341.4 111.1 L368.0 111.8 L388.0 112.1 L407.5 113.0 L427.9 113.8 L449.0 114.2 L503.7 115.2 L530.0 115.6 L529.8 117.3 L529.5 118.8 L528.7 129.6 L527.8 137.3 L527.6 142.1 L527.3 148.7 L526.3 154.4 L514.6 154.2 L484.9 153.6 L465.5 153.2 L465.5 150.6 L465.8 146.5 L465.9 144.0 L466.0 137.1 L466.1 128.6 L466.4 120.6 L466.5 113.5 L466.7 104.8 L466.7 99.4 L452.3 99.2 L439.2 99.0 L417.4 98.5 L391.9 97.9 L376.0 97.6 L353.6 97.0 L342.2 97.0 L342.1 101.5 L341.4 109.8 L331.1 109.4 L321.4 109.0 L316.7 109.0 L313.5 108.8 L310.4 108.3 L301.1 105.9 L289.6 102.8 L280.1 99.9 L268.9 97.2 L263.0 95.6 L245.9 91.0 L220.3 84.0 L201.7 79.0 L191.1 76.1 L186.6 74.8 L178.7 70.8 L168.9 65.6 L157.1 58.9 L147.8 54.0 L141.1 50.3 L126.2 42.1 L115.2 36.0 L112.8 34.4 L111.0 32.4 L110.0 30.7 L109.0 30.2 L107.3 29.7 L106.0 29.4 L102.4 30.8 L97.0 31.9 L92.3 31.9 L84.2 30.7 L83.5 30.6 L74.1 28.9 L60.9 26.4 L41.2 22.8 L37.7 22.2 L36.0 26.0 L33.3 33.9 L30.3 41.5 L30.0 42.2 L40.3 44.4" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></svg>
+<iframe class="mapembed" loading="lazy" title="Mapa del recorrido de Ruta 28 - San Lorenzo" src="/tehuacan/mapa/?embed=1&ruta=28-san-lorenzo"></iframe>
 <h2>Pueblos y puntos en el camino</h2><p>Tehuacán</p>
 <h2>Colonias que atiende</h2><p>Aquiles Serdán, Arcadia, Centro, Conjunto Exhacienda, Del Empleado, Exhacienda San Lorenzo, Ignacio Zaragoza, La Purísima, Nicolás Bravo, Reforma, Ricardo Flores Magón, San Lorenzo Teotipilco, Zona Alta</p>
-<p><a class="btn" href="/tehuacan/mapa/">Ver en el mapa interactivo</a>
-<a class="btn ghost" href="/tehuacan/">Todas las rutas de Tehuacán</a></p>
-<p class="muted">Fuentes: queruta.mx; rutastehuacan.th1.mx · datos ciudadanos ·
-actualizado 2026-07. ¿Algo cambió? El mapa se corrige con viajes reales — participa desde la app.</p>
-
-<footer>QueCombi — mapa libre y gratuito de las combis de México. Datos abiertos (ODbL),
-código abierto (AGPL). Hecho con datos de proyectos ciudadanos y OpenStreetMap.
-· <a href="/tehuacan/mapa/">Mapa interactivo</a></footer>
+<div class="btnrow">
+<a class="btn" href="/tehuacan/mapa/?ruta=28-san-lorenzo">Ver en el mapa completo</a>
+<a class="btn ghost" href="/tehuacan/">Todas las rutas de Tehuacán</a>
 </div>
+<p class="muted">Fuentes: queruta.mx; rutastehuacan.th1.mx · datos ciudadanos · actualizado 2026-07.
+¿Algo cambió? El mapa se corrige con viajes reales — participa desde la app.</p>
+
+</div>
+<footer class="site"><div class="cols">
+<div>QueCombi — mapa libre y gratuito de las combis de México.<br>
+Datos abiertos (ODbL) · código abierto (AGPL) · hecho con proyectos ciudadanos y OpenStreetMap.<br>
+Built with ♥ in Tehuacán · <a href="https://github.com/mauriciotellezdev" rel="me">GitHub</a></div>
+<div><a href="/tehuacan/mapa/">Mapa</a> · <a href="/tehuacan/">Rutas de Tehuacán</a> · <a href="/acerca/">Acerca</a></div>
+</div></footer>
 </body>
 </html>

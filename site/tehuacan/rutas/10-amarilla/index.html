@@ -7,45 +7,79 @@
 <meta name="description" content="Ruta 10 Amarilla en Tehuacán: recorrido, colonias y mapa de la combi. Pasa por san diego chalma,  tehuacán.">
 <link rel="canonical" href="https://quecombi.mx/tehuacan/rutas/10-amarilla/">
 <style>
-:root{--bg:#fff;--panel:#f7f7f8;--ink:#1a1a1e;--ink2:#55555e;--line:#e2e2e6;--accent:#0f62fe}
-@media(prefers-color-scheme:dark){:root{--bg:#17171b;--panel:#1f1f24;--ink:#ececf0;--ink2:#a5a5b0;--line:#33333a;--accent:#6ea6ff}}
-*{box-sizing:border-box}body{margin:0;font:16px/1.55 system-ui,-apple-system,sans-serif;color:var(--ink);background:var(--bg)}
-.wrap{max-width:860px;margin:0 auto;padding:20px}
-header.site{padding:14px 0;border-bottom:1px solid var(--line)}
-header.site a{color:var(--ink);text-decoration:none;font-weight:700;font-size:18px}
-header.site a span{color:var(--accent)}
-h1{font-size:26px;margin:.6em 0 .3em}h2{font-size:19px;margin:1.4em 0 .5em}
+:root{--bg:#fff;--panel:#f7f7f8;--ink:#1a1a1e;--ink2:#55555e;--line:#e2e2e6;--accent:#0f62fe;--chip:#fff}
+@media(prefers-color-scheme:dark){:root{--bg:#17171b;--panel:#1f1f24;--ink:#ececf0;--ink2:#a5a5b0;--line:#33333a;--accent:#6ea6ff;--chip:#26262c}}
+*{box-sizing:border-box}
+body{margin:0;font:16px/1.55 system-ui,-apple-system,sans-serif;color:var(--ink);background:var(--bg)}
+header.site{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;
+ padding:0 14px;height:50px;border-bottom:1px solid var(--line);background:var(--panel)}
+header.site .brand{color:var(--ink);text-decoration:none;font-weight:700;font-size:17px;flex:none}
+header.site .brand span{color:var(--accent)}
+header.site nav{display:flex;gap:2px;margin-left:auto;overflow-x:auto}
+header.site nav a{color:var(--ink2);text-decoration:none;font-size:14px;padding:6px 10px;border-radius:8px;white-space:nowrap}
+header.site nav a.on,header.site nav a:active{color:var(--ink);background:var(--chip)}
+.crumbs{font-size:13px;color:var(--ink2);padding:10px 0 0}
+.crumbs a{color:var(--ink2);text-decoration:none}
+.crumbs a:active,.crumbs a:hover{color:var(--accent)}
+.crumbs .sep{margin:0 6px;opacity:.6}
+.wrap{max-width:900px;margin:0 auto;padding:0 16px 28px}
+h1{font-size:23px;margin:.7em 0 .35em;line-height:1.25}
+h2{font-size:18px;margin:1.5em 0 .5em}
 p{margin:.5em 0}.muted{color:var(--ink2);font-size:14px}
 a{color:var(--accent)}
-.btn{display:inline-block;background:var(--accent);color:#fff;padding:11px 22px;border-radius:10px;
- text-decoration:none;font-weight:600;margin:6px 8px 6px 0}
+.btn{display:block;text-align:center;background:var(--accent);color:#fff;padding:12px 20px;border-radius:10px;
+ text-decoration:none;font-weight:600;margin:8px 0}
 .btn.ghost{background:var(--panel);color:var(--ink);border:1px solid var(--line)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;padding:0;list-style:none}
+.btnrow{margin:14px 0}
+.grid{display:grid;grid-template-columns:1fr;gap:10px;padding:0;list-style:none}
 .card{border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--panel)}
 .card a{text-decoration:none;color:var(--ink);font-weight:600}
 .card .sub{font-size:12.5px;color:var(--ink2);margin-top:3px}
-.tag{font-size:11px;border:1px solid var(--line);border-radius:999px;padding:1px 8px;color:var(--ink2)}
-svg.thumb{width:100%;height:auto;background:var(--panel);border:1px solid var(--line);border-radius:12px}
-footer{margin-top:40px;padding:18px 0;border-top:1px solid var(--line);font-size:13px;color:var(--ink2)}
+.tag{font-size:11px;border:1px solid var(--line);border-radius:999px;padding:1px 8px;color:var(--ink2);vertical-align:middle}
+.mapembed{width:100%;height:52vh;min-height:300px;border:1px solid var(--line);border-radius:12px;display:block}
+footer.site{margin-top:36px;padding:18px 16px calc(18px + env(safe-area-inset-bottom));
+ border-top:1px solid var(--line);font-size:13px;color:var(--ink2)}
+footer.site .cols{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:8px}
+footer.site a{color:var(--ink2)}
+@media(min-width:640px){
+ h1{font-size:27px}
+ .grid{grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+ .btn{display:inline-block;margin:6px 10px 6px 0}
+ .mapembed{height:440px}
+ footer.site .cols{flex-direction:row;justify-content:space-between}
+}
 </style>
 </head>
 <body>
+<header class="site">
+<a class="brand" href="/">Que<span>Combi</span></a>
+<nav>
+<a href="/tehuacan/mapa/" >Mapa</a>
+<a href="/tehuacan/" class="on">Rutas</a>
+<a href="/acerca/" >Acerca</a>
+</nav>
+</header>
 <div class="wrap">
-<header class="site"><a href="/">Que<span>Combi</span></a></header>
+<nav class="crumbs" aria-label="ruta de navegación"><a href="/">Inicio</a><span class="sep">›</span><a href="/tehuacan/">Tehuacán</a><span class="sep">›</span><span>Ruta 10 Amarilla</span></nav>
 
 <h1>Ruta 10 Amarilla <span class="tag">local</span></h1>
 <p class="muted">Combi / transporte colectivo en Tehuacán, Puebla</p>
-<svg class="thumb" viewBox="0 0 560 300" role="img" aria-label="croquis del recorrido"><path d="M184.1 270.2 L187.5 270.4 L190.6 270.6 L192.9 270.7 L196.4 270.9 L199.3 271.1 L204.8 271.4 L209.9 271.7 L217.3 272.1 L222.9 272.5 L229.5 272.9 L234.2 273.1 L236.4 273.2 L239.1 273.4 L243.6 273.8 L245.6 274.0 L249.0 274.5 L250.7 274.0 L251.5 274.0 L252.0 274.0 L254.7 274.3 L256.5 274.6 L258.5 274.9 L262.8 275.4 L263.8 275.5 L264.6 275.5 L267.3 275.5 L270.1 275.5 L272.5 275.4 L275.5 275.3 L279.1 275.1 L282.8 274.9 L283.6 274.9 L285.3 275.2 L288.0 275.6 L291.0 276.1 L293.9 276.6 L297.8 277.3 L300.5 277.8 L302.1 278.1 L303.6 278.3 L304.8 273.7 L305.4 271.6 L306.8 268.4 L306.7 265.2 L313.7 264.6 L317.1 264.4 L320.4 264.2 L322.9 264.1 L325.3 264.1 L328.3 263.9 L328.3 264.8 L328.3 265.1 L328.4 265.3 L328.5 265.8 L328.9 266.5 L329.4 267.6 L329.7 267.8 L329.9 268.0 L330.6 268.3 L331.4 268.6 L332.1 268.7 L334.1 269.0 L337.6 269.5 L338.0 272.0 L338.3 274.9 L336.7 275.0 L335.9 276.8 L335.4 278.0 L334.6 279.6 L334.1 281.5 L333.2 284.8 L332.4 287.6 L331.6 290.7 L331.2 292.4 L333.0 292.7 L337.3 293.7 L339.1 294.1 L343.6 295.0 L346.1 295.6 L349.2 296.3 L350.3 293.9 L351.1 292.0 L352.2 289.5 L353.3 287.0 L354.4 284.6 L355.2 282.7 L356.3 280.2 L357.3 277.6 L358.0 275.9 L358.5 274.8 L360.1 274.7 L366.0 274.7 L370.7 274.7 L375.2 274.8 L377.3 274.7 L381.9 274.7 L381.0 272.0 L380.4 270.3 L379.6 267.8 L378.9 265.9 L378.6 265.4 L376.9 263.0 L375.9 262.0 L372.9 259.6 L369.6 256.9 L368.9 256.4 L367.1 255.2 L364.8 252.6 L364.2 252.0 L361.2 249.2 L359.5 247.4 L357.5 245.3 L355.2 242.9 L353.1 240.6 L351.0 238.3 L348.8 235.9 L347.5 234.4 L347.2 234.0 L345.7 232.1 L344.3 230.0 L343.9 228.6 L342.9 226.1 L341.8 223.5 L340.6 220.7 L340.3 220.1 L339.7 219.2 L338.0 216.5 L336.2 213.8 L335.6 212.7 L333.5 210.2 L333.1 209.7 L331.3 206.8 L329.5 204.1 L328.5 202.5 L327.3 200.7 L326.8 199.7 L326.3 198.6 L325.4 196.3 L324.8 193.9 L324.1 191.4 L323.6 189.1 L323.0 186.9 L322.4 184.4 L321.8 181.9 L321.2 179.6 L320.7 177.4 L320.3 174.8 L319.9 172.8 L319.3 170.3 L319.1 169.6 L318.8 167.7 L318.4 164.9 L318.1 163.1 L317.8 161.3 L317.5 159.4 L317.1 157.0 L316.9 154.8 L316.8 153.9 L316.8 152.0 L316.7 150.2 L316.8 147.4 L316.9 144.6 L317.0 141.9 L317.1 139.1 L317.1 136.3 L317.3 134.5 L317.5 131.6 L317.7 129.8 L317.9 128.0 L318.1 125.2 L318.3 123.4 L318.6 120.6 L318.6 120.3 L318.5 117.8 L318.5 116.0 L318.4 114.1 L318.4 112.3 L318.4 110.4 L318.6 108.6 L318.7 107.6 L319.1 105.3 L319.3 103.0 L319.6 100.3 L319.8 98.4 L320.0 96.6 L320.2 95.7 L321.0 93.0 L321.8 90.2 L322.9 86.6 L323.8 83.9 L324.1 83.0 L324.4 82.1 L324.7 81.2 L324.8 80.3 L324.9 79.3 L325.0 78.4 L324.9 77.5 L324.8 76.6 L324.6 75.7 L324.3 74.8 L323.9 73.9 L323.0 72.2 L321.6 69.6 L320.1 67.0 L318.8 64.4 L318.0 62.9 L317.2 61.7 L316.2 60.3 L315.3 59.4 L314.5 58.7 L313.6 58.0 L313.0 57.7 L312.6 57.4" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M312.6 57.4 L311.5 56.7 L310.0 55.9 L307.7 54.9 L301.7 52.7 L299.6 51.9 L296.9 51.1 L293.1 50.2 L292.4 50.1 L291.5 50.0 L289.2 49.6 L286.8 49.3 L285.2 48.7 L282.8 48.6 L274.6 48.4 L267.5 48.1 L261.6 47.9 L255.6 47.8 L253.6 47.7 L248.8 47.5 L241.2 47.2 L234.0 47.0 L228.6 46.8 L219.6 46.5 L212.2 46.3 L204.2 46.0 L197.7 45.8 L191.2 45.6 L184.7 45.4 L178.2 45.2 L174.9 45.1 L170.5 44.9 L165.1 44.8 L155.3 44.7 L150.3 44.6 L150.4 43.6 L150.7 41.1 L150.9 38.3 L151.2 35.1 L151.6 32.3 L151.9 29.8 L152.2 27.2 L152.3 25.6 L152.5 24.4 L150.6 24.4 L144.1 24.2 L137.6 24.1 L130.4 24.0 L127.4 23.9 L121.3 23.6 L115.1 23.6 L112.6 23.6 L104.0 23.4 L98.8 23.3 L90.3 23.1 L88.5 23.0 L79.6 22.8 L74.3 22.7 L68.7 22.5 L60.3 22.3 L55.0 22.2 L55.1 23.2 L55.4 26.2 L55.7 29.3 L56.1 32.9 L56.2 34.8 L56.3 35.3 L56.3 35.9 L56.2 37.9 L56.1 39.9 L56.0 42.8 L55.9 43.8 L55.9 45.7 L55.8 47.6 L55.7 50.1 L55.7 51.5 L55.7 52.7 L55.2 54.6 L54.7 56.6 L54.7 57.1 L54.6 59.5 L54.6 61.9 L54.5 64.4 L54.5 67.5 L54.4 70.3 L54.4 72.7 L54.4 74.1 L54.3 75.4 L54.1 78.1 L54.0 79.6 L53.8 83.4 L53.6 86.6 L53.5 87.0 L53.4 89.7 L53.4 92.4 L53.3 93.8 L53.2 95.3 L53.2 97.6 L53.0 99.8 L53.0 102.7 L52.9 105.1 L52.9 106.7 L52.9 109.8 L52.8 110.6 L52.8 111.6 L52.7 115.0 L52.7 115.6 L52.7 116.3 L52.7 117.9 L52.7 120.5 L52.6 123.6 L52.5 125.8 L52.3 128.4 L52.2 131.5 L44.5 131.4 L42.0 131.4 L38.1 131.3 L34.0 131.1 L30.0 131.1 L30.4 131.4 L33.8 134.9 L36.4 137.4 L40.0 140.9 L41.0 141.8 L42.5 143.2 L45.6 146.0 L48.9 149.0 L50.2 150.2 L51.6 151.7 L52.4 152.4 L53.1 153.0 L53.9 153.5 L55.6 154.4 L58.8 156.1 L60.0 156.7 L61.6 157.9 L62.1 158.3 L63.4 159.6 L64.5 160.8 L65.6 162.0 L67.0 163.5 L68.7 165.4 L69.8 166.7 L71.0 168.0 L73.0 170.1 L74.9 172.2 L75.3 172.6 L77.5 174.5 L80.6 176.9 L81.9 177.9 L82.2 178.2 L83.9 179.8 L85.6 181.5 L88.8 184.5 L91.6 187.1 L94.8 190.1 L97.0 192.5 L99.9 194.9 L100.8 195.8 L104.4 198.5 L105.3 199.2 L106.1 199.8 L106.9 200.4 L107.7 201.0 L109.8 202.9 L112.7 205.6 L114.5 207.1 L117.4 209.8 L120.1 212.4 L120.5 212.8 L120.8 213.0 L121.3 213.3 L121.8 213.6 L123.5 215.4 L120.4 217.3 L117.9 218.8 L114.3 220.8 L111.8 222.2 L108.4 224.4 L101.8 228.0 L98.9 229.6 L94.5 232.3 L90.1 235.0 L87.9 236.3 L86.2 237.3 L85.7 237.5 L83.7 233.8 L83.3 233.0 L63.2 228.3 L62.0 228.0 L57.8 247.9 L55.6 257.7 L64.4 255.7 L67.5 255.0 L73.0 253.7 L84.8 250.9 L90.6 249.4 L91.0 249.3 L94.4 257.2 L95.6 261.2 L96.1 263.2 L96.4 264.2 L96.6 264.7 L96.7 265.2 L103.0 264.5 L108.9 263.8 L113.7 263.5 L118.9 264.0 L129.5 264.5 L137.4 265.1 L145.3 265.5 L145.1 268.0 L183.7 270.6" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></svg>
+<iframe class="mapembed" loading="lazy" title="Mapa del recorrido de Ruta 10 Amarilla" src="/tehuacan/mapa/?embed=1&ruta=10-amarilla"></iframe>
 <h2>Pueblos y puntos en el camino</h2><p>San Diego Chalma, Tehuacán</p>
 <h2>Colonias que atiende</h2><p>Centro, Cultural, El Humilladero, El Molino, Estrellas del Sur, Guadalupe Hidalgo, Independencia, Moctezuma, Nacional, Nicolás Bravo, Nicolás Bravo 3a Sección, San Diego, San Pedro Acoquiaco</p>
-<p><a class="btn" href="/tehuacan/mapa/">Ver en el mapa interactivo</a>
-<a class="btn ghost" href="/tehuacan/">Todas las rutas de Tehuacán</a></p>
-<p class="muted">Fuentes: queruta.mx · datos ciudadanos ·
-actualizado 2026-07. ¿Algo cambió? El mapa se corrige con viajes reales — participa desde la app.</p>
-
-<footer>QueCombi — mapa libre y gratuito de las combis de México. Datos abiertos (ODbL),
-código abierto (AGPL). Hecho con datos de proyectos ciudadanos y OpenStreetMap.
-· <a href="/tehuacan/mapa/">Mapa interactivo</a></footer>
+<div class="btnrow">
+<a class="btn" href="/tehuacan/mapa/?ruta=10-amarilla">Ver en el mapa completo</a>
+<a class="btn ghost" href="/tehuacan/">Todas las rutas de Tehuacán</a>
 </div>
+<p class="muted">Fuentes: queruta.mx · datos ciudadanos · actualizado 2026-07.
+¿Algo cambió? El mapa se corrige con viajes reales — participa desde la app.</p>
+
+</div>
+<footer class="site"><div class="cols">
+<div>QueCombi — mapa libre y gratuito de las combis de México.<br>
+Datos abiertos (ODbL) · código abierto (AGPL) · hecho con proyectos ciudadanos y OpenStreetMap.<br>
+Built with ♥ in Tehuacán · <a href="https://github.com/mauriciotellezdev" rel="me">GitHub</a></div>
+<div><a href="/tehuacan/mapa/">Mapa</a> · <a href="/tehuacan/">Rutas de Tehuacán</a> · <a href="/acerca/">Acerca</a></div>
+</div></footer>
 </body>
 </html>

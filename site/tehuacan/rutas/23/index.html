@@ -7,45 +7,79 @@
 <meta name="description" content="Ruta 23 en Tehuacán: recorrido, colonias y mapa de la combi. Pasa por santa cruz acapa,  colonia guadalupe,  san miguel,  san pablo tepetzingo.">
 <link rel="canonical" href="https://quecombi.mx/tehuacan/rutas/23/">
 <style>
-:root{--bg:#fff;--panel:#f7f7f8;--ink:#1a1a1e;--ink2:#55555e;--line:#e2e2e6;--accent:#0f62fe}
-@media(prefers-color-scheme:dark){:root{--bg:#17171b;--panel:#1f1f24;--ink:#ececf0;--ink2:#a5a5b0;--line:#33333a;--accent:#6ea6ff}}
-*{box-sizing:border-box}body{margin:0;font:16px/1.55 system-ui,-apple-system,sans-serif;color:var(--ink);background:var(--bg)}
-.wrap{max-width:860px;margin:0 auto;padding:20px}
-header.site{padding:14px 0;border-bottom:1px solid var(--line)}
-header.site a{color:var(--ink);text-decoration:none;font-weight:700;font-size:18px}
-header.site a span{color:var(--accent)}
-h1{font-size:26px;margin:.6em 0 .3em}h2{font-size:19px;margin:1.4em 0 .5em}
+:root{--bg:#fff;--panel:#f7f7f8;--ink:#1a1a1e;--ink2:#55555e;--line:#e2e2e6;--accent:#0f62fe;--chip:#fff}
+@media(prefers-color-scheme:dark){:root{--bg:#17171b;--panel:#1f1f24;--ink:#ececf0;--ink2:#a5a5b0;--line:#33333a;--accent:#6ea6ff;--chip:#26262c}}
+*{box-sizing:border-box}
+body{margin:0;font:16px/1.55 system-ui,-apple-system,sans-serif;color:var(--ink);background:var(--bg)}
+header.site{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;
+ padding:0 14px;height:50px;border-bottom:1px solid var(--line);background:var(--panel)}
+header.site .brand{color:var(--ink);text-decoration:none;font-weight:700;font-size:17px;flex:none}
+header.site .brand span{color:var(--accent)}
+header.site nav{display:flex;gap:2px;margin-left:auto;overflow-x:auto}
+header.site nav a{color:var(--ink2);text-decoration:none;font-size:14px;padding:6px 10px;border-radius:8px;white-space:nowrap}
+header.site nav a.on,header.site nav a:active{color:var(--ink);background:var(--chip)}
+.crumbs{font-size:13px;color:var(--ink2);padding:10px 0 0}
+.crumbs a{color:var(--ink2);text-decoration:none}
+.crumbs a:active,.crumbs a:hover{color:var(--accent)}
+.crumbs .sep{margin:0 6px;opacity:.6}
+.wrap{max-width:900px;margin:0 auto;padding:0 16px 28px}
+h1{font-size:23px;margin:.7em 0 .35em;line-height:1.25}
+h2{font-size:18px;margin:1.5em 0 .5em}
 p{margin:.5em 0}.muted{color:var(--ink2);font-size:14px}
 a{color:var(--accent)}
-.btn{display:inline-block;background:var(--accent);color:#fff;padding:11px 22px;border-radius:10px;
- text-decoration:none;font-weight:600;margin:6px 8px 6px 0}
+.btn{display:block;text-align:center;background:var(--accent);color:#fff;padding:12px 20px;border-radius:10px;
+ text-decoration:none;font-weight:600;margin:8px 0}
 .btn.ghost{background:var(--panel);color:var(--ink);border:1px solid var(--line)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;padding:0;list-style:none}
+.btnrow{margin:14px 0}
+.grid{display:grid;grid-template-columns:1fr;gap:10px;padding:0;list-style:none}
 .card{border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--panel)}
 .card a{text-decoration:none;color:var(--ink);font-weight:600}
 .card .sub{font-size:12.5px;color:var(--ink2);margin-top:3px}
-.tag{font-size:11px;border:1px solid var(--line);border-radius:999px;padding:1px 8px;color:var(--ink2)}
-svg.thumb{width:100%;height:auto;background:var(--panel);border:1px solid var(--line);border-radius:12px}
-footer{margin-top:40px;padding:18px 0;border-top:1px solid var(--line);font-size:13px;color:var(--ink2)}
+.tag{font-size:11px;border:1px solid var(--line);border-radius:999px;padding:1px 8px;color:var(--ink2);vertical-align:middle}
+.mapembed{width:100%;height:52vh;min-height:300px;border:1px solid var(--line);border-radius:12px;display:block}
+footer.site{margin-top:36px;padding:18px 16px calc(18px + env(safe-area-inset-bottom));
+ border-top:1px solid var(--line);font-size:13px;color:var(--ink2)}
+footer.site .cols{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:8px}
+footer.site a{color:var(--ink2)}
+@media(min-width:640px){
+ h1{font-size:27px}
+ .grid{grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+ .btn{display:inline-block;margin:6px 10px 6px 0}
+ .mapembed{height:440px}
+ footer.site .cols{flex-direction:row;justify-content:space-between}
+}
 </style>
 </head>
 <body>
+<header class="site">
+<a class="brand" href="/">Que<span>Combi</span></a>
+<nav>
+<a href="/tehuacan/mapa/" >Mapa</a>
+<a href="/tehuacan/" class="on">Rutas</a>
+<a href="/acerca/" >Acerca</a>
+</nav>
+</header>
 <div class="wrap">
-<header class="site"><a href="/">Que<span>Combi</span></a></header>
+<nav class="crumbs" aria-label="ruta de navegación"><a href="/">Inicio</a><span class="sep">›</span><a href="/tehuacan/">Tehuacán</a><span class="sep">›</span><span>Ruta 23</span></nav>
 
 <h1>Ruta 23 <span class="tag">local</span></h1>
 <p class="muted">Combi / transporte colectivo en Tehuacán, Puebla</p>
-<svg class="thumb" viewBox="0 0 560 300" role="img" aria-label="croquis del recorrido"><path d="M396.5 264.8 L398.5 265.4 L399.4 265.8 L402.8 266.5 L403.1 269.2 L403.0 275.5 L402.8 277.3 L402.8 278.1 L402.4 279.1 L400.0 287.9 L398.0 295.6 L389.1 292.7 L384.9 291.2 L381.0 289.6 L379.2 287.5 L378.5 286.2 L377.7 283.3 L376.7 280.2 L375.2 274.8 L373.3 268.5 L371.1 261.1 L368.6 252.3 L367.0 247.2 L365.4 241.9 L363.5 235.3 L361.4 228.1 L359.2 220.4 L357.9 216.1 L356.8 213.6 L356.0 212.4 L354.9 211.3 L352.0 209.4 L348.1 206.7 L345.4 204.9 L341.2 203.1 L329.3 198.0 L325.4 196.6 L313.4 192.5 L309.4 191.3 L305.3 190.4 L302.8 190.1 L290.6 187.6 L286.6 186.8 L274.2 184.4 L263.6 182.4 L246.0 179.1 L240.7 177.9 L238.5 177.5 L236.1 176.7 L233.4 175.5 L230.8 173.8 L225.3 170.6 L210.9 162.5 L208.9 161.3 L205.9 159.7 L204.0 158.9 L201.4 158.0 L198.5 157.4 L193.7 156.2 L190.3 154.6 L188.1 152.8 L186.3 150.7 L182.1 145.2 L180.1 141.0 L176.1 134.9 L174.7 133.0 L174.1 131.3 L172.4 126.0 L170.9 121.3 L170.1 118.6 L169.2 117.2 L166.4 114.6 L162.3 110.9 L157.4 105.3 L155.3 101.7 L154.2 99.5 L152.0 96.3 L149.5 92.3 L148.5 89.4 L146.8 83.0 L145.4 74.9 L145.3 70.8 L145.9 61.4 L146.5 51.8 L148.7 44.2 L148.3 43.1 L147.3 40.7 L145.3 37.1 L143.3 35.4 L139.8 33.9 L136.2 32.8 L132.7 32.1 L124.6 31.9 L120.3 31.7 L79.7 30.5 L80.5 22.5 L67.1 22.2 L66.4 30.8 L65.8 36.7 L65.7 39.0 L50.9 38.6 L41.1 38.4 L30.0 38.2 L30.2 30.0 L54.2 30.5 L71.7 31.1 L80.7 31.3 L96.3 31.7 L111.1 32.2 L132.7 32.8 L135.3 33.1 L137.7 33.7 L139.7 34.4 L142.1 35.4 L143.5 36.2 L144.6 37.3 L145.6 38.8 L146.8 41.1 L147.7 43.0 L147.9 44.8 L147.2 47.0 L145.9 51.0 L145.7 52.5 L145.5 56.4 L145.2 58.2 L145.3 61.3 L145.0 63.7 L144.7 66.9 L144.6 71.7 L144.7 75.4 L145.7 81.1 L146.8 85.5 L148.0 90.7 L148.9 92.7 L150.6 95.9 L152.0 97.4 L153.9 100.1 L155.4 103.8 L156.5 105.6 L157.4 106.5 L161.0 110.4 L164.6 114.0 L166.3 115.4 L167.9 116.6 L169.1 118.0 L170.0 120.7 L171.8 126.4 L173.2 130.6 L174.1 133.0 L175.3 134.9 L178.9 140.2 L179.8 141.7 L180.9 144.3 L182.4 146.9 L187.2 152.6 L189.9 154.9 L191.7 155.9 L192.9 156.4 L195.5 157.2 L198.7 157.9 L201.0 158.4 L205.2 159.9 L208.6 161.7 L222.5 169.6 L230.8 174.3 L232.7 175.5 L233.6 176.1 L235.1 176.7 L237.0 177.5 L239.4 178.2 L246.7 179.7 L251.3 180.5 L267.8 183.8 L283.6 186.7 L306.4 191.3 L310.6 192.3 L320.2 195.5 L330.1 198.9 L344.7 205.4 L351.2 209.5 L354.7 212.2 L356.4 214.4 L358.2 220.1 L362.6 234.5 L364.4 240.7 L369.3 257.7 L374.6 275.8 L377.1 284.1 L377.6 286.0 L378.5 287.8 L380.1 289.5 L380.9 290.2 L387.1 292.7 L393.7 294.9 L398.5 296.3 L398.4 295.5 L399.3 292.4 L400.6 287.7 L402.0 282.0 L398.9 281.0 L395.3 278.6 L391.7 276.1 L389.7 275.0 L391.7 267.9 L392.7 263.3 L395.8 264.5" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></svg>
+<iframe class="mapembed" loading="lazy" title="Mapa del recorrido de Ruta 23" src="/tehuacan/mapa/?embed=1&ruta=23"></iframe>
 <h2>Pueblos y puntos en el camino</h2><p>Santa Cruz Acapa, Colonia Guadalupe, San Miguel, San Pablo Tepetzingo, San Diego Chalma, Tehuacán, Texcalco</p>
 <h2>Colonias que atiende</h2><p>24 de Febrero, Centro, Cuauhtémoc, El Molino, El Rosario, El Sotolin, Electricistas, Guadalupe, Independencia, Las Flores, Moctezuma, Obreros Peñafiel, Ricardo Flores Magón, San Diego Chalma, San Miguel, San Pablo Tepetzingo, Santa Cruz Acapa, Tehuacán</p>
-<p><a class="btn" href="/tehuacan/mapa/">Ver en el mapa interactivo</a>
-<a class="btn ghost" href="/tehuacan/">Todas las rutas de Tehuacán</a></p>
-<p class="muted">Fuentes: queruta.mx; rutastehuacan.th1.mx · datos ciudadanos ·
-actualizado 2026-07. ¿Algo cambió? El mapa se corrige con viajes reales — participa desde la app.</p>
-
-<footer>QueCombi — mapa libre y gratuito de las combis de México. Datos abiertos (ODbL),
-código abierto (AGPL). Hecho con datos de proyectos ciudadanos y OpenStreetMap.
-· <a href="/tehuacan/mapa/">Mapa interactivo</a></footer>
+<div class="btnrow">
+<a class="btn" href="/tehuacan/mapa/?ruta=23">Ver en el mapa completo</a>
+<a class="btn ghost" href="/tehuacan/">Todas las rutas de Tehuacán</a>
 </div>
+<p class="muted">Fuentes: queruta.mx; rutastehuacan.th1.mx · datos ciudadanos · actualizado 2026-07.
+¿Algo cambió? El mapa se corrige con viajes reales — participa desde la app.</p>
+
+</div>
+<footer class="site"><div class="cols">
+<div>QueCombi — mapa libre y gratuito de las combis de México.<br>
+Datos abiertos (ODbL) · código abierto (AGPL) · hecho con proyectos ciudadanos y OpenStreetMap.<br>
+Built with ♥ in Tehuacán · <a href="https://github.com/mauriciotellezdev" rel="me">GitHub</a></div>
+<div><a href="/tehuacan/mapa/">Mapa</a> · <a href="/tehuacan/">Rutas de Tehuacán</a> · <a href="/acerca/">Acerca</a></div>
+</div></footer>
 </body>
 </html>

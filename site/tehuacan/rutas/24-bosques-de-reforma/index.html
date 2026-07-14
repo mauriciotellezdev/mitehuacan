@@ -7,45 +7,79 @@
 <meta name="description" content="Ruta 24 - Bosques de Reforma en Tehuacán: recorrido, colonias y mapa de la combi. Pasa por tehuacán.">
 <link rel="canonical" href="https://quecombi.mx/tehuacan/rutas/24-bosques-de-reforma/">
 <style>
-:root{--bg:#fff;--panel:#f7f7f8;--ink:#1a1a1e;--ink2:#55555e;--line:#e2e2e6;--accent:#0f62fe}
-@media(prefers-color-scheme:dark){:root{--bg:#17171b;--panel:#1f1f24;--ink:#ececf0;--ink2:#a5a5b0;--line:#33333a;--accent:#6ea6ff}}
-*{box-sizing:border-box}body{margin:0;font:16px/1.55 system-ui,-apple-system,sans-serif;color:var(--ink);background:var(--bg)}
-.wrap{max-width:860px;margin:0 auto;padding:20px}
-header.site{padding:14px 0;border-bottom:1px solid var(--line)}
-header.site a{color:var(--ink);text-decoration:none;font-weight:700;font-size:18px}
-header.site a span{color:var(--accent)}
-h1{font-size:26px;margin:.6em 0 .3em}h2{font-size:19px;margin:1.4em 0 .5em}
+:root{--bg:#fff;--panel:#f7f7f8;--ink:#1a1a1e;--ink2:#55555e;--line:#e2e2e6;--accent:#0f62fe;--chip:#fff}
+@media(prefers-color-scheme:dark){:root{--bg:#17171b;--panel:#1f1f24;--ink:#ececf0;--ink2:#a5a5b0;--line:#33333a;--accent:#6ea6ff;--chip:#26262c}}
+*{box-sizing:border-box}
+body{margin:0;font:16px/1.55 system-ui,-apple-system,sans-serif;color:var(--ink);background:var(--bg)}
+header.site{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;
+ padding:0 14px;height:50px;border-bottom:1px solid var(--line);background:var(--panel)}
+header.site .brand{color:var(--ink);text-decoration:none;font-weight:700;font-size:17px;flex:none}
+header.site .brand span{color:var(--accent)}
+header.site nav{display:flex;gap:2px;margin-left:auto;overflow-x:auto}
+header.site nav a{color:var(--ink2);text-decoration:none;font-size:14px;padding:6px 10px;border-radius:8px;white-space:nowrap}
+header.site nav a.on,header.site nav a:active{color:var(--ink);background:var(--chip)}
+.crumbs{font-size:13px;color:var(--ink2);padding:10px 0 0}
+.crumbs a{color:var(--ink2);text-decoration:none}
+.crumbs a:active,.crumbs a:hover{color:var(--accent)}
+.crumbs .sep{margin:0 6px;opacity:.6}
+.wrap{max-width:900px;margin:0 auto;padding:0 16px 28px}
+h1{font-size:23px;margin:.7em 0 .35em;line-height:1.25}
+h2{font-size:18px;margin:1.5em 0 .5em}
 p{margin:.5em 0}.muted{color:var(--ink2);font-size:14px}
 a{color:var(--accent)}
-.btn{display:inline-block;background:var(--accent);color:#fff;padding:11px 22px;border-radius:10px;
- text-decoration:none;font-weight:600;margin:6px 8px 6px 0}
+.btn{display:block;text-align:center;background:var(--accent);color:#fff;padding:12px 20px;border-radius:10px;
+ text-decoration:none;font-weight:600;margin:8px 0}
 .btn.ghost{background:var(--panel);color:var(--ink);border:1px solid var(--line)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;padding:0;list-style:none}
+.btnrow{margin:14px 0}
+.grid{display:grid;grid-template-columns:1fr;gap:10px;padding:0;list-style:none}
 .card{border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--panel)}
 .card a{text-decoration:none;color:var(--ink);font-weight:600}
 .card .sub{font-size:12.5px;color:var(--ink2);margin-top:3px}
-.tag{font-size:11px;border:1px solid var(--line);border-radius:999px;padding:1px 8px;color:var(--ink2)}
-svg.thumb{width:100%;height:auto;background:var(--panel);border:1px solid var(--line);border-radius:12px}
-footer{margin-top:40px;padding:18px 0;border-top:1px solid var(--line);font-size:13px;color:var(--ink2)}
+.tag{font-size:11px;border:1px solid var(--line);border-radius:999px;padding:1px 8px;color:var(--ink2);vertical-align:middle}
+.mapembed{width:100%;height:52vh;min-height:300px;border:1px solid var(--line);border-radius:12px;display:block}
+footer.site{margin-top:36px;padding:18px 16px calc(18px + env(safe-area-inset-bottom));
+ border-top:1px solid var(--line);font-size:13px;color:var(--ink2)}
+footer.site .cols{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:8px}
+footer.site a{color:var(--ink2)}
+@media(min-width:640px){
+ h1{font-size:27px}
+ .grid{grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+ .btn{display:inline-block;margin:6px 10px 6px 0}
+ .mapembed{height:440px}
+ footer.site .cols{flex-direction:row;justify-content:space-between}
+}
 </style>
 </head>
 <body>
+<header class="site">
+<a class="brand" href="/">Que<span>Combi</span></a>
+<nav>
+<a href="/tehuacan/mapa/" >Mapa</a>
+<a href="/tehuacan/" class="on">Rutas</a>
+<a href="/acerca/" >Acerca</a>
+</nav>
+</header>
 <div class="wrap">
-<header class="site"><a href="/">Que<span>Combi</span></a></header>
+<nav class="crumbs" aria-label="ruta de navegación"><a href="/">Inicio</a><span class="sep">›</span><a href="/tehuacan/">Tehuacán</a><span class="sep">›</span><span>Ruta 24 - Bosques de Reforma</span></nav>
 
 <h1>Ruta 24 - Bosques de Reforma <span class="tag">local</span></h1>
 <p class="muted">Combi / transporte colectivo en Tehuacán, Puebla</p>
-<svg class="thumb" viewBox="0 0 560 300" role="img" aria-label="croquis del recorrido"><path d="M44.5 23.1 L35.0 22.2 L35.3 23.4 L34.0 27.4 L32.5 30.6 L30.4 37.2 L30.0 38.5 L36.2 41.1 L36.8 41.8 L37.3 42.5 L43.9 43.6 L43.7 44.5 L48.7 46.8 L62.5 54.0 L73.5 59.8 L77.1 68.4 L80.0 74.7 L81.9 79.8 L83.6 83.7 L84.6 84.2 L87.0 89.0 L96.5 90.0 L107.1 91.6 L112.5 92.5 L128.5 94.5 L130.5 87.3 L132.0 81.1 L132.8 76.7 L143.1 79.1 L143.1 79.8 L143.3 80.5 L142.8 83.3 L140.6 92.1 L139.7 95.7 L138.7 99.7 L137.1 106.7 L135.7 112.5 L134.1 119.4 L133.1 123.9 L132.8 130.1 L132.5 134.7 L132.3 139.6 L132.3 140.8 L132.2 143.1 L132.1 148.1 L132.0 151.2 L131.8 159.8 L131.1 167.8 L130.7 180.9 L130.3 189.0 L130.6 191.2 L129.9 193.6 L129.9 203.7 L83.8 203.0 L83.6 220.3 L82.0 235.4 L82.0 237.9 L81.9 241.8 L81.0 256.1 L128.2 257.7 L127.9 267.7 L127.8 272.7 L126.7 293.7 L157.3 294.6 L170.3 294.9 L222.5 296.3 L223.0 272.4 L224.5 272.0 L225.2 271.1 L231.3 271.2 L250.6 271.6 L256.5 260.6 L263.1 260.7 L265.1 242.7 L259.8 242.2 L211.4 241.4 L160.4 240.3 L160.9 218.9 L161.0 210.3 L161.1 190.1 L161.5 177.8 L162.8 176.7 L162.8 175.6 L162.3 174.9 L161.2 174.5 L161.2 166.9 L161.2 163.1 L161.7 159.1 L162.2 150.5 L132.8 150.4 L133.1 142.9 L145.3 143.2 L145.6 137.5 L145.5 132.6 L145.2 131.7 L145.3 129.9 L145.6 127.6 L147.4 121.2 L149.3 115.9 L150.8 108.7 L151.9 104.3 L153.2 96.7 L140.7 95.1 L142.9 86.0 L143.9 82.3 L144.1 78.4 L131.9 75.7 L130.2 85.1 L127.7 93.8 L112.6 91.8 L101.2 90.0 L92.8 89.0 L87.7 88.4 L85.2 83.8 L84.3 81.0 L81.7 74.4 L75.2 59.5 L64.7 54.2 L53.1 48.1 L44.7 44.2 L44.8 43.1 L37.8 42.0 L37.5 41.3 L36.8 40.6 L30.9 38.1 L33.1 31.2 L35.0 27.3 L36.0 23.3 L36.0 22.9 L41.4 23.4 L46.6 23.8 L50.2 24.1 L50.3 23.5 L46.5 23.2" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></svg>
+<iframe class="mapembed" loading="lazy" title="Mapa del recorrido de Ruta 24 - Bosques de Reforma" src="/tehuacan/mapa/?embed=1&ruta=24-bosques-de-reforma"></iframe>
 <h2>Pueblos y puntos en el camino</h2><p>Tehuacán</p>
 
-<p><a class="btn" href="/tehuacan/mapa/">Ver en el mapa interactivo</a>
-<a class="btn ghost" href="/tehuacan/">Todas las rutas de Tehuacán</a></p>
-<p class="muted">Fuentes: rutastehuacan.th1.mx · datos ciudadanos ·
-actualizado 2026-07. ¿Algo cambió? El mapa se corrige con viajes reales — participa desde la app.</p>
-
-<footer>QueCombi — mapa libre y gratuito de las combis de México. Datos abiertos (ODbL),
-código abierto (AGPL). Hecho con datos de proyectos ciudadanos y OpenStreetMap.
-· <a href="/tehuacan/mapa/">Mapa interactivo</a></footer>
+<div class="btnrow">
+<a class="btn" href="/tehuacan/mapa/?ruta=24-bosques-de-reforma">Ver en el mapa completo</a>
+<a class="btn ghost" href="/tehuacan/">Todas las rutas de Tehuacán</a>
 </div>
+<p class="muted">Fuentes: rutastehuacan.th1.mx · datos ciudadanos · actualizado 2026-07.
+¿Algo cambió? El mapa se corrige con viajes reales — participa desde la app.</p>
+
+</div>
+<footer class="site"><div class="cols">
+<div>QueCombi — mapa libre y gratuito de las combis de México.<br>
+Datos abiertos (ODbL) · código abierto (AGPL) · hecho con proyectos ciudadanos y OpenStreetMap.<br>
+Built with ♥ in Tehuacán · <a href="https://github.com/mauriciotellezdev" rel="me">GitHub</a></div>
+<div><a href="/tehuacan/mapa/">Mapa</a> · <a href="/tehuacan/">Rutas de Tehuacán</a> · <a href="/acerca/">Acerca</a></div>
+</div></footer>
 </body>
 </html>

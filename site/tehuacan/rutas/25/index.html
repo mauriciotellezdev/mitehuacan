@@ -7,45 +7,79 @@
 <meta name="description" content="Ruta 25 en Tehuacán: recorrido, colonias y mapa de la combi. Pasa por tehuacán.">
 <link rel="canonical" href="https://quecombi.mx/tehuacan/rutas/25/">
 <style>
-:root{--bg:#fff;--panel:#f7f7f8;--ink:#1a1a1e;--ink2:#55555e;--line:#e2e2e6;--accent:#0f62fe}
-@media(prefers-color-scheme:dark){:root{--bg:#17171b;--panel:#1f1f24;--ink:#ececf0;--ink2:#a5a5b0;--line:#33333a;--accent:#6ea6ff}}
-*{box-sizing:border-box}body{margin:0;font:16px/1.55 system-ui,-apple-system,sans-serif;color:var(--ink);background:var(--bg)}
-.wrap{max-width:860px;margin:0 auto;padding:20px}
-header.site{padding:14px 0;border-bottom:1px solid var(--line)}
-header.site a{color:var(--ink);text-decoration:none;font-weight:700;font-size:18px}
-header.site a span{color:var(--accent)}
-h1{font-size:26px;margin:.6em 0 .3em}h2{font-size:19px;margin:1.4em 0 .5em}
+:root{--bg:#fff;--panel:#f7f7f8;--ink:#1a1a1e;--ink2:#55555e;--line:#e2e2e6;--accent:#0f62fe;--chip:#fff}
+@media(prefers-color-scheme:dark){:root{--bg:#17171b;--panel:#1f1f24;--ink:#ececf0;--ink2:#a5a5b0;--line:#33333a;--accent:#6ea6ff;--chip:#26262c}}
+*{box-sizing:border-box}
+body{margin:0;font:16px/1.55 system-ui,-apple-system,sans-serif;color:var(--ink);background:var(--bg)}
+header.site{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;
+ padding:0 14px;height:50px;border-bottom:1px solid var(--line);background:var(--panel)}
+header.site .brand{color:var(--ink);text-decoration:none;font-weight:700;font-size:17px;flex:none}
+header.site .brand span{color:var(--accent)}
+header.site nav{display:flex;gap:2px;margin-left:auto;overflow-x:auto}
+header.site nav a{color:var(--ink2);text-decoration:none;font-size:14px;padding:6px 10px;border-radius:8px;white-space:nowrap}
+header.site nav a.on,header.site nav a:active{color:var(--ink);background:var(--chip)}
+.crumbs{font-size:13px;color:var(--ink2);padding:10px 0 0}
+.crumbs a{color:var(--ink2);text-decoration:none}
+.crumbs a:active,.crumbs a:hover{color:var(--accent)}
+.crumbs .sep{margin:0 6px;opacity:.6}
+.wrap{max-width:900px;margin:0 auto;padding:0 16px 28px}
+h1{font-size:23px;margin:.7em 0 .35em;line-height:1.25}
+h2{font-size:18px;margin:1.5em 0 .5em}
 p{margin:.5em 0}.muted{color:var(--ink2);font-size:14px}
 a{color:var(--accent)}
-.btn{display:inline-block;background:var(--accent);color:#fff;padding:11px 22px;border-radius:10px;
- text-decoration:none;font-weight:600;margin:6px 8px 6px 0}
+.btn{display:block;text-align:center;background:var(--accent);color:#fff;padding:12px 20px;border-radius:10px;
+ text-decoration:none;font-weight:600;margin:8px 0}
 .btn.ghost{background:var(--panel);color:var(--ink);border:1px solid var(--line)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;padding:0;list-style:none}
+.btnrow{margin:14px 0}
+.grid{display:grid;grid-template-columns:1fr;gap:10px;padding:0;list-style:none}
 .card{border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--panel)}
 .card a{text-decoration:none;color:var(--ink);font-weight:600}
 .card .sub{font-size:12.5px;color:var(--ink2);margin-top:3px}
-.tag{font-size:11px;border:1px solid var(--line);border-radius:999px;padding:1px 8px;color:var(--ink2)}
-svg.thumb{width:100%;height:auto;background:var(--panel);border:1px solid var(--line);border-radius:12px}
-footer{margin-top:40px;padding:18px 0;border-top:1px solid var(--line);font-size:13px;color:var(--ink2)}
+.tag{font-size:11px;border:1px solid var(--line);border-radius:999px;padding:1px 8px;color:var(--ink2);vertical-align:middle}
+.mapembed{width:100%;height:52vh;min-height:300px;border:1px solid var(--line);border-radius:12px;display:block}
+footer.site{margin-top:36px;padding:18px 16px calc(18px + env(safe-area-inset-bottom));
+ border-top:1px solid var(--line);font-size:13px;color:var(--ink2)}
+footer.site .cols{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:8px}
+footer.site a{color:var(--ink2)}
+@media(min-width:640px){
+ h1{font-size:27px}
+ .grid{grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+ .btn{display:inline-block;margin:6px 10px 6px 0}
+ .mapembed{height:440px}
+ footer.site .cols{flex-direction:row;justify-content:space-between}
+}
 </style>
 </head>
 <body>
+<header class="site">
+<a class="brand" href="/">Que<span>Combi</span></a>
+<nav>
+<a href="/tehuacan/mapa/" >Mapa</a>
+<a href="/tehuacan/" class="on">Rutas</a>
+<a href="/acerca/" >Acerca</a>
+</nav>
+</header>
 <div class="wrap">
-<header class="site"><a href="/">Que<span>Combi</span></a></header>
+<nav class="crumbs" aria-label="ruta de navegación"><a href="/">Inicio</a><span class="sep">›</span><a href="/tehuacan/">Tehuacán</a><span class="sep">›</span><span>Ruta 25</span></nav>
 
 <h1>Ruta 25 <span class="tag">local</span></h1>
 <p class="muted">Combi / transporte colectivo en Tehuacán, Puebla</p>
-<svg class="thumb" viewBox="0 0 560 300" role="img" aria-label="croquis del recorrido"><path d="M514.3 22.4 L495.1 22.2 L494.7 32.8 L494.1 40.7 L493.8 46.7 L493.5 53.8 L493.4 56.1 L493.2 57.7 L492.9 60.9 L492.4 67.0 L491.8 73.3 L491.3 79.1 L491.0 84.8 L490.5 91.5 L482.5 91.1 L473.8 90.6 L466.5 90.4 L456.3 90.1 L451.9 89.9 L441.1 89.2 L428.5 88.7 L427.3 88.6 L422.5 88.2 L421.4 88.1 L420.2 88.1 L419.1 88.1 L416.7 88.0 L406.2 87.9 L406.2 89.3 L405.9 98.1 L405.9 98.5 L405.9 99.1 L405.9 100.0 L405.7 105.9 L405.5 111.1 L405.3 117.2 L405.1 122.7 L404.9 125.4 L404.7 132.6 L404.5 136.9 L404.2 143.7 L404.2 146.5 L404.1 150.9 L403.9 157.6 L403.7 164.8 L403.4 172.3 L403.4 172.8 L403.3 176.3 L403.0 181.6 L402.8 186.9 L402.6 191.6 L402.5 193.4 L402.4 194.9 L402.1 198.3 L402.0 201.2 L399.8 201.1 L392.0 200.7 L384.4 200.4 L375.0 199.9 L365.9 199.5 L356.8 199.1 L347.6 198.6 L338.4 198.1 L332.6 197.9 L329.5 201.3 L327.6 203.5 L323.4 207.9 L321.8 209.6 L321.1 211.4 L322.2 218.9 L322.6 222.7 L323.1 227.3 L323.6 232.2 L323.8 234.8 L310.9 233.8 L301.7 232.8 L293.6 232.2 L286.9 231.6 L283.0 231.4 L278.3 231.0 L273.5 230.6 L274.5 242.8 L274.9 247.0 L275.1 250.9 L275.5 256.3 L275.8 259.9 L275.7 268.5 L276.1 275.4 L272.4 280.1 L269.3 283.8 L265.5 288.4 L262.7 288.2 L257.7 290.2 L250.5 288.7 L238.1 287.4 L231.7 287.0 L225.5 286.6 L219.7 286.0 L208.7 285.4 L200.4 284.8 L190.0 283.9 L180.6 283.1 L168.4 282.3 L158.8 281.8 L149.3 281.0 L137.0 280.2 L127.1 279.7 L120.2 279.0 L109.9 278.1 L106.0 277.8 L98.1 277.1 L95.7 276.8 L92.2 276.5 L87.4 276.3 L84.3 276.7 L81.0 271.8 L77.8 267.0 L74.1 261.7 L68.0 263.7 L60.6 266.2 L52.7 268.6 L50.6 269.3 L46.7 270.6 L37.6 273.6 L34.8 274.6 L32.2 275.5 L31.4 277.6 L30.2 283.6 L30.0 285.1 L30.5 288.7 L32.0 290.6 L35.0 292.2 L43.6 295.2 L41.9 290.2 L47.4 288.7 L58.8 285.1" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M58.8 285.1 L51.0 287.5 L49.1 288.1 L47.4 288.7 L43.2 282.0 L40.0 277.2 L37.6 273.6 L33.2 275.1 L32.2 275.5 L31.4 277.6 L30.4 282.5 L30.0 285.1 L30.5 288.7 L31.9 290.5 L35.0 292.2 L43.6 295.2 L41.9 290.2 L47.1 288.7 L57.6 285.4 L63.2 283.6 L59.8 278.8 L56.9 274.7 L53.8 270.1 L52.7 268.6 L58.1 267.0 L60.6 266.2 L66.2 264.3 L68.0 263.7 L69.3 263.3 L70.4 262.9 L73.2 261.9 L74.1 261.7 L74.5 262.3 L77.4 266.4 L80.1 270.4 L84.3 276.7 L86.9 276.4 L87.4 276.3 L92.2 276.5 L95.7 276.8 L98.1 277.1 L106.0 277.8 L109.9 278.1 L115.0 278.5 L116.7 278.7 L125.0 279.5 L127.1 279.7 L128.6 279.8 L136.9 280.2 L145.5 280.7 L147.0 280.8 L150.4 281.1 L157.4 281.7 L158.9 281.8 L168.4 282.3 L179.7 283.1 L180.8 283.1 L183.4 283.4 L190.2 283.9 L199.3 284.7 L200.4 284.8 L208.5 285.4 L216.0 285.8 L218.8 286.0 L220.4 286.1 L227.5 286.7 L229.5 286.9 L230.7 287.0 L238.5 287.4 L247.5 288.4 L250.5 288.7 L257.7 290.2 L262.7 288.2 L265.5 288.4 L268.6 284.7 L272.1 280.4 L275.6 276.2 L276.1 275.4 L276.1 274.3 L275.7 268.5 L275.7 259.8 L265.7 259.2 L263.7 259.1 L250.3 258.6 L245.0 258.3 L245.2 257.2 L246.4 252.7 L247.0 250.7 L246.8 244.5 L246.7 240.0 L246.7 238.2 L246.5 233.9 L246.3 229.3 L257.3 229.9 L260.7 230.1 L269.0 230.4 L273.7 230.6 L283.0 231.4 L284.7 231.5 L287.6 231.7 L289.0 231.8 L294.2 232.2 L300.3 232.7 L301.7 232.8 L308.0 233.5 L310.4 233.7 L311.9 233.9 L318.2 234.3 L323.8 234.8 L323.6 232.7 L323.2 228.2 L322.8 224.3 L322.4 220.3 L321.9 216.6 L321.6 214.1 L321.1 211.4 L321.4 210.8 L321.8 209.6 L325.6 205.7 L329.3 201.7 L332.6 197.9 L348.3 198.6 L358.7 199.1 L365.5 199.5 L370.4 199.7 L374.2 199.9 L382.2 200.3 L392.1 200.7 L400.7 201.1 L414.8 201.6 L418.1 201.6 L428.7 201.7 L432.3 201.5 L434.0 201.5 L435.4 201.1 L436.0 201.3 L436.7 201.3 L437.3 201.2 L437.8 200.9 L438.0 200.5 L438.1 200.1 L438.8 199.7 L445.2 196.2 L447.7 194.8 L448.3 194.5 L449.1 193.9 L452.2 191.7 L453.2 191.0 L458.3 187.3 L465.1 183.3 L470.9 180.0 L474.5 178.0 L475.9 177.1 L476.4 176.9 L478.5 175.9 L479.1 175.5 L481.3 174.0 L481.8 173.6 L483.3 172.9 L484.3 172.4 L485.4 172.1 L485.9 172.0 L487.7 172.0 L502.6 172.3 L515.2 172.5 L523.3 172.6 L526.6 172.6 L527.8 161.3 L528.1 158.6 L528.2 157.6 L528.3 150.5 L528.5 142.8 L528.7 136.8 L528.8 131.7 L529.0 126.3 L529.3 118.7 L529.5 113.8 L529.6 109.6 L529.6 108.8 L529.7 98.1 L530.0 95.3 L529.8 92.8 L529.5 86.6 L529.1 81.0 L529.0 78.4 L529.1 77.2 L529.3 71.4 L529.3 68.7 L529.3 66.6 L529.4 64.4 L529.6 58.7 L529.6 57.5 L529.6 56.0 L529.6 51.8 L529.6 49.8 L529.5 44.7 L529.5 38.5 L529.5 37.5 L529.6 35.5 L529.6 33.4 L529.8 29.3 L529.9 26.2 L530.0 22.8 L527.5 22.9 L514.3 22.4" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></svg>
+<iframe class="mapembed" loading="lazy" title="Mapa del recorrido de Ruta 25" src="/tehuacan/mapa/?embed=1&ruta=25"></iframe>
 <h2>Pueblos y puntos en el camino</h2><p>Tehuacán</p>
 <h2>Colonias que atiende</h2><p>Bancos</p>
-<p><a class="btn" href="/tehuacan/mapa/">Ver en el mapa interactivo</a>
-<a class="btn ghost" href="/tehuacan/">Todas las rutas de Tehuacán</a></p>
-<p class="muted">Fuentes: queruta.mx · datos ciudadanos ·
-actualizado 2026-07. ¿Algo cambió? El mapa se corrige con viajes reales — participa desde la app.</p>
-
-<footer>QueCombi — mapa libre y gratuito de las combis de México. Datos abiertos (ODbL),
-código abierto (AGPL). Hecho con datos de proyectos ciudadanos y OpenStreetMap.
-· <a href="/tehuacan/mapa/">Mapa interactivo</a></footer>
+<div class="btnrow">
+<a class="btn" href="/tehuacan/mapa/?ruta=25">Ver en el mapa completo</a>
+<a class="btn ghost" href="/tehuacan/">Todas las rutas de Tehuacán</a>
 </div>
+<p class="muted">Fuentes: queruta.mx · datos ciudadanos · actualizado 2026-07.
+¿Algo cambió? El mapa se corrige con viajes reales — participa desde la app.</p>
+
+</div>
+<footer class="site"><div class="cols">
+<div>QueCombi — mapa libre y gratuito de las combis de México.<br>
+Datos abiertos (ODbL) · código abierto (AGPL) · hecho con proyectos ciudadanos y OpenStreetMap.<br>
+Built with ♥ in Tehuacán · <a href="https://github.com/mauriciotellezdev" rel="me">GitHub</a></div>
+<div><a href="/tehuacan/mapa/">Mapa</a> · <a href="/tehuacan/">Rutas de Tehuacán</a> · <a href="/acerca/">Acerca</a></div>
+</div></footer>
 </body>
 </html>

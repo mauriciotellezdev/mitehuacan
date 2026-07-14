@@ -7,45 +7,79 @@
 <meta name="description" content="Transporte Cuayucatepec en Tehuacán: recorrido, colonias y mapa de la combi. Pasa por magdalena cuayucatepec,  miguel hidalgo,  tehuacán,  francisco i. madero.">
 <link rel="canonical" href="https://quecombi.mx/tehuacan/rutas/cuayucatepec/">
 <style>
-:root{--bg:#fff;--panel:#f7f7f8;--ink:#1a1a1e;--ink2:#55555e;--line:#e2e2e6;--accent:#0f62fe}
-@media(prefers-color-scheme:dark){:root{--bg:#17171b;--panel:#1f1f24;--ink:#ececf0;--ink2:#a5a5b0;--line:#33333a;--accent:#6ea6ff}}
-*{box-sizing:border-box}body{margin:0;font:16px/1.55 system-ui,-apple-system,sans-serif;color:var(--ink);background:var(--bg)}
-.wrap{max-width:860px;margin:0 auto;padding:20px}
-header.site{padding:14px 0;border-bottom:1px solid var(--line)}
-header.site a{color:var(--ink);text-decoration:none;font-weight:700;font-size:18px}
-header.site a span{color:var(--accent)}
-h1{font-size:26px;margin:.6em 0 .3em}h2{font-size:19px;margin:1.4em 0 .5em}
+:root{--bg:#fff;--panel:#f7f7f8;--ink:#1a1a1e;--ink2:#55555e;--line:#e2e2e6;--accent:#0f62fe;--chip:#fff}
+@media(prefers-color-scheme:dark){:root{--bg:#17171b;--panel:#1f1f24;--ink:#ececf0;--ink2:#a5a5b0;--line:#33333a;--accent:#6ea6ff;--chip:#26262c}}
+*{box-sizing:border-box}
+body{margin:0;font:16px/1.55 system-ui,-apple-system,sans-serif;color:var(--ink);background:var(--bg)}
+header.site{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;
+ padding:0 14px;height:50px;border-bottom:1px solid var(--line);background:var(--panel)}
+header.site .brand{color:var(--ink);text-decoration:none;font-weight:700;font-size:17px;flex:none}
+header.site .brand span{color:var(--accent)}
+header.site nav{display:flex;gap:2px;margin-left:auto;overflow-x:auto}
+header.site nav a{color:var(--ink2);text-decoration:none;font-size:14px;padding:6px 10px;border-radius:8px;white-space:nowrap}
+header.site nav a.on,header.site nav a:active{color:var(--ink);background:var(--chip)}
+.crumbs{font-size:13px;color:var(--ink2);padding:10px 0 0}
+.crumbs a{color:var(--ink2);text-decoration:none}
+.crumbs a:active,.crumbs a:hover{color:var(--accent)}
+.crumbs .sep{margin:0 6px;opacity:.6}
+.wrap{max-width:900px;margin:0 auto;padding:0 16px 28px}
+h1{font-size:23px;margin:.7em 0 .35em;line-height:1.25}
+h2{font-size:18px;margin:1.5em 0 .5em}
 p{margin:.5em 0}.muted{color:var(--ink2);font-size:14px}
 a{color:var(--accent)}
-.btn{display:inline-block;background:var(--accent);color:#fff;padding:11px 22px;border-radius:10px;
- text-decoration:none;font-weight:600;margin:6px 8px 6px 0}
+.btn{display:block;text-align:center;background:var(--accent);color:#fff;padding:12px 20px;border-radius:10px;
+ text-decoration:none;font-weight:600;margin:8px 0}
 .btn.ghost{background:var(--panel);color:var(--ink);border:1px solid var(--line)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;padding:0;list-style:none}
+.btnrow{margin:14px 0}
+.grid{display:grid;grid-template-columns:1fr;gap:10px;padding:0;list-style:none}
 .card{border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--panel)}
 .card a{text-decoration:none;color:var(--ink);font-weight:600}
 .card .sub{font-size:12.5px;color:var(--ink2);margin-top:3px}
-.tag{font-size:11px;border:1px solid var(--line);border-radius:999px;padding:1px 8px;color:var(--ink2)}
-svg.thumb{width:100%;height:auto;background:var(--panel);border:1px solid var(--line);border-radius:12px}
-footer{margin-top:40px;padding:18px 0;border-top:1px solid var(--line);font-size:13px;color:var(--ink2)}
+.tag{font-size:11px;border:1px solid var(--line);border-radius:999px;padding:1px 8px;color:var(--ink2);vertical-align:middle}
+.mapembed{width:100%;height:52vh;min-height:300px;border:1px solid var(--line);border-radius:12px;display:block}
+footer.site{margin-top:36px;padding:18px 16px calc(18px + env(safe-area-inset-bottom));
+ border-top:1px solid var(--line);font-size:13px;color:var(--ink2)}
+footer.site .cols{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:8px}
+footer.site a{color:var(--ink2)}
+@media(min-width:640px){
+ h1{font-size:27px}
+ .grid{grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+ .btn{display:inline-block;margin:6px 10px 6px 0}
+ .mapembed{height:440px}
+ footer.site .cols{flex-direction:row;justify-content:space-between}
+}
 </style>
 </head>
 <body>
+<header class="site">
+<a class="brand" href="/">Que<span>Combi</span></a>
+<nav>
+<a href="/tehuacan/mapa/" >Mapa</a>
+<a href="/tehuacan/" class="on">Rutas</a>
+<a href="/acerca/" >Acerca</a>
+</nav>
+</header>
 <div class="wrap">
-<header class="site"><a href="/">Que<span>Combi</span></a></header>
+<nav class="crumbs" aria-label="ruta de navegación"><a href="/">Inicio</a><span class="sep">›</span><a href="/tehuacan/">Tehuacán</a><span class="sep">›</span><span>Transporte Cuayucatepec</span></nav>
 
 <h1>Transporte Cuayucatepec <span class="tag">local</span></h1>
 <p class="muted">Combi / transporte colectivo en Tehuacán, Puebla</p>
-<svg class="thumb" viewBox="0 0 560 300" role="img" aria-label="croquis del recorrido"><path d="M108.1 26.1 L108.9 22.3 L108.5 22.2 L107.3 27.3 L105.7 33.9 L103.0 33.3 L96.9 31.7 L87.9 31.4 L86.3 35.8 L84.3 40.9 L81.0 48.8 L79.4 51.5 L78.2 53.0 L73.3 58.4 L68.4 64.0 L67.2 65.9 L63.2 73.0 L61.4 76.4 L58.8 80.3 L54.2 86.9 L53.0 89.0 L52.3 90.7 L51.9 92.0 L51.8 93.8 L51.5 95.0 L51.1 95.7 L49.5 97.2 L46.2 100.9 L40.3 107.2 L35.9 111.8 L30.0 117.8 L33.5 119.5 L41.7 123.5 L54.7 130.0 L69.3 137.2 L80.0 142.4 L92.8 148.7 L106.6 155.5 L119.3 161.9 L134.5 169.3 L145.0 174.5 L156.7 180.3 L169.8 186.8 L183.2 193.4 L203.5 203.5 L209.4 206.4 L211.6 207.7 L213.0 208.9 L216.2 212.7 L218.2 214.2 L220.5 215.4 L222.6 216.0 L225.3 216.4 L228.1 216.3 L230.7 216.5 L233.5 217.1 L242.3 220.7 L250.6 224.3 L258.6 227.7 L269.6 232.4 L282.7 238.0 L292.2 242.1 L298.8 244.9 L301.0 245.5 L306.2 246.6 L314.3 248.1 L328.0 250.5 L333.4 251.5 L334.6 251.4 L335.2 251.1 L335.5 250.6 L335.5 250.0 L335.1 249.3 L335.2 248.9 L335.7 248.4 L339.9 246.4 L349.4 241.8 L356.8 238.2 L365.2 234.2 L374.4 229.4 L379.8 226.7 L390.7 221.5 L394.0 220.0 L407.3 215.4 L420.5 210.8 L424.5 209.5 L426.8 209.0 L428.5 209.2 L430.2 209.8 L431.4 210.6 L432.1 211.5 L433.5 213.3 L435.2 215.9 L436.0 216.4 L441.2 223.4 L446.9 230.6 L453.2 237.7 L459.6 244.9 L460.9 246.3 L462.4 248.7 L463.3 250.1 L466.3 255.2 L469.7 261.2 L469.6 268.6 L469.5 271.1 L481.7 271.4 L488.0 271.6 L487.8 278.5 L487.9 283.6 L487.8 287.2 L487.8 289.5 L487.5 295.9 L497.0 296.3 L497.1 292.6 L497.2 288.0 L497.6 281.0 L497.7 274.1 L497.4 265.7 L488.4 265.3 L474.0 264.8 L474.3 257.8 L474.7 249.4 L475.0 246.7 L470.4 246.7 L468.1 246.9 L462.2 247.5 L460.2 244.9 L456.3 240.6 L449.6 233.0 L445.3 227.8 L440.8 222.2 L436.2 216.1 L436.1 215.8 L432.7 210.7 L428.6 205.4 L425.8 201.9 L425.1 201.8 L424.2 201.9 L423.7 202.8 L423.5 204.9 L423.8 207.6 L423.8 208.6 L423.4 209.1 L421.7 209.7 L405.3 215.4 L394.2 219.2 L380.1 225.7 L367.9 231.8 L353.6 238.8 L338.5 246.2 L334.6 248.2 L332.5 249.2 L329.8 249.8 L327.9 249.8 L324.4 249.3 L308.8 246.4 L301.2 245.0 L298.4 244.1 L283.8 237.8 L269.5 231.8 L256.0 226.0 L245.6 221.6 L237.1 218.0 L228.5 214.4 L227.8 214.5 L226.3 214.8 L225.5 215.2 L224.6 215.4 L223.4 215.5 L222.4 215.5 L221.2 215.1 L219.5 214.4 L218.4 213.6 L217.7 213.0 L217.2 212.3 L216.9 211.3 L216.8 210.5 L216.5 209.4 L216.1 209.0 L214.4 208.1 L211.0 206.7 L209.3 205.9 L207.8 205.2 L198.7 200.7 L188.3 195.6 L179.4 191.2 L169.4 186.3 L159.4 181.2 L147.4 175.3 L136.3 169.8 L126.2 164.8 L112.6 158.2 L102.8 153.3 L92.5 148.2 L82.5 143.3 L73.2 138.7 L61.1 132.7 L51.1 127.8 L42.5 123.6 L30.7 117.7 L38.6 109.5 L43.7 104.2 L51.2 96.3 L51.9 95.4 L52.2 94.0 L52.5 91.4 L53.9 88.4 L55.2 86.3 L61.7 76.8 L65.2 70.5 L68.0 65.4 L69.3 63.5 L73.6 58.8 L78.0 53.9 L79.7 51.9 L80.6 50.5 L81.7 48.6 L83.1 45.0 L86.3 37.4 L87.9 32.5 L88.2 31.7 L96.7 32.0 L102.9 33.6 L106.0 34.2 L106.9 30.9 L108.0 26.5" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></svg>
+<iframe class="mapembed" loading="lazy" title="Mapa del recorrido de Transporte Cuayucatepec" src="/tehuacan/mapa/?embed=1&ruta=cuayucatepec"></iframe>
 <h2>Pueblos y puntos en el camino</h2><p>Magdalena Cuayucatepec, Miguel Hidalgo, Tehuacán, Francisco I. Madero, José María Pino Suárez</p>
 
-<p><a class="btn" href="/tehuacan/mapa/">Ver en el mapa interactivo</a>
-<a class="btn ghost" href="/tehuacan/">Todas las rutas de Tehuacán</a></p>
-<p class="muted">Fuentes: moovitapp.com; rutastehuacan.th1.mx · datos ciudadanos ·
-actualizado 2026-07. ¿Algo cambió? El mapa se corrige con viajes reales — participa desde la app.</p>
-
-<footer>QueCombi — mapa libre y gratuito de las combis de México. Datos abiertos (ODbL),
-código abierto (AGPL). Hecho con datos de proyectos ciudadanos y OpenStreetMap.
-· <a href="/tehuacan/mapa/">Mapa interactivo</a></footer>
+<div class="btnrow">
+<a class="btn" href="/tehuacan/mapa/?ruta=cuayucatepec">Ver en el mapa completo</a>
+<a class="btn ghost" href="/tehuacan/">Todas las rutas de Tehuacán</a>
 </div>
+<p class="muted">Fuentes: moovitapp.com; rutastehuacan.th1.mx · datos ciudadanos · actualizado 2026-07.
+¿Algo cambió? El mapa se corrige con viajes reales — participa desde la app.</p>
+
+</div>
+<footer class="site"><div class="cols">
+<div>QueCombi — mapa libre y gratuito de las combis de México.<br>
+Datos abiertos (ODbL) · código abierto (AGPL) · hecho con proyectos ciudadanos y OpenStreetMap.<br>
+Built with ♥ in Tehuacán · <a href="https://github.com/mauriciotellezdev" rel="me">GitHub</a></div>
+<div><a href="/tehuacan/mapa/">Mapa</a> · <a href="/tehuacan/">Rutas de Tehuacán</a> · <a href="/acerca/">Acerca</a></div>
+</div></footer>
 </body>
 </html>

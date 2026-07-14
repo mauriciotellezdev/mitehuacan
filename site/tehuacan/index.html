@@ -7,44 +7,76 @@
 <meta name="description" content="Mapa de las 82 rutas de combis de Tehuacán: recorridos, colonias, y planificador ¿en qué combi me voy? Gratis y sin anuncios.">
 <link rel="canonical" href="https://quecombi.mx/tehuacan/">
 <style>
-:root{--bg:#fff;--panel:#f7f7f8;--ink:#1a1a1e;--ink2:#55555e;--line:#e2e2e6;--accent:#0f62fe}
-@media(prefers-color-scheme:dark){:root{--bg:#17171b;--panel:#1f1f24;--ink:#ececf0;--ink2:#a5a5b0;--line:#33333a;--accent:#6ea6ff}}
-*{box-sizing:border-box}body{margin:0;font:16px/1.55 system-ui,-apple-system,sans-serif;color:var(--ink);background:var(--bg)}
-.wrap{max-width:860px;margin:0 auto;padding:20px}
-header.site{padding:14px 0;border-bottom:1px solid var(--line)}
-header.site a{color:var(--ink);text-decoration:none;font-weight:700;font-size:18px}
-header.site a span{color:var(--accent)}
-h1{font-size:26px;margin:.6em 0 .3em}h2{font-size:19px;margin:1.4em 0 .5em}
+:root{--bg:#fff;--panel:#f7f7f8;--ink:#1a1a1e;--ink2:#55555e;--line:#e2e2e6;--accent:#0f62fe;--chip:#fff}
+@media(prefers-color-scheme:dark){:root{--bg:#17171b;--panel:#1f1f24;--ink:#ececf0;--ink2:#a5a5b0;--line:#33333a;--accent:#6ea6ff;--chip:#26262c}}
+*{box-sizing:border-box}
+body{margin:0;font:16px/1.55 system-ui,-apple-system,sans-serif;color:var(--ink);background:var(--bg)}
+header.site{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;
+ padding:0 14px;height:50px;border-bottom:1px solid var(--line);background:var(--panel)}
+header.site .brand{color:var(--ink);text-decoration:none;font-weight:700;font-size:17px;flex:none}
+header.site .brand span{color:var(--accent)}
+header.site nav{display:flex;gap:2px;margin-left:auto;overflow-x:auto}
+header.site nav a{color:var(--ink2);text-decoration:none;font-size:14px;padding:6px 10px;border-radius:8px;white-space:nowrap}
+header.site nav a.on,header.site nav a:active{color:var(--ink);background:var(--chip)}
+.crumbs{font-size:13px;color:var(--ink2);padding:10px 0 0}
+.crumbs a{color:var(--ink2);text-decoration:none}
+.crumbs a:active,.crumbs a:hover{color:var(--accent)}
+.crumbs .sep{margin:0 6px;opacity:.6}
+.wrap{max-width:900px;margin:0 auto;padding:0 16px 28px}
+h1{font-size:23px;margin:.7em 0 .35em;line-height:1.25}
+h2{font-size:18px;margin:1.5em 0 .5em}
 p{margin:.5em 0}.muted{color:var(--ink2);font-size:14px}
 a{color:var(--accent)}
-.btn{display:inline-block;background:var(--accent);color:#fff;padding:11px 22px;border-radius:10px;
- text-decoration:none;font-weight:600;margin:6px 8px 6px 0}
+.btn{display:block;text-align:center;background:var(--accent);color:#fff;padding:12px 20px;border-radius:10px;
+ text-decoration:none;font-weight:600;margin:8px 0}
 .btn.ghost{background:var(--panel);color:var(--ink);border:1px solid var(--line)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;padding:0;list-style:none}
+.btnrow{margin:14px 0}
+.grid{display:grid;grid-template-columns:1fr;gap:10px;padding:0;list-style:none}
 .card{border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--panel)}
 .card a{text-decoration:none;color:var(--ink);font-weight:600}
 .card .sub{font-size:12.5px;color:var(--ink2);margin-top:3px}
-.tag{font-size:11px;border:1px solid var(--line);border-radius:999px;padding:1px 8px;color:var(--ink2)}
-svg.thumb{width:100%;height:auto;background:var(--panel);border:1px solid var(--line);border-radius:12px}
-footer{margin-top:40px;padding:18px 0;border-top:1px solid var(--line);font-size:13px;color:var(--ink2)}
+.tag{font-size:11px;border:1px solid var(--line);border-radius:999px;padding:1px 8px;color:var(--ink2);vertical-align:middle}
+.mapembed{width:100%;height:52vh;min-height:300px;border:1px solid var(--line);border-radius:12px;display:block}
+footer.site{margin-top:36px;padding:18px 16px calc(18px + env(safe-area-inset-bottom));
+ border-top:1px solid var(--line);font-size:13px;color:var(--ink2)}
+footer.site .cols{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:8px}
+footer.site a{color:var(--ink2)}
+@media(min-width:640px){
+ h1{font-size:27px}
+ .grid{grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+ .btn{display:inline-block;margin:6px 10px 6px 0}
+ .mapembed{height:440px}
+ footer.site .cols{flex-direction:row;justify-content:space-between}
+}
 </style>
 </head>
 <body>
+<header class="site">
+<a class="brand" href="/">Que<span>Combi</span></a>
+<nav>
+<a href="/tehuacan/mapa/" >Mapa</a>
+<a href="/tehuacan/" class="on">Rutas</a>
+<a href="/acerca/" >Acerca</a>
+</nav>
+</header>
 <div class="wrap">
-<header class="site"><a href="/">Que<span>Combi</span></a></header>
+<nav class="crumbs" aria-label="ruta de navegación"><a href="/">Inicio</a><span class="sep">›</span><span>Tehuacán</span></nav>
 
 <h1>Rutas de combis en Tehuacán</h1>
 <p>Las 82 rutas de transporte colectivo de Tehuacán, Puebla — con recorridos,
 colonias y planificador de viajes. Gratis, sin anuncios, datos abiertos.</p>
-<p><a class="btn" href="/tehuacan/mapa/">Abrir el mapa interactivo</a></p>
+<div class="btnrow"><a class="btn" href="/tehuacan/mapa/">Abrir el mapa interactivo</a></div>
 <h2>Rutas locales (69)</h2>
 <ul class="grid"><li class="card"><a href="/tehuacan/rutas/1/">Ruta 1</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/10/">Ruta 10</a><div class="sub">San Diego Chalma,  Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/10-amarilla/">Ruta 10 Amarilla</a><div class="sub">San Diego Chalma,  Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/10-verde/">Ruta 10 Verde</a><div class="sub">Tehuacán,  San Diego Chalma</div></li><li class="card"><a href="/tehuacan/rutas/11/">Ruta 11</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/12/">Ruta 12</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/13/">Ruta 13</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/15/">Ruta 15</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/15-frailes/">Ruta 15 - Frailes</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/16/">Ruta 16</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/17/">Ruta 17</a><div class="sub">Tehuacán,  Francisco I. Madero,  San Bartolo Teontepec</div></li><li class="card"><a href="/tehuacan/rutas/18/">Ruta 18</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/19/">Ruta 19</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/2/">Ruta 2</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/20/">Ruta 20</a><div class="sub">Tehuacán,  Francisco I. Madero</div></li><li class="card"><a href="/tehuacan/rutas/21/">Ruta 21 «Santa Cruz»</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/22-bella-vista/">Ruta 22 - Bella Vista</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/22-cardenas/">Ruta 22 - Cárdenas</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/23/">Ruta 23</a><div class="sub">Santa Cruz Acapa,  Colonia Guadalupe,  San Miguel</div></li><li class="card"><a href="/tehuacan/rutas/23-maravillas/">Ruta 23 - Maravillas</a><div class="sub">San Diego Chalma,  Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/23-san-isidro/">Ruta 23 - San Isidro</a><div class="sub">Tehuacán,  San Diego Chalma</div></li><li class="card"><a href="/tehuacan/rutas/24/">Ruta 24 (verificando)</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/24-bosques-de-reforma/">Ruta 24 - Bosques de Reforma</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/24-dina/">Ruta 24 Dina</a><div class="sub">Tehuacán,  San Isidro Vista Hermosa,  El Paraiso de Jesús Segunda Sección</div></li><li class="card"><a href="/tehuacan/rutas/24-maridol/">Ruta 24 Maridol</a><div class="sub">Tehuacán,  San Isidro Vista Hermosa,  El Paraiso de Jesús Segunda Sección</div></li><li class="card"><a href="/tehuacan/rutas/25/">Ruta 25</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/25-3-de-mayo/">Ruta 25 - 3 de mayo</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/26-el-riego/">Ruta 26 - El Riego</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/27-el-riego/">Ruta 27 - El Riego</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/28-san-lorenzo/">Ruta 28 - San Lorenzo</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/29-san-lorenzo/">Ruta 29 - San Lorenzo</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/3/">Ruta 3</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/3-de-mayo/">Ruta 3 De Mayo</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/30-san-lorenzo/">Ruta 30 - San Lorenzo</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/31-fovissste-resurreccion/">Ruta 31 - Fovissste- Resurrección</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/32/">Ruta 32</a><div class="sub">Tehuacán,  San Isidro Vista Hermosa,  El Paraiso de Jesús Segunda Sección</div></li><li class="card"><a href="/tehuacan/rutas/32-cbtis/">Ruta 32 - CBTis</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/32-colosio/">Ruta 32 - Colosio</a><div class="sub">El Paraiso de Jesús Segunda Sección,  San Isidro Vista Hermosa,  Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/32-san-francisco/">Ruta 32 - San Francisco</a><div class="sub">San Isidro Vista Hermosa,  Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/33-palmas/">Ruta 33 - Palmas</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/34-viveros/">Ruta 34 - Viveros</a><div class="sub">San José Monte Chiquito,  Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/35-san-vicente-ferrer/">Ruta 35 - San Vicente Ferrer</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/36-san-lorenzo/">Ruta 36 - San Lorenzo</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/37/">Ruta 37 «San Isidro - La Purísima»</a><div class="sub">Tehuacán,  San Isidro Vista Hermosa</div></li><li class="card"><a href="/tehuacan/rutas/37-san-isidro/">Ruta 37 - San Isidro</a><div class="sub">San Isidro Vista Hermosa,  Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/38-santa-cruz-unidad-militar/">Ruta 38 - Santa Cruz Unidad Militar</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/39/">Ruta 39</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/4/">Ruta 4</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/40/">Ruta 40 «Fracc. Santa María - La Purísima»</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/41/">Ruta 41</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/42/">Ruta 42</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/43/">Ruta 43</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/44/">Ruta 44</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/45/">Ruta 45</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/46/">Ruta 46</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/5/">Ruta 5</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/5-a/">Ruta 5-A</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/6/">Ruta 6</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/7-san-agustin/">Ruta 7 - San Agustín</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/7-tinaco/">Ruta 7 Tinaco</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/7-upn-213-y-normal-superior/">Ruta 7 - UPN 213 y Normal Superior</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/7-upn-normal/">Ruta 7 UPN-Normal</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/8/">Ruta 8</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/9/">Ruta 9</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/c-tec-21/">Ruta C TEC 21</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/c-valle/">Ruta C Valle</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/cuayucatepec/">Transporte Cuayucatepec</a><div class="sub">Magdalena Cuayucatepec,  Miguel Hidalgo,  Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/rc/">Ruta RC</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/rc-del-valle/">Ruta RC - Del Valle</a><div class="sub">Tehuacán</div></li></ul>
 <h2>Foráneas (13)</h2>
 <ul class="grid"><li class="card"><a href="/tehuacan/rutas/22-san-marcos/">Ruta 22 - San Marcos</a><div class="sub">San Marcos Necoxtla,  Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/22-san-marcos-chilac/">Ruta 22 San Marcos – Chilac</a><div class="sub">Tehuacán,  San Marcos Necoxtla,  Colonia Guadalupe</div></li><li class="card"><a href="/tehuacan/rutas/ajalpan/">Ajalpan</a><div class="sub">San Diego Chalma,  San Pablo Tepetzingo,  San Miguel</div></li><li class="card"><a href="/tehuacan/rutas/altepexi/">Ruta Altepexi</a><div class="sub">Tehuacán,  San Pablo Tepetzingo,  San Miguel</div></li><li class="card"><a href="/tehuacan/rutas/chapulco/">Ruta Chapulco</a><div class="sub">Santa Ana,  San Isidro Vista Hermosa,  Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/chilac/">Ruta Chilac</a><div class="sub">San Marcos Necoxtla,  Texcalco,  Colonia Guadalupe</div></li><li class="card"><a href="/tehuacan/rutas/coapan-carranza/">Coapan Carranza</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/coapan-nacional/">Coapan Nacional</a><div class="sub">Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/cuayuca/">Ruta Cuayuca</a><div class="sub">Tehuacán,  Francisco I. Madero,  José María Pino Suárez</div></li><li class="card"><a href="/tehuacan/rutas/miahuatlan/">Miahuatlán</a><div class="sub">Tehuacán,  San Isidro Vista Hermosa,  Villa Alegría</div></li><li class="card"><a href="/tehuacan/rutas/tehuacan/">RUTA TEHUACÁN — Ruta Tehuacan - Monte Chiquito (Circuito)</a><div class="sub">San José Monte Chiquito,  Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/zapotitlan/">Ruta Zapotitlán</a><div class="sub">San Antonio Texcala,  Zapotitlán Salinas,  Tehuacán</div></li><li class="card"><a href="/tehuacan/rutas/zinacatepec/">RUTA ZINACATEPEC — Ramal Zinacatepec - Tehuacán (Ida)</a><div class="sub">San Sebastián Zinacatepec,  Tehuacán</div></li></ul>
 
-<footer>QueCombi — mapa libre y gratuito de las combis de México. Datos abiertos (ODbL),
-código abierto (AGPL). Hecho con datos de proyectos ciudadanos y OpenStreetMap.
-· <a href="/tehuacan/mapa/">Mapa interactivo</a></footer>
 </div>
+<footer class="site"><div class="cols">
+<div>QueCombi — mapa libre y gratuito de las combis de México.<br>
+Datos abiertos (ODbL) · código abierto (AGPL) · hecho con proyectos ciudadanos y OpenStreetMap.<br>
+Built with ♥ in Tehuacán · <a href="https://github.com/mauriciotellezdev" rel="me">GitHub</a></div>
+<div><a href="/tehuacan/mapa/">Mapa</a> · <a href="/tehuacan/">Rutas de Tehuacán</a> · <a href="/acerca/">Acerca</a></div>
+</div></footer>
 </body>
 </html>
