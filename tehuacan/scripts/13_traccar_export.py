@@ -11,6 +11,7 @@ Times are LOCAL (America/Mexico_City, UTC-6); pass the ride window you noted.
 """
 import argparse
 import json
+import os
 from datetime import datetime, timedelta
 from pathlib import Path
 
@@ -18,7 +19,8 @@ import requests
 
 ROOT = Path(__file__).resolve().parent.parent
 TRACCAR = "http://localhost:8082"
-AUTH = ("admin", "admin")  # change after first login; or read from env
+AUTH = (os.environ.get("TRACCAR_EMAIL", "admin@quecombi.local"),
+        os.environ.get("TRACCAR_PASSWORD", "cambiame-ya"))  # change in Traccar UI + export TRACCAR_PASSWORD
 UTC_OFFSET = -6
 
 

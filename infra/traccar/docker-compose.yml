@@ -1,5 +1,5 @@
 # Traccar server for self-mapping (see MAPPING.md)
-# start: colima start && docker compose up -d   (from this directory)
+# start: colima start && docker-compose up -d   (from this directory)
 # web UI: http://localhost:8082 · phone reports to port 5055 (osmand protocol)
 services:
   traccar:

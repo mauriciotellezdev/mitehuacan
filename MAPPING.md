@@ -13,9 +13,10 @@ cd infra/traccar && docker compose up -d      # starts Traccar 6.5
 open http://localhost:8082                    # web UI
 ```
 
-First login: user **admin / admin** → immediately change the password
-(top-right → Account). Then create your device: Settings → Devices → **+**,
-Name `Mauricio`, Identifier **`mauricio-1`** (this exact string goes in the phone).
+**Already set up (2026-07-14):** admin user **admin@quecombi.local / cambiame-ya**
+(→ log in and change the password now: top-right → Account; then
+`export TRACCAR_PASSWORD=...` for the export script) and device **`mauricio-1`**
+already exist. Ingest was smoke-tested end to end.
 
 Your Mac's LAN address (the phone talks to this): `ipconfig getifaddr en0`
 (e.g. `192.168.1.68`). The phone URL is `http://<that-ip>:5055`.
