@@ -1,7 +1,31 @@
 # MAPPING.md — mapping routes yourself (manager + client)
 
-You ride the combi with **Traccar Client** on your phone; a **Traccar server** on your
-Mac collects the traces; an export script drops each ride into the dataset. Cost: $0.
+You ride the combi with **Traccar Client** on your phone; the **publicly hosted
+ingest** (`/api/gps` on Cloudflare Pages — no laptop involved) collects the traces
+over mobile data; an export script drops each ride into the dataset. Cost: $0.
+
+## 0. The deployed setup (primary — phone + mobile internet only)
+
+Once the Pages project is deployed (docs/setup/cloudflare.md; one `wrangler login`
+away), Traccar Client on the phone points at:
+
+| Setting | Value |
+|---|---|
+| Server URL | `https://quecombi.pages.dev/api/gps` (later `https://quecombi.mx/api/gps`) |
+| Device identifier | `mauricio-1` (must be in the GPS_DEVICES allowlist) |
+| everything else | as in §2 below |
+
+Positions go straight to D1 in the cloud — laptop off, home Wi-Fi irrelevant, and
+the client's offline buffering still covers mobile-data dead zones. Export a ride:
+
+```bash
+export QUECOMBI_STATS_TOKEN=...   # the Pages STATS_TOKEN secret
+python3 tehuacan/scripts/13_traccar_export.py --device mauricio-1 \
+  --from "2026-07-15T09:00" --to "2026-07-15T10:20" --slug tecoxteo-coxcatlan-ida
+```
+
+Everything below (local Traccar on the Mac, the tunnel) is the **fallback/preview
+setup** — useful for testing, not required for field mapping.
 
 ## 1. The manager (Traccar server on your Mac)
 
