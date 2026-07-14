@@ -63,9 +63,6 @@
   #detail .meta { color: var(--ink-2); font-size: 12px; }
   .clear { font-size: 12px; color: var(--accent); cursor: pointer; background: none; border: none; padding: 0; margin-top: 8px; }
   #map { flex: 1; position: relative; }
-  @media (prefers-color-scheme: dark) {
-    #map .maplibregl-canvas { filter: brightness(1.5) contrast(1.05); }
-  }
   #credits { padding: 6px 16px calc(6px + env(safe-area-inset-bottom)); font-size: 10.5px;
              color: var(--ink-2); border-top: 1px solid var(--line); }
   #credits a { color: var(--ink-2); }
@@ -153,7 +150,7 @@
       </div>
       <div id="results"></div>
     </div>
-    <div id="credits">© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> · tiles <a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> · datos ODbL</div>
+    <div id="credits">datos ODbL · búsqueda © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a></div>
   </div>
   <div id="map"></div>
 </div>
@@ -161,14 +158,34 @@
 const dark = matchMedia('(prefers-color-scheme: dark)').matches;
 const params = new URLSearchParams(location.search);
 if (params.get('embed')) document.body.classList.add('embed');
+// blank canvas: no tile basemap — just the routes on a clean background,
+// locked to a 30 km radius around Tehuacán with a visible boundary circle
+const CENTER = [-97.396, 18.462];
+const RADIUS_KM = 30;
+const KMLON = 111.32 * Math.cos(CENTER[1] * Math.PI / 180), KMLAT = 110.57;
+const dLon = RADIUS_KM / KMLON, dLat = RADIUS_KM / KMLAT;
+
 const map = new maplibregl.Map({
   container: 'map',
-  style: dark ? 'https://tiles.openfreemap.org/styles/dark' : 'https://tiles.openfreemap.org/styles/positron',
-  center: [-97.396, 18.462],
+  style: {version: 8, sources: {}, layers: [
+    {id: 'bg', type: 'background', paint: {'background-color': dark ? '#141419' : '#f2f2f5'}}
+  ]},
+  center: CENTER,
   zoom: 12.4,
-  attributionControl: false  // credits live in the sidebar footer + /acerca/ instead
+  minZoom: 9,
+  maxBounds: [[CENTER[0] - dLon, CENTER[1] - dLat], [CENTER[0] + dLon, CENTER[1] + dLat]],
+  attributionControl: false  // no tiles; data credits live in the sidebar footer + /acerca/
 });
 map.addControl(new maplibregl.NavigationControl(), 'top-right');
+
+const boundaryCircle = (() => {
+  const pts = [];
+  for (let i = 0; i <= 96; i++) {
+    const a = i / 96 * 2 * Math.PI;
+    pts.push([CENTER[0] + dLon * Math.cos(a), CENTER[1] + dLat * Math.sin(a)]);
+  }
+  return {type: 'Feature', properties: {}, geometry: {type: 'LineString', coordinates: pts}};
+})();
 
 const feats = ROUTES.features;
 const state = {kind: 'all', q: '', sel: null, plan: null, planSel: null};
@@ -565,13 +582,18 @@ document.querySelectorAll('#tabs button').forEach(b => {
 
 /* ---------- map layers ---------- */
 map.on('load', () => {
+  map.addSource('boundary', {type: 'geojson', data: boundaryCircle});
+  map.addLayer({
+    id: 'boundary', type: 'line', source: 'boundary',
+    paint: {'line-color': dark ? '#4a4a55' : '#c4c4cc', 'line-width': 2, 'line-dasharray': [3, 3]}
+  });
   map.addSource('routes', {type: 'geojson', data: ROUTES});
   map.addSource('plan-walk', {type: 'geojson', data: {type: 'FeatureCollection', features: []}});
   map.addSource('plan-pts', {type: 'geojson', data: {type: 'FeatureCollection', features: []}});
   map.addLayer({
     id: 'routes-casing', type: 'line', source: 'routes',
     layout: {'line-cap': 'round', 'line-join': 'round'},
-    paint: {'line-color': dark ? '#17171b' : '#ffffff',
+    paint: {'line-color': dark ? '#141419' : '#f2f2f5',
             'line-width': ['interpolate', ['linear'], ['zoom'], 11, 3.2, 15, 6],
             'line-opacity': 0.55}
   });
@@ -589,7 +611,7 @@ map.on('load', () => {
   map.addLayer({
     id: 'plan-pts', type: 'circle', source: 'plan-pts',
     paint: {'circle-radius': 7, 'circle-color': '#f5a623',
-            'circle-stroke-width': 2.5, 'circle-stroke-color': dark ? '#17171b' : '#ffffff'}
+            'circle-stroke-width': 2.5, 'circle-stroke-color': dark ? '#141419' : '#f2f2f5'}
   });
 
   const popup = new maplibregl.Popup({closeButton: false, closeOnClick: false});
