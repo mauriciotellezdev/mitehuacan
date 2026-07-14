@@ -1,0 +1,18 @@
+# Traccar server for self-mapping (see MAPPING.md)
+# start: colima start && docker compose up -d   (from this directory)
+# web UI: http://localhost:8082 · phone reports to port 5055 (osmand protocol)
+services:
+  traccar:
+    image: traccar/traccar:6.5-alpine
+    container_name: traccar
+    restart: unless-stopped
+    ports:
+      - "8082:8082"   # web UI + REST API
+      - "5055:5055"   # Traccar Client (osmand) ingest
+    volumes:
+      - traccar-data:/opt/traccar/data
+      - traccar-logs:/opt/traccar/logs
+
+volumes:
+  traccar-data:
+  traccar-logs:
