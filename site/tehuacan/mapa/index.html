@@ -63,9 +63,6 @@
   #detail .meta { color: var(--ink-2); font-size: 12px; }
   .clear { font-size: 12px; color: var(--accent); cursor: pointer; background: none; border: none; padding: 0; margin-top: 8px; }
   #map { flex: 1; position: relative; }
-  #credits { padding: 6px 16px calc(6px + env(safe-area-inset-bottom)); font-size: 10.5px;
-             color: var(--ink-2); border-top: 1px solid var(--line); }
-  #credits a { color: var(--ink-2); }
   .maplibregl-popup-content { font: 13px system-ui, sans-serif; padding: 8px 12px;
     background: var(--bg); color: var(--ink); }
   /* planner */
@@ -150,7 +147,6 @@
       </div>
       <div id="results"></div>
     </div>
-    <div id="credits">© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> · tiles <a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> · datos ODbL</div>
   </div>
   <div id="map"></div>
 </div>
@@ -176,7 +172,7 @@ const map = new maplibregl.Map({
   zoom: 12.4,
   minZoom: 9,
   maxBounds: [[CENTER[0] - pLon, CENTER[1] - pLat], [CENTER[0] + pLon, CENTER[1] + pLat]],
-  attributionControl: false  // no tiles; data credits live in the sidebar footer + /acerca/
+  attributionControl: false  // full data/tile credits live on /acerca/
 });
 map.addControl(new maplibregl.NavigationControl(), 'top-right');
 

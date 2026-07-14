@@ -43,12 +43,28 @@ The interesting inversion vs. "build Uber": Uber knows where its cars are and se
 - Smartphone penetration among riders ~70%. Adoption is **sticker-gated** (see §5): we place QR stickers ourselves, so growth is throttled by our own rollout — a deliberate control knob, not a marketing guess.
 
 
-| Phase                    | Stickers placed   | MAU (≈2× sticker-scans/mo converting) | **DAU**   | Design point                              |
-| ------------------------ | ----------------- | ------------------------------------- | --------- | ----------------------------------------- |
-| Pilot (month 1–2)        | ~25 (4) routes)   | 1k                                    | **150**   | Tier 0 loafs                              |
-| City rollout (month 3–9) | ~500 (all routes) | 12k                                   | **2.5k**  | Tier 0 near caps / Tier 1 comfortable     |
-| Mature Tehuacán          | —                 | 40k (10% of riders)                   | **8–10k** | Tier 1 design point                       |
-| +2 nearby cities         | —                 | 100k                                  | **25k**   | Tier 1 still fine; revisit at §9 triggers |
+**Sticker math (the unit is a stickered *van*, not a poster).** A field day = one corridor,
+11:00–18:00, pitching every driver of the ~4 routes that pass there. City circuits run ~50 min
+with ~12–15 active vans/route, so real headways are 3–5 min (Moovit's "20 min" is template
+junk) — a combi arrives every 1–2 min, but the same vans lap the corridor every ~50 min. The
+entire active fleet of 4 routes ≈ **48 unique vans**, all encountered within the first 1–2 h
+(each van laps ~8×, so a morning "no" gets re-pitched by afternoon). At **50% driver
+acceptance → ~24 stickered vans per field day**; fleet size, not time, is the constraint.
+Each stickered van carries ~240 riders/day (220k trips ÷ ~900 vans) with 15–20 min of captive
+staring time; at a 1–3% scan rate that's **~3–7 scans/day/van, recurring** — an in-van sticker
+is an impression machine, not a one-shot poster. Wear/removal attrition ~20–25%/quarter →
+re-sticker passes are standing maintenance.
+
+| Phase | Stickered vans (field days) | Scans/day | MAU (unique openers/mo) | **DAU** | Design point |
+| --- | --- | --- | --- | --- | --- |
+| Pilot (month 1: R1–R4, 1 corridor day + re-pitch pass) | ~24 vans (1–2 days) | ~75–170 | 1.5–2.5k | **250–400** | Tier 0 loafs; verify funnel + sticker attrition |
+| City rollout (months 2–6, ~20 corridor days) | ~475 vans, all 79 routes | ~2.4k | 12–18k | **2.5–4k** | Tier 0 nears D1/Workers caps → schedule Tier 1 migration |
+| Mature Tehuacán (month 9+, re-sticker maintenance) | ~50% fleet sustained | steady | 40k (~10% of riders) | **8–10k** | Tier 1 design point |
+| +2 nearby cities (same protocol) | ~1,000 vans | — | 100k | **25k** | Tier 1 still fine; revisit at §9 triggers |
+
+*Assumptions to verify in the pilot (each changes the funnel ~2×): 50% driver acceptance,
+1–3% scan rate, 40–60% scan→return conversion, DAU/MAU ≈ 15–25% for a habitual-transit tool.
+The pilot exists to replace these guesses with measurements before the other ~75 routes.*
 
 
 **Load at the 10k-DAU design point:**
