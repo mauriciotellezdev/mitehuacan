@@ -63,6 +63,12 @@
   #detail .meta { color: var(--ink-2); font-size: 12px; }
   .clear { font-size: 12px; color: var(--accent); cursor: pointer; background: none; border: none; padding: 0; margin-top: 8px; }
   #map { flex: 1; position: relative; }
+  @media (prefers-color-scheme: dark) {
+    #map .maplibregl-canvas { filter: brightness(1.5) contrast(1.05); }
+  }
+  #credits { padding: 6px 16px calc(6px + env(safe-area-inset-bottom)); font-size: 10.5px;
+             color: var(--ink-2); border-top: 1px solid var(--line); }
+  #credits a { color: var(--ink-2); }
   .maplibregl-popup-content { font: 13px system-ui, sans-serif; padding: 8px 12px;
     background: var(--bg); color: var(--ink); }
   /* planner */
@@ -147,6 +153,7 @@
       </div>
       <div id="results"></div>
     </div>
+    <div id="credits">© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> · tiles <a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> · datos ODbL</div>
   </div>
   <div id="map"></div>
 </div>
@@ -159,15 +166,9 @@ const map = new maplibregl.Map({
   style: dark ? 'https://tiles.openfreemap.org/styles/dark' : 'https://tiles.openfreemap.org/styles/positron',
   center: [-97.396, 18.462],
   zoom: 12.4,
-  attributionControl: {compact: true}
+  attributionControl: false  // credits live in the sidebar footer + /acerca/ instead
 });
 map.addControl(new maplibregl.NavigationControl(), 'top-right');
-// keep OSM/OpenFreeMap attribution license-compliant but collapsed to the (i) toggle;
-// full credits also live in the site footer and /acerca/
-map.on('load', () => {
-  const attrib = document.querySelector('details.maplibregl-ctrl-attrib');
-  if (attrib) attrib.removeAttribute('open');
-});
 
 const feats = ROUTES.features;
 const state = {kind: 'all', q: '', sel: null, plan: null, planSel: null};
