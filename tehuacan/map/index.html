@@ -153,6 +153,18 @@
 <script>
 const dark = matchMedia('(prefers-color-scheme: dark)').matches;
 const params = new URLSearchParams(location.search);
+
+// first-party feature/problem beacon (no third parties; see /acerca/ créditos)
+function track(event, label) {
+  try {
+    const data = JSON.stringify({event, label, path: location.pathname});
+    if (!navigator.sendBeacon || !navigator.sendBeacon('/api/evento', new Blob([data], {type: 'application/json'})))
+      fetch('/api/evento', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: data, keepalive: true}).catch(() => {});
+  } catch (e) { /* analytics must never break the app */ }
+}
+window.addEventListener('error', e => track('js_error', (e.message || 'error') + ' @ ' + (e.filename || '').split('/').pop() + ':' + e.lineno));
+window.addEventListener('unhandledrejection', e => track('js_error', 'unhandled: ' + String(e.reason).slice(0, 150)));
+if (params.get('qr')) track('qr_landing', params.get('qr'));
 if (params.get('embed')) document.body.classList.add('embed');
 // data-driven boundary (computed at build time in 06_build_map.py): weighted network
 // center + radius to the farthest route point; movement locked to that circle
@@ -350,6 +362,7 @@ function applyFilter() {
 }
 
 function select(id, fit) {
+  if (id && id !== state.sel) track('route_select', id);
   state.sel = id;
   const w = id ? ['case', ['==', ['get', 'id'], id], 4.5, 1.2]
                : ['interpolate', ['linear'], ['zoom'], 11, 1.8, 15, 3.5];
@@ -473,6 +486,7 @@ const routeById = id => feats.find(f => f.properties.id === id).properties;
 function runSearch() {
   const el = document.getElementById('results');
   const options = findTrips(P.from, P.to);
+  track('plan_search', options.length + ' opciones');
   state.plan = options;
   state.planSel = null;
   el.innerHTML = '';
@@ -566,6 +580,7 @@ document.querySelectorAll('#tabs button').forEach(b => {
     document.querySelectorAll('.pane').forEach(x => x.classList.remove('on'));
     b.classList.add('on');
     document.getElementById('pane-' + b.dataset.pane).classList.add('on');
+    if (b.dataset.pane === 'plan') track('tab_plan');
     if (b.dataset.pane === 'browse') {
       clearPlanLayers();
       Object.values(P.markers).forEach(m => m.remove());
@@ -687,6 +702,7 @@ map.on('load', () => {
 
 document.getElementById('search').addEventListener('input', e => {
   state.q = e.target.value.trim().toLowerCase();
+  if (state.q.length >= 3 && !window._qTracked) { window._qTracked = true; track('route_search'); }
   applyFilter();
 });
 document.querySelectorAll('.filters button').forEach(b => {

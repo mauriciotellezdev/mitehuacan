@@ -1,0 +1,159 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -97.4011463,
+          18.4837646
+        ]
+      },
+      "properties": {
+        "name": "Oxxo",
+        "addr": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -97.406857,
+          18.4875345
+        ]
+      },
+      "properties": {
+        "name": "Oxxo",
+        "addr": "Boulevard Socorro Romero"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -97.3963255,
+          18.4649244
+        ]
+      },
+      "properties": {
+        "name": "Oxxo",
+        "addr": "2 Poniente"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -97.3921747,
+          18.4618974
+        ]
+      },
+      "properties": {
+        "name": "Oxxo",
+        "addr": "1 Oriente"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -97.375522,
+          18.4622922
+        ]
+      },
+      "properties": {
+        "name": "Oxxo",
+        "addr": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -97.4063162,
+          18.4636884
+        ]
+      },
+      "properties": {
+        "name": "Oxxo",
+        "addr": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -97.3927512,
+          18.4692364
+        ]
+      },
+      "properties": {
+        "name": "Oxxo",
+        "addr": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -97.406221,
+          18.4603576
+        ]
+      },
+      "properties": {
+        "name": "Oxxo",
+        "addr": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -97.4049651,
+          18.4631457
+        ]
+      },
+      "properties": {
+        "name": "Oxxo",
+        "addr": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -97.4141222,
+          18.4602582
+        ]
+      },
+      "properties": {
+        "name": "Oxxo",
+        "addr": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -97.5612845,
+          18.5554995
+        ]
+      },
+      "properties": {
+        "name": "Oxxo",
+        "addr": ""
+      }
+    }
+  ]
+}

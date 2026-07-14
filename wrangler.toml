@@ -1,0 +1,10 @@
+# Cloudflare Pages project config (site + functions/)
+# secrets (STATS_TOKEN) go in the dashboard or .dev.vars — never here. See SECURITY.md.
+name = "quecombi"
+compatibility_date = "2026-07-01"
+pages_build_output_dir = "site"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "quecombi"
+database_id = "REPLACE-AFTER-CREATING-D1"  # wrangler d1 create quecombi

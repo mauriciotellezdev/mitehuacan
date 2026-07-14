@@ -1,0 +1,85 @@
+{
+  "sponsor": "oxxo",
+  "fetched": "2026-07-14",
+  "source": "OpenStreetMap (ODbL)",
+  "count": 11,
+  "locations": [
+    {
+      "osm_id": "node/4627560090",
+      "name": "Oxxo",
+      "lon": -97.4011463,
+      "lat": 18.4837646,
+      "addr": ""
+    },
+    {
+      "osm_id": "node/4627566292",
+      "name": "Oxxo",
+      "lon": -97.406857,
+      "lat": 18.4875345,
+      "addr": "Boulevard Socorro Romero"
+    },
+    {
+      "osm_id": "node/4627566293",
+      "name": "Oxxo",
+      "lon": -97.3963255,
+      "lat": 18.4649244,
+      "addr": "2 Poniente"
+    },
+    {
+      "osm_id": "node/4627569789",
+      "name": "Oxxo",
+      "lon": -97.3921747,
+      "lat": 18.4618974,
+      "addr": "1 Oriente"
+    },
+    {
+      "osm_id": "node/4627570889",
+      "name": "Oxxo",
+      "lon": -97.375522,
+      "lat": 18.4622922,
+      "addr": ""
+    },
+    {
+      "osm_id": "node/5737270002",
+      "name": "Oxxo",
+      "lon": -97.4063162,
+      "lat": 18.4636884,
+      "addr": ""
+    },
+    {
+      "osm_id": "way/1167126294",
+      "name": "Oxxo",
+      "lon": -97.3927512,
+      "lat": 18.4692364,
+      "addr": ""
+    },
+    {
+      "osm_id": "way/604718824",
+      "name": "Oxxo",
+      "lon": -97.406221,
+      "lat": 18.4603576,
+      "addr": ""
+    },
+    {
+      "osm_id": "way/604718826",
+      "name": "Oxxo",
+      "lon": -97.4049651,
+      "lat": 18.4631457,
+      "addr": ""
+    },
+    {
+      "osm_id": "way/604718846",
+      "name": "Oxxo",
+      "lon": -97.4141222,
+      "lat": 18.4602582,
+      "addr": ""
+    },
+    {
+      "osm_id": "way/612808214",
+      "name": "Oxxo",
+      "lon": -97.5612845,
+      "lat": 18.5554995,
+      "addr": ""
+    }
+  ]
+}

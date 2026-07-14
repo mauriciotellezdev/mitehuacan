@@ -1,0 +1,166 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-07-14T18:34:15Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+    {
+      "type": "node",
+      "id": 4627560090,
+      "lat": 18.4837646,
+      "lon": -97.4011463,
+      "tags": {
+        "name": "Oxxo",
+        "name:en": "Oxxo",
+        "name:es": "Oxxo",
+        "shop": "convenience"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4627566292,
+      "lat": 18.4875345,
+      "lon": -97.406857,
+      "tags": {
+        "addr:street": "Boulevard Socorro Romero",
+        "name": "Oxxo",
+        "name:en": "Oxxo",
+        "name:es": "Oxxo",
+        "shop": "convenience"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4627566293,
+      "lat": 18.4649244,
+      "lon": -97.3963255,
+      "tags": {
+        "addr:street": "2 Poniente",
+        "brand": "Oxxo",
+        "brand:wikidata": "Q1342538",
+        "name": "Oxxo",
+        "name:en": "Oxxo",
+        "name:es": "Oxxo",
+        "shop": "convenience"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4627569789,
+      "lat": 18.4618974,
+      "lon": -97.3921747,
+      "tags": {
+        "addr:street": "1 Oriente",
+        "brand": "Oxxo",
+        "brand:wikidata": "Q1342538",
+        "name": "Oxxo",
+        "name:en": "Oxxo",
+        "name:es": "Oxxo",
+        "shop": "convenience"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4627570889,
+      "lat": 18.4622922,
+      "lon": -97.375522,
+      "tags": {
+        "name": "Oxxo",
+        "name:en": "Oxxo",
+        "name:es": "Oxxo",
+        "shop": "convenience"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5737270002,
+      "lat": 18.4636884,
+      "lon": -97.4063162,
+      "tags": {
+        "brand": "Oxxo",
+        "brand:wikidata": "Q1342538",
+        "name": "Oxxo",
+        "shop": "convenience"
+      }
+    },
+    {
+      "type": "way",
+      "id": 604718824,
+      "center": {
+        "lat": 18.4603576,
+        "lon": -97.406221
+      },
+      "tags": {
+        "brand": "Oxxo",
+        "brand:wikidata": "Q1342538",
+        "building": "yes",
+        "name": "Oxxo",
+        "shop": "convenience"
+      }
+    },
+    {
+      "type": "way",
+      "id": 604718826,
+      "center": {
+        "lat": 18.4631457,
+        "lon": -97.4049651
+      },
+      "tags": {
+        "brand": "Oxxo",
+        "brand:wikidata": "Q1342538",
+        "building": "yes",
+        "name": "Oxxo",
+        "shop": "convenience"
+      }
+    },
+    {
+      "type": "way",
+      "id": 604718846,
+      "center": {
+        "lat": 18.4602582,
+        "lon": -97.4141222
+      },
+      "tags": {
+        "brand": "Oxxo",
+        "brand:wikidata": "Q1342538",
+        "building": "yes",
+        "name": "Oxxo",
+        "shop": "convenience"
+      }
+    },
+    {
+      "type": "way",
+      "id": 612808214,
+      "center": {
+        "lat": 18.5554995,
+        "lon": -97.5612845
+      },
+      "tags": {
+        "building": "yes",
+        "name": "Oxxo",
+        "shop": "convenience"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1167126294,
+      "center": {
+        "lat": 18.4692364,
+        "lon": -97.3927512
+      },
+      "tags": {
+        "brand": "Oxxo",
+        "brand:wikidata": "Q1342538",
+        "building": "yes",
+        "building:levels": "1",
+        "building:use": "commercial",
+        "changing_table": "no",
+        "name": "Oxxo",
+        "opening_hours": "24/7",
+        "shop": "convenience"
+      }
+    }
+  ]
+}

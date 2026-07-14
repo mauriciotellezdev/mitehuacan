@@ -26,3 +26,7 @@ build/
 
 # large raw scrape artifacts stay reproducible via scripts, but we DO commit
 # the tehuacan dataset (source sites may die; provenance > repo size).
+
+# wrangler local dev
+.dev.vars
+.wrangler/
