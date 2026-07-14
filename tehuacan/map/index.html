@@ -165,6 +165,9 @@ const CENTER = BOUNDS.center;
 const RADIUS_KM = BOUNDS.radius_km;
 const KMLON = 111.32 * Math.cos(CENTER[1] * Math.PI / 180), KMLAT = 110.57;
 const dLon = RADIUS_KM / KMLON, dLat = RADIUS_KM / KMLAT;
+// pan bounds get 40% margin beyond the circle so fitBounds on edge routes
+// isn't clamped (tight bounds were cutting route tails off-screen)
+const pLon = dLon * 1.4, pLat = dLat * 1.4;
 
 const map = new maplibregl.Map({
   container: 'map',
@@ -172,7 +175,7 @@ const map = new maplibregl.Map({
   center: CENTER,
   zoom: 12.4,
   minZoom: 9,
-  maxBounds: [[CENTER[0] - dLon, CENTER[1] - dLat], [CENTER[0] + dLon, CENTER[1] + dLat]],
+  maxBounds: [[CENTER[0] - pLon, CENTER[1] - pLat], [CENTER[0] + pLon, CENTER[1] + pLat]],
   attributionControl: false  // no tiles; data credits live in the sidebar footer + /acerca/
 });
 map.addControl(new maplibregl.NavigationControl(), 'top-right');
@@ -604,7 +607,8 @@ function brightenBasemap() {
     if (Array.isArray(v)) return v.map(x => walk(x, amt));
     return v;
   };
-  const PROPS = {line: [['line-color', 0.38]], symbol: [['text-color', 0.38]],
+  // streets lightened 20% less than labels (streets recede, names stay readable)
+  const PROPS = {line: [['line-color', 0.30]], symbol: [['text-color', 0.38]],
                  fill: [['fill-color', 0.08], ['fill-outline-color', 0.08]]};
   for (const lyr of map.getStyle().layers) {
     for (const [prop, amt] of (PROPS[lyr.type] || [])) {
