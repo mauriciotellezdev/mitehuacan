@@ -47,6 +47,12 @@ a{color:var(--accent)}
  text-decoration:none;font-weight:600;margin:8px 0}
 .btn.ghost{background:var(--panel);color:var(--ink);border:1px solid var(--line)}
 .btnrow{margin:14px 0}
+form#report-form{display:flex;flex-direction:column;gap:10px;max-width:560px}
+form#report-form input[type=text],form#report-form textarea{width:100%;padding:11px 12px;
+ border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--ink);
+ font:inherit;font-size:15px}
+form#report-form input:focus,form#report-form textarea:focus{outline:2px solid var(--accent);outline-offset:-1px}
+form#report-form .btn{margin:0;border:none;cursor:pointer;font:inherit;font-weight:600}
 footer.site{margin-top:36px;padding:18px 16px calc(18px + env(safe-area-inset-bottom));
  border-top:1px solid var(--line);font-size:13px;color:var(--ink2)}
 footer.site .cols{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:8px}
@@ -123,6 +129,48 @@ de un punto a otro, y ayuda a mantener el mapa vivo con tus propios viajes.</p>
 <h2>Apps para tu teléfono</h2>
 <p class="muted">Muy pronto: app para Android y iPhone con planificador y modo colaborador.
 Mientras tanto, el mapa funciona perfecto desde tu navegador.</p>
+<h2 id="rutas-que-faltan">Rutas que faltan — ¿las conoces?</h2>
+<p>Sabemos que estas rutas existen, pero todavía no están en el mapa:</p>
+<ul>
+<li><strong>San Sebastián Zinacatepec</strong> — al menos 2 rutas: una que conecta desde Ajalpan y otra que pasa por el pueblo y sigue de largo</li>
+<li><strong>Tequexco</strong> — una ruta pasa por la comunidad</li>
+<li><strong>San José</strong> — falta la ruta de San José (¿Buena Vista? ¿las Minas? ¿Monte Chiquito?)</li>
+</ul>
+<p>¿Conoces una de estas — o cualquier otra que no aparezca en el mapa? Cuéntanos:</p>
+<form id="report-form">
+<input type="text" name="nombre" maxlength="80" required
+ placeholder="Nombre de la ruta (como está pintado en la combi)">
+<textarea name="descripcion" maxlength="1500" rows="5" required
+ placeholder="¿Por dónde pasa? Calles, colonias, paradas, de dónde sale y a dónde llega…"></textarea>
+<input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"
+ style="position:absolute;left:-9999px">
+<button type="submit" class="btn" id="report-send">Enviar</button>
+<p class="muted" id="report-status"></p>
+</form>
+<script>
+document.getElementById('report-form').addEventListener('submit', async e => {{
+  e.preventDefault();
+  const f = e.target, st = document.getElementById('report-status');
+  const data = {{nombre: f.nombre.value.trim(), descripcion: f.descripcion.value.trim(),
+               website: f.website.value, ciudad: '{CITY}'}};
+  if (!data.nombre || !data.descripcion) return;
+  document.getElementById('report-send').disabled = true;
+  st.textContent = 'Enviando…';
+  try {{
+    const r = await fetch('/api/reportes', {{method: 'POST',
+      headers: {{'Content-Type': 'application/json'}}, body: JSON.stringify(data)}});
+    if (!r.ok) throw new Error(r.status);
+    st.textContent = '¡Gracias! Tu reporte nos ayuda a completar el mapa.';
+    f.reset();
+  }} catch (err) {{
+    st.innerHTML = 'No se pudo enviar ahora mismo. Copia tu reporte y mándalo cuando tengas conexión:<br><br>' +
+      '<code style="user-select:all;display:block;padding:8px;border:1px solid var(--line);border-radius:8px">Ruta: ' +
+      data.nombre.replace(/</g,'&lt;') + ' — ' + data.descripcion.replace(/</g,'&lt;') + '</code>';
+  }}
+  document.getElementById('report-send').disabled = false;
+}});
+</script>
+
 <h2>Proyecto abierto</h2>
 <p class="muted">Todo el código es libre (AGPL) y los datos son abiertos (ODbL).
 Construido sobre el trabajo de proyectos ciudadanos y OpenStreetMap.
