@@ -607,9 +607,9 @@ function brightenBasemap() {
     if (Array.isArray(v)) return v.map(x => walk(x, amt));
     return v;
   };
-  // streets lightened ~40% less than labels (streets recede, names stay readable)
-  const PROPS = {line: [['line-color', 0.24]], symbol: [['text-color', 0.38]],
-                 fill: [['fill-color', 0.08], ['fill-outline-color', 0.08]]};
+  // bright labels, faint street lines: names orient, geometry recedes
+  const PROPS = {line: [['line-color', 0.13]], symbol: [['text-color', 0.55]],
+                 fill: [['fill-color', 0.06], ['fill-outline-color', 0.06]]};
   for (const lyr of map.getStyle().layers) {
     for (const [prop, amt] of (PROPS[lyr.type] || [])) {
       const cur = map.getPaintProperty(lyr.id, prop);
