@@ -357,10 +357,8 @@ function renderList() {
     const p = f.properties;
     const d = document.createElement('div');
     d.className = 'route' + (state.sel === p.id ? ' sel' : '');
-    const brand = p.alias && !p.name.includes(p.alias) ? ' <span style="color:var(--ink-2)">«' + p.alias + '»</span>' : '';
-    d.innerHTML = '<span class="swatch" style="background:' + p.color + (p.has_geom ? '' : ';opacity:.4') + '"></span>' +
-                  '<span class="nm">' + p.name + brand + '</span>' +
-                  (p.has_geom ? '' : '<span class="tag">sin mapa</span>') +
+    d.innerHTML = '<span class="swatch" style="background:' + p.color + '"></span>' +
+                  '<span class="nm">' + p.name + '</span>' +
                   (p.kind === 'foránea' ? '<span class="tag">foránea</span>' : '');
     d.onclick = () => select(state.sel === p.id ? null : p.id, true);
     el.appendChild(d);
@@ -374,7 +372,7 @@ function renderDetail() {
   el.className = 'show';
   const cols = (p.colonias || '').split(',').slice(0, 8).join(',');
   const towns = (p.places || '').split(',').slice(0, 10).join(',');
-  el.innerHTML = '<b>' + p.name + (p.alias && !p.name.includes(p.alias) ? ' «' + p.alias + '»' : '') + '</b>' +
+  el.innerHTML = '<b>' + p.name + '</b>' +
     '<div class="meta">' + (p.kind === 'foránea' ? 'Ruta foránea' : 'Ruta local') +
     (p.has_geom ? ' · geometría: ' + p.geom_source : ' · ⚠️ sin geometría — solo sabemos que existe (Moovit); falta mapearla') +
     '<br>fuentes: ' + p.sources +
