@@ -75,9 +75,22 @@ The script assumes admin/admin; after you change the password, edit `AUTH` in it
    variants are duplicates.
 4. **San Isidro extension** — your own combi, Camino a San Isidro ↔ CC El Paseo.
 
-## 6. Later: live tracking (optional)
+## 6. Live tracking away from home (SET UP AND RUNNING)
 
-Once quecombi.mx is on Cloudflare, a free **cloudflared named tunnel** (you have
-cloudflared installed) exposes the server as `https://gps.quecombi.mx` so the phone
-reports live mid-ride instead of buffering. See docs/setup/cloudflare.md §6. Don't
-block on it — offline buffering covers everything for solo mapping.
+The server is exposed to the internet through a free Cloudflare quick tunnel, so the
+phone reports **live during the ride** — no home Wi-Fi needed. Before leaving:
+
+```bash
+infra/traccar/start-mapping.sh
+```
+
+It brings up colima + Traccar, keeps the Mac awake (`caffeinate`), starts the tunnel,
+and prints the HTTPS URL for Traccar Client (e.g.
+`https://reveals-knife-cabinets-plymouth.trycloudflare.com` — the URL as of
+2026-07-14; it is ALREADY configured end-to-end and verified).
+
+**The one gotcha:** quick-tunnel URLs change every time the tunnel restarts — if the
+script prints a new URL, update the phone's Server URL before riding. (Offline
+buffering still backstops you: worst case the ride uploads when the phone can reach
+whatever URL it has.) The permanent fix is a named tunnel `gps.quecombi.mx` once the
+domain is on Cloudflare — docs/setup/cloudflare.md §6 — which never changes.
