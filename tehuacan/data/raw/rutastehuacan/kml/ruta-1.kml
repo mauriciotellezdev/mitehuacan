@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Ruta 1 - Tehuacán</name>
+    <description><![CDATA[📍 RUTAS de TEHUACÁN 🚐<br>Más Rutas en:: https://t.me/rutastehuacan<br><br>⏩ Siguiente: https://goo.gl/maps/ufAQY9Ke9qemVUceA<br>⏪ Previa: https://goo.gl/maps/BHJYzgB5hzYgYabk9<br><br>¡Organiza tus viajes más fácilmente!.<br><br>Mapas GRATUITOS del recorrido de las RUTAS de transporte en la ciudad., Visítanos y COMPARTE con todos tus contactos: http://www.rutastehuacan.th1.mx<br><br>.🚐⬅️🚐⬅️🚐⬅️🚐<br><br>📍 Kevin Williams - Guía Local: https://maps.app.goo.gl/Fy7sEGaeuPvP19j36<br><br>🤳🏻 IG:<br>https://instagram.com/kevinwilliams.fx<br><br>.. ]]></description>
+    <Style id="icon-1899-DB4436-normal">
+      <IconStyle>
+        <color>ff3644db</color>
+        <scale>1</scale>
+        <Icon>
+          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+        <hotSpot x="32" xunits="pixels" y="64" yunits="insetPixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>0</scale>
+      </LabelStyle>
+    </Style>
+    <Style id="icon-1899-DB4436-highlight">
+      <IconStyle>
+        <color>ff3644db</color>
+        <scale>1</scale>
+        <Icon>
+          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+        <hotSpot x="32" xunits="pixels" y="64" yunits="insetPixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>1</scale>
+      </LabelStyle>
+    </Style>
+    <StyleMap id="icon-1899-DB4436">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#icon-1899-DB4436-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#icon-1899-DB4436-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Style id="line-E65100-7588-normal">
+      <LineStyle>
+        <color>ff0051e6</color>
+        <width>7.588</width>
+      </LineStyle>
+    </Style>
+    <Style id="line-E65100-7588-highlight">
+      <LineStyle>
+        <color>ff0051e6</color>
+        <width>11.382</width>
+      </LineStyle>
+    </Style>
+    <StyleMap id="line-E65100-7588">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#line-E65100-7588-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#line-E65100-7588-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Folder>
+      <name>R1</name>
+      <Placemark>
+        <name>Recorrido de la Ruta 1</name>
+        <description><![CDATA[📍 RUTAS de TEHUACÁN 🚐<br>Mas Rutas en:: https://t.me/rutastehuacan<br><br>¡Organiza tus viajes más fácilmente!.<br><br>Mapas GRATUITOS del recorrido de las RUTAS de transporte en la ciudad., Visítanos y COMPARTE con todos tus contactos: http://www.rutastehuacan.th1.mx<br><br>.🚐⬅️🚐⬅️🚐⬅️🚐<br><br>📍 Kevin Williams - Guía Local: https://maps.app.goo.gl/Fy7sEGaeuPvP19j36<br><br>🤳🏻 IG:<br>https://instagram.com/kevinwilliams.fx<br><br>.]]></description>
+        <styleUrl>#line-E65100-7588</styleUrl>
+        <LineString>
+          <tessellate>1</tessellate>
+          <coordinates>
+            -97.3981932,18.4568389,0
+            -97.398435,18.449806,0
+            -97.396804,18.449765,0
+            -97.394616,18.451577,0
+            -97.392105,18.451577,0
+            -97.391998,18.452595,0
+            -97.391569,18.452595,0
+            -97.3913612,18.4721388,0
+            -97.3913248,18.4721575,0
+            -97.3912783,18.4721857,0
+            -97.3912421,18.4722129,0
+            -97.3912112,18.4722567,0
+            -97.3912021,18.4723198,0
+            -97.3912104,18.4723621,0
+            -97.3912266,18.472402,0
+            -97.3912558,18.4724335,0
+            -97.3912916,18.4724586,0
+            -97.3913295,18.4724723,0
+            -97.3913674,18.4724758,0
+            -97.391367,18.472574,0
+            -97.391281,18.47524,0
+            -97.393792,18.475261,0
+            -97.395894,18.474976,0
+            -97.397182,18.477052,0
+            -97.397547,18.47709,0
+            -97.397622,18.475665,0
+            -97.397606,18.475568,0
+            -97.397692,18.47449,0
+            -97.397729,18.473228,0
+            -97.397912,18.469041,0
+            -97.39796,18.466995,0
+            -97.39803,18.465972,0
+            -97.398078,18.465499,0
+            -97.398072,18.46499,0
+            -97.398164,18.463194,0
+            -97.398115,18.463098,0
+            -97.394135,18.462924,0
+            -97.394167,18.460945,0
+            -97.39656,18.460991,0
+            -97.3967965,18.4610069,0
+            -97.3970358,18.4610254,0
+            -97.3981997,18.4610475,0
+            -97.3983292,18.4593005,0
+            -97.3983658,18.4588901,0
+            -97.3984265,18.4574975,0
+            -97.3984626,18.4568475,0
+            -97.3981932,18.4568389,0
+          </coordinates>
+        </LineString>
+      </Placemark>
+    </Folder>
+    <Folder>
+      <name>❤️ Nuestro agradecimiento por su apoyo en éste proyecto a:</name>
+      <Placemark>
+        <name>Papanachos de la Sarabia</name>
+        <description><![CDATA[<img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GyG928WMzLKvRyJnxNr3W3QpcqvHLxhQyx0CBhdAk9isMdtPASBXrCwVaEJVnY7BirpQpaYsHVFjyHPKTdLr_XngMrXCPNZo-DrqTHtgrI3nO3IoZteJLhjuux5td17Pcim6-4AOqC4oE6kE2g-xzLXZ9wL8AqN_LXczCx1LFk4t2I_y7Fc0w-cztu_TpC3BhR3vvDopWGn_SIhkQ-EosZHz0yWfqjlBmgQ7RB1R0nw4fY82nFraA6Wzpc?fife=s16383" height="200" width="auto" /><br><br>⭐️ Agradecemos el APOYO de Papanachos para dar continuidad a nuestro proyecto. ¡Checa sus redes sociales!<br><br>📍 https://www.facebook.com/profile.php?id=100057657960919<br><br><img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GxyZ8w0X1ZX-V9on6Q8lKHpHkKWbVKHuqFlT_Fg5x0OQo7w2B_TP40QcA5z4ott7KNAu6tQuHMlziuOYaoCcQVb4LslSehftjIts_XPvTsi_74ff-3FurSUyte2CIEN_sZRYUL_g4BKG5WC6sfH7Lxv-j1OhNt9pd5AZb7JB6dmolGU9tYP6xYGve5l7lFCnidaE_5r7NdGGRc8YQCIcEe406peRsvTbAGpaiYrPgzIV0JtbDTUUH2x3iI?fife=s16383" height="200" width="auto" /><br><br><img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GwUxRUnzL-kevvXwiB9ySjWLnJL4k1_hhDKCvfqnwqrqu3olH4wkd9XsyNqw015s7JMYO_fbAyRag9nq-a43o7h-ezJ6MVmRgQN5kUeV3zkD787LnjR7e41GESiHI2E8sYMEHHSdbG89xfJqqQeRyeE8IhRUxpef_wXyjYxiAhFE5jWnGpZ1CrJ-093UmBBL8g2PGEStx5b5ryRkkKnYiSjqYAJlE5Hd_OPVgnb8SvKet9-8pmGktBAAqY?fife=s16383" height="200" width="auto" /><br><br><img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_Gywo8fmi36KlmVNpQCMxFQFmQzV3dXMnbV_CyzU8T9JueeXpnvnPUzFCKU103cO5y-q_eot45izkLv8kD3O1-isa-yapLXiLVzkLLvy-OzJsqnRIXtqm2_H5rSZjayF2mjVFT6FNaY4Z-VFOr8Gmm4av5Ezrgw-ZnUHdDp6kB_kIeBPkcv9T6Azz0C_Kh9NpZ9eg81m-9J9PzMWs7HEYfODGPU-3oudROgVomQSW_C9ykmfbyEvBJxir00?fife=s16383" height="200" width="auto" /><br><br><img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GwcR5Kfd8Agog0CkFcUHnC5dBjv7-JlcJLASq4EYkNEqBdvlGw0w9wW_E3wijKrtaJzvmCIl6DuzfFoIGj1dQgdiQTQ9tPs1M1mG5AUN1QedaxCTWmt4TvPrXUFhh-XCpvbFKrrLpiDM2Ro0Lv9F8NJdO9grtYrjcsVhhuBPmC6Ub_rAIlnK5_ADTzzFzgRkw0Eoz6sVPnlE41_uTaaKZW_ssMKBX6BoOh7lw0oLqBnJdhgtaBd0xap7Hg?fife=s16383" height="200" width="auto" /><br><br><img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GzI_WF7w42eOeYBqv7h2GW9VPFKxv8DWmhHPUnfuVu1ytfufrcbEnyYPrCwefFBpOQNaK6lPcp2cgH3kqJpem9gWtFCuV-plukXFuHMTXwq7XLzylajFVp0wD1OvlvjVPiaEKTkFUE7LgfMiRnc-MXo3LIkxABe1aUFiAcfLPI-EGZFmBLLvANPCdtYIJFYmVL1s1Jj9OL0x0lO-_Ir5Uqhd4Y_IHDKPrp3GhysMSG3t1weeCpevoeLb88?fife=s16383" height="200" width="auto" />]]></description>
+        <styleUrl>#icon-1899-DB4436</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GyG928WMzLKvRyJnxNr3W3QpcqvHLxhQyx0CBhdAk9isMdtPASBXrCwVaEJVnY7BirpQpaYsHVFjyHPKTdLr_XngMrXCPNZo-DrqTHtgrI3nO3IoZteJLhjuux5td17Pcim6-4AOqC4oE6kE2g-xzLXZ9wL8AqN_LXczCx1LFk4t2I_y7Fc0w-cztu_TpC3BhR3vvDopWGn_SIhkQ-EosZHz0yWfqjlBmgQ7RB1R0nw4fY82nFraA6Wzpc?fife=s16383 https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GxyZ8w0X1ZX-V9on6Q8lKHpHkKWbVKHuqFlT_Fg5x0OQo7w2B_TP40QcA5z4ott7KNAu6tQuHMlziuOYaoCcQVb4LslSehftjIts_XPvTsi_74ff-3FurSUyte2CIEN_sZRYUL_g4BKG5WC6sfH7Lxv-j1OhNt9pd5AZb7JB6dmolGU9tYP6xYGve5l7lFCnidaE_5r7NdGGRc8YQCIcEe406peRsvTbAGpaiYrPgzIV0JtbDTUUH2x3iI?fife=s16383 https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GwUxRUnzL-kevvXwiB9ySjWLnJL4k1_hhDKCvfqnwqrqu3olH4wkd9XsyNqw015s7JMYO_fbAyRag9nq-a43o7h-ezJ6MVmRgQN5kUeV3zkD787LnjR7e41GESiHI2E8sYMEHHSdbG89xfJqqQeRyeE8IhRUxpef_wXyjYxiAhFE5jWnGpZ1CrJ-093UmBBL8g2PGEStx5b5ryRkkKnYiSjqYAJlE5Hd_OPVgnb8SvKet9-8pmGktBAAqY?fife=s16383 https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_Gywo8fmi36KlmVNpQCMxFQFmQzV3dXMnbV_CyzU8T9JueeXpnvnPUzFCKU103cO5y-q_eot45izkLv8kD3O1-isa-yapLXiLVzkLLvy-OzJsqnRIXtqm2_H5rSZjayF2mjVFT6FNaY4Z-VFOr8Gmm4av5Ezrgw-ZnUHdDp6kB_kIeBPkcv9T6Azz0C_Kh9NpZ9eg81m-9J9PzMWs7HEYfODGPU-3oudROgVomQSW_C9ykmfbyEvBJxir00?fife=s16383 https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GwcR5Kfd8Agog0CkFcUHnC5dBjv7-JlcJLASq4EYkNEqBdvlGw0w9wW_E3wijKrtaJzvmCIl6DuzfFoIGj1dQgdiQTQ9tPs1M1mG5AUN1QedaxCTWmt4TvPrXUFhh-XCpvbFKrrLpiDM2Ro0Lv9F8NJdO9grtYrjcsVhhuBPmC6Ub_rAIlnK5_ADTzzFzgRkw0Eoz6sVPnlE41_uTaaKZW_ssMKBX6BoOh7lw0oLqBnJdhgtaBd0xap7Hg?fife=s16383 https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GzI_WF7w42eOeYBqv7h2GW9VPFKxv8DWmhHPUnfuVu1ytfufrcbEnyYPrCwefFBpOQNaK6lPcp2cgH3kqJpem9gWtFCuV-plukXFuHMTXwq7XLzylajFVp0wD1OvlvjVPiaEKTkFUE7LgfMiRnc-MXo3LIkxABe1aUFiAcfLPI-EGZFmBLLvANPCdtYIJFYmVL1s1Jj9OL0x0lO-_Ir5Uqhd4Y_IHDKPrp3GhysMSG3t1weeCpevoeLb88?fife=s16383</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -97.3913449,18.4719622,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Tacos Genaro</name>
+        <description><![CDATA[<img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_Gz9JgezAgLIg76NXG7qOJj_jfuEkybUvnw0QYSQqO71n3ZupNjtuH2CWQD0p9p6F6ZMofrxz9pSLirqjqh78nugHBV_oE5ajayeNkVDrMTVcMVOqeyeMnSMWJq0rDlyS30knGoY2NW2eKZMdgdgZBvHYFdSJUnMDMhX15ohtCRTaW3TgQ-F7FtUX4c0PC5BeJoTx4u_0UmImWd_ri7fvTPBEubiddyT4VeE__j7mJMSWbcwTtST9lIw0Ew?fife=s16383" height="200" width="auto" /><br><br>⭐️ Agradecemos el APOYO para dar continuidad a nuestro proyecto. ¡Checa sus redes sociales!<br><br>📍 https://www.facebook.com/sucursalsarabia<br><br><img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GzjvgZYdtO6lgVmtHRxs79D5HNd_71u2SU43rtlQrtDxU0e10jSlKuKuCaNbU11qLorPRMQEmBMyfUPVQ2a2sdAGaC4xSrXetgHVZINWhNQYPZugmAmJLcx-EIg4G_TDnMRkq7YPJJW33uC_PkFMF50qcq3MHDNKqgWyFAiNWXwax9FC09dPCJgScy-jZmO__iDJ3LAJo-RBWiRiATI8aXCwhRyyyNT1QxM7d0qXyU9imWr5dUdXLtxe1E?fife=s16383" height="200" width="auto" /><br><br><img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GwB2mJCsn_Mu_F2uy_mMOUY9vXxrEbcz4zCsk1jI5v8kCen_hMYoDv0_yfai0ABtLyPVBRsO2Fr-OBXu3QxUqLg_99v5uD8qyG8D8d9wXyormuARZwb5qIksSetGepFFZV845PWCK7B0HoWUBpKXsIC4LI-vJ_8RmpwwBhiuSoI_etHqzFYODdhkafC2zK616lOzZqjrHrD79wZHeZmpjNMz1hi_UV8chOe3HHYaGI-m_HaAonukwTx9_A?fife=s16383" height="200" width="auto" /><br><br><img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GwbxUnXstjUmXXICRsABZubfLRPDGNJ6D4asLl_18z7lqi14bJWYzMtdYyn1R3syeZuu6DYACts46kF-Vf-NBR2qz42uTtJ3JMGxm8YRWKvHToJLNFEzsQ2Tg58l0utmda26sb7X_o0BFdkBK55IVF69avdirsWSnqEaOU7pRXMBBhPv42SCSgsb1ncfuCU-HPdZrCfNcqf_qYb0X2xxGcrbtEBE1PLAi99cLRkrDuHekURjGbtFqQ0AMs?fife=s16383" height="200" width="auto" /><br><br><img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GyjBvqQx_Ni2yq8A4VI4IzmWwwL6KYj9HcauHdZNp_jpUDdLQo4v1_2A-atdFrocQKnZmWVSnUT2178Y7eJ64qI5fxKqLxicjb8AneDoplWW6-bTAtPrp8O0_HulOyaIg-qDd38FvTn6HTu2jTu93vUHu5iv8_jRTEmqBf7kCKwVTZk_izQdYUjfMj37fvF94UQ7yJoY_74VjqigQyYxYrUgQ8JHaZmrxSDUkoHjXgQFaRbL4a-8T4ZoME?fife=s16383" height="200" width="auto" />]]></description>
+        <styleUrl>#icon-1899-DB4436</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_Gz9JgezAgLIg76NXG7qOJj_jfuEkybUvnw0QYSQqO71n3ZupNjtuH2CWQD0p9p6F6ZMofrxz9pSLirqjqh78nugHBV_oE5ajayeNkVDrMTVcMVOqeyeMnSMWJq0rDlyS30knGoY2NW2eKZMdgdgZBvHYFdSJUnMDMhX15ohtCRTaW3TgQ-F7FtUX4c0PC5BeJoTx4u_0UmImWd_ri7fvTPBEubiddyT4VeE__j7mJMSWbcwTtST9lIw0Ew?fife=s16383 https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GzjvgZYdtO6lgVmtHRxs79D5HNd_71u2SU43rtlQrtDxU0e10jSlKuKuCaNbU11qLorPRMQEmBMyfUPVQ2a2sdAGaC4xSrXetgHVZINWhNQYPZugmAmJLcx-EIg4G_TDnMRkq7YPJJW33uC_PkFMF50qcq3MHDNKqgWyFAiNWXwax9FC09dPCJgScy-jZmO__iDJ3LAJo-RBWiRiATI8aXCwhRyyyNT1QxM7d0qXyU9imWr5dUdXLtxe1E?fife=s16383 https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GwB2mJCsn_Mu_F2uy_mMOUY9vXxrEbcz4zCsk1jI5v8kCen_hMYoDv0_yfai0ABtLyPVBRsO2Fr-OBXu3QxUqLg_99v5uD8qyG8D8d9wXyormuARZwb5qIksSetGepFFZV845PWCK7B0HoWUBpKXsIC4LI-vJ_8RmpwwBhiuSoI_etHqzFYODdhkafC2zK616lOzZqjrHrD79wZHeZmpjNMz1hi_UV8chOe3HHYaGI-m_HaAonukwTx9_A?fife=s16383 https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GwbxUnXstjUmXXICRsABZubfLRPDGNJ6D4asLl_18z7lqi14bJWYzMtdYyn1R3syeZuu6DYACts46kF-Vf-NBR2qz42uTtJ3JMGxm8YRWKvHToJLNFEzsQ2Tg58l0utmda26sb7X_o0BFdkBK55IVF69avdirsWSnqEaOU7pRXMBBhPv42SCSgsb1ncfuCU-HPdZrCfNcqf_qYb0X2xxGcrbtEBE1PLAi99cLRkrDuHekURjGbtFqQ0AMs?fife=s16383 https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GyjBvqQx_Ni2yq8A4VI4IzmWwwL6KYj9HcauHdZNp_jpUDdLQo4v1_2A-atdFrocQKnZmWVSnUT2178Y7eJ64qI5fxKqLxicjb8AneDoplWW6-bTAtPrp8O0_HulOyaIg-qDd38FvTn6HTu2jTu93vUHu5iv8_jRTEmqBf7kCKwVTZk_izQdYUjfMj37fvF94UQ7yJoY_74VjqigQyYxYrUgQ8JHaZmrxSDUkoHjXgQFaRbL4a-8T4ZoME?fife=s16383</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -97.3912629,18.4729055,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>KAPRICH - Estilistas Tehuacán</name>
+        <description><![CDATA[<img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_Gw-wEi1ImBac3SE9gNElVyN1KotPyD5EKIvKkfpU1cztygXOSEuPt8G11Fps3hEHCOcb5AFgFi29UsMoCokdjsPSFmBuVLMffY0WNbzQv-6ixjBX_ru-7C_oH3DCXvPRz_2-EtjK-IXedCGHIv5MIj7VlMZuAVO7RidCWL046peEUUoxRO5dWlpHFF981iUzbde0j5j3qWByaIdDGPNlMxmm2K9CLSPV0VwGsl_Z5WqMqiWmYnuxpEv740?fife=s16383" height="200" width="auto" /><br><br>Todos los productos para belleza, peluquería, cosmetología y accesorios relacionaos.<br><br>📍 https://www.facebook.com/Kaprichestilistastehuacan<br><br><img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GwE2GusFYgOeC4AKsH8iJ0kr4S9cAN9-Isn9cECShjsqRajf5lhgSEK3YRoHXK9StaUxnIpkwmxFxsxApYlvo3GsZWHU1qQLv48KGmsYFdGUitT-_TDC-Zwkey9jNf7Sm-NpwziC7Ss0p4xX7eA1eAjUUXcYW9kOHe1k6u_mRM6_M_ec15Jq4VhikRRZSCRxQE-DH6QlipUH3ZUb7dFxxAhHwbhDPPsOCbm6IIAAzfQJhk0jtpwxuzjlGM?fife=s16383" height="200" width="auto" /><br><br><img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GxYTcqe9UcpdkNvSYu4UsTXFmlwN6CfuXtBvAM7odrVumm2jk9nr71KFD8i_KGsusOtWwazDOEyJBp-lZzdPnJ4ft-rwof7iUdHRXyW8g_q9ixqMURELcS4dr_vkn7MOU0fdGvvW05F8x8iZL4aU2uK8rFvHpvhPDvfYaTA8MulBydoqqIUPeFTw56jpbZYWi5YRg1YaaYYOZr4bRvvLle9SkEuGvqadFB3Et3vj0kehggPnnoQKGjBcfM?fife=s16383" height="200" width="auto" /><br><br><img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_Gz--myIFqheGDPU0Pm7XrSQuVX4ujiVHDVVCltU0SVRNWp-paRnJfh3TQgZyjStQC0k8SZXzbpgKGJwt5tDLfOfKtqcaPuYAqsnZ6NxJzy6_9_NzIxu6l36TBBxfVduRaE16Ql86YpBXBpj_F5Uj-WzpcwlN5G-WBT--17D1989f2DggkEJfOR1AKGdsWS4pksL4w4oJSYMk7z93WB24JocQG_A0zsSrx-SDLgV4pBjwTCnENHU-_EytgU?fife=s16383" height="200" width="auto" /><br><br><img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GwiU1G9EpWYRfUUwXZ06pRiwSaV1hlK_gVaaDA84fL8Kn29OqwkOuQY4HBxAdzJTv0PyEMp4izaR8iJmVGhFC_wocfpXCmYTpMLs9P7HzB9tx-_GKiWZnbopXjEO71J8OsrjrAU6Sn2Z1Fe60xAmlS3s9vi9f0ZBbO1yQd6C_26YL_b9EHIR_Ouuw5xGZaiTT8n0NYkfDqkjTKrwMUB32u6uOXaqY3CefKz16-_3uNqPYLd9gzlgR4Ti7A?fife=s16383" height="200" width="auto" />]]></description>
+        <styleUrl>#icon-1899-DB4436</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_Gw-wEi1ImBac3SE9gNElVyN1KotPyD5EKIvKkfpU1cztygXOSEuPt8G11Fps3hEHCOcb5AFgFi29UsMoCokdjsPSFmBuVLMffY0WNbzQv-6ixjBX_ru-7C_oH3DCXvPRz_2-EtjK-IXedCGHIv5MIj7VlMZuAVO7RidCWL046peEUUoxRO5dWlpHFF981iUzbde0j5j3qWByaIdDGPNlMxmm2K9CLSPV0VwGsl_Z5WqMqiWmYnuxpEv740?fife=s16383 https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GwE2GusFYgOeC4AKsH8iJ0kr4S9cAN9-Isn9cECShjsqRajf5lhgSEK3YRoHXK9StaUxnIpkwmxFxsxApYlvo3GsZWHU1qQLv48KGmsYFdGUitT-_TDC-Zwkey9jNf7Sm-NpwziC7Ss0p4xX7eA1eAjUUXcYW9kOHe1k6u_mRM6_M_ec15Jq4VhikRRZSCRxQE-DH6QlipUH3ZUb7dFxxAhHwbhDPPsOCbm6IIAAzfQJhk0jtpwxuzjlGM?fife=s16383 https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GxYTcqe9UcpdkNvSYu4UsTXFmlwN6CfuXtBvAM7odrVumm2jk9nr71KFD8i_KGsusOtWwazDOEyJBp-lZzdPnJ4ft-rwof7iUdHRXyW8g_q9ixqMURELcS4dr_vkn7MOU0fdGvvW05F8x8iZL4aU2uK8rFvHpvhPDvfYaTA8MulBydoqqIUPeFTw56jpbZYWi5YRg1YaaYYOZr4bRvvLle9SkEuGvqadFB3Et3vj0kehggPnnoQKGjBcfM?fife=s16383 https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_Gz--myIFqheGDPU0Pm7XrSQuVX4ujiVHDVVCltU0SVRNWp-paRnJfh3TQgZyjStQC0k8SZXzbpgKGJwt5tDLfOfKtqcaPuYAqsnZ6NxJzy6_9_NzIxu6l36TBBxfVduRaE16Ql86YpBXBpj_F5Uj-WzpcwlN5G-WBT--17D1989f2DggkEJfOR1AKGdsWS4pksL4w4oJSYMk7z93WB24JocQG_A0zsSrx-SDLgV4pBjwTCnENHU-_EytgU?fife=s16383 https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GwiU1G9EpWYRfUUwXZ06pRiwSaV1hlK_gVaaDA84fL8Kn29OqwkOuQY4HBxAdzJTv0PyEMp4izaR8iJmVGhFC_wocfpXCmYTpMLs9P7HzB9tx-_GKiWZnbopXjEO71J8OsrjrAU6Sn2Z1Fe60xAmlS3s9vi9f0ZBbO1yQd6C_26YL_b9EHIR_Ouuw5xGZaiTT8n0NYkfDqkjTKrwMUB32u6uOXaqY3CefKz16-_3uNqPYLd9gzlgR4Ti7A?fife=s16383</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -97.3905778,18.461257,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>LA LAGUNILLA - Juguetería y Fantasía</name>
+        <description><![CDATA[<img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_Gz3RNFDRDb4P_eHgPVjKQchBuTOQKJniviQCNO-7bJdkHarbMcjNFleKv_vJJwyDxIoNe_GsxIZEW7epPP5OhluZV_TnbTxBW2EdqgLGkLbzKu4DheFvzVIduvmOE4IpiNKUbBp-J4tCnOxrrtw4f1dCGFonyGBqBwui6JoXWvmyxmRldC9TWP_xBikT0KItzm9U9_ZSeghNm7pfFQKDqkKNrJwFzm-8dBCSn4CFWTX_vE9k0JnfDNhip8?fife=s16383" height="200" width="auto" /><br><br>Regalos, detalles, coleccionables, máscaras, bolsos, muñecas, accesorios y más.<br>Mayoreo y menudeo.<br><br>📍 https://www.facebook.com/Jugueteriayfantasialalagunilla<br><br><img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GzMaRGIm2kOTMbUE9WXUW3NpCFTWGi8vwfuzbXLqf6_55aMpWYKhBmVsYo-xwO_1nk3C4sybsZsUf8Uf-hyE_nnc2thHWVSzKmMxe-CFOKKQy6sK-JPxBLDbiQtlOuG0JgyeyGB1Kk337KapKnjkf5bdJpMWZas2jYUcwsi8Iw_gFr350qWWjt7cRgOUxO2-eQWnOz8QaKQ1hw9rYCjmSTVUT4RK2Ic-_A7KYRvbodP3ufZBuNmBi8saio?fife=s16383" height="200" width="auto" /><br><br><img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_Gw3aXpDHV5XZkzp0e9NpYfzlrwqf0uiwtqCTlp9Smcir9TgR25WW9met1MZrHKw5eEkS_4P1DIjdnzl2qvn0-EicbEwQdjAphb24Lr-yFpkz0w7vSmuCrTibSWVRK1JBsj9lAVhOBqlp1489dlotEErnr4EiphlKqEMsZtqNUqz07aRRbhFwdfauoNQGQOzcxbgNhHpsYymbClleiF8F0rAMNhvUjDGpHG6aiF-Z0m_T1eaXGCouB-vkcM?fife=s16383" height="200" width="auto" /><br><br><img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GyLJsh0IQU8MyU9VnTm991dEQudFyaRrsmPQQRdh49dT1gUXd_RfslCIL0zQ4L467kQET2Z_HmaMm_zzS1tl2IJIdw-032rM59tCj_E5QQcXW0pS06G7PpQbCsXCIYA9HOacxoOrnrBDWpnQNVIfxRmwyX39QXRmRfCTOPtkQv5KRUzEmIeyd1iy7hAzg9m2OO6luywEdGDDpmg2SRwoB0VZWcO9P_tDELWOODI0-_TYWp8ZvLD0xGV5U8?fife=s16383" height="200" width="auto" /><br><br><img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GxwtNDpM4w8IJyLQ6IqsMvFqqjGMOEdywjoDOfB4wQyIYSlUPtNZ_Y6f4lCiwgpw-YEcl11R0c70y5LkXvRSkLswFXTTCH8jAVWXxWguIdAvHtpDDYdcXIwbhExUvrXtjxblrR7WSZzUOCVkulYosI_c3fdyD1l7oH_E2nv1SoQDDGBCy4tn3JjLP3BSvRanIbWe7bjHvDiyUhwKKZwtY9BnjC_cA6J-3IP1Xz17VtgAwzkRhbTzXedlMY?fife=s16383" height="200" width="auto" /><br><br><img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GzhkpZ-mGonOrFrQCIZLYHxEdmSnl2LCHjpsVwFt4-ZGuzbc4HoJukPDTGrm7OSDqdKYXwL_UI1uQXF2kyuZxoI5NrX9DHfZY2zdR1h2tRNhMv2VeLXFiwUM9PUt4e1I6NmKrsYS2pxpN69hV0i9GYz1WxgCWOt-s5fVcN3I6_BMarAssIAx7tkN7s6Vi1SIPcT_ZsTMpiA_GeJH7kN-Ow4whLTIeHDxLXp1kjziMc4J2InyeRHLoRERAc?fife=s16383" height="200" width="auto" /><br><br><img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GzHiA-pB99fUNbXTyVMc_lEmJTKVvKa3SfY2ew1875gfFjVZESexNax9_VAJYwypWKMdDWljRYLsrmvPK9X0Zuy9HS_IshAnuLEL8XIrv4o8Dl1wnUuE1aj-dmQ6z-27gOrXgjRwpke9hq-Lav_KnjVIEttNOQqWpgmKz4iekGNMnp61trau5rUBND1ZGLj4nqxTzByVtZ-OIyuRe_yrfSJEXgEhLiKp6A88Oe3RtiKjAGscVQq29JibqM?fife=s16383" height="200" width="auto" /><br><br><img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GxcUbUzIPRcMUE8X2jHdnFnKRVp6gsw2JWSPCVYDGfJp3epp2T6M3o-LpVrxkZl1sDriWhqrJKkEtwXVfsCavxGuHju4SHCwQE5DLwoIaEMAF93MtG6T9AX5kcyqaH7fdXRh--8OOLVyeU45YwT1UiKqNtQj3HVTCUAVTUw_InCmf6xLm2ELVvl76-7nx2iBPRgT5pPzDKQNrTqXOZPoWQgw0LSnmNfVujeKbkTNV1LjrGF66vAR8XeiMw?fife=s16383" height="200" width="auto" /><br><br><img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GxXyLtKFZR9Mknk0QCx6botmX_03Pf8XvTisY-f97PzpGozR4dhB1pm6lJnvYAltMo7k2AhgdR2v5MEiuKM0nwkV58TWnigICvdJU1cevWysX15GlsOMhrynimp1_5stnEfFeqkNIOl-IVL4scmg_XMZbghiFWUwFMjRdSNFut9AwkqWHZ4YI2FyHfdvFkhj7re6toG3Oyr7dnRU4wK3mYV-hVmyjpX6RggktuMZ88Sqxf2MyTntyFRaqo?fife=s16383" height="200" width="auto" /><br><br><img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GxdO0JaUVcPr2Qk9O0XCTST5q02PsrScaZW2SAuuQem0b8lMuiv1vVSX5n4yZrtdyYL7TzOx2cJAsAYUdLuEEsu2LOFJWHhAJDQpAe38shXSgXoQDDoAdjCry3cde9_DHMpD3pVYTa1yEIp_tt7on2qB1zbnHwMmYmR0q3WPzJ4602PRdSDbuf0d21M5zzgan2UNI7b91Z9_9zZVJ6RjwKWacXq3POTmEWwVyZw9_lFHOtbrvNN0R_-ftc?fife=s16383" height="200" width="auto" />]]></description>
+        <styleUrl>#icon-1899-DB4436</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_Gz3RNFDRDb4P_eHgPVjKQchBuTOQKJniviQCNO-7bJdkHarbMcjNFleKv_vJJwyDxIoNe_GsxIZEW7epPP5OhluZV_TnbTxBW2EdqgLGkLbzKu4DheFvzVIduvmOE4IpiNKUbBp-J4tCnOxrrtw4f1dCGFonyGBqBwui6JoXWvmyxmRldC9TWP_xBikT0KItzm9U9_ZSeghNm7pfFQKDqkKNrJwFzm-8dBCSn4CFWTX_vE9k0JnfDNhip8?fife=s16383 https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GzMaRGIm2kOTMbUE9WXUW3NpCFTWGi8vwfuzbXLqf6_55aMpWYKhBmVsYo-xwO_1nk3C4sybsZsUf8Uf-hyE_nnc2thHWVSzKmMxe-CFOKKQy6sK-JPxBLDbiQtlOuG0JgyeyGB1Kk337KapKnjkf5bdJpMWZas2jYUcwsi8Iw_gFr350qWWjt7cRgOUxO2-eQWnOz8QaKQ1hw9rYCjmSTVUT4RK2Ic-_A7KYRvbodP3ufZBuNmBi8saio?fife=s16383 https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_Gw3aXpDHV5XZkzp0e9NpYfzlrwqf0uiwtqCTlp9Smcir9TgR25WW9met1MZrHKw5eEkS_4P1DIjdnzl2qvn0-EicbEwQdjAphb24Lr-yFpkz0w7vSmuCrTibSWVRK1JBsj9lAVhOBqlp1489dlotEErnr4EiphlKqEMsZtqNUqz07aRRbhFwdfauoNQGQOzcxbgNhHpsYymbClleiF8F0rAMNhvUjDGpHG6aiF-Z0m_T1eaXGCouB-vkcM?fife=s16383 https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GyLJsh0IQU8MyU9VnTm991dEQudFyaRrsmPQQRdh49dT1gUXd_RfslCIL0zQ4L467kQET2Z_HmaMm_zzS1tl2IJIdw-032rM59tCj_E5QQcXW0pS06G7PpQbCsXCIYA9HOacxoOrnrBDWpnQNVIfxRmwyX39QXRmRfCTOPtkQv5KRUzEmIeyd1iy7hAzg9m2OO6luywEdGDDpmg2SRwoB0VZWcO9P_tDELWOODI0-_TYWp8ZvLD0xGV5U8?fife=s16383 https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GxwtNDpM4w8IJyLQ6IqsMvFqqjGMOEdywjoDOfB4wQyIYSlUPtNZ_Y6f4lCiwgpw-YEcl11R0c70y5LkXvRSkLswFXTTCH8jAVWXxWguIdAvHtpDDYdcXIwbhExUvrXtjxblrR7WSZzUOCVkulYosI_c3fdyD1l7oH_E2nv1SoQDDGBCy4tn3JjLP3BSvRanIbWe7bjHvDiyUhwKKZwtY9BnjC_cA6J-3IP1Xz17VtgAwzkRhbTzXedlMY?fife=s16383 https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GzhkpZ-mGonOrFrQCIZLYHxEdmSnl2LCHjpsVwFt4-ZGuzbc4HoJukPDTGrm7OSDqdKYXwL_UI1uQXF2kyuZxoI5NrX9DHfZY2zdR1h2tRNhMv2VeLXFiwUM9PUt4e1I6NmKrsYS2pxpN69hV0i9GYz1WxgCWOt-s5fVcN3I6_BMarAssIAx7tkN7s6Vi1SIPcT_ZsTMpiA_GeJH7kN-Ow4whLTIeHDxLXp1kjziMc4J2InyeRHLoRERAc?fife=s16383 https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GzHiA-pB99fUNbXTyVMc_lEmJTKVvKa3SfY2ew1875gfFjVZESexNax9_VAJYwypWKMdDWljRYLsrmvPK9X0Zuy9HS_IshAnuLEL8XIrv4o8Dl1wnUuE1aj-dmQ6z-27gOrXgjRwpke9hq-Lav_KnjVIEttNOQqWpgmKz4iekGNMnp61trau5rUBND1ZGLj4nqxTzByVtZ-OIyuRe_yrfSJEXgEhLiKp6A88Oe3RtiKjAGscVQq29JibqM?fife=s16383 https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GxcUbUzIPRcMUE8X2jHdnFnKRVp6gsw2JWSPCVYDGfJp3epp2T6M3o-LpVrxkZl1sDriWhqrJKkEtwXVfsCavxGuHju4SHCwQE5DLwoIaEMAF93MtG6T9AX5kcyqaH7fdXRh--8OOLVyeU45YwT1UiKqNtQj3HVTCUAVTUw_InCmf6xLm2ELVvl76-7nx2iBPRgT5pPzDKQNrTqXOZPoWQgw0LSnmNfVujeKbkTNV1LjrGF66vAR8XeiMw?fife=s16383 https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GxXyLtKFZR9Mknk0QCx6botmX_03Pf8XvTisY-f97PzpGozR4dhB1pm6lJnvYAltMo7k2AhgdR2v5MEiuKM0nwkV58TWnigICvdJU1cevWysX15GlsOMhrynimp1_5stnEfFeqkNIOl-IVL4scmg_XMZbghiFWUwFMjRdSNFut9AwkqWHZ4YI2FyHfdvFkhj7re6toG3Oyr7dnRU4wK3mYV-hVmyjpX6RggktuMZ88Sqxf2MyTntyFRaqo?fife=s16383 https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GxdO0JaUVcPr2Qk9O0XCTST5q02PsrScaZW2SAuuQem0b8lMuiv1vVSX5n4yZrtdyYL7TzOx2cJAsAYUdLuEEsu2LOFJWHhAJDQpAe38shXSgXoQDDoAdjCry3cde9_DHMpD3pVYTa1yEIp_tt7on2qB1zbnHwMmYmR0q3WPzJ4602PRdSDbuf0d21M5zzgan2UNI7b91Z9_9zZVJ6RjwKWacXq3POTmEWwVyZw9_lFHOtbrvNN0R_-ftc?fife=s16383</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -97.3908315,18.4615316,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Tacos El PRIMO de Ruperto Amayo</name>
+        <description><![CDATA[<img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_Gw1cXd5_-WYuGYZgHgr9XzVd1PmD55ajIFsCBz0z62n-JqowXtIQWFMRaiaaccRpI9Vp8sXN7UaH2NCKyxnx3jpXOeQly72h2q1y0LVb8aMKFtYPTG0vXzXIFtlmdzREyfyEBYKTxtfpgkP6iFYWkxciC604hcyjrwkXIbmHrFt22bw-gXSZOJvKpl1_4TGa-Fgx_pN5DYdVs1MOpW0q9ucL_dlD2NmhWe9ktP7kOsC9jL028qtj05sA54?fife=s16383" height="200" width="auto" /><br><br>⭐️ Agradecemos el APOYO para dar continuidad a nuestro proyecto. ¡Checa sus redes sociales!<br><br>📍 https://www.facebook.com/RupertoAmayoGalanElPrimo<br><br><img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_Gw0g-KP-M4OOiKe6tw6ijuiCdiXTmz1Wx_p5eLBWdHUuhOnWymV5XOBFP2JcztTKwq6-ghJqNnZEXIJDtao5QX9qZoj8d30q8Z1bvI-LihFOCLgMCl_wQq1RjP5qil7I0nu1L6RTNWJReRnGcHFBpNIOFgzdEev5ypk0jTt31UO9CzMb9cJARM7cdSoRW-QNIpsXQLWp3kSrn8udjXsEznnNzF1mATOuNI1aSCz09mt7rr4gJSynWq5qRI?fife=s16383" height="200" width="auto" /><br><br><img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GyRXIRWZgPsRfDr4icyLmNwDtBmAMgNrBuvC8NLgftN8Gc2b6nPBfHTf9a_C7kAfGbJ6_pk7MnuDbQsfZ7LDres_-HYe2URf-Dwxq-z4c8Q8pIrBQB_5-06e64ob3h8AVHroGFKy__dpVe-Fflgv9W66Yd_Zu7LDaRmncnONBJW80IcqRY4VVL4d6XCcYiSVaiPOFEx7g-uNgVaIV2r8vnmszds7QHGihAHRSgJbO-fvG8tPVH9JwFbbxk?fife=s16383" height="200" width="auto" />]]></description>
+        <styleUrl>#icon-1899-DB4436</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_Gw1cXd5_-WYuGYZgHgr9XzVd1PmD55ajIFsCBz0z62n-JqowXtIQWFMRaiaaccRpI9Vp8sXN7UaH2NCKyxnx3jpXOeQly72h2q1y0LVb8aMKFtYPTG0vXzXIFtlmdzREyfyEBYKTxtfpgkP6iFYWkxciC604hcyjrwkXIbmHrFt22bw-gXSZOJvKpl1_4TGa-Fgx_pN5DYdVs1MOpW0q9ucL_dlD2NmhWe9ktP7kOsC9jL028qtj05sA54?fife=s16383 https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_Gw0g-KP-M4OOiKe6tw6ijuiCdiXTmz1Wx_p5eLBWdHUuhOnWymV5XOBFP2JcztTKwq6-ghJqNnZEXIJDtao5QX9qZoj8d30q8Z1bvI-LihFOCLgMCl_wQq1RjP5qil7I0nu1L6RTNWJReRnGcHFBpNIOFgzdEev5ypk0jTt31UO9CzMb9cJARM7cdSoRW-QNIpsXQLWp3kSrn8udjXsEznnNzF1mATOuNI1aSCz09mt7rr4gJSynWq5qRI?fife=s16383 https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GyRXIRWZgPsRfDr4icyLmNwDtBmAMgNrBuvC8NLgftN8Gc2b6nPBfHTf9a_C7kAfGbJ6_pk7MnuDbQsfZ7LDres_-HYe2URf-Dwxq-z4c8Q8pIrBQB_5-06e64ob3h8AVHroGFKy__dpVe-Fflgv9W66Yd_Zu7LDaRmncnONBJW80IcqRY4VVL4d6XCcYiSVaiPOFEx7g-uNgVaIV2r8vnmszds7QHGihAHRSgJbO-fvG8tPVH9JwFbbxk?fife=s16383</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -97.4020089,18.4630713,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Freddy Producciones - Estudio Fotográfico</name>
+        <description><![CDATA[<img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GyvqTQ4QsXbuxjRd2cg-Dza29t9c_q9CNEo4tm-UyWPK74_gHyA5-3fW2qQQ2VJfZsBWg6CMc3sueQdhJBhFflR3gnfOdeQ7fmo3_55i4Cx1Z3WfrLvXNRBERtfvjd6wHCYZtdDrs-Gh9ywxMdBxKKsjQCjzpKydqjiQ_CVNG2ntKRR2di5n013J81FJWsuf74LlETFrkiWAP7ceoXpmVzG9dWdu0ldZ37rJe3Y98nqjqcpMFhb70ymLgA?fife=s16383" height="200" width="auto" /><br><br>⭐️ Agradecemos el APOYO para dar continuidad a nuestro proyecto. ¡Checa sus redes sociales!<br><br>📍 https://www.facebook.com/FreddyProducciones<br><br><img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GyemdMeYtu0fsKvfo8JPwsGY-y5E2Bs5ybGf4QyttNsmEjZ4Z70h3BQ2G1wqXgClIj7vgT5IJ-Nsg9QBD8zSaggYCZV0lLscktHvWajdDYqUmIcvV7AjXqJC0S7sKNK6Ew0vh8yXmPJ_nxrBfuibKfxbn2HzHvv9SNg46qq2i7kpCXgthLu1xhv7B2X24b58KLi7Q4_YLd_WDR9LolQHPGGT9RAyFI2M94zjVRWo5bj_LEug2TpLQZb9CE?fife=s16383" height="200" width="auto" /><br><br><img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GyMFgLqjcTt4NgTMCWEWaoPKZVhOoACrvnjT57nRC5-qLESmqQrbj-dYG2V3Fcw9FojMIs0n4EMAR0tEAb8puP9WG2oRoP7P_rKQd0tP0wr8tz5aDYkSMznZdhS1jf_Wyuu4aZalVoASGEOd_UqMfYO1qwSiZDYh3pmpuAWN5g_5yqkhL5__dNH1rWn7W8ngKlJ8IEdCFTelZfI5K5YhoYfW80phOI-N5RmCea6RPfcg6ELzPQ8_xDWwE4?fife=s16383" height="200" width="auto" /><br><br><img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GzEN2RtChHsPWbm_li42mBZ232fZMFVN_F2pIKr4yvCnityBO0A4IP4NyuZQ6WYW0ShkqXddcC8DeMj80mGzPwJZQ1lgy8o46j4FLIqTkcAI-vH2s1EvSC3CxkZaXEUK6ZV9Sf6WvOy4YBUPybXIqglExn9R7-0kJLnYhIe_Zeb_EDCYYBXwecnZE-uOJxrKjok42A2HIIi334c2xE2sCYDuoRG3HJdqRghuDQOveLS-vj3VV07Ah_to5k?fife=s16383" height="200" width="auto" /><br><br><img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_Gy2pfU1VlSQ1gaDD00SD9aFMbu6i4faBzm9HAiTIGqADme22XslBXtlpYVoxR_E8QpdnWhYIBlVF_yp1X_T_cddAdL4SWaSFVPx1nTIhNK3CsmtJAtbKliardhbxyu65dOLrJ-PAIk2oPZx0FNO8tIFEXF5Y3P3Z_P_t0sZH5mquILP34veP7TVopnDJsnErL6_WevFXGzwuPYjP_scYfsEbddM1ovlAcxqjl8a9rylFHk1PJOb_EW4nls?fife=s16383" height="200" width="auto" /><br><br><img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GzN6p0skjWpifTfh3FZtTh4PKQMnSezbB9ULV_WamXJcLZZ3u5gb1anmxgCpFk4S9cO2a0OCJrLwkiD8MrBRs6miZfEhYQVfvniMpyTIxElEz6HzJmbvf57sYsB3UuXVNwj3UidDGCNo_cE5gtgiTN_vV87XIy1XhnU3Fa7NC7qKgDqNIqKzpzmpiDDcCRIqp47YKj4TW8yXWpk0_KE-fecM6C2cn86dHqgBHKv4-0sjVZqhK0B9cdwT9s?fife=s16383" height="200" width="auto" /><br><br><img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_Gy91dek4_qLYWwVk_qeomom07b2cqg31axBR_0RXlYeEQAAkIjP_gwwwO1Mokwsgp9EZa3XrHrekb7Y7JVG5fzBL_80EsRG4zHUN57BW0ZoPfCI3wdoRI2TnU53Z8X4C6eoSEEx-MFwUsEh0sDTaxeEIjL7xOBmsCVhYBUK-7YfMHVbcesORsXaZ_7G5ivTWBVDCEOgxMQz76eHKeyLuj7vpaN1M4KKQSEMbGJB2BIcJfnkZrb2MStnnEY?fife=s16383" height="200" width="auto" /><br><br><img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_Gz6FXInBSSxcvK29C7znZJ6916EFTKniUDJJZBWONK6dUwjCfxwd26mOCVEkAx7gIINbguAcYxZbp6wWrRRV6hWr1bJZJy9_AEUorFr5WbfHK70vZqqe7Y2ixC_6ymRqjdBBn_IWRi1fFk1_kK-_hUf_pyMZ0bFQo02NinCZOfAg5wcnhPRGi7kz8C9xyhI72PiMqV56v0CbETrN2VapQTDfgDJer47ickv9fPNrlJA_JY9S7LJHFOf-EA?fife=s16383" height="200" width="auto" />]]></description>
+        <styleUrl>#icon-1899-DB4436</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GyvqTQ4QsXbuxjRd2cg-Dza29t9c_q9CNEo4tm-UyWPK74_gHyA5-3fW2qQQ2VJfZsBWg6CMc3sueQdhJBhFflR3gnfOdeQ7fmo3_55i4Cx1Z3WfrLvXNRBERtfvjd6wHCYZtdDrs-Gh9ywxMdBxKKsjQCjzpKydqjiQ_CVNG2ntKRR2di5n013J81FJWsuf74LlETFrkiWAP7ceoXpmVzG9dWdu0ldZ37rJe3Y98nqjqcpMFhb70ymLgA?fife=s16383 https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GyemdMeYtu0fsKvfo8JPwsGY-y5E2Bs5ybGf4QyttNsmEjZ4Z70h3BQ2G1wqXgClIj7vgT5IJ-Nsg9QBD8zSaggYCZV0lLscktHvWajdDYqUmIcvV7AjXqJC0S7sKNK6Ew0vh8yXmPJ_nxrBfuibKfxbn2HzHvv9SNg46qq2i7kpCXgthLu1xhv7B2X24b58KLi7Q4_YLd_WDR9LolQHPGGT9RAyFI2M94zjVRWo5bj_LEug2TpLQZb9CE?fife=s16383 https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GyMFgLqjcTt4NgTMCWEWaoPKZVhOoACrvnjT57nRC5-qLESmqQrbj-dYG2V3Fcw9FojMIs0n4EMAR0tEAb8puP9WG2oRoP7P_rKQd0tP0wr8tz5aDYkSMznZdhS1jf_Wyuu4aZalVoASGEOd_UqMfYO1qwSiZDYh3pmpuAWN5g_5yqkhL5__dNH1rWn7W8ngKlJ8IEdCFTelZfI5K5YhoYfW80phOI-N5RmCea6RPfcg6ELzPQ8_xDWwE4?fife=s16383 https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GzEN2RtChHsPWbm_li42mBZ232fZMFVN_F2pIKr4yvCnityBO0A4IP4NyuZQ6WYW0ShkqXddcC8DeMj80mGzPwJZQ1lgy8o46j4FLIqTkcAI-vH2s1EvSC3CxkZaXEUK6ZV9Sf6WvOy4YBUPybXIqglExn9R7-0kJLnYhIe_Zeb_EDCYYBXwecnZE-uOJxrKjok42A2HIIi334c2xE2sCYDuoRG3HJdqRghuDQOveLS-vj3VV07Ah_to5k?fife=s16383 https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_Gy2pfU1VlSQ1gaDD00SD9aFMbu6i4faBzm9HAiTIGqADme22XslBXtlpYVoxR_E8QpdnWhYIBlVF_yp1X_T_cddAdL4SWaSFVPx1nTIhNK3CsmtJAtbKliardhbxyu65dOLrJ-PAIk2oPZx0FNO8tIFEXF5Y3P3Z_P_t0sZH5mquILP34veP7TVopnDJsnErL6_WevFXGzwuPYjP_scYfsEbddM1ovlAcxqjl8a9rylFHk1PJOb_EW4nls?fife=s16383 https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GzN6p0skjWpifTfh3FZtTh4PKQMnSezbB9ULV_WamXJcLZZ3u5gb1anmxgCpFk4S9cO2a0OCJrLwkiD8MrBRs6miZfEhYQVfvniMpyTIxElEz6HzJmbvf57sYsB3UuXVNwj3UidDGCNo_cE5gtgiTN_vV87XIy1XhnU3Fa7NC7qKgDqNIqKzpzmpiDDcCRIqp47YKj4TW8yXWpk0_KE-fecM6C2cn86dHqgBHKv4-0sjVZqhK0B9cdwT9s?fife=s16383 https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_Gy91dek4_qLYWwVk_qeomom07b2cqg31axBR_0RXlYeEQAAkIjP_gwwwO1Mokwsgp9EZa3XrHrekb7Y7JVG5fzBL_80EsRG4zHUN57BW0ZoPfCI3wdoRI2TnU53Z8X4C6eoSEEx-MFwUsEh0sDTaxeEIjL7xOBmsCVhYBUK-7YfMHVbcesORsXaZ_7G5ivTWBVDCEOgxMQz76eHKeyLuj7vpaN1M4KKQSEMbGJB2BIcJfnkZrb2MStnnEY?fife=s16383 https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_Gz6FXInBSSxcvK29C7znZJ6916EFTKniUDJJZBWONK6dUwjCfxwd26mOCVEkAx7gIINbguAcYxZbp6wWrRRV6hWr1bJZJy9_AEUorFr5WbfHK70vZqqe7Y2ixC_6ymRqjdBBn_IWRi1fFk1_kK-_hUf_pyMZ0bFQo02NinCZOfAg5wcnhPRGi7kz8C9xyhI72PiMqV56v0CbETrN2VapQTDfgDJer47ickv9fPNrlJA_JY9S7LJHFOf-EA?fife=s16383</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -97.391575,18.4720808,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>La Incluyente: Cafetería y Panadería</name>
+        <description><![CDATA[<img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GwZck9Gwa-qa5AIxztxptptiCFGzC50ek4rqs-RjdwlNWJurXdhhLv9LV2oI5592TSjzkaG-aX9_jaOqeBHSwjpAOCsd-LRW403NDpyEdNhg_4zpPyAA-vgoE7Mcti387bEK1WHQHrugjpu0xY1ZB7VD_GjEXMF1-QsvdIwtgc3D-RWNtbLSrl6FKS2yt-mnztNH_JjI3lF0Mqf70I_HpbhWyNF8-5m4NAXj1_H_spxNasmJUQ7DS5fhtk?fife=s16383" height="200" width="auto" /><br><br>⭐️ Agradecemos el APOYO para dar continuidad a nuestro proyecto. ¡Checa sus redes sociales!<br><br>📍 https://www.facebook.com/LaIncluyenteTehuacan<br><br><img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GzWa6sC1NFi8nCKEV-AQW-BMaVc87pjo78CZDCmDglb6JGVz3eKDhEScR3hdp0DNqCRYttD-QSvtJIEa21eQBJwFCAir-6uPi9wc1A9qRK4BpQ_T8OY9j3xFMaQdi0DOG82dHvDHMf6rlDREy_AhY0BEcILwieWcJQ3htf8ibsQAsDU1-H9bx9AHCOb_jIDlYgmgkG3fqR8FIxouHAtWxdWz1IMc6pRqi7XUwkTr9ohzLGc2dKBhfQzJCM?fife=s16383" height="200" width="auto" /><br><br><img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GwCgdNvfG7r62IvKtVndvLmc9lFNr0CXTDKxvl8nFxM_caqwEkhlMj1V_o-TGEPdz66uf0wvu6dqgA1N3hl1EhxRRU4_PhpZtDWpTWLDE3UmuAgsO_LBY3hA2RrQSthOGWNwqepaab0_SCNEimvq9JhexYQDi_aLYeouXmpC9Mjact4qztJbUAaCEi2kwU5wWJUU25EzbQWeAiqoAIFGBcWKgw-22omgqMJTBSyIhXbXU-0jTnWu1I5kYA?fife=s16383" height="200" width="auto" /><br><br><img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GzldjicUO5xP8QlOPkxNq6A4BjY5sqkVsBLDb9Wl1ROy3_C24wIONNKFOOkRCbS9GQeJJVBiOcER7alsFXY7V0iLniwEWT60I6HDGx1Gk_rfXC394BOE2aTDM21wvBBtKkHpLxClidWlClq4YMGBI4EY5fJHa7vt2M42o-wFrYhz_XiHwIflmbwj1iSKMc4DZEqVPiXaWLf_Sg8cJS3S63QfLTZwiJoVbII13AtLOzQYPkROgOGVRwOcgE?fife=s16383" height="200" width="auto" /><br><br><img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_Gwm7xoOiy008qcNCTceByK8aowSUkV2WallnodHTudn3Agnrm0_43n9k47H8wS7WKtGBgqy0qqYVx0BJmDyxedZKi4CEJESrxzFWKBePxHV8mySLggyYon_UK0h26CRYgig86pOCGm7KvYHEeOgQmfO1eelulou5pYZ3RTI1q_Gc4G_Ak209YrtzthRFusNbEtevCLYHxQb52QCreVm3Sv0qCP77dIG8ZekoQn4Inlq-Bdco4nSDtZjp4s?fife=s16383" height="200" width="auto" /><br><br><img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GwOYPef1ZDuQmYqVGXu8Top-WhyVYWQOKMEu3ZCzNBFJI1_NGwE_xiDXPtOT7-4Wjp7lJbSgcpT3ygrkqaq3WDxunGRcMpWC_ffdgFyEiMS3Mq6aeNAujNKAkgbH36JB6q4Ph17vlL6fb_oc5Mi9Lf7YSPs6CAD6PY_zV8S4qdmGFGODfU7OBMbo7b-WeV_ZdJkqqV9EEjOv_VbCW2cGvrQX_eyaZiOs8avkM_hHYcVmLTDCLzhdhz4BM0?fife=s16383" height="200" width="auto" />]]></description>
+        <styleUrl>#icon-1899-DB4436</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GwZck9Gwa-qa5AIxztxptptiCFGzC50ek4rqs-RjdwlNWJurXdhhLv9LV2oI5592TSjzkaG-aX9_jaOqeBHSwjpAOCsd-LRW403NDpyEdNhg_4zpPyAA-vgoE7Mcti387bEK1WHQHrugjpu0xY1ZB7VD_GjEXMF1-QsvdIwtgc3D-RWNtbLSrl6FKS2yt-mnztNH_JjI3lF0Mqf70I_HpbhWyNF8-5m4NAXj1_H_spxNasmJUQ7DS5fhtk?fife=s16383 https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GzWa6sC1NFi8nCKEV-AQW-BMaVc87pjo78CZDCmDglb6JGVz3eKDhEScR3hdp0DNqCRYttD-QSvtJIEa21eQBJwFCAir-6uPi9wc1A9qRK4BpQ_T8OY9j3xFMaQdi0DOG82dHvDHMf6rlDREy_AhY0BEcILwieWcJQ3htf8ibsQAsDU1-H9bx9AHCOb_jIDlYgmgkG3fqR8FIxouHAtWxdWz1IMc6pRqi7XUwkTr9ohzLGc2dKBhfQzJCM?fife=s16383 https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GwCgdNvfG7r62IvKtVndvLmc9lFNr0CXTDKxvl8nFxM_caqwEkhlMj1V_o-TGEPdz66uf0wvu6dqgA1N3hl1EhxRRU4_PhpZtDWpTWLDE3UmuAgsO_LBY3hA2RrQSthOGWNwqepaab0_SCNEimvq9JhexYQDi_aLYeouXmpC9Mjact4qztJbUAaCEi2kwU5wWJUU25EzbQWeAiqoAIFGBcWKgw-22omgqMJTBSyIhXbXU-0jTnWu1I5kYA?fife=s16383 https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GzldjicUO5xP8QlOPkxNq6A4BjY5sqkVsBLDb9Wl1ROy3_C24wIONNKFOOkRCbS9GQeJJVBiOcER7alsFXY7V0iLniwEWT60I6HDGx1Gk_rfXC394BOE2aTDM21wvBBtKkHpLxClidWlClq4YMGBI4EY5fJHa7vt2M42o-wFrYhz_XiHwIflmbwj1iSKMc4DZEqVPiXaWLf_Sg8cJS3S63QfLTZwiJoVbII13AtLOzQYPkROgOGVRwOcgE?fife=s16383 https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_Gwm7xoOiy008qcNCTceByK8aowSUkV2WallnodHTudn3Agnrm0_43n9k47H8wS7WKtGBgqy0qqYVx0BJmDyxedZKi4CEJESrxzFWKBePxHV8mySLggyYon_UK0h26CRYgig86pOCGm7KvYHEeOgQmfO1eelulou5pYZ3RTI1q_Gc4G_Ak209YrtzthRFusNbEtevCLYHxQb52QCreVm3Sv0qCP77dIG8ZekoQn4Inlq-Bdco4nSDtZjp4s?fife=s16383 https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GwOYPef1ZDuQmYqVGXu8Top-WhyVYWQOKMEu3ZCzNBFJI1_NGwE_xiDXPtOT7-4Wjp7lJbSgcpT3ygrkqaq3WDxunGRcMpWC_ffdgFyEiMS3Mq6aeNAujNKAkgbH36JB6q4Ph17vlL6fb_oc5Mi9Lf7YSPs6CAD6PY_zV8S4qdmGFGODfU7OBMbo7b-WeV_ZdJkqqV9EEjOv_VbCW2cGvrQX_eyaZiOs8avkM_hHYcVmLTDCLzhdhz4BM0?fife=s16383</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -97.393805,18.4668971,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Florería Luna y Dulce</name>
+        <description><![CDATA[<img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_Gxunm4HBRi7Hgl2sBoGM2gniiZks6DA8dU7JCXC4ov4EXeU6-PeI6pi5W80WO9Dn1nrakJhmlakSHYOT2ofYl9xfkx4FJKOduIpKjw112Jc-9-dMswFO0FvESchV_nsse8GpD4Y8fFDOWKM_DDibs54SH73d8pbGHcCCBHHhbB_fSRHOg4sXiG0N3q8NcNlpchcZJbhKvP-GlyT7mTxatalmTfSH5S-QjmXB2_Z86zA-6wn_xaal4WNGbE?fife=s16383" height="200" width="auto" /><br><br>⭐️ Agradecemos el APOYO para dar continuidad a nuestro proyecto. ¡Checa sus redes sociales!<br><br>📍 https://www.facebook.com/profile.php?id=100084286224498&mibextid=ZbWKwL]]></description>
+        <styleUrl>#icon-1899-DB4436</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_Gxunm4HBRi7Hgl2sBoGM2gniiZks6DA8dU7JCXC4ov4EXeU6-PeI6pi5W80WO9Dn1nrakJhmlakSHYOT2ofYl9xfkx4FJKOduIpKjw112Jc-9-dMswFO0FvESchV_nsse8GpD4Y8fFDOWKM_DDibs54SH73d8pbGHcCCBHHhbB_fSRHOg4sXiG0N3q8NcNlpchcZJbhKvP-GlyT7mTxatalmTfSH5S-QjmXB2_Z86zA-6wn_xaal4WNGbE?fife=s16383</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -97.3915345,18.4721198,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Librería: Universo Mágico</name>
+        <description><![CDATA[<img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GxtEzuBiJWYSNSGyrO1wlZ6-WMPuB1DVAFcvF9fHJ6pNMLpwFDe0BJWehQqbleq29dKjo6quaYzHZ6Xvtoh6JHg6BaMaoGQ42jgepOVcqZtYw3N5Hc8XJAzzm9QbkxqKo8lZJ2bddutWAmyPUKx_fsVrHmiThzCWNU4ZU_SCzgAW4hGbsM8k7VXMTg9byQaxS5ESvJFIjYYYg-4KszTo2qO0srW0DsO-3wEELfoSPPjZTCzjmtdm4wKowA?fife=s16383" height="200" width="auto" /><br><br>⭐️ Agradecemos el APOYO para dar continuidad a nuestro proyecto. ¡Checa sus redes sociales!<br><br>📍 https://www.facebook.com/universomagico.gomez<br><br><img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GxovzbWNlj2rF0_KgB6j1q6olWkokW3CRC0tR6NXKy8Nqp0uyssR1XpNXHsQEowVocEdjj6jNDuRPXo6xhjv6DXvf1zGXcs7dfaeLg_HP09JF5ClVdWN1FsVF2Pw-4vQU2A60VmNT8YAPRnOKRgFXNx7YT7azcwAfvOtCtAlbhnLHi1GUsiTqA0hTJqoB651cqjQbDmudTPkRj0-EgbeoY-qBlY0By8i4F_CnQKEwE-77cf11FZMo4Jd7w?fife=s16383" height="200" width="auto" /><br><br><img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GwCTIH9SaTKjdgX1XvJ5twIJBD026B0fdoGNZcxRQU3zfF6TvWpGOqvPqzsCASzeiW1OYXpenhDJJ_vjX6Fy7XIeUm1tIILnnplFHe7yXt163TXW6rFORnGIPZbdndsie8Ts8P4yFKJGKDxJqASU7FQe8gI1B6KhsoqnX5cqp7yjsfcrw5e1L7XB1913C1gMOO5w6BaaMuDDFR7pLcrDYWh3exer61jdQLmyDyxozsL-hHK4WsEWv23USE?fife=s16383" height="200" width="auto" /><br><br><img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_Gxx34r3lXfxN3hw9pEWVn_3yD76XYLPag0EL74QCJ6Qc3s10mmvjhQxS1C0R3WfcJGtRDEkaZJHGnxjX9pK54fk5esS4efTwD7XwCK6QlkqqR1BPb8OP72zBIQ1T6vKiaCasEDQQmk9U2wsxi0eqys4FYrGLV3pX6LIFuvfYhXJeL5wdUe_Wn-euHT9FjTzlzFVElF-gL9s3UieOlCEM9MMEaqgM1G-BF5t8FJBs7oQqiqmyftxNNZvYmY?fife=s16383" height="200" width="auto" /><br><br><img src="https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GwoJC_vtY1qOztZ9UrDzRYVUxRMzPlzA7aScGo740z3MTQOYZWG2o4vgt19Rj2HMJZK3HbucbsRGHo8nQwQmYLyz1RA8sZEasUqcxCnqKYtrknInoHy_m6CH5ZgkG9iEqEkQ2J47_56Xr2fgrgXywa651jcsLy6PJfpemDLFVWhGrMfiA8JaJhxpLePqa2Df7yPVtLEpTGZv3NSMgh7as5gyUAY0jORiXeqLABpCnhPGsqUpohq0Ii3W8M?fife=s16383" height="200" width="auto" />]]></description>
+        <styleUrl>#icon-1899-DB4436</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GxtEzuBiJWYSNSGyrO1wlZ6-WMPuB1DVAFcvF9fHJ6pNMLpwFDe0BJWehQqbleq29dKjo6quaYzHZ6Xvtoh6JHg6BaMaoGQ42jgepOVcqZtYw3N5Hc8XJAzzm9QbkxqKo8lZJ2bddutWAmyPUKx_fsVrHmiThzCWNU4ZU_SCzgAW4hGbsM8k7VXMTg9byQaxS5ESvJFIjYYYg-4KszTo2qO0srW0DsO-3wEELfoSPPjZTCzjmtdm4wKowA?fife=s16383 https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GxovzbWNlj2rF0_KgB6j1q6olWkokW3CRC0tR6NXKy8Nqp0uyssR1XpNXHsQEowVocEdjj6jNDuRPXo6xhjv6DXvf1zGXcs7dfaeLg_HP09JF5ClVdWN1FsVF2Pw-4vQU2A60VmNT8YAPRnOKRgFXNx7YT7azcwAfvOtCtAlbhnLHi1GUsiTqA0hTJqoB651cqjQbDmudTPkRj0-EgbeoY-qBlY0By8i4F_CnQKEwE-77cf11FZMo4Jd7w?fife=s16383 https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GwCTIH9SaTKjdgX1XvJ5twIJBD026B0fdoGNZcxRQU3zfF6TvWpGOqvPqzsCASzeiW1OYXpenhDJJ_vjX6Fy7XIeUm1tIILnnplFHe7yXt163TXW6rFORnGIPZbdndsie8Ts8P4yFKJGKDxJqASU7FQe8gI1B6KhsoqnX5cqp7yjsfcrw5e1L7XB1913C1gMOO5w6BaaMuDDFR7pLcrDYWh3exer61jdQLmyDyxozsL-hHK4WsEWv23USE?fife=s16383 https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_Gxx34r3lXfxN3hw9pEWVn_3yD76XYLPag0EL74QCJ6Qc3s10mmvjhQxS1C0R3WfcJGtRDEkaZJHGnxjX9pK54fk5esS4efTwD7XwCK6QlkqqR1BPb8OP72zBIQ1T6vKiaCasEDQQmk9U2wsxi0eqys4FYrGLV3pX6LIFuvfYhXJeL5wdUe_Wn-euHT9FjTzlzFVElF-gL9s3UieOlCEM9MMEaqgM1G-BF5t8FJBs7oQqiqmyftxNNZvYmY?fife=s16383 https://mymaps.usercontent.google.com/hostedimage/m/*/3AE5a_GwoJC_vtY1qOztZ9UrDzRYVUxRMzPlzA7aScGo740z3MTQOYZWG2o4vgt19Rj2HMJZK3HbucbsRGHo8nQwQmYLyz1RA8sZEasUqcxCnqKYtrknInoHy_m6CH5ZgkG9iEqEkQ2J47_56Xr2fgrgXywa651jcsLy6PJfpemDLFVWhGrMfiA8JaJhxpLePqa2Df7yPVtLEpTGZv3NSMgh7as5gyUAY0jORiXeqLABpCnhPGsqUpohq0Ii3W8M?fife=s16383</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -97.3939215,18.4668417,0
+          </coordinates>
+        </Point>
+      </Placemark>
+    </Folder>
+  </Document>
+</kml>

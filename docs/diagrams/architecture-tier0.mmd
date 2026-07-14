@@ -1,0 +1,31 @@
+flowchart TB
+  subgraph users["Users (QR code funnel)"]
+    QR["QR poster on combis/stops"] --> LAND["Landing page<br/>web map + store links"]
+    PH["Rider phones<br/>(web / Android / iOS)"]
+  end
+
+  subgraph free["Free-tier hosting ($0/mo)"]
+    PAGES["Cloudflare Pages<br/>landing + web map + routes.js<br/>(static, CDN-cached)"]
+    WORKER["Cloudflare Worker<br/>/v1/traces /v1/tags ingest<br/>(100k req/day free)"]
+    D1["Cloudflare D1 (SQLite)<br/>hot storage, 5 GB free"]
+    R2["Cloudflare R2<br/>trace archive + open-data<br/>dumps (10 GB free)"]
+  end
+
+  subgraph batch["Batch processing ($0 — GitHub Actions cron)"]
+    GHA["nightly job:<br/>trim + anonymize +<br/>Valhalla map-match +<br/>aggregate + rebuild routes.js"]
+  end
+
+  EXT1["OpenFreeMap tiles (free)"]
+  EXT2["Photon / Nominatim geocoding (free)"]
+
+  LAND --> PAGES
+  PH -- "browse / plan trips" --> PAGES
+  PH -- "batched GPS traces + crowding tags" --> WORKER
+  WORKER --> D1
+  D1 -- "nightly export" --> GHA
+  GHA --> R2
+  GHA -- "commit updated routes.js" --> PAGES
+  PH -.-> EXT1
+  PH -.-> EXT2
+
+  note["Trade-offs: no live vehicle layer,<br/>data freshness = 24 h,<br/>D1 cap ≈ 6 months raw points → archive to R2"]

@@ -1,0 +1,396 @@
+{
+  "extracted": 65,
+  "total": 65,
+  "results": [
+    {
+      "slug": "ajalpan",
+      "geometry": true,
+      "n_lines": 2,
+      "n_points": 2
+    },
+    {
+      "slug": "coapan-carranza",
+      "geometry": true,
+      "n_lines": 2,
+      "n_points": 2
+    },
+    {
+      "slug": "coapan-nacional",
+      "geometry": true,
+      "n_lines": 2,
+      "n_points": 2
+    },
+    {
+      "slug": "miahuatlan",
+      "geometry": true,
+      "n_lines": 2,
+      "n_points": 0
+    },
+    {
+      "slug": "ruta-1",
+      "geometry": true,
+      "n_lines": 2,
+      "n_points": 2
+    },
+    {
+      "slug": "ruta-10-amarilla",
+      "geometry": true,
+      "n_lines": 2,
+      "n_points": 1
+    },
+    {
+      "slug": "ruta-10-verde",
+      "geometry": true,
+      "n_lines": 2,
+      "n_points": 2
+    },
+    {
+      "slug": "ruta-11",
+      "geometry": true,
+      "n_lines": 2,
+      "n_points": 2
+    },
+    {
+      "slug": "ruta-12",
+      "geometry": true,
+      "n_lines": 2,
+      "n_points": 1
+    },
+    {
+      "slug": "ruta-13",
+      "geometry": true,
+      "n_lines": 2,
+      "n_points": 1
+    },
+    {
+      "slug": "ruta-15-frailes",
+      "geometry": true,
+      "n_lines": 5,
+      "n_points": 1
+    },
+    {
+      "slug": "ruta-15-infonavit",
+      "geometry": true,
+      "n_lines": 3,
+      "n_points": 2
+    },
+    {
+      "slug": "ruta-16",
+      "geometry": true,
+      "n_lines": 2,
+      "n_points": 2
+    },
+    {
+      "slug": "ruta-17",
+      "geometry": true,
+      "n_lines": 2,
+      "n_points": 2
+    },
+    {
+      "slug": "ruta-18",
+      "geometry": true,
+      "n_lines": 2,
+      "n_points": 0
+    },
+    {
+      "slug": "ruta-19",
+      "geometry": true,
+      "n_lines": 7,
+      "n_points": 2
+    },
+    {
+      "slug": "ruta-2",
+      "geometry": true,
+      "n_lines": 2,
+      "n_points": 2
+    },
+    {
+      "slug": "ruta-20",
+      "geometry": true,
+      "n_lines": 2,
+      "n_points": 1
+    },
+    {
+      "slug": "ruta-21",
+      "geometry": true,
+      "n_lines": 2,
+      "n_points": 2
+    },
+    {
+      "slug": "ruta-22-san-marcos-chilac",
+      "geometry": true,
+      "n_lines": 4,
+      "n_points": 4
+    },
+    {
+      "slug": "ruta-22-san-marcos",
+      "geometry": true,
+      "n_lines": 2,
+      "n_points": 2
+    },
+    {
+      "slug": "ruta-23-2",
+      "geometry": true,
+      "n_lines": 5,
+      "n_points": 1
+    },
+    {
+      "slug": "ruta-23-maravillas",
+      "geometry": true,
+      "n_lines": 3,
+      "n_points": 1
+    },
+    {
+      "slug": "ruta-23",
+      "geometry": true,
+      "n_lines": 2,
+      "n_points": 2
+    },
+    {
+      "slug": "ruta-24-dina",
+      "geometry": true,
+      "n_lines": 2,
+      "n_points": 3
+    },
+    {
+      "slug": "ruta-24-maridol",
+      "geometry": true,
+      "n_lines": 2,
+      "n_points": 1
+    },
+    {
+      "slug": "ruta-25",
+      "geometry": true,
+      "n_lines": 2,
+      "n_points": 2
+    },
+    {
+      "slug": "ruta-26",
+      "geometry": true,
+      "n_lines": 2,
+      "n_points": 2
+    },
+    {
+      "slug": "ruta-27",
+      "geometry": true,
+      "n_lines": 4,
+      "n_points": 2
+    },
+    {
+      "slug": "ruta-28",
+      "geometry": true,
+      "n_lines": 2,
+      "n_points": 2
+    },
+    {
+      "slug": "ruta-29",
+      "geometry": true,
+      "n_lines": 2,
+      "n_points": 1
+    },
+    {
+      "slug": "ruta-3-de-mayo",
+      "geometry": true,
+      "n_lines": 2,
+      "n_points": 2
+    },
+    {
+      "slug": "ruta-3",
+      "geometry": true,
+      "n_lines": 2,
+      "n_points": 2
+    },
+    {
+      "slug": "ruta-30",
+      "geometry": true,
+      "n_lines": 2,
+      "n_points": 2
+    },
+    {
+      "slug": "ruta-31",
+      "geometry": true,
+      "n_lines": 3,
+      "n_points": 1
+    },
+    {
+      "slug": "ruta-32",
+      "geometry": true,
+      "n_lines": 2,
+      "n_points": 2
+    },
+    {
+      "slug": "ruta-33",
+      "geometry": true,
+      "n_lines": 4,
+      "n_points": 1
+    },
+    {
+      "slug": "ruta-34",
+      "geometry": true,
+      "n_lines": 3,
+      "n_points": 1
+    },
+    {
+      "slug": "ruta-35",
+      "geometry": true,
+      "n_lines": 3,
+      "n_points": 2
+    },
+    {
+      "slug": "ruta-36",
+      "geometry": true,
+      "n_lines": 2,
+      "n_points": 2
+    },
+    {
+      "slug": "ruta-37",
+      "geometry": true,
+      "n_lines": 2,
+      "n_points": 3
+    },
+    {
+      "slug": "ruta-38-lobera",
+      "geometry": true,
+      "n_lines": 2,
+      "n_points": 2
+    },
+    {
+      "slug": "ruta-39",
+      "geometry": true,
+      "n_lines": 3,
+      "n_points": 2
+    },
+    {
+      "slug": "ruta-4",
+      "geometry": true,
+      "n_lines": 2,
+      "n_points": 2
+    },
+    {
+      "slug": "ruta-40",
+      "geometry": true,
+      "n_lines": 1,
+      "n_points": 2
+    },
+    {
+      "slug": "ruta-41",
+      "geometry": true,
+      "n_lines": 2,
+      "n_points": 2
+    },
+    {
+      "slug": "ruta-42",
+      "geometry": true,
+      "n_lines": 3,
+      "n_points": 0
+    },
+    {
+      "slug": "ruta-43",
+      "geometry": true,
+      "n_lines": 14,
+      "n_points": 2
+    },
+    {
+      "slug": "ruta-44",
+      "geometry": true,
+      "n_lines": 2,
+      "n_points": 2
+    },
+    {
+      "slug": "ruta-45",
+      "geometry": true,
+      "n_lines": 2,
+      "n_points": 2
+    },
+    {
+      "slug": "ruta-46",
+      "geometry": true,
+      "n_lines": 2,
+      "n_points": 2
+    },
+    {
+      "slug": "ruta-5-a",
+      "geometry": true,
+      "n_lines": 2,
+      "n_points": 2
+    },
+    {
+      "slug": "ruta-5",
+      "geometry": true,
+      "n_lines": 4,
+      "n_points": 2
+    },
+    {
+      "slug": "ruta-6-2",
+      "geometry": true,
+      "n_lines": 2,
+      "n_points": 2
+    },
+    {
+      "slug": "ruta-7-2",
+      "geometry": true,
+      "n_lines": 3,
+      "n_points": 2
+    },
+    {
+      "slug": "ruta-7",
+      "geometry": true,
+      "n_lines": 2,
+      "n_points": 2
+    },
+    {
+      "slug": "ruta-8",
+      "geometry": true,
+      "n_lines": 3,
+      "n_points": 2
+    },
+    {
+      "slug": "ruta-9-2",
+      "geometry": true,
+      "n_lines": 4,
+      "n_points": 2
+    },
+    {
+      "slug": "ruta-altepexi",
+      "geometry": true,
+      "n_lines": 3,
+      "n_points": 1
+    },
+    {
+      "slug": "ruta-c-tec-21",
+      "geometry": true,
+      "n_lines": 2,
+      "n_points": 1
+    },
+    {
+      "slug": "ruta-c-valle",
+      "geometry": true,
+      "n_lines": 2,
+      "n_points": 2
+    },
+    {
+      "slug": "ruta-chapulco",
+      "geometry": true,
+      "n_lines": 3,
+      "n_points": 0
+    },
+    {
+      "slug": "ruta-chilac",
+      "geometry": true,
+      "n_lines": 3,
+      "n_points": 2
+    },
+    {
+      "slug": "ruta-cuayuca",
+      "geometry": true,
+      "n_lines": 4,
+      "n_points": 1
+    },
+    {
+      "slug": "ruta-zapotitlan",
+      "geometry": true,
+      "n_lines": 2,
+      "n_points": 3
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+sequenceDiagram
+  autonumber
+  participant App as Mobile app
+  participant API as API /v1/traces
+  participant R as Redis stream
+  participant W as Worker
+  participant V as Valhalla
+  participant PG as PostGIS
+
+  Note over App: ride auto-detected<br/>(vehicle motion near route corridor)
+  App->>App: buffer points in SQLite<br/>(offline-first, dead zones normal)
+  App->>API: POST batch {batch_id, device_token,<br/>points[60], tags?}
+  API->>API: auth + GPS sanity checks<br/>+ rate limit
+  API->>PG: INSERT ... ON CONFLICT (batch_id) DO NOTHING
+  API-->>App: 200 {ack: batch_id}
+  Note over App,API: retry-safe: same batch twice = no dupes
+  API->>R: XADD trace-events
+  R->>W: consume on trace end (gap > 3 min)
+  W->>W: trim to vehicle-motion window<br/>fuzz endpoints (drop first/last 100 m)<br/>rotate device id -> anon id
+  W->>V: /trace_route (map matching)
+  V-->>W: matched street segments + confidence
+  W->>PG: store matched geometry + segments
+  W->>PG: update route aggregate<br/>flag divergence (detour alert)

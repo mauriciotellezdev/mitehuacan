@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rutas de Tehuacán — mapa de combis</title>
+<link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script src="routes.js"></script>
+<style>
+  :root {
+    --bg: #ffffff; --panel: #f7f7f8; --ink: #1a1a1e; --ink-2: #55555e;
+    --line: #e2e2e6; --accent: #0f62fe; --chip: #ffffff; --ok: #1a7f37;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #17171b; --panel: #1f1f24; --ink: #ececf0; --ink-2: #a5a5b0;
+      --line: #33333a; --accent: #6ea6ff; --chip: #26262c; --ok: #4ecb71;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 14px/1.45 system-ui, -apple-system, sans-serif; color: var(--ink); background: var(--bg); }
+  #app { display: flex; height: 100vh; }
+  #sidebar { width: 340px; min-width: 280px; background: var(--panel); border-right: 1px solid var(--line);
+             display: flex; flex-direction: column; }
+  #sidebar header { padding: 14px 16px 10px; border-bottom: 1px solid var(--line); }
+  #sidebar h1 { font-size: 16px; margin: 0 0 2px; }
+  #sidebar .sub { color: var(--ink-2); font-size: 12px; }
+  #tabs { display: flex; border-bottom: 1px solid var(--line); }
+  #tabs button { flex: 1; padding: 9px 0; font-size: 13px; background: none; border: none; cursor: pointer;
+                 color: var(--ink-2); border-bottom: 2px solid transparent; }
+  #tabs button.on { color: var(--ink); border-bottom-color: var(--accent); font-weight: 600; }
+  .pane { flex: 1; display: none; flex-direction: column; min-height: 0; }
+  .pane.on { display: flex; }
+  #controls, #planner { padding: 10px 16px; display: flex; flex-direction: column; gap: 8px; border-bottom: 1px solid var(--line); }
+  input[type=search], input[type=text] { width: 100%; padding: 7px 10px; border: 1px solid var(--line); border-radius: 8px;
+            background: var(--chip); color: var(--ink); font-size: 13px; }
+  input:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+  .filters { display: flex; gap: 6px; }
+  .filters button { flex: 1; padding: 5px 0; font-size: 12px; border: 1px solid var(--line); border-radius: 999px;
+                    background: var(--chip); color: var(--ink-2); cursor: pointer; }
+  .filters button.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+  #count { font-size: 11px; color: var(--ink-2); }
+  #list, #results { flex: 1; overflow-y: auto; padding: 6px 8px; }
+  .route { display: flex; align-items: center; gap: 9px; padding: 7px 9px; border-radius: 8px; cursor: pointer; }
+  .route:hover { background: var(--chip); }
+  .route.sel { background: var(--chip); outline: 2px solid var(--accent); outline-offset: -2px; }
+  .swatch { width: 14px; height: 14px; border-radius: 4px; flex: none; border: 1px solid rgba(0,0,0,.15); }
+  .route .nm { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tag { font-size: 10px; padding: 1px 7px; border-radius: 999px; border: 1px solid var(--line); color: var(--ink-2); flex: none; }
+  #detail { border-top: 1px solid var(--line); padding: 12px 16px; font-size: 13px; display: none; }
+  #detail.show { display: block; }
+  #detail b { display: block; margin-bottom: 3px; }
+  #detail .meta { color: var(--ink-2); font-size: 12px; }
+  .clear { font-size: 12px; color: var(--accent); cursor: pointer; background: none; border: none; padding: 0; margin-top: 8px; }
+  #map { flex: 1; position: relative; }
+  .maplibregl-popup-content { font: 13px system-ui, sans-serif; padding: 8px 12px;
+    background: var(--bg); color: var(--ink); }
+  /* planner */
+  .field { position: relative; }
+  .field .dot { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 9px; height: 9px;
+                border-radius: 50%; }
+  .field input { padding-left: 28px; padding-right: 34px; }
+  .field .pin { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); border: none; background: none;
+                cursor: pointer; font-size: 15px; padding: 4px 6px; border-radius: 6px; color: var(--ink-2); }
+  .field .pin:hover, .field .pin.armed { background: var(--chip); color: var(--accent); }
+  .sugg { position: absolute; top: 100%; left: 0; right: 0; z-index: 30; background: var(--bg);
+          border: 1px solid var(--line); border-radius: 8px; margin-top: 3px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,.12); }
+  .sugg div { padding: 7px 10px; font-size: 12.5px; cursor: pointer; }
+  .sugg div:hover { background: var(--panel); }
+  .sugg .muted { color: var(--ink-2); font-size: 11px; }
+  #go { padding: 8px 0; border: none; border-radius: 8px; background: var(--accent); color: #fff;
+        font-size: 13px; font-weight: 600; cursor: pointer; }
+  #go:disabled { opacity: .5; cursor: default; }
+  #plan-note { font-size: 11px; color: var(--ink-2); }
+  .opt { padding: 10px 11px; border: 1px solid var(--line); border-radius: 10px; margin: 6px 2px; cursor: pointer; background: var(--chip); }
+  .opt:hover { border-color: var(--accent); }
+  .opt.sel { outline: 2px solid var(--accent); outline-offset: -1px; }
+  .opt .legs { display: flex; align-items: center; flex-wrap: wrap; gap: 5px; margin-bottom: 4px; font-weight: 600; font-size: 13px; }
+  .opt .legs .swatch { width: 11px; height: 11px; }
+  .opt .meta { font-size: 11.5px; color: var(--ink-2); }
+  .msg { padding: 14px; font-size: 12.5px; color: var(--ink-2); }
+  @media (max-width: 700px) {
+    #app { flex-direction: column; }
+    #sidebar { width: 100%; height: 48vh; border-right: none; border-bottom: 1px solid var(--line); }
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="sidebar">
+    <header>
+      <h1>Rutas de Tehuacán</h1>
+      <div class="sub">combis y colectivos · datos ciudadanos · 2026-07</div>
+    </header>
+    <div id="tabs">
+      <button data-pane="browse" class="on">Rutas</button>
+      <button data-pane="plan">¿Cómo llego?</button>
+    </div>
+
+    <div class="pane on" id="pane-browse">
+      <div id="controls">
+        <input id="search" type="search" placeholder="Buscar ruta o colonia…" autocomplete="off">
+        <div class="filters">
+          <button data-kind="all" class="on">Todas</button>
+          <button data-kind="local">Locales</button>
+          <button data-kind="foránea">Foráneas</button>
+        </div>
+        <div id="count"></div>
+      </div>
+      <div id="list"></div>
+      <div id="detail"></div>
+    </div>
+
+    <div class="pane" id="pane-plan">
+      <div id="planner">
+        <div class="field">
+          <span class="dot" style="background:var(--ok)"></span>
+          <input type="text" id="from" placeholder="¿Dónde estás? (dirección o lugar)" autocomplete="off">
+          <button class="pin" data-which="from" title="Elegir en el mapa">📍</button>
+          <div class="sugg" id="sugg-from" hidden></div>
+        </div>
+        <div class="field">
+          <span class="dot" style="background:#d4351c"></span>
+          <input type="text" id="to" placeholder="¿A dónde vas?" autocomplete="off">
+          <button class="pin" data-which="to" title="Elegir en el mapa">📍</button>
+          <div class="sugg" id="sugg-to" hidden></div>
+        </div>
+        <button id="go" disabled>Buscar combis</button>
+        <div id="plan-note">Sin horarios ni sentido de circulación — muestra qué rutas pasan cerca, no un itinerario exacto. Siempre te lleva a la combi más cercana; los tramos a pie largos se marcan con ⚠️.</div>
+      </div>
+      <div id="results"></div>
+    </div>
+  </div>
+  <div id="map"></div>
+</div>
+<script>
+const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+const map = new maplibregl.Map({
+  container: 'map',
+  style: dark ? 'https://tiles.openfreemap.org/styles/dark' : 'https://tiles.openfreemap.org/styles/positron',
+  center: [-97.396, 18.462],
+  zoom: 12.4,
+  attributionControl: {compact: true}
+});
+map.addControl(new maplibregl.NavigationControl(), 'top-right');
+
+const feats = ROUTES.features;
+const state = {kind: 'all', q: '', sel: null, plan: null, planSel: null};
+
+/* ---------- geometry in meter space ---------- */
+const MLAT = 110570, MLON = 111320 * Math.cos(18.462 * Math.PI / 180);
+const mx = c => [c[0] * MLON, c[1] * MLAT];
+const distM = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1]);
+
+// flatten each route once: vertices in meter space + cumulative distance, with part breaks
+const flat = feats.map(f => {
+  const pts = [], cum = [], brk = new Set();
+  let d = 0, prev = null;
+  f.geometry.coordinates.forEach(part => {
+    if (pts.length) brk.add(pts.length - 1); // no segment across parts
+    part.forEach(c => {
+      const p = mx(c);
+      if (prev) d += distM(prev, p);
+      pts.push(p); cum.push(d); prev = p;
+    });
+    prev = null;
+  });
+  return {id: f.properties.id, f, pts, cum, brk};
+});
+
+function nearest(ptM, r) {
+  let best = {d: Infinity, at: 0, lnglat: null};
+  for (let i = 0; i < r.pts.length - 1; i++) {
+    if (r.brk.has(i)) continue;
+    const a = r.pts[i], b = r.pts[i + 1];
+    const abx = b[0] - a[0], aby = b[1] - a[1];
+    const len2 = abx * abx + aby * aby;
+    let t = len2 ? ((ptM[0] - a[0]) * abx + (ptM[1] - a[1]) * aby) / len2 : 0;
+    t = Math.max(0, Math.min(1, t));
+    const proj = [a[0] + t * abx, a[1] + t * aby];
+    const d = distM(ptM, proj);
+    if (d < best.d) best = {d, at: r.cum[i] + t * (r.cum[i + 1] - r.cum[i]),
+                            lnglat: [proj[0] / MLON, proj[1] / MLAT]};
+  }
+  return best;
+}
+
+function routePairMinDist(r1, r2) {
+  let best = {d: Infinity, p1: null, p2: null};
+  const step1 = Math.max(1, Math.floor(r1.pts.length / 250));
+  const step2 = Math.max(1, Math.floor(r2.pts.length / 250));
+  for (let i = 0; i < r1.pts.length; i += step1)
+    for (let j = 0; j < r2.pts.length; j += step2) {
+      const d = distM(r1.pts[i], r2.pts[j]);
+      if (d < best.d) best = {d, i, j};
+    }
+  if (!isFinite(best.d)) return best;
+  return {d: best.d,
+          p1: {at: r1.cum[best.i], lnglat: [r1.pts[best.i][0] / MLON, r1.pts[best.i][1] / MLAT]},
+          p2: {at: r2.cum[best.j], lnglat: [r2.pts[best.j][0] / MLON, r2.pts[best.j][1] / MLAT]}};
+}
+
+/* ---------- trip search ---------- */
+const WALK_MAX = 700, WALK_FAR = 1300, TRANSFER_MAX = 400;
+
+function findTrips(A, B) {
+  const Am = mx(A), Bm = mx(B);
+  const all = flat.map(r => ({r, na: nearest(Am, r), nb: nearest(Bm, r)}));
+  // tiered: comfortable walk → long walk → nearest 5 whatever the distance.
+  // never returns an empty candidate set: you always walk to the nearest combi.
+  const take = (key, lim) => all.filter(x => x[key].d <= lim).map(x => ({r: x.r, n: x[key]}));
+  const takeNearest = key => all.slice().sort((x, y) => x[key].d - y[key].d).slice(0, 5)
+                                .map(x => ({r: x.r, n: x[key]}));
+  let nearA = take('na', WALK_MAX);
+  if (!nearA.length) nearA = take('na', WALK_FAR);
+  if (!nearA.length) nearA = takeNearest('na');
+  let nearB = take('nb', WALK_MAX);
+  if (!nearB.length) nearB = take('nb', WALK_FAR);
+  if (!nearB.length) nearB = takeNearest('nb');
+  nearA.sort((x, y) => x.n.d - y.n.d);
+  nearB.sort((x, y) => x.n.d - y.n.d);
+
+  const opts = [];
+  // direct
+  nearA.forEach(a => {
+    const b = nearB.find(b => b.r.id === a.r.id);
+    if (!b) return;
+    const ride = Math.abs(b.n.at - a.n.at);
+    if (ride < 150) return; // walking distance anyway
+    opts.push({type: 'direct', legs: [a.r.id], walkA: a.n.d, walkB: b.n.d, ride,
+               board: a.n.lnglat, alight: b.n.lnglat,
+               score: 2 * (a.n.d + b.n.d) + 0.25 * ride});
+  });
+  // one transfer
+  const directIds = new Set(opts.map(o => o.legs[0]));
+  const genTransfers = maxT => {
+    nearA.slice(0, 8).forEach(a => {
+      nearB.slice(0, 8).forEach(b => {
+        if (a.r.id === b.r.id) return;
+        if (directIds.has(a.r.id) && directIds.has(b.r.id)) return;
+        const x = routePairMinDist(a.r, b.r);
+        if (x.d > maxT) return;
+        const ride1 = Math.abs(x.p1.at - a.n.at), ride2 = Math.abs(b.n.at - x.p2.at);
+        if (ride1 < 150 || ride2 < 150) return;
+        opts.push({type: 'transfer', legs: [a.r.id, b.r.id], walkA: a.n.d, walkB: b.n.d,
+                   transfer: x.d, tPoint: x.p1.lnglat, tPoint2: x.p2.lnglat,
+                   board: a.n.lnglat, alight: b.n.lnglat, ride: ride1 + ride2,
+                   score: 2 * (a.n.d + b.n.d) + 2 * x.d + 0.25 * (ride1 + ride2) + 600});
+      });
+    });
+  };
+  genTransfers(TRANSFER_MAX);
+  // still nothing? allow a walking connection between the two nearest lines,
+  // whatever the distance — always give the best available answer.
+  if (!opts.length) genTransfers(Infinity);
+  // dedupe by legs signature, keep best score
+  const bySig = {};
+  opts.forEach(o => {
+    const sig = o.legs.join('|');
+    if (!bySig[sig] || o.score < bySig[sig].score) bySig[sig] = o;
+  });
+  return Object.values(bySig).sort((a, b) => a.score - b.score).slice(0, 5);
+}
+
+/* ---------- geocoding (Photon primary, Nominatim fallback; no Google) ---------- */
+async function geocode(q) {
+  try {
+    const r = await fetch('https://photon.komoot.io/api?q=' + encodeURIComponent(q) +
+                          '&lat=18.462&lon=-97.396&limit=6&lang=es');
+    const d = await r.json();
+    const res = d.features.map(f => ({
+      name: f.properties.name || f.properties.street || q,
+      detail: [f.properties.street, f.properties.district, f.properties.city, f.properties.state]
+              .filter(Boolean).join(', '),
+      c: f.geometry.coordinates
+    })).filter(x => Math.abs(x.c[0] + 97.4) < 0.5 && Math.abs(x.c[1] - 18.46) < 0.5);
+    if (res.length) return res;
+  } catch (e) { /* fall through */ }
+  try {
+    const r = await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=6&viewbox=-97.55,18.35,-97.25,18.58&bounded=1&q=' + encodeURIComponent(q));
+    const d = await r.json();
+    return d.map(x => ({name: x.display_name.split(',')[0],
+                        detail: x.display_name.split(',').slice(1, 4).join(','),
+                        c: [+x.lon, +x.lat]}));
+  } catch (e) { return []; }
+}
+
+/* ---------- browse pane ---------- */
+const norm = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+
+function visible(f) {
+  const p = f.properties;
+  if (state.kind !== 'all' && p.kind !== state.kind) return false;
+  if (state.q) {
+    const hay = norm(p.name + ' ' + (p.alias || '') + ' ' + (p.colonias || '') + ' ' + (p.places || ''));
+    if (!hay.includes(norm(state.q))) return false;
+  }
+  return true;
+}
+
+function applyFilter() {
+  const ids = feats.filter(visible).map(f => f.properties.id);
+  const base = ['in', ['get', 'id'], ['literal', ids]];
+  map.setFilter('routes', base);
+  map.setFilter('routes-casing', base);
+  renderList();
+  document.getElementById('count').textContent = ids.length + ' de ' + feats.length + ' rutas';
+}
+
+function select(id, fit) {
+  state.sel = id;
+  const w = id ? ['case', ['==', ['get', 'id'], id], 4.5, 1.2]
+               : ['interpolate', ['linear'], ['zoom'], 11, 1.8, 15, 3.5];
+  map.setPaintProperty('routes', 'line-width', w);
+  map.setPaintProperty('routes', 'line-opacity', id ? ['case', ['==', ['get', 'id'], id], 1, 0.18] : 0.85);
+  renderDetail();
+  renderList();
+  if (id && fit) {
+    const f = feats.find(f => f.properties.id === id);
+    if (f.geometry.coordinates.length) {
+      const b = new maplibregl.LngLatBounds();
+      f.geometry.coordinates.flat().forEach(c => b.extend(c));
+      map.fitBounds(b, {padding: 60, duration: 600});
+    }
+  }
+}
+
+function renderList() {
+  const el = document.getElementById('list');
+  el.innerHTML = '';
+  feats.filter(visible).forEach(f => {
+    const p = f.properties;
+    const d = document.createElement('div');
+    d.className = 'route' + (state.sel === p.id ? ' sel' : '');
+    const brand = p.alias && !p.name.includes(p.alias) ? ' <span style="color:var(--ink-2)">«' + p.alias + '»</span>' : '';
+    d.innerHTML = '<span class="swatch" style="background:' + p.color + (p.has_geom ? '' : ';opacity:.4') + '"></span>' +
+                  '<span class="nm">' + p.name + brand + '</span>' +
+                  (p.has_geom ? '' : '<span class="tag">sin mapa</span>') +
+                  (p.kind === 'foránea' ? '<span class="tag">foránea</span>' : '');
+    d.onclick = () => select(state.sel === p.id ? null : p.id, true);
+    el.appendChild(d);
+  });
+}
+
+function renderDetail() {
+  const el = document.getElementById('detail');
+  if (!state.sel) { el.className = ''; el.innerHTML = ''; return; }
+  const p = feats.find(f => f.properties.id === state.sel).properties;
+  el.className = 'show';
+  const cols = (p.colonias || '').split(',').slice(0, 8).join(',');
+  const towns = (p.places || '').split(',').slice(0, 10).join(',');
+  el.innerHTML = '<b>' + p.name + (p.alias && !p.name.includes(p.alias) ? ' «' + p.alias + '»' : '') + '</b>' +
+    '<div class="meta">' + (p.kind === 'foránea' ? 'Ruta foránea' : 'Ruta local') +
+    (p.has_geom ? ' · geometría: ' + p.geom_source : ' · ⚠️ sin geometría — solo sabemos que existe (Moovit); falta mapearla') +
+    '<br>fuentes: ' + p.sources +
+    (towns ? '<br>pueblos en el camino: ' + towns : '') +
+    (cols ? '<br>colonias: ' + cols.replaceAll('Colonia ', '') + '…' : '') +
+    (p.review ? '<br>⚠️ variantes sin conciliar entre fuentes' : '') + '</div>' +
+    '<button class="clear">Quitar selección</button>';
+  el.querySelector('.clear').onclick = () => select(null, false);
+}
+
+/* ---------- planner pane ---------- */
+const P = {from: null, to: null, markers: {}, pickArm: null};
+
+function setPoint(which, c, label) {
+  P[which] = c;
+  if (label) document.getElementById(which).value = label;
+  if (P.markers[which]) P.markers[which].remove();
+  P.markers[which] = new maplibregl.Marker({color: which === 'from' ? '#1a7f37' : '#d4351c'})
+    .setLngLat(c).addTo(map);
+  updateGo();
+}
+
+function updateGo() {
+  const ok = w => P[w] || document.getElementById(w).value.trim().length >= 3;
+  document.getElementById('go').disabled = !(ok('from') && ok('to'));
+}
+
+async function resolvePoint(which) {
+  if (P[which]) return true;
+  const q = document.getElementById(which).value.trim();
+  if (q.length < 3) return false;
+  let res = await geocode(q + ', Tehuacán');
+  if (!res.length) res = await geocode(q);
+  if (!res.length) return false;
+  setPoint(which, res[0].c, res[0].name);
+  return true;
+}
+
+function attachAutocomplete(which) {
+  const input = document.getElementById(which);
+  const box = document.getElementById('sugg-' + which);
+  let t = null;
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { box.hidden = true; document.getElementById('go').click(); }
+  });
+  input.addEventListener('input', () => {
+    P[which] = null;
+    updateGo();
+    clearTimeout(t);
+    const q = input.value.trim();
+    if (q.length < 3) { box.hidden = true; return; }
+    t = setTimeout(async () => {
+      let res = await geocode(q + ', Tehuacán');
+      if (!res.length) res = await geocode(q);
+      box.innerHTML = '';
+      res.slice(0, 5).forEach(r => {
+        const d = document.createElement('div');
+        d.innerHTML = r.name + (r.detail ? ' <span class="muted">' + r.detail + '</span>' : '');
+        d.onclick = () => { box.hidden = true; setPoint(which, r.c, r.name); };
+        box.appendChild(d);
+      });
+      box.hidden = res.length === 0;
+    }, 350);
+  });
+  input.addEventListener('blur', () => setTimeout(() => box.hidden = true, 250));
+}
+attachAutocomplete('from');
+attachAutocomplete('to');
+
+document.querySelectorAll('.pin').forEach(b => {
+  b.onclick = () => {
+    P.pickArm = P.pickArm === b.dataset.which ? null : b.dataset.which;
+    document.querySelectorAll('.pin').forEach(x => x.classList.toggle('armed', x.dataset.which === P.pickArm));
+    map.getCanvas().style.cursor = P.pickArm ? 'crosshair' : '';
+  };
+});
+
+const fmt = m => m < 950 ? Math.round(m / 10) * 10 + ' m' : (m / 1000).toFixed(1) + ' km';
+const routeById = id => feats.find(f => f.properties.id === id).properties;
+
+function runSearch() {
+  const el = document.getElementById('results');
+  const options = findTrips(P.from, P.to);
+  state.plan = options;
+  state.planSel = null;
+  el.innerHTML = '';
+  if (!options.length) {
+    el.innerHTML = '<div class="msg">No hay geometría de rutas cargada.</div>';
+    clearPlanLayers();
+    return;
+  }
+  const longWalk = options.every(o =>
+    o.walkA > WALK_MAX || o.walkB > WALK_MAX || (o.transfer || 0) > TRANSFER_MAX);
+  if (longWalk) {
+    el.innerHTML = '<div class="msg">⚠️ Ninguna ruta mapeada pasa cerca de ambos puntos — te mostramos las combis más cercanas de todos modos. Es posible que a la ruta real le falte un tramo en nuestros datos (mapeados en 2023).</div>';
+  }
+  options.forEach((o, i) => {
+    const d = document.createElement('div');
+    d.className = 'opt';
+    const legs = o.legs.map(id => {
+      const p = routeById(id);
+      return '<span class="swatch" style="background:' + p.color + '"></span>' + p.name;
+    }).join(' <span style="color:var(--ink-2)">→</span> ');
+    const warn = m => m > WALK_MAX ? ' ⚠️' : '';
+    d.innerHTML = '<div class="legs">' + legs + '</div>' +
+      '<div class="meta">Camina ' + fmt(o.walkA) + warn(o.walkA) + ' al abordaje · ' +
+      (o.type === 'transfer' ? 'transbordo (' + fmt(o.transfer) + ' a pie' + (o.transfer > TRANSFER_MAX ? ' ⚠️' : '') + ') · ' : 'directo · ') +
+      '~' + fmt(o.ride) + ' en combi · baja y camina ' + fmt(o.walkB) + warn(o.walkB) + '</div>';
+    d.onclick = () => selectOption(i);
+    el.appendChild(d);
+  });
+  selectOption(0);
+}
+
+function selectOption(i) {
+  state.planSel = i;
+  document.querySelectorAll('.opt').forEach((el, j) => el.classList.toggle('sel', i === j));
+  const o = state.plan[i];
+  const ids = o.legs;
+  map.setFilter('routes', ['in', ['get', 'id'], ['literal', ids]]);
+  map.setFilter('routes-casing', ['in', ['get', 'id'], ['literal', ids]]);
+  map.setPaintProperty('routes', 'line-opacity', 1);
+  map.setPaintProperty('routes', 'line-width', 4.5);
+
+  const walkFeats = [
+    {type: 'Feature', properties: {}, geometry: {type: 'LineString', coordinates: [P.from, o.board]}},
+    {type: 'Feature', properties: {}, geometry: {type: 'LineString', coordinates: [o.alight, P.to]}}
+  ];
+  const ptFeats = [];
+  if (o.type === 'transfer') {
+    ptFeats.push({type: 'Feature', properties: {}, geometry: {type: 'Point', coordinates: o.tPoint}});
+    if (o.tPoint2) {
+      ptFeats.push({type: 'Feature', properties: {}, geometry: {type: 'Point', coordinates: o.tPoint2}});
+      walkFeats.push({type: 'Feature', properties: {}, geometry: {type: 'LineString', coordinates: [o.tPoint, o.tPoint2]}});
+    }
+  }
+  map.getSource('plan-walk').setData({type: 'FeatureCollection', features: walkFeats});
+  map.getSource('plan-pts').setData({type: 'FeatureCollection', features: ptFeats});
+
+  const b = new maplibregl.LngLatBounds();
+  [P.from, P.to, o.board, o.alight].forEach(c => b.extend(c));
+  ids.forEach(id => feats.find(f => f.properties.id === id).geometry.coordinates.flat().forEach(c => b.extend(c)));
+  map.fitBounds(b, {padding: 70, duration: 600});
+}
+
+function clearPlanLayers() {
+  map.getSource('plan-walk').setData({type: 'FeatureCollection', features: []});
+  map.getSource('plan-pts').setData({type: 'FeatureCollection', features: []});
+}
+
+document.getElementById('go').onclick = async () => {
+  const go = document.getElementById('go');
+  go.disabled = true;
+  document.querySelectorAll('.sugg').forEach(b => b.hidden = true);
+  const old = go.textContent;
+  go.textContent = 'Buscando…';
+  try {
+    const okA = await resolvePoint('from');
+    const okB = await resolvePoint('to');
+    if (okA && okB) runSearch();
+    else document.getElementById('results').innerHTML =
+      '<div class="msg">No se encontró ' + (okA ? 'el destino' : 'el origen') +
+      '. Intenta con otra dirección o usa 📍 para elegir el punto en el mapa.</div>';
+  } finally {
+    go.textContent = old;
+    updateGo();
+  }
+};
+
+/* ---------- tabs ---------- */
+document.querySelectorAll('#tabs button').forEach(b => {
+  b.onclick = () => {
+    document.querySelectorAll('#tabs button').forEach(x => x.classList.remove('on'));
+    document.querySelectorAll('.pane').forEach(x => x.classList.remove('on'));
+    b.classList.add('on');
+    document.getElementById('pane-' + b.dataset.pane).classList.add('on');
+    if (b.dataset.pane === 'browse') {
+      clearPlanLayers();
+      Object.values(P.markers).forEach(m => m.remove());
+      P.markers = {};
+      select(null, false);
+      applyFilter();
+    } else if (state.plan && state.planSel != null) {
+      Object.entries(P.markers).forEach(([k, m]) => m.addTo(map));
+      selectOption(state.planSel);
+    }
+  };
+});
+
+/* ---------- map layers ---------- */
+map.on('load', () => {
+  map.addSource('routes', {type: 'geojson', data: ROUTES});
+  map.addSource('plan-walk', {type: 'geojson', data: {type: 'FeatureCollection', features: []}});
+  map.addSource('plan-pts', {type: 'geojson', data: {type: 'FeatureCollection', features: []}});
+  map.addLayer({
+    id: 'routes-casing', type: 'line', source: 'routes',
+    layout: {'line-cap': 'round', 'line-join': 'round'},
+    paint: {'line-color': dark ? '#17171b' : '#ffffff',
+            'line-width': ['interpolate', ['linear'], ['zoom'], 11, 3.2, 15, 6],
+            'line-opacity': 0.55}
+  });
+  map.addLayer({
+    id: 'routes', type: 'line', source: 'routes',
+    layout: {'line-cap': 'round', 'line-join': 'round'},
+    paint: {'line-color': ['get', 'color'],
+            'line-width': ['interpolate', ['linear'], ['zoom'], 11, 1.8, 15, 3.5],
+            'line-opacity': 0.85}
+  });
+  map.addLayer({
+    id: 'plan-walk', type: 'line', source: 'plan-walk',
+    paint: {'line-color': dark ? '#ececf0' : '#1a1a1e', 'line-width': 2.5, 'line-dasharray': [1.2, 1.6]}
+  });
+  map.addLayer({
+    id: 'plan-pts', type: 'circle', source: 'plan-pts',
+    paint: {'circle-radius': 7, 'circle-color': '#f5a623',
+            'circle-stroke-width': 2.5, 'circle-stroke-color': dark ? '#17171b' : '#ffffff'}
+  });
+
+  const popup = new maplibregl.Popup({closeButton: false, closeOnClick: false});
+  map.on('mousemove', 'routes', e => {
+    if (P.pickArm) return;
+    map.getCanvas().style.cursor = 'pointer';
+    const names = [...new Set(e.features.map(f => f.properties.name))].slice(0, 4);
+    popup.setLngLat(e.lngLat).setHTML(names.join('<br>')).addTo(map);
+  });
+  map.on('mouseleave', 'routes', () => {
+    if (P.pickArm) return;
+    map.getCanvas().style.cursor = '';
+    popup.remove();
+  });
+  map.on('click', e => {
+    if (P.pickArm) {
+      const which = P.pickArm;
+      P.pickArm = null;
+      document.querySelectorAll('.pin').forEach(x => x.classList.remove('armed'));
+      map.getCanvas().style.cursor = '';
+      setPoint(which, [e.lngLat.lng, e.lngLat.lat],
+               e.lngLat.lat.toFixed(4) + ', ' + e.lngLat.lng.toFixed(4) + ' (punto en el mapa)');
+      return;
+    }
+    const hit = map.queryRenderedFeatures(e.point, {layers: ['routes']});
+    if (hit.length && document.querySelector('#tabs button.on').dataset.pane === 'browse')
+      select(hit[0].properties.id, false);
+  });
+
+  applyFilter();
+});
+
+document.getElementById('search').addEventListener('input', e => {
+  state.q = e.target.value.trim().toLowerCase();
+  applyFilter();
+});
+document.querySelectorAll('.filters button').forEach(b => {
+  b.onclick = () => {
+    document.querySelectorAll('.filters button').forEach(x => x.classList.remove('on'));
+    b.classList.add('on');
+    state.kind = b.dataset.kind;
+    applyFilter();
+  };
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+{
+  "source": "moovitapp.com",
+  "fetched": "2026-07-14",
+  "method": "browser (site blocks non-browser fetchers); line pages found via web search + related-line links",
+  "agency_page": "https://moovitapp.com/index/en/public_transit-lines-Puebla-3722-857662",
+  "agency_note": "Moovit groups these under 'Rutas Convencionales', a catch-all agency of 629+ informal bus routes across Puebla state. Tehuacán lines are scattered within it under generic names (RUTA 21, RUTA 25...). All schedule data below is Moovit's generic template (06:00-22:00 daily, 20 min frequency) and should be treated as approximate.",
+  "coverage_note": "Not exhaustive: more Tehuacán lines likely reachable by crawling related-line links on each page (e.g. second directions, other ramales). Captured a representative set; full enumeration would require crawling all 634 agency lines.",
+  "lines": [
+    {
+      "moovit_line_id": 33671226,
+      "name": "RUTA TEHUACÁN — Ruta Tehuacan - Monte Chiquito (Circuito)",
+      "url": "https://moovitapp.com/index/en/public_transit-line-ruta_tehuac%C3%81n-Puebla-3722-857662-33671226-0",
+      "n_stops": 77,
+      "first_stop": "Calle 9 Sur, 502",
+      "last_stop": "Calle 5 Oriente, 544bis",
+      "service_hours": "06:00-22:00 daily",
+      "frequency_min": 20,
+      "trip_duration_min": 55,
+      "stops": ["Calle 9 Sur, 502", "Calle Josefa Ortiz De Domínguez, 731", "Calle Josefa Ortiz De Domínguez, 721", "Calle Josefa Ortiz De Domínguez, 700", "Calle 5 Sur, 525", "Calle Josefa Ortiz De Domínguez, 513", "Calle 3 Sur, 303", "Avenida Independencia Oriente, 301", "Calle 3 Norte, 138", "Calle 1 Norte, 2", "Calle 1 Norte, 234c", "Calle 1 Norte, 438", "Camelia Oriente, 107", "Calle 10 Oriente, 817", "Avenida José Garci-Crespo, 913", "Avenida José Garci-Crespo, 1218", "Avenida José Garci-Crespo, 1609", "Calle 4 Norte, Lb", "Avenida José Garci-Crespo, 2421", "Avenida José Garci-Crespo, 128", "Avenida José Garci-Crespo, 3632", "Calle Emiliano Zapata, 3808", "Constitución, 3602", "Federal México-Tehuacán, 1607", "Blv. Socorro Romero", "Boulevard Socorro Romero, 167", "Carretera Federal 150, 3", "Antigua Magdalena, 50", "Orquídea, 4200", "Luis Donaldo Colosio, 4410", "Orquídea, 4612", "Bugambilia, 1183", "Dalia, 4604", "Bugambilia, 4406", "Hiedra, 3412", "Nardo, 4817", "Calle Hortencia, 500", "Geranio, 5008", "Laurel, 4413", "Luis Donaldo Colosio, 5210", "Lázaro Cárdenas, 4801", "Antigua Magdalena, 10", "Antigua Magdalena, 29", "Antigua Magdalena, 42", "Benito Juarez, 120", "Benito Juarez, 102", "Benito Juarez, 120", "Hidalgo, 8", "Antigua Magdalena, 40", "Antigua Magdalena, 22", "Antigua Magdalena, 10", "Lázaro Cárdenas, 4801", "Lázaro Cárdenas, 13", "Luis Donaldo Colosio, 5210", "Camino Antiguo A Miahuatlán, 5002", "Camino Antiguo A Miahuatlán, 4014", "Antigua Magdalena, 50", "Carretera Federal 150, 3", "Blv. Socorro Romero", "Tehuacan - Orizaba, 3", "Blvrd. Socorro Romero", "Avenida José Garci-Crespo, 128", "Avenida José Garci-Crespo, 521", "Avenida José Garci-Crespo, 2805", "Avenida José Garci-Crespo, 2229", "Avenida José Garci-Crespo, 615", "Avenida José Garci-Crespo, 1661", "Avenida José Garci-Crespo, 800", "Calle 10 Poniente, 12", "Avenida Reforma Norte, 617", "Avenida Reforma Norte, 387", "Calle 2 Poniente, 6", "Avenida Reforma Sur, 134", "Avenida Reforma Sur, 347", "Calle 5 Oriente, 310", "Calle 5 Oriente, 339", "Calle 5 Oriente, 544bis"]
+    },
+    {
+      "moovit_line_id": 33671223,
+      "name": "RUTA TEHUACÁN — Tehuacán - Teotitlán (Ida)",
+      "url": "https://moovitapp.com/index/en/public_transit-line-ruta_tehuac%C3%81n-Puebla-3722-857662-33671223-0",
+      "n_stops": 106,
+      "first_stop": "Calle 3 Norte, 241",
+      "last_stop": "Puebla 980, S/N",
+      "service_hours": "06:00-22:00 daily",
+      "frequency_min": 20,
+      "trip_duration_min": 143,
+      "note": "foránea: Tehuacán → Teotitlán (Oaxaca border corridor)"
+    },
+    {
+      "moovit_line_id": 33444458,
+      "name": "RUTA TEHUACÁN — Tehuacán - Tilapa (Ida)",
+      "url": "https://moovitapp.com/index/en/public_transit-line-ruta_tehuac%C3%81n-Puebla-3722-857662-33444458-0",
+      "n_stops": 123,
+      "first_stop": "Calle 3 Norte, 208",
+      "last_stop": "Calle Justo Sierra, 6450",
+      "service_hours": "06:00-22:00 daily",
+      "frequency_min": 20,
+      "trip_duration_min": 153,
+      "note": "foránea"
+    },
+    {
+      "moovit_line_id": 33444460,
+      "name": "RUTA TEHUACÁN — Tehuacán - Vista Hermosa (Ida)",
+      "url": "https://moovitapp.com/index/en/public_transit-line-ruta_tehuac%C3%81n-Puebla-3722-857662-33444460-0",
+      "n_stops": 249,
+      "first_stop": "Privada De La 7 Sur, 505",
+      "last_stop": "(truncated on page: 'Carr...')",
+      "service_hours": "06:00-22:00 daily",
+      "frequency_min": 20,
+      "trip_duration_min": 260,
+      "note": "foránea, longest captured line"
+    },
+    {
+      "moovit_line_id": 33671057,
+      "name": "RUTA 37 — Ramal 7 Norte (Circuito) / San Isidro - La Purísima",
+      "url": "https://moovitapp.com/index/en/public_transit-line-ruta_37-Puebla-3722-857662-33671057-0",
+      "n_stops": 65,
+      "first_stop": "Juárez Norte, 2626",
+      "last_stop": "Avenida José Garci-Crespo, 1212",
+      "service_hours": "06:00-22:00 daily",
+      "frequency_min": 20,
+      "trip_duration_min": 44,
+      "second_direction_url": "https://moovitapp.com/index/en/public_transit-line-ruta_37-Puebla-3722-857662-33671057-1",
+      "cross_ref": "matches Ruta 37 - San Isidro on rutastehuacan / ruta-37 on queruta"
+    },
+    {
+      "moovit_line_id": 33444289,
+      "name": "RUTA 25 — Ramal Col. 3 De Mayo - Centro",
+      "url": "https://moovitapp.com/index/en/public_transit-line-ruta_25-Puebla-3722-857662-33444289-0",
+      "n_stops": 49,
+      "first_stop": "Calle 25 Poniente, 3405",
+      "last_stop": "Sonora Sur, 2450",
+      "service_hours": "06:00-22:00 daily",
+      "frequency_min": 20,
+      "trip_duration_min": 25,
+      "cross_ref": "matches Ruta 25 - 3 de Mayo on rutastehuacan / ruta-3-de-mayo on queruta"
+    },
+    {
+      "moovit_line_id": 33671342,
+      "name": "RUTA CUAYUCATEPEC — Cuayutepec - Tehuacán (Ida)",
+      "url": "https://moovitapp.com/index/en/public_transit-line-ruta_cuayucatepec-Puebla-3722-857662-33671342-0",
+      "n_stops": 58,
+      "first_stop": "División Del Norte, 154",
+      "last_stop": "Calle 5 Norte, 200",
+      "service_hours": "06:00-22:00 daily",
+      "frequency_min": 20,
+      "trip_duration_min": 59,
+      "cross_ref": "matches Transporte Cuayucatepec on rutastehuacan"
+    },
+    {
+      "moovit_line_id": 34662188,
+      "name": "RUTA 21 — Ramal Santa Cruz - Centro",
+      "url": "https://moovitapp.com/index/en/public_transit-line-ruta_21-Puebla-3722-857662-34662188-0",
+      "n_stops": 55,
+      "first_stop": null,
+      "last_stop": null,
+      "service_hours": "06:00-22:00 daily",
+      "frequency_min": 20,
+      "trip_duration_min": 37,
+      "cross_ref": "matches Ruta 21 on rutastehuacan/queruta"
+    },
+    {
+      "moovit_line_id": 33671063,
+      "name": "RUTA 40 — Ramal Fracc. Santa María - La Purísima (Circuito)",
+      "url": "https://moovitapp.com/index/en/public_transit-line-ruta_40-Puebla-3722-857662-33671063-0",
+      "n_stops": 58,
+      "first_stop": "Calle 17, 2916a",
+      "last_stop": "Calle 22, 1440",
+      "service_hours": "06:00-22:00 daily",
+      "frequency_min": 20,
+      "trip_duration_min": 34,
+      "cross_ref": "matches Ruta 40 on rutastehuacan/queruta"
+    },
+    {
+      "moovit_line_id": 33444562,
+      "name": "RUTA ZINACATEPEC — Ramal Zinacatepec - Tehuacán (Ida)",
+      "url": "https://moovitapp.com/index/en/public_transit-line-ruta_zinacatepec-Puebla-3722-857662-33444562-0",
+      "n_stops": 44,
+      "first_stop": "Calle Ignacio Zaragoza, 100",
+      "last_stop": "Puebla 980, 306",
+      "service_hours": "06:00-22:00 daily",
+      "frequency_min": 20,
+      "trip_duration_min": 56,
+      "note": "foránea"
+    }
+  ]
+}

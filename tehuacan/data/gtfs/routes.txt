@@ -1,0 +1,83 @@
+route_id,agency_id,route_short_name,route_long_name,route_type
+22-san-marcos,TEHUACAN_COMBIS,Ruta 22 - San Marcos,Ruta 22 - San Marcos,3
+22-san-marcos-chilac,TEHUACAN_COMBIS,Ruta 22 San Marcos – Chilac,Ruta 22 San Marcos – Chilac,3
+ajalpan,TEHUACAN_COMBIS,Ajalpan,Ajalpan,3
+altepexi,TEHUACAN_COMBIS,Ruta Altepexi,Ruta Altepexi,3
+chapulco,TEHUACAN_COMBIS,Ruta Chapulco,Ruta Chapulco,3
+chilac,TEHUACAN_COMBIS,Ruta Chilac,Ruta Chilac,3
+coapan-carranza,TEHUACAN_COMBIS,Coapan Carranza,Coapan Carranza,3
+coapan-nacional,TEHUACAN_COMBIS,Coapan Nacional,Coapan Nacional,3
+cuayuca,TEHUACAN_COMBIS,Ruta Cuayuca,Ruta Cuayuca,3
+miahuatlan,TEHUACAN_COMBIS,Miahuatlán,Miahuatlán,3
+tehuacan,TEHUACAN_COMBIS,RUTA TEHUACÁN — Ruta Tehuacan - Monte Chiquito (Ci,RUTA TEHUACÁN — Ruta Tehuacan - Monte Chiquito (Circuito),3
+zapotitlan,TEHUACAN_COMBIS,Ruta Zapotitlán,Ruta Zapotitlán,3
+zinacatepec,TEHUACAN_COMBIS,RUTA ZINACATEPEC — Ramal Zinacatepec - Tehuacán (I,RUTA ZINACATEPEC — Ramal Zinacatepec - Tehuacán (Ida),3
+1,TEHUACAN_COMBIS,Ruta 1,Ruta 1,3
+10,TEHUACAN_COMBIS,Ruta 10,Ruta 10,3
+10-amarilla,TEHUACAN_COMBIS,Ruta 10 Amarilla,Ruta 10 Amarilla,3
+10-verde,TEHUACAN_COMBIS,Ruta 10 Verde,Ruta 10 Verde,3
+11,TEHUACAN_COMBIS,Ruta 11,Ruta 11,3
+12,TEHUACAN_COMBIS,Ruta 12,Ruta 12,3
+13,TEHUACAN_COMBIS,Ruta 13,Ruta 13,3
+15,TEHUACAN_COMBIS,Ruta 15,Ruta 15,3
+15-frailes,TEHUACAN_COMBIS,Ruta 15 - Frailes,Ruta 15 - Frailes,3
+16,TEHUACAN_COMBIS,Ruta 16,Ruta 16,3
+17,TEHUACAN_COMBIS,Ruta 17,Ruta 17,3
+18,TEHUACAN_COMBIS,Ruta 18,Ruta 18,3
+19,TEHUACAN_COMBIS,Ruta 19,Ruta 19,3
+2,TEHUACAN_COMBIS,Ruta 2,Ruta 2,3
+20,TEHUACAN_COMBIS,Ruta 20,Ruta 20,3
+21,TEHUACAN_COMBIS,Ruta 21,Ruta 21,3
+22-bella-vista,TEHUACAN_COMBIS,Ruta 22 - Bella Vista,Ruta 22 - Bella Vista,3
+22-cardenas,TEHUACAN_COMBIS,Ruta 22 - Cárdenas,Ruta 22 - Cárdenas,3
+23,TEHUACAN_COMBIS,Ruta 23,Ruta 23,3
+23-maravillas,TEHUACAN_COMBIS,Ruta 23 - Maravillas,Ruta 23 - Maravillas,3
+23-san-isidro,TEHUACAN_COMBIS,Ruta 23 - San Isidro,Ruta 23 - San Isidro,3
+24,TEHUACAN_COMBIS,Ruta 24 (verificando),Ruta 24 (verificando),3
+24-bosques-de-reforma,TEHUACAN_COMBIS,Ruta 24 - Bosques de Reforma,Ruta 24 - Bosques de Reforma,3
+24-dina,TEHUACAN_COMBIS,Ruta 24 Dina,Ruta 24 Dina,3
+24-maridol,TEHUACAN_COMBIS,Ruta 24 Maridol,Ruta 24 Maridol,3
+25,TEHUACAN_COMBIS,Ruta 25,Ruta 25,3
+25-3-de-mayo,TEHUACAN_COMBIS,Ruta 25 - 3 de mayo,Ruta 25 - 3 de mayo,3
+26-el-riego,TEHUACAN_COMBIS,Ruta 26 - El Riego,Ruta 26 - El Riego,3
+27-el-riego,TEHUACAN_COMBIS,Ruta 27 - El Riego,Ruta 27 - El Riego,3
+28-san-lorenzo,TEHUACAN_COMBIS,Ruta 28 - San Lorenzo,Ruta 28 - San Lorenzo,3
+29-san-lorenzo,TEHUACAN_COMBIS,Ruta 29 - San Lorenzo,Ruta 29 - San Lorenzo,3
+3,TEHUACAN_COMBIS,Ruta 3,Ruta 3,3
+3-de-mayo,TEHUACAN_COMBIS,Ruta 3 De Mayo,Ruta 3 De Mayo,3
+30-san-lorenzo,TEHUACAN_COMBIS,Ruta 30 - San Lorenzo,Ruta 30 - San Lorenzo,3
+31-fovissste-resurreccion,TEHUACAN_COMBIS,Ruta 31 - Fovissste- Resurrección,Ruta 31 - Fovissste- Resurrección,3
+32,TEHUACAN_COMBIS,Ruta 32,Ruta 32,3
+32-cbtis,TEHUACAN_COMBIS,Ruta 32 - CBTis,Ruta 32 - CBTis,3
+32-colosio,TEHUACAN_COMBIS,Ruta 32 - Colosio,Ruta 32 - Colosio,3
+32-san-francisco,TEHUACAN_COMBIS,Ruta 32 - San Francisco,Ruta 32 - San Francisco,3
+33-palmas,TEHUACAN_COMBIS,Ruta 33 - Palmas,Ruta 33 - Palmas,3
+34-viveros,TEHUACAN_COMBIS,Ruta 34 - Viveros,Ruta 34 - Viveros,3
+35-san-vicente-ferrer,TEHUACAN_COMBIS,Ruta 35 - San Vicente Ferrer,Ruta 35 - San Vicente Ferrer,3
+36-san-lorenzo,TEHUACAN_COMBIS,Ruta 36 - San Lorenzo,Ruta 36 - San Lorenzo,3
+37,TEHUACAN_COMBIS,Ruta 37,Ruta 37,3
+37-san-isidro,TEHUACAN_COMBIS,Ruta 37 - San Isidro,Ruta 37 - San Isidro,3
+38-santa-cruz-unidad-militar,TEHUACAN_COMBIS,Ruta 38 - Santa Cruz Unidad Militar,Ruta 38 - Santa Cruz Unidad Militar,3
+39,TEHUACAN_COMBIS,Ruta 39,Ruta 39,3
+4,TEHUACAN_COMBIS,Ruta 4,Ruta 4,3
+40,TEHUACAN_COMBIS,Ruta 40,Ruta 40,3
+41,TEHUACAN_COMBIS,Ruta 41,Ruta 41,3
+42,TEHUACAN_COMBIS,Ruta 42,Ruta 42,3
+43,TEHUACAN_COMBIS,Ruta 43,Ruta 43,3
+44,TEHUACAN_COMBIS,Ruta 44,Ruta 44,3
+45,TEHUACAN_COMBIS,Ruta 45,Ruta 45,3
+46,TEHUACAN_COMBIS,Ruta 46,Ruta 46,3
+5,TEHUACAN_COMBIS,Ruta 5,Ruta 5,3
+5-a,TEHUACAN_COMBIS,Ruta 5-A,Ruta 5-A,3
+6,TEHUACAN_COMBIS,Ruta 6,Ruta 6,3
+7-san-agustin,TEHUACAN_COMBIS,Ruta 7 - San Agustín,Ruta 7 - San Agustín,3
+7-tinaco,TEHUACAN_COMBIS,Ruta 7 Tinaco,Ruta 7 Tinaco,3
+7-upn-213-y-normal-superior,TEHUACAN_COMBIS,Ruta 7 - UPN 213 y Normal Superior,Ruta 7 - UPN 213 y Normal Superior,3
+7-upn-normal,TEHUACAN_COMBIS,Ruta 7 UPN-Normal,Ruta 7 UPN-Normal,3
+8,TEHUACAN_COMBIS,Ruta 8,Ruta 8,3
+9,TEHUACAN_COMBIS,Ruta 9,Ruta 9,3
+c-tec-21,TEHUACAN_COMBIS,Ruta C TEC 21,Ruta C TEC 21,3
+c-valle,TEHUACAN_COMBIS,Ruta C Valle,Ruta C Valle,3
+cuayucatepec,TEHUACAN_COMBIS,Transporte Cuayucatepec,Transporte Cuayucatepec,3
+rc,TEHUACAN_COMBIS,Ruta RC,Ruta RC,3
+rc-del-valle,TEHUACAN_COMBIS,Ruta RC - Del Valle,Ruta RC - Del Valle,3

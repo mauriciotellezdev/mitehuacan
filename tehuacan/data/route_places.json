@@ -1,0 +1,912 @@
+{
+ "22-san-marcos": [
+  {
+   "name": "San Marcos Necoxtla",
+   "type": "village",
+   "dist_m": 25
+  },
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 279
+  }
+ ],
+ "22-san-marcos-chilac": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 97
+  },
+  {
+   "name": "San Marcos Necoxtla",
+   "type": "village",
+   "dist_m": 122
+  },
+  {
+   "name": "Colonia Guadalupe",
+   "type": "hamlet",
+   "dist_m": 400
+  },
+  {
+   "name": "Santa Cruz Acapa",
+   "type": "village",
+   "dist_m": 667
+  },
+  {
+   "name": "Texcalco",
+   "type": "hamlet",
+   "dist_m": 136
+  }
+ ],
+ "ajalpan": [
+  {
+   "name": "San Diego Chalma",
+   "type": "village",
+   "dist_m": 524
+  },
+  {
+   "name": "San Pablo Tepetzingo",
+   "type": "village",
+   "dist_m": 243
+  },
+  {
+   "name": "San Miguel",
+   "type": "hamlet",
+   "dist_m": 222
+  },
+  {
+   "name": "Colonia Guadalupe",
+   "type": "hamlet",
+   "dist_m": 131
+  },
+  {
+   "name": "Santa Cruz Acapa",
+   "type": "village",
+   "dist_m": 428
+  },
+  {
+   "name": "Texcalco",
+   "type": "hamlet",
+   "dist_m": 524
+  },
+  {
+   "name": "Altepexi",
+   "type": "town",
+   "dist_m": 871
+  },
+  {
+   "name": "Residencial Alborada",
+   "type": "hamlet",
+   "dist_m": 212
+  },
+  {
+   "name": "Ciudad de Ajalpan",
+   "type": "town",
+   "dist_m": 72
+  },
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 320
+  }
+ ],
+ "altepexi": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 320
+  },
+  {
+   "name": "San Pablo Tepetzingo",
+   "type": "village",
+   "dist_m": 238
+  },
+  {
+   "name": "San Miguel",
+   "type": "hamlet",
+   "dist_m": 442
+  },
+  {
+   "name": "Texcalco",
+   "type": "hamlet",
+   "dist_m": 522
+  },
+  {
+   "name": "Altepexi",
+   "type": "town",
+   "dist_m": 69
+  },
+  {
+   "name": "Colonia Guadalupe",
+   "type": "hamlet",
+   "dist_m": 68
+  },
+  {
+   "name": "Santa Cruz Acapa",
+   "type": "village",
+   "dist_m": 413
+  },
+  {
+   "name": "San Diego Chalma",
+   "type": "village",
+   "dist_m": 524
+  }
+ ],
+ "chapulco": [
+  {
+   "name": "Santa Ana",
+   "type": "hamlet",
+   "dist_m": 40
+  },
+  {
+   "name": "San Isidro Vista Hermosa",
+   "type": "village",
+   "dist_m": 645
+  },
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 335
+  },
+  {
+   "name": "Villa Alegría",
+   "type": "hamlet",
+   "dist_m": 580
+  },
+  {
+   "name": "Chapulco",
+   "type": "hamlet",
+   "dist_m": 240
+  }
+ ],
+ "chilac": [
+  {
+   "name": "San Marcos Necoxtla",
+   "type": "village",
+   "dist_m": 719
+  },
+  {
+   "name": "Texcalco",
+   "type": "hamlet",
+   "dist_m": 137
+  },
+  {
+   "name": "Colonia Guadalupe",
+   "type": "hamlet",
+   "dist_m": 401
+  },
+  {
+   "name": "Santa Cruz Acapa",
+   "type": "village",
+   "dist_m": 667
+  },
+  {
+   "name": "San Gabriel Chilac",
+   "type": "town",
+   "dist_m": 234
+  },
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 97
+  }
+ ],
+ "coapan-carranza": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 145
+  }
+ ],
+ "coapan-nacional": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 145
+  }
+ ],
+ "cuayuca": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 100
+  },
+  {
+   "name": "Francisco I. Madero",
+   "type": "village",
+   "dist_m": 411
+  },
+  {
+   "name": "José María Pino Suárez",
+   "type": "village",
+   "dist_m": 660
+  },
+  {
+   "name": "Miguel Hidalgo",
+   "type": "hamlet",
+   "dist_m": 131
+  },
+  {
+   "name": "Magdalena Cuayucatepec",
+   "type": "village",
+   "dist_m": 179
+  }
+ ],
+ "miahuatlan": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 336
+  },
+  {
+   "name": "San Isidro Vista Hermosa",
+   "type": "village",
+   "dist_m": 643
+  },
+  {
+   "name": "Villa Alegría",
+   "type": "hamlet",
+   "dist_m": 572
+  },
+  {
+   "name": "Santiago Miahuatlán",
+   "type": "town",
+   "dist_m": 119
+  }
+ ],
+ "zapotitlan": [
+  {
+   "name": "San Antonio Texcala",
+   "type": "village",
+   "dist_m": 110
+  },
+  {
+   "name": "Zapotitlán Salinas",
+   "type": "town",
+   "dist_m": 189
+  },
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 352
+  }
+ ],
+ "1": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 415
+  }
+ ],
+ "10": [
+  {
+   "name": "San Diego Chalma",
+   "type": "village",
+   "dist_m": 524
+  },
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 186
+  }
+ ],
+ "10-amarilla": [
+  {
+   "name": "San Diego Chalma",
+   "type": "village",
+   "dist_m": 524
+  },
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 97
+  }
+ ],
+ "10-verde": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 120
+  },
+  {
+   "name": "San Diego Chalma",
+   "type": "village",
+   "dist_m": 579
+  }
+ ],
+ "11": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 283
+  }
+ ],
+ "12": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 324
+  }
+ ],
+ "13": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 163
+  }
+ ],
+ "15": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 150
+  }
+ ],
+ "15-frailes": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 128
+  }
+ ],
+ "16": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 134
+  }
+ ],
+ "17": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 450
+  },
+  {
+   "name": "Francisco I. Madero",
+   "type": "village",
+   "dist_m": 622
+  },
+  {
+   "name": "San Bartolo Teontepec",
+   "type": "village",
+   "dist_m": 152
+  },
+  {
+   "name": "José María Pino Suárez",
+   "type": "village",
+   "dist_m": 744
+  }
+ ],
+ "18": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 113
+  }
+ ],
+ "19": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 116
+  }
+ ],
+ "2": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 620
+  }
+ ],
+ "20": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 153
+  },
+  {
+   "name": "Francisco I. Madero",
+   "type": "village",
+   "dist_m": 52
+  }
+ ],
+ "21": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 112
+  }
+ ],
+ "22-bella-vista": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 94
+  }
+ ],
+ "22-cardenas": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 118
+  }
+ ],
+ "23": [
+  {
+   "name": "Santa Cruz Acapa",
+   "type": "village",
+   "dist_m": 65
+  },
+  {
+   "name": "Colonia Guadalupe",
+   "type": "hamlet",
+   "dist_m": 78
+  },
+  {
+   "name": "San Miguel",
+   "type": "hamlet",
+   "dist_m": 178
+  },
+  {
+   "name": "San Pablo Tepetzingo",
+   "type": "village",
+   "dist_m": 233
+  },
+  {
+   "name": "San Diego Chalma",
+   "type": "village",
+   "dist_m": 515
+  },
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 134
+  },
+  {
+   "name": "Texcalco",
+   "type": "hamlet",
+   "dist_m": 515
+  }
+ ],
+ "23-maravillas": [
+  {
+   "name": "San Diego Chalma",
+   "type": "village",
+   "dist_m": 518
+  },
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 153
+  }
+ ],
+ "23-san-isidro": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 153
+  },
+  {
+   "name": "San Diego Chalma",
+   "type": "village",
+   "dist_m": 146
+  }
+ ],
+ "24": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 154
+  }
+ ],
+ "24-bosques-de-reforma": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 150
+  }
+ ],
+ "24-dina": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 145
+  },
+  {
+   "name": "San Isidro Vista Hermosa",
+   "type": "village",
+   "dist_m": 760
+  },
+  {
+   "name": "El Paraiso de Jesús Segunda Sección",
+   "type": "hamlet",
+   "dist_m": 9
+  }
+ ],
+ "24-maridol": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 146
+  },
+  {
+   "name": "San Isidro Vista Hermosa",
+   "type": "village",
+   "dist_m": 760
+  },
+  {
+   "name": "El Paraiso de Jesús Segunda Sección",
+   "type": "hamlet",
+   "dist_m": 12
+  }
+ ],
+ "25": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 230
+  }
+ ],
+ "25-3-de-mayo": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 230
+  }
+ ],
+ "26-el-riego": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 117
+  }
+ ],
+ "27-el-riego": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 97
+  }
+ ],
+ "28-san-lorenzo": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 120
+  }
+ ],
+ "29-san-lorenzo": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 160
+  }
+ ],
+ "3": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 276
+  }
+ ],
+ "3-de-mayo": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 230
+  }
+ ],
+ "30-san-lorenzo": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 153
+  }
+ ],
+ "31-fovissste-resurreccion": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 134
+  }
+ ],
+ "32": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 120
+  },
+  {
+   "name": "San Isidro Vista Hermosa",
+   "type": "village",
+   "dist_m": 794
+  },
+  {
+   "name": "El Paraiso de Jesús Segunda Sección",
+   "type": "hamlet",
+   "dist_m": 452
+  }
+ ],
+ "32-cbtis": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 121
+  }
+ ],
+ "32-colosio": [
+  {
+   "name": "El Paraiso de Jesús Segunda Sección",
+   "type": "hamlet",
+   "dist_m": 130
+  },
+  {
+   "name": "San Isidro Vista Hermosa",
+   "type": "village",
+   "dist_m": 963
+  },
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 122
+  }
+ ],
+ "32-san-francisco": [
+  {
+   "name": "San Isidro Vista Hermosa",
+   "type": "village",
+   "dist_m": 877
+  },
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 141
+  }
+ ],
+ "33-palmas": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 145
+  }
+ ],
+ "34-viveros": [
+  {
+   "name": "San José Monte Chiquito",
+   "type": "village",
+   "dist_m": 107
+  },
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 162
+  }
+ ],
+ "35-san-vicente-ferrer": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 122
+  }
+ ],
+ "36-san-lorenzo": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 133
+  }
+ ],
+ "37": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 119
+  },
+  {
+   "name": "San Isidro Vista Hermosa",
+   "type": "village",
+   "dist_m": 98
+  }
+ ],
+ "37-san-isidro": [
+  {
+   "name": "San Isidro Vista Hermosa",
+   "type": "village",
+   "dist_m": 71
+  },
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 126
+  }
+ ],
+ "38-santa-cruz-unidad-militar": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 111
+  }
+ ],
+ "39": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 93
+  }
+ ],
+ "4": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 189
+  }
+ ],
+ "40": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 208
+  }
+ ],
+ "41": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 126
+  }
+ ],
+ "42": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 316
+  }
+ ],
+ "43": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 155
+  }
+ ],
+ "44": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 97
+  }
+ ],
+ "45": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 97
+  }
+ ],
+ "46": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 97
+  }
+ ],
+ "5": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 134
+  }
+ ],
+ "5-a": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 97
+  }
+ ],
+ "6": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 192
+  }
+ ],
+ "7-san-agustin": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 267
+  }
+ ],
+ "7-tinaco": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 267
+  }
+ ],
+ "7-upn-213-y-normal-superior": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 154
+  }
+ ],
+ "7-upn-normal": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 146
+  }
+ ],
+ "8": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 134
+  }
+ ],
+ "9": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 176
+  }
+ ],
+ "c-tec-21": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 97
+  }
+ ],
+ "c-valle": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 97
+  }
+ ],
+ "cuayucatepec": [
+  {
+   "name": "Magdalena Cuayucatepec",
+   "type": "village",
+   "dist_m": 26
+  },
+  {
+   "name": "Miguel Hidalgo",
+   "type": "hamlet",
+   "dist_m": 111
+  },
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 128
+  },
+  {
+   "name": "Francisco I. Madero",
+   "type": "village",
+   "dist_m": 59
+  },
+  {
+   "name": "José María Pino Suárez",
+   "type": "village",
+   "dist_m": 72
+  }
+ ],
+ "rc": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 122
+  }
+ ],
+ "rc-del-valle": [
+  {
+   "name": "Tehuacán",
+   "type": "city",
+   "dist_m": 128
+  }
+ ]
+}

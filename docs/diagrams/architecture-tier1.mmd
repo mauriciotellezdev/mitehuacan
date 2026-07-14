@@ -1,0 +1,42 @@
+flowchart TB
+  subgraph clients["Clients"]
+    WEB["Web map (static)"]
+    APP["Mobile app (RN)<br/>SQLite offline queue"]
+  end
+
+  CF["Cloudflare (free)<br/>DNS + CDN + WAF + TLS"]
+
+  subgraph vps["Single VPS · 4 vCPU / 8 GB · ~$25-40/mo · Docker Compose"]
+    CADDY["Caddy reverse proxy"]
+    API["API (Bun/TS)<br/>auth · validation · rate limit"]
+    REDIS["Redis<br/>job queue + live positions pub/sub"]
+    PG[("PostgreSQL + PostGIS<br/>traces · rides · routes · tags")]
+    WORK["Workers<br/>trim/anonymize -> map-match -> aggregate"]
+    VAL["Valhalla<br/>(OSM Mexico extract)"]
+    TRC["Traccar<br/>(recruited riders w/ Traccar Client)"]
+  end
+
+  subgraph ops["Ops (free tiers)"]
+    MON["Uptime Kuma + Grafana Cloud"]
+    ERR["GlitchTip / Sentry free"]
+    BAK["Nightly encrypted backups -> R2/B2 (~$1/mo)"]
+  end
+
+  EXT["OpenFreeMap tiles · Photon geocoding<br/>(cache responses; self-host if volume grows)"]
+
+  WEB --> CF
+  APP --> CF
+  CF --> CADDY
+  CADDY --> API
+  API --> PG
+  API --> REDIS
+  API -- "WS/SSE live layer" --> APP
+  REDIS --> WORK
+  WORK --> VAL
+  WORK --> PG
+  TRC --> PG
+  PG --> BAK
+  API -.-> ERR
+  vps -.-> MON
+  WEB -.-> EXT
+  APP -.-> EXT

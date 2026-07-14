@@ -1,0 +1,28 @@
+# secrets — see SECURITY.md §2 (never commit; use .env.example)
+.env
+*.env
+!.env.example
+secrets/
+secrets.env
+*.pem
+*.p8
+*.p12
+*.keystore
+*.jks
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# runtime
+node_modules/
+__pycache__/
+*.pyc
+dist/
+build/
+
+# large raw scrape artifacts stay reproducible via scripts, but we DO commit
+# the tehuacan dataset (source sites may die; provenance > repo size).

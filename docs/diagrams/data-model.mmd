@@ -1,0 +1,54 @@
+erDiagram
+  DEVICE ||--o{ TRACE : records
+  TRACE ||--o| RIDE : "labeled as"
+  RIDE }o--|| LINE : "belongs to"
+  LINE ||--o{ ROUTE_VERSION : "has (direction, version)"
+  ROUTE_VERSION ||--o{ SEGMENT : "ordered streets"
+  RIDE ||--o{ CROWD_TAG : "0..n prompts"
+  ROUTE_VERSION }o--o{ PLACE : serves
+
+  DEVICE {
+    uuid anon_id "rotated monthly"
+    string platform
+    date first_seen
+  }
+  TRACE {
+    bigint id
+    uuid batch_ids "idempotency"
+    geometry raw_points "PostGIS linestring+ts"
+    tstzrange span
+    string status "raw|trimmed|matched|junk"
+  }
+  RIDE {
+    bigint id
+    string direction
+    geometry matched_geom
+    float match_confidence
+    int duration_s
+  }
+  LINE {
+    string key "e.g. 23-san-isidro"
+    string display_name
+    string known_as "branded name"
+    string kind "local|foranea"
+  }
+  ROUTE_VERSION {
+    int version
+    bool published
+    geometry canonical_geom
+    int supporting_rides
+  }
+  SEGMENT {
+    bigint osm_way_id
+    string street_name
+    int seq
+  }
+  CROWD_TAG {
+    string level "lleno|comodo|vacio"
+    point location
+    timestamptz at
+  }
+  PLACE {
+    string name "OSM place node"
+    string type "town|village|colonia"
+  }

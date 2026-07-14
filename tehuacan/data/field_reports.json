@@ -1,0 +1,10 @@
+[
+  {
+    "date": "2026-07-14",
+    "reporter": "local rider (project owner)",
+    "route": "San Isidro combi (likely Ruta 23 - San Isidro)",
+    "claim": "Serves the corridor from Camino a San Isidro (San Diego Chalma, ~[-97.3521, 18.4458]) to Centro Comercial El Paseo (~[-97.4172, 18.4692]) as one route.",
+    "data_gap": "Mapped 2023 trace for Ruta 23 - San Isidro ends ~910 m from the Camino a San Isidro point and ~2.8 km from El Paseo. No route in the dataset connects both points.",
+    "action": "Re-ride and record with Traccar to capture current full route."
+  }
+]

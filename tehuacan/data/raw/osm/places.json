@@ -1,0 +1,398 @@
+[
+ {
+  "name": "Ciudad de Ajalpan",
+  "type": "town",
+  "lon": -97.259444,
+  "lat": 18.378333
+ },
+ {
+  "name": "Altepexi",
+  "type": "town",
+  "lon": -97.298611,
+  "lat": 18.3675
+ },
+ {
+  "name": "San Sebastián Zinacatepec",
+  "type": "town",
+  "lon": -97.245,
+  "lat": 18.334722
+ },
+ {
+  "name": "Santiago Miahuatlán",
+  "type": "town",
+  "lon": -97.441944,
+  "lat": 18.554444
+ },
+ {
+  "name": "San Gabriel Chilac",
+  "type": "town",
+  "lon": -97.3475652,
+  "lat": 18.3261009
+ },
+ {
+  "name": "Magdalena Cuayucatepec",
+  "type": "village",
+  "lon": -97.484722,
+  "lat": 18.549722
+ },
+ {
+  "name": "San José Miahuatlán",
+  "type": "town",
+  "lon": -97.2882216,
+  "lat": 18.2914539
+ },
+ {
+  "name": "Chapulco",
+  "type": "town",
+  "lon": -97.4104328,
+  "lat": 18.6202788
+ },
+ {
+  "name": "San Bartolo Teontepec",
+  "type": "village",
+  "lon": -97.523889,
+  "lat": 18.490278
+ },
+ {
+  "name": "Azumbilla",
+  "type": "village",
+  "lon": -97.398333,
+  "lat": 18.644444
+ },
+ {
+  "name": "Zapotitlán Salinas",
+  "type": "town",
+  "lon": -97.4735996,
+  "lat": 18.3292237
+ },
+ {
+  "name": "San Isidro Vista Hermosa",
+  "type": "village",
+  "lon": -97.400278,
+  "lat": 18.505556
+ },
+ {
+  "name": "San Cristóbal Tepeteopan",
+  "type": "village",
+  "lon": -97.5467636,
+  "lat": 18.5242963
+ },
+ {
+  "name": "Tepanco de López",
+  "type": "town",
+  "lon": -97.5603489,
+  "lat": 18.5551021
+ },
+ {
+  "name": "San Marcos Necoxtla",
+  "type": "village",
+  "lon": -97.360278,
+  "lat": 18.396667
+ },
+ {
+  "name": "San Luis Temalacayuca",
+  "type": "village",
+  "lon": -97.5591578,
+  "lat": 18.6018411
+ },
+ {
+  "name": "San Pablo Tepetzingo",
+  "type": "village",
+  "lon": -97.34,
+  "lat": 18.425556
+ },
+ {
+  "name": "San Antonio Cañada",
+  "type": "town",
+  "lon": -97.2900742,
+  "lat": 18.4976329
+ },
+ {
+  "name": "San Juan Atzingo",
+  "type": "village",
+  "lon": -97.3841534,
+  "lat": 18.2977716
+ },
+ {
+  "name": "José María Pino Suárez",
+  "type": "village",
+  "lon": -97.494167,
+  "lat": 18.511667
+ },
+ {
+  "name": "Santa Cruz Acapa",
+  "type": "village",
+  "lon": -97.326111,
+  "lat": 18.405556
+ },
+ {
+  "name": "Francisco I. Madero",
+  "type": "village",
+  "lon": -97.464638,
+  "lat": 18.4931452
+ },
+ {
+  "name": "Rancho Nuevo",
+  "type": "village",
+  "lon": -97.224722,
+  "lat": 18.581389
+ },
+ {
+  "name": "San Esteban Necoxcalco",
+  "type": "village",
+  "lon": -97.2982797,
+  "lat": 18.4640671
+ },
+ {
+  "name": "Nativitas (Santa María)",
+  "type": "village",
+  "lon": -97.3,
+  "lat": 18.410556
+ },
+ {
+  "name": "San Bernardino Lagunas",
+  "type": "village",
+  "lon": -97.2725,
+  "lat": 18.603889
+ },
+ {
+  "name": "Santa Catarina Otzolotepec",
+  "type": "village",
+  "lon": -97.2660353,
+  "lat": 18.5768568
+ },
+ {
+  "name": "Nicolás Bravo",
+  "type": "town",
+  "lon": -97.3083435,
+  "lat": 18.6177656
+ },
+ {
+  "name": "San José Monte Chiquito",
+  "type": "village",
+  "lon": -97.4384462,
+  "lat": 18.4958899
+ },
+ {
+  "name": "San Antonio Texcala",
+  "type": "village",
+  "lon": -97.4443585,
+  "lat": 18.3962811
+ },
+ {
+  "name": "San José Buena Vista",
+  "type": "village",
+  "lon": -97.2676676,
+  "lat": 18.404781
+ },
+ {
+  "name": "Villa Alegría",
+  "type": "hamlet",
+  "lon": -97.421389,
+  "lat": 18.534444
+ },
+ {
+  "name": "San Mateo Tlacoxcalco",
+  "type": "hamlet",
+  "lon": -97.327087,
+  "lat": 18.2878444
+ },
+ {
+  "name": "San Miguel",
+  "type": "hamlet",
+  "lon": -97.33,
+  "lat": 18.4125
+ },
+ {
+  "name": "Colonia Guadalupe",
+  "type": "hamlet",
+  "lon": -97.330556,
+  "lat": 18.404722
+ },
+ {
+  "name": "Cinco de Mayo",
+  "type": "hamlet",
+  "lon": -97.268333,
+  "lat": 18.412222
+ },
+ {
+  "name": "Benito Juárez",
+  "type": "hamlet",
+  "lon": -97.485,
+  "lat": 18.561944
+ },
+ {
+  "name": "San José las Minas",
+  "type": "hamlet",
+  "lon": -97.379444,
+  "lat": 18.57
+ },
+ {
+  "name": "Rancho Cabras (San Salvador Otzolotepec)",
+  "type": "hamlet",
+  "lon": -97.234167,
+  "lat": 18.5925
+ },
+ {
+  "name": "Chapulco",
+  "type": "hamlet",
+  "lon": -97.406944,
+  "lat": 18.608056
+ },
+ {
+  "name": "Santa Ana",
+  "type": "hamlet",
+  "lon": -97.416944,
+  "lat": 18.552778
+ },
+ {
+  "name": "Llano Grande Ixtapa",
+  "type": "hamlet",
+  "lon": -97.418056,
+  "lat": 18.646944
+ },
+ {
+  "name": "El Progreso",
+  "type": "hamlet",
+  "lon": -97.560556,
+  "lat": 18.508611
+ },
+ {
+  "name": "Miguel Hidalgo",
+  "type": "hamlet",
+  "lon": -97.488611,
+  "lat": 18.5075
+ },
+ {
+  "name": "San Antonio Cañada Primera Sección",
+  "type": "hamlet",
+  "lon": -97.295556,
+  "lat": 18.487778
+ },
+ {
+  "name": "Cristo Rey",
+  "type": "hamlet",
+  "lon": -97.465833,
+  "lat": 18.482778
+ },
+ {
+  "name": "San Luis del Pino",
+  "type": "hamlet",
+  "lon": -97.232778,
+  "lat": 18.466944
+ },
+ {
+  "name": "El Paraiso de Jesús Segunda Sección",
+  "type": "hamlet",
+  "lon": -97.390556,
+  "lat": 18.499722
+ },
+ {
+  "name": "Residencial Alborada",
+  "type": "hamlet",
+  "lon": -97.274167,
+  "lat": 18.376667
+ },
+ {
+  "name": "Aquiles Serdán",
+  "type": "hamlet",
+  "lon": -97.419167,
+  "lat": 18.634722
+ },
+ {
+  "name": "San Andrés Arrealco",
+  "type": "hamlet",
+  "lon": -97.414167,
+  "lat": 18.394167
+ },
+ {
+  "name": "Colonia Cuitlaxtepec",
+  "type": "hamlet",
+  "lon": -97.247222,
+  "lat": 18.515833
+ },
+ {
+  "name": "El Encinal",
+  "type": "hamlet",
+  "lon": -97.541667,
+  "lat": 18.404444
+ },
+ {
+  "name": "Guadalupe",
+  "type": "hamlet",
+  "lon": -97.316667,
+  "lat": 18.623333
+ },
+ {
+  "name": "Ex-Hacienda Buenavista",
+  "type": "hamlet",
+  "lon": -97.270556,
+  "lat": 18.395556
+ },
+ {
+  "name": "Las Palmas (San Miguel)",
+  "type": "hamlet",
+  "lon": -97.273889,
+  "lat": 18.388333
+ },
+ {
+  "name": "Colonia la Lobera",
+  "type": "hamlet",
+  "lon": -97.249722,
+  "lat": 18.498333
+ },
+ {
+  "name": "Texcalco",
+  "type": "hamlet",
+  "lon": -97.334167,
+  "lat": 18.400833
+ },
+ {
+  "name": "El Carmen",
+  "type": "hamlet",
+  "lon": -97.448611,
+  "lat": 18.588333
+ },
+ {
+  "name": "San Isidro Labrador (Teopuxco)",
+  "type": "hamlet",
+  "lon": -97.256111,
+  "lat": 18.395
+ },
+ {
+  "name": "San Pedro Ahuatlampa",
+  "type": "hamlet",
+  "lon": -97.244444,
+  "lat": 18.543056
+ },
+ {
+  "name": "San Antonio Cañada",
+  "type": "hamlet",
+  "lon": -97.283889,
+  "lat": 18.497778
+ },
+ {
+  "name": "Tequexco",
+  "type": "hamlet",
+  "lon": -97.286111,
+  "lat": 18.390833
+ },
+ {
+  "name": "Colonia San Salvador",
+  "type": "hamlet",
+  "lon": -97.280556,
+  "lat": 18.505278
+ },
+ {
+  "name": "Tehuacán",
+  "type": "city",
+  "lon": -97.3903616,
+  "lat": 18.4599877
+ },
+ {
+  "name": "San Diego Chalma",
+  "type": "village",
+  "lon": -97.3616831,
+  "lat": 18.4426594
+ }
+]
