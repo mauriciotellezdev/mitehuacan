@@ -310,8 +310,9 @@ function findTrips(A, B) {
 /* ---------- geocoding (Photon primary, Nominatim fallback; no Google) ---------- */
 async function geocode(q) {
   try {
+    // note: no lang param — photon 400s on lang=es (only en/de/fr supported)
     const r = await fetch('https://photon.komoot.io/api?q=' + encodeURIComponent(q) +
-                          '&lat=18.462&lon=-97.396&limit=6&lang=es');
+                          '&lat=18.462&lon=-97.396&limit=6');
     const d = await r.json();
     const res = d.features.map(f => ({
       name: f.properties.name || f.properties.street || q,
@@ -322,7 +323,7 @@ async function geocode(q) {
     if (res.length) return res;
   } catch (e) { /* fall through */ }
   try {
-    const r = await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=6&viewbox=-97.55,18.35,-97.25,18.58&bounded=1&q=' + encodeURIComponent(q));
+    const r = await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=6&viewbox=-97.78,18.13,-97.01,18.79&bounded=1&q=' + encodeURIComponent(q));
     const d = await r.json();
     return d.map(x => ({name: x.display_name.split(',')[0],
                         detail: x.display_name.split(',').slice(1, 4).join(','),

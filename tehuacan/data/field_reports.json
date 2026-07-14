@@ -20,5 +20,12 @@
     "route": "Ruta 14 (and routes 15, 6, 12, 3)",
     "claim": "Ruta 14 has disappeared; union reps say routes 15, 6, 12 and 3 may stop operating due to costs/fares. Explains the number-14 gap in the dataset.",
     "action": "Watch these routes' traces for service decline; do not assign 14 to any unnamed route."
+  },
+  {
+    "date": "2026-07-14",
+    "reporter": "local rider (project owner)",
+    "route": "San Sebastián Zinacatepec service",
+    "claim": "At least 2 routes serve San Sebastián Zinacatepec: one connecting from the Ajalpan corridor, and one passing through it (continuing beyond). Neither is in the mapped geometry.",
+    "action": "Priority mapping target: ride both with Traccar. Until then the planner can only offer Ajalpan + long walk."
   }
 ]
