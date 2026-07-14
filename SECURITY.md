@@ -78,7 +78,7 @@ Agents are contributors and are held to every rule above, plus:
 
 ## 8. Vulnerability disclosure policy
 
-Found a vulnerability? **Email security@[project-domain] (PGP key in repo once domain is live)** — please do not open a public issue for exploitable bugs.
+Found a vulnerability? **Email security@quecombi.mx (PGP key in repo once mail is live)** — please do not open a public issue for exploitable bugs.
 
 - We acknowledge within 72 h, aim to fix critical issues within 14 days, and credit reporters (unless anonymity is requested).
 - Safe harbor: good-faith research against your own devices/accounts and our staging is welcome. Do not touch other riders' data; if location data of others becomes visible, stop and report immediately.

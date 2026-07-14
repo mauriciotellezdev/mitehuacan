@@ -1,8 +1,9 @@
-# Combi Tracker
+# QueCombi (combi-tracker)
 
 Open-source crowd-mapping of Mexico's informal transit (combis/colectivos): find and
 plan combi trips, while consenting riders' phones passively keep the map alive.
-First city: **Tehuacán, Puebla**.
+First city: **Tehuacán, Puebla**. Production site: **https://quecombi.mx** (directory
+per city: `/tehuacan`; QR stickers resolve via `/qr/<sticker-id>` and never break).
 
 **Code:** AGPL-3.0 (`LICENSE`) · **Data:** ODbL 1.0 (`data-LICENSE.md`) · **Security & privacy:** [`SECURITY.md`](SECURITY.md)
 
@@ -12,6 +13,7 @@ First city: **Tehuacán, Puebla**.
 |---|---|
 | `tehuacan/` | Complete Tehuacán route dataset (82 routes, 80 with geometry), scrape/normalize pipeline, provenance docs |
 | `tehuacan/map/` | The web map: route explorer + A→B combi trip planner (MapLibre + OpenFreeMap, no keys, no Google) |
+| `site/` | Generated quecombi.mx static site (landing, city hub, 82 per-route SEO pages, map, `_redirects` for QR) — rebuild with `tehuacan/scripts/09_build_site.py` |
 | `docs/system-design.md` | Interview-style system design: DAU math, Tier 0 ($0/mo) and Tier 1 (~$30/mo) architectures, diagrams |
 | `PRD.md` | Coordinator web app (Traccar-based ride collection pipeline) |
 | `PRD-mobile.md` | Mobile app spec: planner + passive telemetry + crowding tags |
