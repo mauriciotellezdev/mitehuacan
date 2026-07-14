@@ -51,6 +51,8 @@ def main():
                     lines.append([[round(x, 6), round(y, 6)] for x, y, *_ in g["coordinates"]])
                 elif g.get("type") == "MultiLineString":
                     lines += [[[round(x, 6), round(y, 6)] for x, y, *_ in part] for part in g["coordinates"]]
+        if not lines:
+            continue  # geometry-less rows stay in the CSV but off the map (see notes column)
         feats.append({
             "type": "Feature",
             "properties": {

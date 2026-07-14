@@ -15,7 +15,7 @@ header.site{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap
  padding:0 14px;height:50px;border-bottom:1px solid var(--line);background:var(--panel)}
 header.site .brand{color:var(--ink);text-decoration:none;font-weight:700;font-size:17px;flex:none}
 header.site .brand span{color:var(--accent)}
-header.site nav{display:flex;gap:2px;margin-left:auto;overflow-x:auto}
+header.site nav{display:flex;gap:2px;margin-left:auto}
 header.site nav a{color:var(--ink2);text-decoration:none;font-size:14px;padding:6px 10px;border-radius:8px;white-space:nowrap}
 header.site nav a.on,header.site nav a:active{color:var(--ink);background:var(--chip)}
 .crumbs{font-size:13px;color:var(--ink2);padding:10px 0 0}
@@ -31,21 +31,13 @@ a{color:var(--accent)}
  text-decoration:none;font-weight:600;margin:8px 0}
 .btn.ghost{background:var(--panel);color:var(--ink);border:1px solid var(--line)}
 .btnrow{margin:14px 0}
-.grid{display:grid;grid-template-columns:1fr;gap:10px;padding:0;list-style:none}
-.card{border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--panel)}
-.card a{text-decoration:none;color:var(--ink);font-weight:600}
-.card .sub{font-size:12.5px;color:var(--ink2);margin-top:3px}
-.tag{font-size:11px;border:1px solid var(--line);border-radius:999px;padding:1px 8px;color:var(--ink2);vertical-align:middle}
-.mapembed{width:100%;height:52vh;min-height:300px;border:1px solid var(--line);border-radius:12px;display:block}
 footer.site{margin-top:36px;padding:18px 16px calc(18px + env(safe-area-inset-bottom));
  border-top:1px solid var(--line);font-size:13px;color:var(--ink2)}
 footer.site .cols{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:8px}
 footer.site a{color:var(--ink2)}
 @media(min-width:640px){
  h1{font-size:27px}
- .grid{grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
  .btn{display:inline-block;margin:6px 10px 6px 0}
- .mapembed{height:440px}
  footer.site .cols{flex-direction:row;justify-content:space-between}
 }
 </style>
@@ -55,7 +47,6 @@ footer.site a{color:var(--ink2)}
 <a class="brand" href="/">Que<span>Combi</span></a>
 <nav>
 <a href="/tehuacan/mapa/" >Mapa</a>
-<a href="/tehuacan/" >Rutas</a>
 <a href="/acerca/" class="on">Acerca</a>
 </nav>
 </header>
@@ -67,7 +58,6 @@ footer.site a{color:var(--ink2)}
 de un punto a otro, y ayuda a mantener el mapa vivo con tus propios viajes.</p>
 <div class="btnrow">
 <a class="btn" href="/tehuacan/mapa/">Abrir el mapa de Tehuacán</a>
-<a class="btn ghost" href="/tehuacan/">Ver las rutas de Tehuacán</a>
 </div>
 <h2>Apps para tu teléfono</h2>
 <p class="muted">Muy pronto: app para Android y iPhone con planificador y modo colaborador.
@@ -75,14 +65,14 @@ Mientras tanto, el mapa funciona perfecto desde tu navegador.</p>
 <h2>Proyecto abierto</h2>
 <p class="muted">Todo el código es libre (AGPL) y los datos son abiertos (ODbL).
 Construido sobre el trabajo de proyectos ciudadanos y OpenStreetMap.
-Encontraste un problema de seguridad: security@quecombi.mx</p>
+Problemas de seguridad: security@quecombi.mx</p>
 
 </div>
 <footer class="site"><div class="cols">
 <div>QueCombi — mapa libre y gratuito de las combis de México.<br>
 Datos abiertos (ODbL) · código abierto (AGPL) · hecho con proyectos ciudadanos y OpenStreetMap.<br>
 Built with ♥ in Tehuacán · <a href="https://github.com/mauriciotellezdev" rel="me">GitHub</a></div>
-<div><a href="/tehuacan/mapa/">Mapa</a> · <a href="/tehuacan/">Rutas de Tehuacán</a> · <a href="/acerca/">Acerca</a></div>
+<div><a href="/tehuacan/mapa/">Mapa</a> · <a href="/acerca/">Acerca</a></div>
 </div></footer>
 </body>
 </html>
