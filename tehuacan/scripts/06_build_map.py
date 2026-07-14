@@ -3,6 +3,7 @@
 import colorsys
 import csv
 import json
+import re
 from pathlib import Path
 
 BASE = Path(__file__).resolve().parent.parent / "data"
@@ -53,11 +54,13 @@ def main():
                     lines += [[[round(x, 6), round(y, 6)] for x, y, *_ in part] for part in g["coordinates"]]
         if not lines:
             continue  # geometry-less rows stay in the CSV but off the map (see notes column)
+        # "Ruta" prefix is redundant on a route map — display names drop it (CSV keeps source names)
+        display = re.sub(r"^ruta\s+", "", r["display_name"], flags=re.I)
         feats.append({
             "type": "Feature",
             "properties": {
                 "id": r["route_key"],
-                "name": r["display_name"],
+                "name": display,
                 "alias": r.get("known_as", ""),
                 "colonias": r.get("colonias", ""),
                 "places": ", ".join(p["name"] for p in route_places.get(r["route_key"], [])) or infer_places(r["display_name"]),

@@ -317,7 +317,7 @@ function visible(f) {
   const p = f.properties;
   if (state.kind !== 'all' && p.kind !== state.kind) return false;
   if (state.q) {
-    const hay = norm(p.name + ' ' + (p.alias || '') + ' ' + (p.colonias || '') + ' ' + (p.places || ''));
+    const hay = norm('ruta ' + p.name + ' ' + (p.alias || '') + ' ' + (p.colonias || '') + ' ' + (p.places || ''));
     if (!hay.includes(norm(state.q))) return false;
   }
   return true;
