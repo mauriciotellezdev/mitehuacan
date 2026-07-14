@@ -27,5 +27,19 @@
     "route": "San Sebastián Zinacatepec service",
     "claim": "At least 2 routes serve San Sebastián Zinacatepec: one connecting from the Ajalpan corridor, and one passing through it (continuing beyond). Neither is in the mapped geometry.",
     "action": "Priority mapping target: ride both with Traccar. Until then the planner can only offer Ajalpan + long walk."
+  },
+  {
+    "date": "2026-07-14",
+    "reporter": "local rider (project owner)",
+    "route": "unmapped: Tequexco route",
+    "claim": "A combi route passes through Tequexco (OSM locality east of Altepexi, ~[-97.28, 18.40]). Not present in any source (rutastehuacan, queruta, moovit, OSM).",
+    "action": "Mapping target: identify the line name/number at the Tequexco stop and record a ride with Traccar."
+  },
+  {
+    "date": "2026-07-14",
+    "reporter": "local rider (project owner)",
+    "route": "unmapped: San José route",
+    "claim": "A 'San José' combi route exists and is missing entirely. Candidate destinations from OSM places: San José Buena Vista, San José las Minas, San José Monte Chiquito, San José Miahuatlán. (queruta texts mention Colonia San José Obrero on many routes, but no dedicated San José line.)",
+    "action": "Mapping target: confirm which San José and record a ride. Ask the driver for the route's painted name."
   }
 ]
