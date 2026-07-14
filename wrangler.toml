@@ -7,4 +7,4 @@ pages_build_output_dir = "site"
 [[d1_databases]]
 binding = "DB"
 database_name = "quecombi"
-database_id = "REPLACE-AFTER-CREATING-D1"  # wrangler d1 create quecombi
+database_id = "b0a959fa-8e8c-4c10-b1bd-a02f2408a4cd"
