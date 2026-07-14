@@ -41,5 +41,12 @@
     "route": "unmapped: San José route",
     "claim": "A 'San José' combi route exists and is missing entirely. Candidate destinations from OSM places: San José Buena Vista, San José las Minas, San José Monte Chiquito, San José Miahuatlán. (queruta texts mention Colonia San José Obrero on many routes, but no dedicated San José line.)",
     "action": "Mapping target: confirm which San José and record a ride. Ask the driver for the route's painted name."
+  },
+  {
+    "date": "2026-07-14",
+    "reporter": "local rider (project owner)",
+    "route": "unmapped: 'Tecoxteo' combis — Coxcatlán corridor",
+    "claim": "The missing Coxcatlán service is the 'Tecoxteo' combis: Tehuacán -> Tequexco -> San Sebastián Zinacatepec -> Coxcatlán. This consolidates the earlier Tequexco and San Sebastián Zinacatepec reports — same corridor, at least 2 variants.",
+    "action": "Priority mapping target. Note: Coxcatlán is beyond the current boundary circle; the boundary auto-recomputes from geometry, so it will grow when the trace lands."
   }
 ]

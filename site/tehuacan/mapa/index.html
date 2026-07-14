@@ -7,6 +7,7 @@
 <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <script src="routes.js"></script>
+<script src="sponsors.js"></script>
 <style>
   :root {
     --bg: #ffffff; --panel: #f7f7f8; --ink: #1a1a1e; --ink-2: #55555e;
@@ -89,15 +90,38 @@
   .opt .legs .swatch { width: 11px; height: 11px; }
   .opt .meta { font-size: 11.5px; color: var(--ink-2); }
   .msg { padding: 14px; font-size: 12.5px; color: var(--ink-2); }
+  /* mobile: all-map layout — sidebar hidden, floating search bar + route chips */
+  #mbar { display: none; }
   @media (max-width: 700px) {
-    #app { flex-direction: column; }
-    #sidebar { width: 100%; height: 48vh; border-right: none; border-bottom: 1px solid var(--line); }
+    #sidebar { display: none; }
+    #mbar { display: block; position: absolute; top: 10px; left: 10px; right: 10px; z-index: 15; }
+    #mrow { display: flex; gap: 8px; align-items: center; }
+    #msearch { flex: 1; padding: 11px 14px; border: 1px solid var(--line); border-radius: 999px;
+               background: var(--panel); color: var(--ink); font-size: 15px;
+               box-shadow: 0 2px 10px rgba(0,0,0,.25); }
+    #msearch:focus { outline: 2px solid var(--accent); }
+    #mreset { width: 42px; height: 42px; flex: none; border-radius: 50%; border: 1px solid var(--line);
+              background: var(--panel); color: var(--ink); font-size: 19px; cursor: pointer;
+              box-shadow: 0 2px 10px rgba(0,0,0,.25); }
+    #msugg { background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
+             margin-top: 6px; overflow: hidden; box-shadow: 0 6px 20px rgba(0,0,0,.35);
+             max-height: 45vh; overflow-y: auto; }
+    #msugg div { padding: 11px 14px; font-size: 14.5px; display: flex; align-items: center; gap: 9px; }
+    #msugg div:active { background: var(--chip); }
+    #mchips { display: flex; gap: 6px; margin-top: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch;
+              padding-bottom: 2px; }
+    .mchip { display: flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 999px;
+             background: var(--panel); border: 1.5px solid var(--line); font-size: 13px; font-weight: 600;
+             white-space: nowrap; box-shadow: 0 2px 8px rgba(0,0,0,.25); }
+    .mchip.off { opacity: .45; }
+    .mchip .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .mchip .x { color: var(--ink-2); margin-left: 2px; }
   }
 </style>
 </head>
 <body>
 <header id="topbar">
-  <a class="brand" href="/">Que<span>Combi</span></a>
+  <a class="brand" href="/">que<span>combi</span>.mx <span style="color:var(--ink-2);font-weight:400">· Tehuacán</span></a>
   <nav>
     <a href="/tehuacan/mapa/" class="on">Mapa</a>
     <a href="/acerca/">Acerca</a>
@@ -105,10 +129,6 @@
 </header>
 <div id="app">
   <div id="sidebar">
-    <header>
-      <h1>Rutas de Tehuacán</h1>
-      <div class="sub">combis y colectivos · datos ciudadanos · 2026-07</div>
-    </header>
     <div id="tabs">
       <button data-pane="browse" class="on">Rutas</button>
       <button data-pane="plan">¿Cómo llego?</button>
@@ -148,7 +168,16 @@
       <div id="results"></div>
     </div>
   </div>
-  <div id="map"></div>
+  <div id="map">
+    <div id="mbar">
+      <div id="mrow">
+        <input id="msearch" type="search" placeholder="Busca tu ruta o colonia…" autocomplete="off">
+        <button id="mreset" title="Reiniciar" aria-label="Reiniciar">↺</button>
+      </div>
+      <div id="msugg" hidden></div>
+      <div id="mchips"></div>
+    </div>
+  </div>
 </div>
 <script>
 const dark = matchMedia('(prefers-color-scheme: dark)').matches;
@@ -368,6 +397,7 @@ function select(id, fit) {
                : ['interpolate', ['linear'], ['zoom'], 11, 1.8, 15, 3.5];
   map.setPaintProperty('routes', 'line-width', w);
   map.setPaintProperty('routes', 'line-opacity', id ? ['case', ['==', ['get', 'id'], id], 1, 0.18] : 0.85);
+  setSponsorPins(id ? [id] : []);
   renderDetail();
   renderList();
   if (id && fit) {
@@ -395,6 +425,38 @@ function renderList() {
   });
 }
 
+// sponsor pins: locations of seed/active sponsors near the given routes only
+// (never the whole map — see PRD-revenue.md)
+function setSponsorPins(routeIds) {
+  const src = map.getSource('sponsor-pins');
+  if (!src) return;
+  const feats = [];
+  const seen = new Set();
+  routeIds.forEach(rid => {
+    const byS = (SPONSORS.by_route || {})[rid] || {};
+    Object.entries(byS).forEach(([sid, locs]) => locs.forEach(l => {
+      const key = sid + l[0] + ',' + l[1];
+      if (seen.has(key)) return;
+      seen.add(key);
+      feats.push({type: 'Feature', properties: {sponsor: sid, icon: 'sp-' + sid, label: l[2] || ''},
+                  geometry: {type: 'Point', coordinates: [l[0], l[1]]}});
+    }));
+  });
+  src.setData({type: 'FeatureCollection', features: feats});
+}
+
+function sponsorRow(routeId) {
+  const entries = Object.entries(SPONSORS.sponsors || {});
+  if (!entries.length) return '';
+  const [sid, s] = entries[0];
+  track('sponsor_view', sid + ':' + routeId);
+  const near = ((SPONSORS.by_route || {})[routeId] || {})[sid];
+  return '<div class="meta" style="margin-top:8px;padding-top:8px;border-top:1px solid var(--line)">Patrocinador: ' +
+    '<img src="' + s.logo + '" srcset="' + s.logo2x + ' 2x" alt="' + s.name + '" ' +
+    'style="height:16px;vertical-align:-3px;margin:0 2px"> ' + s.name +
+    (near ? ' · ' + near.length + (near.length === 1 ? ' tienda' : ' tiendas') + ' en esta ruta' : '') + '</div>';
+}
+
 function renderDetail() {
   const el = document.getElementById('detail');
   if (!state.sel) { el.className = ''; el.innerHTML = ''; return; }
@@ -409,6 +471,7 @@ function renderDetail() {
     (towns ? '<br>pueblos en el camino: ' + towns : '') +
     (cols ? '<br>colonias: ' + cols.replaceAll('Colonia ', '') + '…' : '') +
     (p.review ? '<br>⚠️ variantes sin conciliar entre fuentes' : '') + '</div>' +
+    sponsorRow(p.id) +
     '<button class="clear">Quitar selección</button>';
   el.querySelector('.clear').onclick = () => select(null, false);
 }
@@ -523,6 +586,7 @@ function selectOption(i) {
   document.querySelectorAll('.opt').forEach((el, j) => el.classList.toggle('sel', i === j));
   const o = state.plan[i];
   const ids = o.legs;
+  setSponsorPins(ids);
   map.setFilter('routes', ['in', ['get', 'id'], ['literal', ids]]);
   map.setFilter('routes-casing', ['in', ['get', 'id'], ['literal', ids]]);
   map.setPaintProperty('routes', 'line-opacity', 1);
@@ -552,6 +616,7 @@ function selectOption(i) {
 function clearPlanLayers() {
   map.getSource('plan-walk').setData({type: 'FeatureCollection', features: []});
   map.getSource('plan-pts').setData({type: 'FeatureCollection', features: []});
+  setSponsorPins([]);
 }
 
 document.getElementById('go').onclick = async () => {
@@ -642,6 +707,19 @@ map.on('load', () => {
   map.addSource('routes', {type: 'geojson', data: ROUTES});
   map.addSource('plan-walk', {type: 'geojson', data: {type: 'FeatureCollection', features: []}});
   map.addSource('plan-pts', {type: 'geojson', data: {type: 'FeatureCollection', features: []}});
+  map.addSource('sponsor-pins', {type: 'geojson', data: {type: 'FeatureCollection', features: []}});
+  Object.entries(SPONSORS.sponsors || {}).forEach(async ([sid, s]) => {
+    try {
+      const img = await map.loadImage(s.logo2x);
+      map.addImage('sp-' + sid, img.data, {pixelRatio: 2});
+    } catch (e) { /* logo missing: pins just won't render */ }
+  });
+  map.addLayer({
+    id: 'sponsor-pins', type: 'symbol', source: 'sponsor-pins',
+    layout: {'icon-image': ['get', 'icon'], 'icon-allow-overlap': true,
+             // shrink logos when zoomed out (icon-size 1 = 64px with our @2x asset)
+             'icon-size': ['interpolate', ['linear'], ['zoom'], 10, 0.28, 13, 0.55, 16, 0.9]},
+  });
   map.addLayer({
     id: 'routes-casing', type: 'line', source: 'routes',
     layout: {'line-cap': 'round', 'line-join': 'round'},
@@ -689,7 +767,9 @@ map.on('load', () => {
       return;
     }
     const hit = map.queryRenderedFeatures(e.point, {layers: ['routes']});
-    if (hit.length && document.querySelector('#tabs button.on').dataset.pane === 'browse')
+    if (!hit.length) return;
+    if (isMobile()) mAddRoute(hit[0].properties.id);
+    else if (document.querySelector('#tabs button.on').dataset.pane === 'browse')
       select(hit[0].properties.id, false);
   });
 
@@ -699,6 +779,141 @@ map.on('load', () => {
   const ruta = params.get('ruta');
   if (ruta && feats.some(f => f.properties.id === ruta)) select(ruta, true);
 });
+
+/* ---------- mobile all-map bar: fuzzy search, chips, reset ---------- */
+const M = {chips: []};  // [{id, on}]
+const isMobile = () => matchMedia('(max-width: 700px)').matches;
+
+function fuzzyScore(q, hay) {
+  const i = hay.indexOf(q);
+  if (i >= 0) return 1000 - i;                      // substring: earlier = better
+  let qi = 0;                                        // subsequence fallback
+  for (let h = 0; h < hay.length && qi < q.length; h++) if (hay[h] === q[qi]) qi++;
+  return qi === q.length ? 100 - q.length : -1;
+}
+
+function mApply(fit) {
+  const on = M.chips.filter(c => c.on).map(c => c.id);
+  const base = on.length ? on : feats.map(f => f.properties.id);
+  map.setFilter('routes', ['in', ['get', 'id'], ['literal', base]]);
+  map.setFilter('routes-casing', ['in', ['get', 'id'], ['literal', base]]);
+  map.setPaintProperty('routes', 'line-opacity', on.length ? 1 : 0.85);
+  map.setPaintProperty('routes', 'line-width', on.length ? 4
+    : ['interpolate', ['linear'], ['zoom'], 11, 1.8, 15, 3.5]);
+  setSponsorPins(on);
+  mRenderChips();
+  if (fit && on.length) {
+    const b = new maplibregl.LngLatBounds();
+    on.forEach(id => feats.find(f => f.properties.id === id).geometry.coordinates.flat().forEach(c => b.extend(c)));
+    map.fitBounds(b, {padding: {top: 130, left: 30, right: 30, bottom: 40}, duration: 500});
+  }
+}
+
+function mRenderChips() {
+  const el = document.getElementById('mchips');
+  el.innerHTML = '';
+  M.chips.forEach(c => {
+    const p = feats.find(f => f.properties.id === c.id).properties;
+    const d = document.createElement('div');
+    d.className = 'mchip' + (c.on ? '' : ' off');
+    d.innerHTML = '<span class="dot" style="background:' + p.color + '"></span>' + p.name +
+                  '<span class="x" data-x="1">✕</span>';
+    d.onclick = e => {
+      if (e.target.dataset.x) M.chips = M.chips.filter(x => x.id !== c.id);
+      else c.on = !c.on;
+      mApply(false);
+    };
+    el.appendChild(d);
+  });
+}
+
+function mAddRoute(id) {
+  const c = M.chips.find(x => x.id === id);
+  if (c) c.on = true;
+  else M.chips.push({id, on: true});
+  track('route_select', id);
+  mApply(true);
+}
+
+// towns/colonias are first-class search results: picking one toggles ON every
+// route that passes through it (routes themselves match by name/alias only)
+let PLACE_INDEX = null;
+function buildPlaceIndex() {
+  const idx = {};
+  feats.forEach(f => {
+    const p = f.properties;
+    ((p.places || '') + ',' + (p.colonias || '')).split(',').forEach(raw => {
+      const label = raw.trim();
+      if (label.length < 3) return;
+      const key = norm(label);
+      if (!idx[key]) idx[key] = {label, ids: new Set()};
+      idx[key].ids.add(p.id);
+    });
+  });
+  // second tier: OSM towns no route reaches → the nearest lines toward them
+  // ("zina" must still answer with the Coxcatlán-corridor combis)
+  (ROUTES.properties.all_places || []).forEach(pl => {
+    const key = norm(pl.name);
+    if (idx[key]) return;
+    const ptM = mx([pl.lon, pl.lat]);
+    const ds = flat.map(r => ({id: r.id, d: nearest(ptM, r).d})).sort((a, b) => a.d - b.d);
+    if (!ds.length || ds[0].d > 12000) return;
+    const ids = ds.filter(x => x.d <= ds[0].d + 2000).slice(0, 4).map(x => x.id);
+    idx[key] = {label: pl.name, ids: new Set(ids), farKm: Math.max(1, Math.round(ds[0].d / 1000))};
+  });
+  return Object.values(idx);
+}
+
+function mAddMany(ids, trackLabel) {
+  ids.forEach(id => {
+    const c = M.chips.find(x => x.id === id);
+    if (c) c.on = true; else M.chips.push({id, on: true});
+  });
+  track('town_select', trackLabel);
+  mApply(true);
+}
+
+const msearch = document.getElementById('msearch');
+const msugg = document.getElementById('msugg');
+msearch.addEventListener('input', () => {
+  const q = norm(msearch.value.trim());
+  if (q.length < 2) { msugg.hidden = true; return; }
+  if (!PLACE_INDEX) PLACE_INDEX = buildPlaceIndex();
+  const routes = feats.map(f => {
+    const p = f.properties;
+    return {p, s: fuzzyScore(q, norm(p.name + ' ' + (p.alias || '')))};
+  }).filter(x => x.s > 0).sort((a, b) => b.s - a.s).slice(0, 6);
+  const places = PLACE_INDEX.map(pl => ({pl, s: fuzzyScore(q, norm(pl.label))}))
+    .filter(x => x.s > 0).sort((a, b) => b.s - a.s || b.pl.ids.size - a.pl.ids.size).slice(0, 3);
+  msugg.innerHTML = '';
+  places.forEach(({pl}) => {
+    const d = document.createElement('div');
+    d.innerHTML = '<span style="flex:none">📍</span><span style="flex:1">' + pl.label + '</span>' +
+                  '<span class="tag">' + (pl.farKm
+                    ? pl.ids.size + ' cercana' + (pl.ids.size === 1 ? '' : 's') + ' · ~' + pl.farKm + ' km'
+                    : pl.ids.size + (pl.ids.size === 1 ? ' ruta' : ' rutas')) + '</span>';
+    d.onclick = () => { msugg.hidden = true; msearch.value = ''; mAddMany([...pl.ids], pl.label); };
+    msugg.appendChild(d);
+  });
+  routes.forEach(({p}) => {
+    const d = document.createElement('div');
+    d.innerHTML = '<span class="swatch" style="background:' + p.color + '"></span>' +
+                  '<span style="flex:1">' + p.name + '</span>' +
+                  (p.kind === 'foránea' ? '<span class="tag">foránea</span>' : '');
+    d.onclick = () => { msugg.hidden = true; msearch.value = ''; mAddRoute(p.id); };
+    msugg.appendChild(d);
+  });
+  msugg.hidden = (places.length + routes.length) === 0;
+});
+
+document.getElementById('mreset').onclick = () => {
+  M.chips = [];
+  msearch.value = '';
+  msugg.hidden = true;
+  track('mobile_reset');
+  mApply(false);
+  map.flyTo({center: CENTER, zoom: 12.4, duration: 500});
+};
 
 document.getElementById('search').addEventListener('input', e => {
   state.q = e.target.value.trim().toLowerCase();
