@@ -1,0 +1,26 @@
+{
+  "sponsor": "oxxo",
+  "asset": "oxxo_logo_256.png (and 64px/128px map derivatives)",
+  "fetched": "2026-07-14",
+  "commons_file_page": "https://commons.wikimedia.org/wiki/File:Oxxo_Logo.svg",
+  "commons_pageid": 38935431,
+  "original_svg_url": "https://upload.wikimedia.org/wikipedia/commons/6/66/Oxxo_Logo.svg",
+  "downloaded_thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Oxxo_Logo.svg/330px-Oxxo_Logo.svg.png",
+  "license": {
+    "short_name": "Public domain",
+    "usage_terms": "Public domain",
+    "license_template": "pd",
+    "copyrighted": false,
+    "attribution_required": false,
+    "restrictions": "trademarked"
+  },
+  "extmetadata": {
+    "ObjectName": "Oxxo Logo",
+    "Categories": "Oxxo|With trademark|PD textlogo|SVG text logos|SVG logos of companies of Mexico|Logos of convenience stores",
+    "ImageDescription": "Logo (de:Unternehmenslogo)",
+    "Credit": "SVG erzeugt mit Inkscape",
+    "Artist": "Maria soledad corrales garcia (per Commons file page)",
+    "DateTime": "2022-01-19 21:53:36"
+  },
+  "notes": "Public-domain text logo (PD-textlogo) but the OXXO mark is trademarked; used as a seed placeholder for the sponsor layer per PRD-revenue.md section 3. Thumbnail served by Commons at 330px bucket, resampled locally to 256/128/64px with macOS sips."
+}
