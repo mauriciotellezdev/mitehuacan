@@ -13,7 +13,7 @@ nameservers → set them at your registrar (replaces the registrar's DNS). Wait 
 ## 2. Create the Pages project (site + API)
 
 Dashboard → Workers & Pages → **Create → Pages → Connect to Git** → pick the
-GitHub repo (`mauriciotellezdev/quecombi` — see production-stack.md §2).
+GitHub repo (`mauriciotellezdev/mitehuacan` — see production-stack.md §2).
 
 - Build command: `python3 tehuacan/scripts/06_build_map.py && python3 tehuacan/scripts/12_build_sponsors.py && python3 tehuacan/scripts/09_build_site.py`
 - Build output directory: `site`
