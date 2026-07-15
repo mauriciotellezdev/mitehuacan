@@ -11,7 +11,7 @@ away), Traccar Client on the phone points at:
 
 | Setting | Value |
 |---|---|
-| Server URL | `https://quecombi.pages.dev/api/gps` (later `https://quecombi.mx/api/gps`) |
+| Server URL | `https://mitehuacan.pages.dev/api/gps` (later `https://mitehuacan.mx/api/gps`) |
 | Device identifier | `mauricio-1` (must be in the GPS_DEVICES allowlist) |
 | everything else | as in §2 below |
 
@@ -116,5 +116,5 @@ and prints the HTTPS URL for Traccar Client (e.g.
 **The one gotcha:** quick-tunnel URLs change every time the tunnel restarts — if the
 script prints a new URL, update the phone's Server URL before riding. (Offline
 buffering still backstops you: worst case the ride uploads when the phone can reach
-whatever URL it has.) The permanent fix is a named tunnel `gps.quecombi.mx` once the
+whatever URL it has.) The permanent fix is a named tunnel `gps.mitehuacan.mx` once the
 domain is on Cloudflare — docs/setup/cloudflare.md §6 — which never changes.

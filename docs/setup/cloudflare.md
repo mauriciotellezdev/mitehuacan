@@ -2,11 +2,11 @@
 
 Everything in Tier 0 runs on the Cloudflare free plan: Pages (site + functions),
 D1 (database), the domain's DNS, and email forwarding. One account, $0/mo.
-Prereq: quecombi.mx purchased at a registrar (see production-stack.md §1).
+Prereq: mitehuacan.mx purchased at a registrar (see production-stack.md §1).
 
 ## 1. Add the domain
 
-Dashboard → **Add a domain** → `quecombi.mx` → Free plan. Cloudflare shows two
+Dashboard → **Add a domain** → `mitehuacan.mx` → Free plan. Cloudflare shows two
 nameservers → set them at your registrar (replaces the registrar's DNS). Wait for
 "Active" (minutes to hours). Nothing else to configure yet — Pages adds its own DNS.
 
@@ -20,7 +20,7 @@ GitHub repo (`mauriciotellezdev/quecombi` — see production-stack.md §2).
 - The `functions/` directory at repo root deploys automatically (analytics
   middleware, /system, /api/*).
 
-After first deploy: project → **Custom domains** → add `quecombi.mx` (and `www`).
+After first deploy: project → **Custom domains** → add `mitehuacan.mx` (and `www`).
 
 ## 3. D1 database + migrations
 
@@ -49,9 +49,9 @@ My Profile → API Tokens → **Create Token → Custom**:
 |---|---|
 | Account · Cloudflare Pages | Edit |
 | Account · D1 | Edit |
-| Zone · DNS (zone: quecombi.mx) | Edit |
+| Zone · DNS (zone: mitehuacan.mx) | Edit |
 
-Copy the token ONCE into `~/.config/quecombi/secrets.env` (`chmod 600`) as
+Copy the token ONCE into `~/.config/mitehuacan/secrets.env` (`chmod 600`) as
 `CLOUDFLARE_API_TOKEN=...` plus `CLOUDFLARE_ACCOUNT_ID=...` (dashboard sidebar).
 Never into the repo. The agent then deploys/migrates with
 `CLOUDFLARE_API_TOKEN=... bunx wrangler ...` without browser auth.
@@ -59,20 +59,20 @@ Also add both as **GitHub Actions secrets** if/when CI deploys.
 
 ## 6. Email + optional GPS tunnel
 
-- **Email Routing** (free): quecombi.mx → Email → enable → route
-  `security@quecombi.mx` → your inbox. Unblocks SECURITY.md's contact with no
+- **Email Routing** (free): mitehuacan.mx → Email → enable → route
+  `security@mitehuacan.mx` → your inbox. Unblocks SECURITY.md's contact with no
   mail provider.
 - **cloudflared named tunnel** (free, later): `cloudflared tunnel create gps`,
-  route `gps.quecombi.mx` → `http://localhost:5055`, run as a service on the Mac.
+  route `gps.mitehuacan.mx` → `http://localhost:5055`, run as a service on the Mac.
   Gives Traccar Client a live URL (MAPPING.md §6).
 
 ## 7. Verify production
 
-1. `https://quecombi.mx` → lands on the map (the `_redirects` 302).
-2. `https://quecombi.mx/qr/test-1` → map with `?qr=test-1`.
-3. `https://quecombi.mx/system` → token → dashboard shows YOUR visit already logged.
+1. `https://mitehuacan.mx` → lands on the map (the `_redirects` 302).
+2. `https://mitehuacan.mx/qr/test-1` → map with `?qr=test-1`.
+3. `https://mitehuacan.mx/system` → token → dashboard shows YOUR visit already logged.
 4. Submit a test report on /acerca/ → appears in /system "Reportes de rutas".
-5. `curl -sI https://quecombi.mx/system | grep -i x-robots` → noindex.
+5. `curl -sI https://mitehuacan.mx/system | grep -i x-robots` → noindex.
 
 ## Free-tier limits that matter (and our §9 triggers)
 

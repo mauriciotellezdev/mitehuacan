@@ -13,7 +13,7 @@ from pathlib import Path
 import requests
 
 ROOT = Path(__file__).resolve().parent.parent
-BASE = os.environ.get("QUECOMBI_BASE", "https://quecombi.pages.dev")
+BASE = os.environ.get("QUECOMBI_BASE", "https://mitehuacan.pages.dev")
 TOKEN = os.environ.get("QUECOMBI_STATS_TOKEN")
 
 
@@ -49,7 +49,7 @@ def main():
     print("\nnext steps per route:")
     print("  1. master_route_index.csv: new/updated row with geometry_files=geojson/field/<slug>.geojson, sources += field-ride")
     print("  2. python3 tehuacan/scripts/06_build_map.py && 12_build_sponsors.py && 09_build_site.py")
-    print("  3. review on quecombi.localhost, commit, deploy")
+    print("  3. review on mitehuacan.localhost, commit, deploy")
 
 
 if __name__ == "__main__":

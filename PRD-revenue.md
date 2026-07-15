@@ -4,7 +4,7 @@
 
 ## 1. Model
 
-QueCombi stays free for riders forever. Revenue comes from **local business sponsorships**:
+MiTehuacán stays free for riders forever. Revenue comes from **local business sponsorships**:
 
 - **Monthly subscription** (recurring sponsor) or **one-time support donation**.
 - A sponsor gets their **logo shown on route views** — only when a specific route is

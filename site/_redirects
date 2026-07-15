@@ -1,6 +1,8 @@
-/ /tehuacan/mapa/ 302
+/ /combis/ 302
 # QR stickers: never break a printed code. Sticker IDs map here forever.
-/qr/* /tehuacan/mapa/?qr=:splat 302
+/qr/* /combis/?qr=:splat 302
 # legacy: route pages removed 2026-07 -> deep-link into the map
-/tehuacan/rutas/* /tehuacan/mapa/?ruta=:splat 301
-/tehuacan/ /tehuacan/mapa/ 302
+/tehuacan/rutas/* /combis/?ruta=:splat 301
+/tehuacan/mapa/* /combis/ 301
+/tehuacan/ /combis/ 301
+/acerca/ /combis/acerca/ 301

@@ -9,7 +9,7 @@ const HTML = `<!DOCTYPE html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>QueCombi · sistema</title>
+<title>MiTehuacán · sistema</title>
 <style>
 :root{--bg:#fff;--panel:#f7f7f8;--ink:#1a1a1e;--ink2:#55555e;--line:#e2e2e6;--accent:#0f62fe}
 @media(prefers-color-scheme:dark){:root{--bg:#17171b;--panel:#1f1f24;--ink:#ececf0;--ink2:#a5a5b0;--line:#33333a;--accent:#6ea6ff}}
@@ -30,7 +30,7 @@ th{background:var(--panel);position:sticky;top:0}
 </head>
 <body>
 <div class="wrap">
-<h1>QueCombi · sistema</h1>
+<h1>MiTehuacán · sistema</h1>
 <div id="auth"><input id="tok" type="password" placeholder="token"><button onclick="go()">Entrar</button> <span id="err"></span></div>
 <div id="dash" hidden>
   <div class="cards" id="cards"></div>

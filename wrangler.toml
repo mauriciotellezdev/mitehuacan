@@ -1,6 +1,6 @@
 # Cloudflare Pages project config (site + functions/)
 # secrets (STATS_TOKEN) go in the dashboard or .dev.vars — never here. See SECURITY.md.
-name = "quecombi"
+name = "mitehuacan"
 compatibility_date = "2026-07-01"
 pages_build_output_dir = "site"
 

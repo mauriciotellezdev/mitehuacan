@@ -30,7 +30,7 @@ def to_utc(s):
 
 def fetch_remote(args):
     """Pull from the deployed Cloudflare ingest (default; laptop-free collection)."""
-    base = os.environ.get("QUECOMBI_BASE", "https://quecombi.pages.dev")
+    base = os.environ.get("QUECOMBI_BASE", "https://mitehuacan.pages.dev")
     token = os.environ.get("QUECOMBI_STATS_TOKEN")
     if not token:
         raise SystemExit("set QUECOMBI_STATS_TOKEN (same value as the Pages STATS_TOKEN secret)")
@@ -87,7 +87,7 @@ def main():
     print(f"  1. add/update a row in tehuacan/data/master_route_index.csv:")
     print(f"     geometry_files = geojson/field/{args.slug}.geojson  · sources += field-ride")
     print(f"  2. rebuild: python3 tehuacan/scripts/06_build_map.py && 12_build_sponsors.py && 09_build_site.py")
-    print(f"  3. check it on quecombi.localhost, then commit")
+    print(f"  3. check it on mitehuacan.localhost, then commit")
 
 
 if __name__ == "__main__":

@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-"""Generate the quecombi.mx static site into /site (Cloudflare Pages ready).
+"""Generate the mitehuacan.mx static site into /site (Cloudflare Pages ready).
 
 Map-first: the homepage goes straight into the interactive map; the only content
-page is /acerca/. (Per-route SEO pages were removed by decision 2026-07-14 —
+page is /combis/acerca/. (Per-route SEO pages were removed by decision 2026-07-14 —
 `git log` has the last version if they ever earn their way back.)
 
-  site/index.html               meta-refresh -> /tehuacan/mapa/ (CF _redirects does a real 302)
-  site/acerca/index.html        about page
-  site/tehuacan/mapa/           the interactive map app (copied from tehuacan/map)
+  site/index.html               meta-refresh -> /combis/ (CF _redirects does a real 302)
+  site/combis/                  the interactive map app (copied from tehuacan/map)
+  site/combis/acerca/           about page
   site/_redirects site/robots.txt site/sitemap.xml
 """
 import html
@@ -17,8 +17,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent          # tehuacan/
 REPO = ROOT.parent
 SITE = REPO / "site"
-DOMAIN = "https://quecombi.mx"
-CITY = "tehuacan"
+DOMAIN = "https://mitehuacan.mx"
+SECTION = "combis"
 CITY_NAME = "Tehuacán"
 
 # mobile-first: base styles are the phone layout; min-width queries add desktop touches
@@ -65,18 +65,18 @@ footer.site a{color:var(--ink2)}
 """
 
 NAV = f"""<header class="site">
-<a class="brand" href="/">Que<span>Combi</span></a>
+<a class="brand" href="/combis/">mi<span>tehuacan</span>.mx <span style="color:var(--ink2);font-weight:400">· Combis</span></a>
 <nav>
-<a href="/{CITY}/mapa/" {{on_mapa}}>Mapa</a>
-<a href="/acerca/" {{on_acerca}}>Acerca</a>
+<a href="/{SECTION}/" {{on_mapa}}>Mapa</a>
+<a href="/{SECTION}/acerca/" {{on_acerca}}>Acerca</a>
 </nav>
 </header>"""
 
 FOOTER = f"""<footer class="site"><div class="cols">
-<div>QueCombi — mapa libre y gratuito de las combis de México.<br>
+<div>MiTehuacán Combis — mapa libre y gratuito de las combis de Tehuacán.<br>
 Datos abiertos (ODbL) · código abierto (AGPL) · hecho con proyectos ciudadanos y OpenStreetMap.<br>
 Built with ♥ in Tehuacán · <a href="https://github.com/mauriciotellezdev" rel="me">GitHub</a></div>
-<div><a href="/{CITY}/mapa/">Mapa</a> · <a href="/acerca/">Acerca</a></div>
+<div><a href="/{SECTION}/">Mapa</a> · <a href="/{SECTION}/acerca/">Acerca</a></div>
 </div></footer>"""
 
 
@@ -115,16 +115,17 @@ def page(title, desc, body, canonical, active="", crumb_items=None):
 def main():
     if SITE.exists():
         shutil.rmtree(SITE)
-    (SITE / "acerca").mkdir(parents=True)
-    shutil.copytree(ROOT / "map", SITE / CITY / "mapa")
+    SITE.mkdir(parents=True)
+    shutil.copytree(ROOT / "map", SITE / SECTION)
+    (SITE / SECTION / "acerca").mkdir(parents=True)
 
     # ---- acerca
     acerca = f"""
 <h1>¿En qué combi me voy?</h1>
-<p>QueCombi es el mapa libre y gratuito de las combis: busca tu ruta, planea tu viaje
+<p>MiTehuacán es el mapa libre y gratuito de las combis: busca tu ruta, planea tu viaje
 de un punto a otro, y ayuda a mantener el mapa vivo con tus propios viajes.</p>
 <div class="btnrow">
-<a class="btn" href="/{CITY}/mapa/">Abrir el mapa de {CITY_NAME}</a>
+<a class="btn" href="/{SECTION}/">Abrir el mapa de {CITY_NAME}</a>
 </div>
 <h2>Apps para tu teléfono</h2>
 <p class="muted">Muy pronto: app para Android y iPhone con planificador y modo colaborador.
@@ -153,7 +154,7 @@ document.getElementById('report-form').addEventListener('submit', async e => {{
   e.preventDefault();
   const f = e.target, st = document.getElementById('report-status');
   const data = {{nombre: f.nombre.value.trim(), descripcion: f.descripcion.value.trim(),
-               website: f.website.value, ciudad: '{CITY}'}};
+               website: f.website.value, ciudad: 'tehuacan'}};
   if (!data.nombre || !data.descripcion) return;
   document.getElementById('report-send').disabled = true;
   st.textContent = 'Enviando…';
@@ -175,20 +176,20 @@ document.getElementById('report-form').addEventListener('submit', async e => {{
 <h2>Proyecto abierto</h2>
 <p class="muted">Todo el código es libre (AGPL) y los datos son abiertos (ODbL).
 Construido sobre el trabajo de proyectos ciudadanos.
-Problemas de seguridad: security@quecombi.mx</p>
+Problemas de seguridad: security@mitehuacan.mx</p>
 <h2>Créditos y licencias</h2>
 <p class="muted">Mapa base © <a href="https://www.openstreetmap.org/copyright">colaboradores de OpenStreetMap</a> (ODbL) ·
 teselas de <a href="https://openfreemap.org">OpenFreeMap</a> ·
 búsqueda de direcciones vía Photon/Nominatim (datos OSM) ·
 geometrías de rutas derivadas de proyectos ciudadanos
 (<a href="http://rutastehuacan.th1.mx/">rutastehuacan</a>, <a href="https://queruta.mx/">queruta</a>) ·
-datos de QueCombi publicados bajo ODbL.</p>
+datos de MiTehuacán publicados bajo ODbL.</p>
 """
-    (SITE / "acerca" / "index.html").write_text(
-        page("Acerca de QueCombi — rutas y mapa de combis",
-             "QueCombi: mapa libre y gratuito de las rutas de combis en México. "
+    (SITE / SECTION / "acerca" / "index.html").write_text(
+        page("Acerca de MiTehuacán — rutas y mapa de combis",
+             "MiTehuacán: mapa libre y gratuito de las rutas de combis en México. "
              "Código abierto, datos abiertos. Empezamos en Tehuacán, Puebla.",
-             acerca, f"{DOMAIN}/acerca/", active="acerca",
+             acerca, f"{DOMAIN}/{SECTION}/acerca/", active="acerca",
              crumb_items=[("Inicio", "/"), ("Acerca", None)]), encoding="utf-8")
 
     # ---- homepage: straight into the map, zero clicks
@@ -196,24 +197,27 @@ datos de QueCombi publicados bajo ODbL.</p>
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<title>QueCombi — mapa de combis</title>
+<title>MiTehuacán — mapa de combis</title>
 <meta name="robots" content="noindex">
-<meta http-equiv="refresh" content="0; url=/{CITY}/mapa/">
-<link rel="canonical" href="{DOMAIN}/{CITY}/mapa/">
+<meta http-equiv="refresh" content="0; url=/{SECTION}/">
+<link rel="canonical" href="{DOMAIN}/{SECTION}/">
 </head>
-<body><p>Abriendo el mapa… <a href="/{CITY}/mapa/">continuar</a></p></body>
+<body><p>Abriendo el mapa… <a href="/{SECTION}/">continuar</a></p></body>
 </html>""", encoding="utf-8")
 
     # ---- redirects (homepage + QR stickers), robots, sitemap
     (SITE / "_redirects").write_text(
-        f"/ /{CITY}/mapa/ 302\n"
+        f"/ /{SECTION}/ 302\n"
         f"# QR stickers: never break a printed code. Sticker IDs map here forever.\n"
-        f"/qr/* /{CITY}/mapa/?qr=:splat 302\n"
+        f"/qr/* /{SECTION}/?qr=:splat 302\n"
         f"# legacy: route pages removed 2026-07 -> deep-link into the map\n"
-        f"/{CITY}/rutas/* /{CITY}/mapa/?ruta=:splat 301\n"
-        f"/{CITY}/ /{CITY}/mapa/ 302\n", encoding="utf-8")
+        f"/tehuacan/rutas/* /{SECTION}/?ruta=:splat 301\n"
+        f"/tehuacan/mapa/* /{SECTION}/ 301\n"
+        f"/tehuacan/ /{SECTION}/ 301\n"
+        f"/acerca/ /{SECTION}/acerca/ 301\n"
+        , encoding="utf-8")
     (SITE / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {DOMAIN}/sitemap.xml\n", encoding="utf-8")
-    urls = [f"{DOMAIN}/{CITY}/mapa/", f"{DOMAIN}/acerca/"]
+    urls = [f"{DOMAIN}/{SECTION}/", f"{DOMAIN}/{SECTION}/acerca/"]
     (SITE / "sitemap.xml").write_text(
         '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
         + "".join(f"<url><loc>{u}</loc></url>\n" for u in urls) + "</urlset>\n", encoding="utf-8")

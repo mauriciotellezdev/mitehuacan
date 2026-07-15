@@ -4,11 +4,11 @@ Rule that picked every tech here: **free tier as long as possible**, with a know
 paid escape hatch. Total monthly cost at launch: **$0** (only real money: domain
 ~$300 MXN/yr; store fees deferred to app launch).
 
-For every key below: paste it once into `~/.config/quecombi/secrets.env`
+For every key below: paste it once into `~/.config/mitehuacan/secrets.env`
 (`chmod 600`, outside the repo — SECURITY.md §2). The agent reads keys from there
 to manage services; nothing secret ever enters the repo or chat.
 
-## 1. Domain registrar — quecombi.mx (~$250–450 MXN/yr; the only mandatory cost)
+## 1. Domain registrar — mitehuacan.mx (~$250–450 MXN/yr; the only mandatory cost)
 
 - **Choice:** any registrar that sells .mx cheaply (Namecheap, Porkbun, or the
   Mexican Akky). Cloudflare Registrar does NOT support .mx, so buy elsewhere and
@@ -74,10 +74,10 @@ recruited riders need an always-on server. No external account ever.
 
 ## 8. The keys file (recap)
 
-`~/.config/quecombi/secrets.env` — chmod 600, never committed, rotate per SECURITY.md:
+`~/.config/mitehuacan/secrets.env` — chmod 600, never committed, rotate per SECURITY.md:
 
 ```
-CLOUDFLARE_API_TOKEN=...      # scoped: Pages+D1+DNS(quecombi.mx) Edit
+CLOUDFLARE_API_TOKEN=...      # scoped: Pages+D1+DNS(mitehuacan.mx) Edit
 CLOUDFLARE_ACCOUNT_ID=...
 GITHUB_TOKEN=...              # fine-grained PAT, repo quecombi only
 STATS_TOKEN=...               # same value as the Pages env var; for /system

@@ -121,10 +121,10 @@
 </head>
 <body>
 <header id="topbar">
-  <a class="brand" href="/">que<span>combi</span>.mx <span style="color:var(--ink-2);font-weight:400">· Tehuacán</span></a>
+  <a class="brand" href="/combis/">mi<span>tehuacan</span>.mx <span style="color:var(--ink-2);font-weight:400">· Combis</span></a>
   <nav>
-    <a href="/tehuacan/mapa/" class="on">Mapa</a>
-    <a href="/acerca/">Acerca</a>
+    <a href="/combis/" class="on">Mapa</a>
+    <a href="/combis/acerca/">Acerca</a>
   </nav>
 </header>
 <div id="app">
@@ -775,7 +775,7 @@ map.on('load', () => {
 
   applyFilter();
 
-  // deep link: /tehuacan/mapa/?ruta=<id> pre-selects a route (used by route pages + sharing)
+  // deep link: /combis/?ruta=<id> pre-selects a route (used by route pages + sharing)
   const ruta = params.get('ruta');
   if (ruta && feats.some(f => f.properties.id === ruta)) select(ruta, true);
 });
