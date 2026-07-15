@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """Generate the mitehuacan.mx static site into /site (Cloudflare Pages ready).
 
-Map-first: the homepage goes straight into the interactive map; the only content
-page is /combis/acerca/. (Per-route SEO pages were removed by decision 2026-07-14 —
-`git log` has the last version if they ever earn their way back.)
+The homepage is a retro portal dashboard for the city; combis is its first section.
+The only content page under combis is /combis/acerca/. (Per-route SEO pages were
+removed by decision 2026-07-14 — `git log` has the last version if they ever earn
+their way back.)
 
-  site/index.html               meta-refresh -> /combis/ (CF _redirects does a real 302)
+  site/index.html               retro portal dashboard (links into /combis/ etc.)
   site/combis/                  the interactive map app (copied from tehuacan/map)
   site/combis/acerca/           about page
   site/_redirects site/robots.txt site/sitemap.xml
@@ -65,7 +66,7 @@ footer.site a{color:var(--ink2)}
 """
 
 NAV = f"""<header class="site">
-<a class="brand" href="/combis/">mi<span>tehuacan</span>.mx <span style="color:var(--ink2);font-weight:400">· Combis</span></a>
+<a class="brand" href="/">mi<span>tehuacan</span>.mx <span style="color:var(--ink2);font-weight:400">· Combis</span></a>
 <nav>
 <a href="/{SECTION}/" {{on_mapa}}>Mapa</a>
 <a href="/{SECTION}/acerca/" {{on_acerca}}>Acerca</a>
@@ -192,22 +193,103 @@ datos de MiTehuacán publicados bajo ODbL.</p>
              acerca, f"{DOMAIN}/{SECTION}/acerca/", active="acerca",
              crumb_items=[("Inicio", "/"), ("Acerca", None)]), encoding="utf-8")
 
-    # ---- homepage: straight into the map, zero clicks
+    # ---- homepage: retro portal dashboard (deliberately old school — keep it that way)
+    home_css = """
+body{margin:0;padding:24px 8px;background:#008080;font:14px/1.5 Tahoma,'MS Sans Serif','Segoe UI',sans-serif;color:#000}
+.desk{max-width:680px;margin:0 auto}
+.win{background:#c0c0c0;border:2px solid;border-color:#fff #404040 #404040 #fff;
+ box-shadow:1px 1px 0 #000;margin-bottom:18px}
+.tbar{display:flex;align-items:center;gap:8px;padding:3px 6px;
+ background:linear-gradient(90deg,#000080,#1084d0);color:#fff;font-weight:700;font-size:13px}
+.tbar .btns{margin-left:auto;display:flex;gap:3px}
+.tbar .btns span{width:16px;height:14px;background:#c0c0c0;border:1px solid;
+ border-color:#fff #404040 #404040 #fff;color:#000;font:bold 10px/12px Tahoma;text-align:center}
+.body{padding:14px}
+h1{font-size:22px;margin:0 0 4px}
+.tag{color:#404040;margin:0 0 10px}
+hr{border:0;border-top:1px solid #808080;border-bottom:1px solid #fff;margin:12px 0}
+.grid{display:grid;grid-template-columns:1fr;gap:10px}
+@media(min-width:520px){.grid{grid-template-columns:1fr 1fr}}
+a.tile{display:flex;gap:12px;align-items:center;padding:12px;background:#c0c0c0;
+ border:2px solid;border-color:#fff #404040 #404040 #fff;color:#000;text-decoration:none}
+a.tile:active{border-color:#404040 #fff #fff #404040}
+a.tile .ico{font-size:34px;line-height:1;flex:none}
+a.tile b{display:block;font-size:15px;color:#000080;text-decoration:underline}
+a.tile small{color:#404040}
+a.tile.main{grid-column:1/-1;background:#ffffe1}
+.soon{opacity:.65}
+.soon b{color:#404040;text-decoration:none}
+.status{display:flex;gap:4px;padding:4px;background:#c0c0c0;border-top:1px solid #808080}
+.status div{flex:1;padding:2px 8px;font-size:12px;border:1px solid;border-color:#808080 #fff #fff #808080;
+ white-space:nowrap;overflow:hidden}
+.mq span{display:inline-block;padding-left:100%;animation:mq 18s linear infinite}
+@keyframes mq{to{transform:translateX(-100%)}}
+@media(prefers-reduced-motion:reduce){.mq span{animation:none;padding-left:0}}
+.foot{text-align:center;color:#e0f0f0;font-size:12px;text-shadow:1px 1px 0 #004040}
+.foot a{color:#fff}
+.counter{display:inline-block;margin-top:6px;padding:2px 6px;background:#000;color:#0f0;
+ font:bold 13px/1.4 'Courier New',monospace;letter-spacing:2px;border:2px inset #808080}
+"""
     (SITE / "index.html").write_text(f"""<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<title>MiTehuacán — mapa de combis</title>
-<meta name="robots" content="noindex">
-<meta http-equiv="refresh" content="0; url=/{SECTION}/">
-<link rel="canonical" href="{DOMAIN}/{SECTION}/">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>mitehuacan.mx — el portal de Tehuacán</title>
+<meta name="description" content="El portal de Tehuacán, Puebla: mapa de combis, rutas y más. Libre y gratuito.">
+<link rel="canonical" href="{DOMAIN}/">
+<style>{home_css}</style>
 </head>
-<body><p>Abriendo el mapa… <a href="/{SECTION}/">continuar</a></p></body>
+<body>
+<div class="desk">
+
+<div class="win">
+<div class="tbar">🌵 Bienvenido a mitehuacan.mx<div class="btns"><span>_</span><span>□</span><span>×</span></div></div>
+<div class="body">
+<h1>mitehuacan.mx</h1>
+<p class="tag">El portal libre y gratuito de Tehuacán, Puebla — hecho por y para tehuacaneros.</p>
+<hr>
+<div class="grid">
+<a class="tile main" href="/{SECTION}/">
+ <span class="ico">🚐</span>
+ <span><b>Mapa de combis</b>
+ <small>¿En qué combi me voy? 80+ rutas en el mapa, con planificador de viajes de un punto a otro.</small></span>
+</a>
+<a class="tile" href="/{SECTION}/acerca/">
+ <span class="ico">ℹ️</span>
+ <span><b>Acerca del proyecto</b>
+ <small>Qué es MiTehuacán, datos abiertos, código libre.</small></span>
+</a>
+<a class="tile" href="/{SECTION}/acerca/#rutas-que-faltan">
+ <span class="ico">📝</span>
+ <span><b>Reporta una ruta</b>
+ <small>¿Falta tu combi en el mapa? Cuéntanos por dónde pasa.</small></span>
+</a>
+<span class="tile soon">
+ <span class="ico">🚧</span>
+ <span><b>Más secciones</b>
+ <small>En construcción… vuelve pronto.</small></span>
+</span>
+</div>
+</div>
+<div class="status">
+<div class="mq"><span>🚐 80+ rutas de combi mapeadas · datos abiertos ODbL · código libre AGPL · sin anuncios, sin cuentas, sin cobrar 🚐</span></div>
+<div style="flex:none">Tehuacán, Pue.</div>
+</div>
+</div>
+
+<p class="foot">
+Mejor visto en cualquier navegador · © 2026 MiTehuacán ·
+<a href="https://github.com/mauriciotellezdev" rel="me">GitHub</a><br>
+<span class="counter">Nº de visitas: 004815162342</span>
+</p>
+
+</div>
+</body>
 </html>""", encoding="utf-8")
 
-    # ---- redirects (homepage + QR stickers), robots, sitemap
+    # ---- redirects (QR stickers + legacy paths), robots, sitemap
     (SITE / "_redirects").write_text(
-        f"/ /{SECTION}/ 302\n"
         f"# QR stickers: never break a printed code. Sticker IDs map here forever.\n"
         f"/qr/* /{SECTION}/?qr=:splat 302\n"
         f"# legacy: route pages removed 2026-07 -> deep-link into the map\n"
@@ -217,7 +299,7 @@ datos de MiTehuacán publicados bajo ODbL.</p>
         f"/acerca/ /{SECTION}/acerca/ 301\n"
         , encoding="utf-8")
     (SITE / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {DOMAIN}/sitemap.xml\n", encoding="utf-8")
-    urls = [f"{DOMAIN}/{SECTION}/", f"{DOMAIN}/{SECTION}/acerca/"]
+    urls = [f"{DOMAIN}/", f"{DOMAIN}/{SECTION}/", f"{DOMAIN}/{SECTION}/acerca/"]
     (SITE / "sitemap.xml").write_text(
         '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
         + "".join(f"<url><loc>{u}</loc></url>\n" for u in urls) + "</urlset>\n", encoding="utf-8")

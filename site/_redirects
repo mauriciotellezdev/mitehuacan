@@ -1,4 +1,3 @@
-/ /combis/ 302
 # QR stickers: never break a printed code. Sticker IDs map here forever.
 /qr/* /combis/?qr=:splat 302
 # legacy: route pages removed 2026-07 -> deep-link into the map
