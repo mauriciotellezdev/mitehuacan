@@ -66,8 +66,9 @@ footer.site a{color:var(--ink2)}
 }
 html[lang=en] .es{display:none!important}
 html[lang=es] .en{display:none!important}
-header.site nav a.lng{padding:6px 8px;font-weight:600;font-size:12px}
-header.site nav a.lng.on{color:var(--ink);background:var(--chip)}
+header.site nav a.lng{padding:6px 8px;font-weight:600;font-size:12px;border:1px solid var(--line);border-radius:8px}
+html[lang=es] header.site nav a.lng[data-l=es]{display:none}
+html[lang=en] header.site nav a.lng[data-l=en]{display:none}
 """
 
 # runs in <head>: sets <html lang> before first paint so the .es/.en CSS rules
@@ -78,8 +79,7 @@ return (navigator.language||'es').toLowerCase().startsWith('en')?'en':'es'})();
 document.documentElement.lang=LANG;
 function syncLang(){const L=document.documentElement.lang;
 if(window.TITLES&&TITLES[L])document.title=TITLES[L];
-document.querySelectorAll('[data-ph-es]').forEach(el=>el.placeholder=L==='en'?el.dataset.phEn:el.dataset.phEs);
-document.querySelectorAll('a.lng').forEach(a=>a.classList.toggle('on',a.dataset.l===L));}
+document.querySelectorAll('[data-ph-es]').forEach(el=>el.placeholder=L==='en'?el.dataset.phEn:el.dataset.phEs);}
 function setLang(l){try{localStorage.mtLang=l}catch(e){}document.documentElement.lang=l;syncLang();return false}
 addEventListener('DOMContentLoaded',syncLang);
 </script>"""

@@ -278,7 +278,8 @@ document.title = t('title');
   document.getElementById('msearch').placeholder = t('msearchPh');
   const mr = document.getElementById('mreset');
   mr.title = t('mreset'); mr.setAttribute('aria-label', t('mreset'));
-  document.getElementById('lt-' + LANG).classList.add('on');
+  // show only the OTHER language as the toggle
+  document.getElementById('lt-' + LANG).style.display = 'none';
   // reload on switch: cheapest way to keep every dynamic render consistent
   ['es', 'en'].forEach(l => document.getElementById('lt-' + l).onclick = e => {
     e.preventDefault();
