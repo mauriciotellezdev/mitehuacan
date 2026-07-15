@@ -123,8 +123,10 @@
 <header id="topbar">
   <a class="brand" href="/combis/">mi<span>tehuacan</span>.mx <span style="color:var(--ink-2);font-weight:400">· Combis</span></a>
   <nav>
-    <a href="/combis/" class="on">Mapa</a>
-    <a href="/combis/acerca/">Acerca</a>
+    <a href="/combis/" class="on" id="nav-map">Mapa</a>
+    <a href="/combis/acerca/" id="nav-about">Acerca</a>
+    <a href="#" id="lt-es">ES</a>
+    <a href="#" id="lt-en">EN</a>
   </nav>
 </header>
 <div id="app">
@@ -182,6 +184,110 @@
 <script>
 const dark = matchMedia('(prefers-color-scheme: dark)').matches;
 const params = new URLSearchParams(location.search);
+
+/* ---------- i18n: es is canonical; ES/EN toggle persists in localStorage ---------- */
+const I18N = {
+  es: {
+    title: 'Rutas de Tehuacán — mapa de combis',
+    navMap: 'Mapa', navAbout: 'Acerca',
+    tabRoutes: 'Rutas', tabPlan: '¿Cómo llego?',
+    searchPh: 'Buscar ruta o colonia…',
+    fAll: 'Todas', fLocal: 'Locales', fForanea: 'Foráneas',
+    count: (n, m) => n + ' de ' + m + ' rutas',
+    fromPh: '¿Dónde estás? (dirección o lugar)', toPh: '¿A dónde vas?',
+    pickTitle: 'Elegir en el mapa', go: 'Buscar combis', going: 'Buscando…',
+    planNote: 'Sin horarios ni sentido de circulación — muestra qué rutas pasan cerca, no un itinerario exacto. Siempre te lleva a la combi más cercana; los tramos a pie largos se marcan con ⚠️.',
+    msearchPh: 'Busca tu ruta o colonia…', mreset: 'Reiniciar',
+    tagForanea: 'foránea',
+    detKind: k => k === 'foránea' ? 'Ruta foránea' : 'Ruta local',
+    detGeom: g => ' · geometría: ' + g,
+    detNoGeom: ' · ⚠️ sin geometría — solo sabemos que existe (Moovit); falta mapearla',
+    detSources: 'fuentes: ', detTowns: 'pueblos en el camino: ', detCols: 'colonias: ',
+    detReview: '⚠️ variantes sin conciliar entre fuentes',
+    clearSel: 'Quitar selección',
+    sponsorLbl: 'Patrocinador: ',
+    stores: n => n + (n === 1 ? ' tienda' : ' tiendas') + ' en esta ruta',
+    noGeom: 'No hay geometría de rutas cargada.',
+    longWalk: '⚠️ Ninguna ruta mapeada pasa cerca de ambos puntos — te mostramos las combis más cercanas de todos modos. Es posible que a la ruta real le falte un tramo en nuestros datos (mapeados en 2023).',
+    walkTo: s => 'Camina ' + s + ' al abordaje',
+    transferTxt: (s, w) => 'transbordo (' + s + ' a pie' + w + ')',
+    direct: 'directo',
+    rideTxt: s => '~' + s + ' en combi',
+    alightTxt: s => 'baja y camina ' + s,
+    notFound: okA => 'No se encontró ' + (okA ? 'el destino' : 'el origen') +
+                     '. Intenta con otra dirección o usa 📍 para elegir el punto en el mapa.',
+    mapPoint: ' (punto en el mapa)',
+    nearTag: (n, km) => km ? n + ' cercana' + (n === 1 ? '' : 's') + ' · ~' + km + ' km'
+                           : n + (n === 1 ? ' ruta' : ' rutas'),
+  },
+  en: {
+    title: 'Tehuacán combi routes — live map',
+    navMap: 'Map', navAbout: 'About',
+    tabRoutes: 'Routes', tabPlan: 'How do I get there?',
+    searchPh: 'Search route or neighborhood…',
+    fAll: 'All', fLocal: 'Local', fForanea: 'Intercity',
+    count: (n, m) => n + ' of ' + m + ' routes',
+    fromPh: 'Where are you? (address or place)', toPh: 'Where are you going?',
+    pickTitle: 'Pick on the map', go: 'Find combis', going: 'Searching…',
+    planNote: 'No timetables or direction of travel — this shows which routes pass nearby, not an exact itinerary. It always takes you to the nearest combi; long walks are flagged with ⚠️.',
+    msearchPh: 'Search your route or neighborhood…', mreset: 'Reset',
+    tagForanea: 'intercity',
+    detKind: k => k === 'foránea' ? 'Intercity route' : 'Local route',
+    detGeom: g => ' · geometry: ' + g,
+    detNoGeom: ' · ⚠️ no geometry — we only know it exists (Moovit); still needs mapping',
+    detSources: 'sources: ', detTowns: 'towns along the way: ', detCols: 'neighborhoods: ',
+    detReview: '⚠️ variants not yet reconciled between sources',
+    clearSel: 'Clear selection',
+    sponsorLbl: 'Sponsor: ',
+    stores: n => n + (n === 1 ? ' store' : ' stores') + ' on this route',
+    noGeom: 'No route geometry loaded.',
+    longWalk: "⚠️ No mapped route passes near both points — we're showing the nearest combis anyway. The real route may be missing a stretch in our data (mapped in 2023).",
+    walkTo: s => 'Walk ' + s + ' to board',
+    transferTxt: (s, w) => 'transfer (' + s + ' on foot' + w + ')',
+    direct: 'direct',
+    rideTxt: s => '~' + s + ' by combi',
+    alightTxt: s => 'get off and walk ' + s,
+    notFound: okA => "Couldn't find the " + (okA ? 'destination' : 'starting point') +
+                     '. Try another address or use 📍 to pick the point on the map.',
+    mapPoint: ' (point on the map)',
+    nearTag: (n, km) => km ? n + ' nearby · ~' + km + ' km'
+                           : n + (n === 1 ? ' route' : ' routes'),
+  }
+};
+const LANG = (() => {
+  try { const s = localStorage.mtLang; if (s === 'es' || s === 'en') return s; } catch (e) {}
+  return (navigator.language || 'es').toLowerCase().startsWith('en') ? 'en' : 'es';
+})();
+const t = key => I18N[LANG][key];
+document.documentElement.lang = LANG;
+document.title = t('title');
+{
+  document.getElementById('nav-map').textContent = t('navMap');
+  document.getElementById('nav-about').textContent = t('navAbout');
+  document.querySelector('[data-pane="browse"]').textContent = t('tabRoutes');
+  document.querySelector('[data-pane="plan"]').textContent = t('tabPlan');
+  document.getElementById('search').placeholder = t('searchPh');
+  document.querySelector('[data-kind="all"]').textContent = t('fAll');
+  document.querySelector('[data-kind="local"]').textContent = t('fLocal');
+  document.querySelector('[data-kind="foránea"]').textContent = t('fForanea');
+  document.getElementById('from').placeholder = t('fromPh');
+  document.getElementById('to').placeholder = t('toPh');
+  document.querySelectorAll('.pin').forEach(b => b.title = t('pickTitle'));
+  document.getElementById('go').textContent = t('go');
+  document.getElementById('plan-note').textContent = t('planNote');
+  document.getElementById('msearch').placeholder = t('msearchPh');
+  const mr = document.getElementById('mreset');
+  mr.title = t('mreset'); mr.setAttribute('aria-label', t('mreset'));
+  document.getElementById('lt-' + LANG).classList.add('on');
+  // reload on switch: cheapest way to keep every dynamic render consistent
+  ['es', 'en'].forEach(l => document.getElementById('lt-' + l).onclick = e => {
+    e.preventDefault();
+    if (l === LANG) return;
+    try { localStorage.mtLang = l; } catch (err) {}
+    track('lang_' + l);
+    location.reload();
+  });
+}
 
 // first-party feature/problem beacon (no third parties; see /acerca/ créditos)
 function track(event, label) {
@@ -387,7 +493,7 @@ function applyFilter() {
   map.setFilter('routes', base);
   map.setFilter('routes-casing', base);
   renderList();
-  document.getElementById('count').textContent = ids.length + ' de ' + feats.length + ' rutas';
+  document.getElementById('count').textContent = t('count')(ids.length, feats.length);
 }
 
 function select(id, fit) {
@@ -419,7 +525,7 @@ function renderList() {
     d.className = 'route' + (state.sel === p.id ? ' sel' : '');
     d.innerHTML = '<span class="swatch" style="background:' + p.color + '"></span>' +
                   '<span class="nm">' + p.name + '</span>' +
-                  (p.kind === 'foránea' ? '<span class="tag">foránea</span>' : '');
+                  (p.kind === 'foránea' ? '<span class="tag">' + t('tagForanea') + '</span>' : '');
     d.onclick = () => select(state.sel === p.id ? null : p.id, true);
     el.appendChild(d);
   });
@@ -451,10 +557,10 @@ function sponsorRow(routeId) {
   const [sid, s] = entries[0];
   track('sponsor_view', sid + ':' + routeId);
   const near = ((SPONSORS.by_route || {})[routeId] || {})[sid];
-  return '<div class="meta" style="margin-top:8px;padding-top:8px;border-top:1px solid var(--line)">Patrocinador: ' +
+  return '<div class="meta" style="margin-top:8px;padding-top:8px;border-top:1px solid var(--line)">' + t('sponsorLbl') +
     '<img src="' + s.logo + '" srcset="' + s.logo2x + ' 2x" alt="' + s.name + '" ' +
     'style="height:16px;vertical-align:-3px;margin:0 2px"> ' + s.name +
-    (near ? ' · ' + near.length + (near.length === 1 ? ' tienda' : ' tiendas') + ' en esta ruta' : '') + '</div>';
+    (near ? ' · ' + t('stores')(near.length) : '') + '</div>';
 }
 
 function renderDetail() {
@@ -465,14 +571,14 @@ function renderDetail() {
   const cols = (p.colonias || '').split(',').slice(0, 8).join(',');
   const towns = (p.places || '').split(',').slice(0, 10).join(',');
   el.innerHTML = '<b>' + p.name + '</b>' +
-    '<div class="meta">' + (p.kind === 'foránea' ? 'Ruta foránea' : 'Ruta local') +
-    (p.has_geom ? ' · geometría: ' + p.geom_source : ' · ⚠️ sin geometría — solo sabemos que existe (Moovit); falta mapearla') +
-    '<br>fuentes: ' + p.sources +
-    (towns ? '<br>pueblos en el camino: ' + towns : '') +
-    (cols ? '<br>colonias: ' + cols.replaceAll('Colonia ', '') + '…' : '') +
-    (p.review ? '<br>⚠️ variantes sin conciliar entre fuentes' : '') + '</div>' +
+    '<div class="meta">' + t('detKind')(p.kind) +
+    (p.has_geom ? t('detGeom')(p.geom_source) : t('detNoGeom')) +
+    '<br>' + t('detSources') + p.sources +
+    (towns ? '<br>' + t('detTowns') + towns : '') +
+    (cols ? '<br>' + t('detCols') + cols.replaceAll('Colonia ', '') + '…' : '') +
+    (p.review ? '<br>' + t('detReview') : '') + '</div>' +
     sponsorRow(p.id) +
-    '<button class="clear">Quitar selección</button>';
+    '<button class="clear">' + t('clearSel') + '</button>';
   el.querySelector('.clear').onclick = () => select(null, false);
 }
 
@@ -554,14 +660,14 @@ function runSearch() {
   state.planSel = null;
   el.innerHTML = '';
   if (!options.length) {
-    el.innerHTML = '<div class="msg">No hay geometría de rutas cargada.</div>';
+    el.innerHTML = '<div class="msg">' + t('noGeom') + '</div>';
     clearPlanLayers();
     return;
   }
   const longWalk = options.every(o =>
     o.walkA > WALK_MAX || o.walkB > WALK_MAX || (o.transfer || 0) > TRANSFER_MAX);
   if (longWalk) {
-    el.innerHTML = '<div class="msg">⚠️ Ninguna ruta mapeada pasa cerca de ambos puntos — te mostramos las combis más cercanas de todos modos. Es posible que a la ruta real le falte un tramo en nuestros datos (mapeados en 2023).</div>';
+    el.innerHTML = '<div class="msg">' + t('longWalk') + '</div>';
   }
   options.forEach((o, i) => {
     const d = document.createElement('div');
@@ -572,9 +678,9 @@ function runSearch() {
     }).join(' <span style="color:var(--ink-2)">→</span> ');
     const warn = m => m > WALK_MAX ? ' ⚠️' : '';
     d.innerHTML = '<div class="legs">' + legs + '</div>' +
-      '<div class="meta">Camina ' + fmt(o.walkA) + warn(o.walkA) + ' al abordaje · ' +
-      (o.type === 'transfer' ? 'transbordo (' + fmt(o.transfer) + ' a pie' + (o.transfer > TRANSFER_MAX ? ' ⚠️' : '') + ') · ' : 'directo · ') +
-      '~' + fmt(o.ride) + ' en combi · baja y camina ' + fmt(o.walkB) + warn(o.walkB) + '</div>';
+      '<div class="meta">' + t('walkTo')(fmt(o.walkA) + warn(o.walkA)) + ' · ' +
+      (o.type === 'transfer' ? t('transferTxt')(fmt(o.transfer), o.transfer > TRANSFER_MAX ? ' ⚠️' : '') + ' · ' : t('direct') + ' · ') +
+      t('rideTxt')(fmt(o.ride)) + ' · ' + t('alightTxt')(fmt(o.walkB) + warn(o.walkB)) + '</div>';
     d.onclick = () => selectOption(i);
     el.appendChild(d);
   });
@@ -624,14 +730,13 @@ document.getElementById('go').onclick = async () => {
   go.disabled = true;
   document.querySelectorAll('.sugg').forEach(b => b.hidden = true);
   const old = go.textContent;
-  go.textContent = 'Buscando…';
+  go.textContent = t('going');
   try {
     const okA = await resolvePoint('from');
     const okB = await resolvePoint('to');
     if (okA && okB) runSearch();
     else document.getElementById('results').innerHTML =
-      '<div class="msg">No se encontró ' + (okA ? 'el destino' : 'el origen') +
-      '. Intenta con otra dirección o usa 📍 para elegir el punto en el mapa.</div>';
+      '<div class="msg">' + t('notFound')(okA) + '</div>';
   } finally {
     go.textContent = old;
     updateGo();
@@ -763,7 +868,7 @@ map.on('load', () => {
       document.querySelectorAll('.pin').forEach(x => x.classList.remove('armed'));
       map.getCanvas().style.cursor = '';
       setPoint(which, [e.lngLat.lng, e.lngLat.lat],
-               e.lngLat.lat.toFixed(4) + ', ' + e.lngLat.lng.toFixed(4) + ' (punto en el mapa)');
+               e.lngLat.lat.toFixed(4) + ', ' + e.lngLat.lng.toFixed(4) + t('mapPoint'));
       return;
     }
     const hit = map.queryRenderedFeatures(e.point, {layers: ['routes']});
@@ -889,9 +994,7 @@ msearch.addEventListener('input', () => {
   places.forEach(({pl}) => {
     const d = document.createElement('div');
     d.innerHTML = '<span style="flex:none">📍</span><span style="flex:1">' + pl.label + '</span>' +
-                  '<span class="tag">' + (pl.farKm
-                    ? pl.ids.size + ' cercana' + (pl.ids.size === 1 ? '' : 's') + ' · ~' + pl.farKm + ' km'
-                    : pl.ids.size + (pl.ids.size === 1 ? ' ruta' : ' rutas')) + '</span>';
+                  '<span class="tag">' + t('nearTag')(pl.ids.size, pl.farKm) + '</span>';
     d.onclick = () => { msugg.hidden = true; msearch.value = ''; mAddMany([...pl.ids], pl.label); };
     msugg.appendChild(d);
   });
@@ -899,7 +1002,7 @@ msearch.addEventListener('input', () => {
     const d = document.createElement('div');
     d.innerHTML = '<span class="swatch" style="background:' + p.color + '"></span>' +
                   '<span style="flex:1">' + p.name + '</span>' +
-                  (p.kind === 'foránea' ? '<span class="tag">foránea</span>' : '');
+                  (p.kind === 'foránea' ? '<span class="tag">' + t('tagForanea') + '</span>' : '');
     d.onclick = () => { msugg.hidden = true; msearch.value = ''; mAddRoute(p.id); };
     msugg.appendChild(d);
   });

@@ -12,6 +12,7 @@ their way back.)
   site/_redirects site/robots.txt site/sitemap.xml
 """
 import html
+import json
 import shutil
 from pathlib import Path
 
@@ -63,35 +64,64 @@ footer.site a{color:var(--ink2)}
  .btn{display:inline-block;margin:6px 10px 6px 0}
  footer.site .cols{flex-direction:row;justify-content:space-between}
 }
+html[lang=en] .es{display:none!important}
+html[lang=es] .en{display:none!important}
+header.site nav a.lng{padding:6px 8px;font-weight:600;font-size:12px}
+header.site nav a.lng.on{color:var(--ink);background:var(--chip)}
 """
+
+# runs in <head>: sets <html lang> before first paint so the .es/.en CSS rules
+# pick the right language with no flash; TITLES is defined per page
+LANG_JS = """<script>
+const LANG=(()=>{try{const s=localStorage.mtLang;if(s==='es'||s==='en')return s}catch(e){}
+return (navigator.language||'es').toLowerCase().startsWith('en')?'en':'es'})();
+document.documentElement.lang=LANG;
+function syncLang(){const L=document.documentElement.lang;
+if(window.TITLES&&TITLES[L])document.title=TITLES[L];
+document.querySelectorAll('[data-ph-es]').forEach(el=>el.placeholder=L==='en'?el.dataset.phEn:el.dataset.phEs);
+document.querySelectorAll('a.lng').forEach(a=>a.classList.toggle('on',a.dataset.l===L));}
+function setLang(l){try{localStorage.mtLang=l}catch(e){}document.documentElement.lang=l;syncLang();return false}
+addEventListener('DOMContentLoaded',syncLang);
+</script>"""
+
+LANG_LINKS = """<a href="#" class="lng" data-l="es" onclick="return setLang('es')">ES</a>
+<a href="#" class="lng" data-l="en" onclick="return setLang('en')">EN</a>"""
 
 NAV = f"""<header class="site">
 <a class="brand" href="/">mi<span>tehuacan</span>.mx <span style="color:var(--ink2);font-weight:400">· Combis</span></a>
 <nav>
-<a href="/{SECTION}/" {{on_mapa}}>Mapa</a>
-<a href="/{SECTION}/acerca/" {{on_acerca}}>Acerca</a>
+<a href="/{SECTION}/" {{on_mapa}}><span class="es">Mapa</span><span class="en">Map</span></a>
+<a href="/{SECTION}/acerca/" {{on_acerca}}><span class="es">Acerca</span><span class="en">About</span></a>
+{LANG_LINKS}
 </nav>
 </header>"""
 
 FOOTER = f"""<footer class="site"><div class="cols">
-<div>MiTehuacán — el portal libre y gratuito de Tehuacán, Puebla.<br>
-Datos abiertos (ODbL) · código abierto (AGPL) · hecho con proyectos ciudadanos y OpenStreetMap.<br>
+<div><span class="es">MiTehuacán — el portal libre y gratuito de Tehuacán, Puebla.</span><span class="en">MiTehuacán — the free, open portal of Tehuacán, Puebla.</span><br>
+<span class="es">Datos abiertos (ODbL) · código abierto (AGPL) · hecho con proyectos ciudadanos y OpenStreetMap.</span><span class="en">Open data (ODbL) · open source (AGPL) · built on citizen projects and OpenStreetMap.</span><br>
 Built with ♥ in Tehuacán · <a href="https://github.com/mauriciotellezdev/mitehuacan" rel="me">GitHub</a></div>
-<div><a href="/">Inicio</a> · <a href="/{SECTION}/">Combis</a> · <a href="/{SECTION}/acerca/">Acerca</a></div>
+<div><a href="/"><span class="es">Inicio</span><span class="en">Home</span></a> · <a href="/{SECTION}/">Combis</a> · <a href="/{SECTION}/acerca/"><span class="es">Acerca</span><span class="en">About</span></a></div>
 </div></footer>"""
 
 
+def bi(es, en):
+    """Bilingual inline text: both languages in the DOM, CSS shows the active one."""
+    return f'<span class="es">{es}</span><span class="en">{en}</span>'
+
+
 def crumbs(items):
+    # labels are generator-controlled HTML (may contain bilingual spans) — not escaped
     out = []
     for label, href in items:
-        out.append(f'<a href="{href}">{html.escape(label)}</a>' if href else f'<span>{html.escape(label)}</span>')
+        out.append(f'<a href="{href}">{label}</a>' if href else f'<span>{label}</span>')
     return '<nav class="crumbs" aria-label="ruta de navegación">' + '<span class="sep">›</span>'.join(out) + '</nav>'
 
 
-def page(title, desc, body, canonical, active="", crumb_items=None):
+def page(title, desc, body, canonical, active="", crumb_items=None, title_en=None):
     nav = NAV.format(on_mapa='class="on"' if active == "mapa" else "",
                      on_acerca='class="on"' if active == "acerca" else "")
     bc = crumbs(crumb_items) if crumb_items else ""
+    titles = f"<script>window.TITLES={json.dumps({'es': title, 'en': title_en or title}, ensure_ascii=False)}</script>"
     return f"""<!DOCTYPE html>
 <html lang="es">
 <head>
@@ -101,6 +131,8 @@ def page(title, desc, body, canonical, active="", crumb_items=None):
 <meta name="description" content="{html.escape(desc)}">
 <link rel="canonical" href="{canonical}">
 <style>{CSS}</style>
+{titles}
+{LANG_JS}
 </head>
 <body>
 {nav}
@@ -120,37 +152,60 @@ def main():
     shutil.copytree(ROOT / "map", SITE / SECTION)
     (SITE / SECTION / "acerca").mkdir(parents=True)
 
-    # ---- acerca
+    # ---- acerca (bilingual: es/en blocks toggled by the html lang attribute)
     acerca = f"""
-<h1>¿En qué combi me voy?</h1>
-<p>MiTehuacán es el mapa libre y gratuito de las combis: busca tu ruta, planea tu viaje
+<h1>{bi('¿En qué combi me voy?', 'Which combi do I take?')}</h1>
+<p class="es">MiTehuacán es el mapa libre y gratuito de las combis: busca tu ruta, planea tu viaje
 de un punto a otro, y ayuda a mantener el mapa vivo con tus propios viajes.</p>
+<p class="en">MiTehuacán is the free, open map of the combis: find your route, plan a trip
+from one point to another, and help keep the map alive with your own rides.</p>
 <div class="btnrow">
-<a class="btn" href="/{SECTION}/">Abrir el mapa de {CITY_NAME}</a>
+<a class="btn" href="/{SECTION}/">{bi(f'Abrir el mapa de {CITY_NAME}', f'Open the {CITY_NAME} map')}</a>
 </div>
-<h2>Apps para tu teléfono</h2>
-<p class="muted">Muy pronto: app para Android y iPhone con planificador y modo colaborador.
+<h2>{bi('Apps para tu teléfono', 'Apps for your phone')}</h2>
+<p class="muted es">Muy pronto: app para Android y iPhone con planificador y modo colaborador.
 Mientras tanto, el mapa funciona perfecto desde tu navegador.</p>
-<h2 id="rutas-que-faltan">Rutas que faltan — ¿las conoces?</h2>
-<p>Sabemos que estas rutas existen, pero todavía no están en el mapa:</p>
-<ul>
+<p class="muted en">Coming soon: an Android and iPhone app with a trip planner and contributor mode.
+In the meantime, the map works great from your browser.</p>
+<h2 id="rutas-que-faltan">{bi('Rutas que faltan — ¿las conoces?', 'Missing routes — do you know them?')}</h2>
+<p class="es">Sabemos que estas rutas existen, pero todavía no están en el mapa:</p>
+<p class="en">We know these routes exist, but they are not on the map yet:</p>
+<ul class="es">
 <li><strong>Las combis «Tecoxteo» (corredor a Coxcatlán)</strong> — Tehuacán → Tequexco →
 San Sebastián Zinacatepec → Coxcatlán; al menos 2 variantes (una conecta desde Ajalpan
 y otra pasa de largo por Zinacatepec)</li>
 <li><strong>San José</strong> — falta la ruta de San José (¿Buena Vista? ¿las Minas? ¿Monte Chiquito?)</li>
 </ul>
-<p>¿Conoces una de estas — o cualquier otra que no aparezca en el mapa? Cuéntanos:</p>
+<ul class="en">
+<li><strong>The «Tecoxteo» combis (Coxcatlán corridor)</strong> — Tehuacán → Tequexco →
+San Sebastián Zinacatepec → Coxcatlán; at least 2 variants (one connects from Ajalpan,
+another passes straight through Zinacatepec)</li>
+<li><strong>San José</strong> — the San José route is missing (Buena Vista? Las Minas? Monte Chiquito?)</li>
+</ul>
+<p class="es">¿Conoces una de estas — o cualquier otra que no aparezca en el mapa? Cuéntanos:</p>
+<p class="en">Do you know one of these — or any other route that isn't on the map? Tell us:</p>
 <form id="report-form">
 <input type="text" name="nombre" maxlength="80" required
- placeholder="Nombre de la ruta (como está pintado en la combi)">
+ placeholder="Nombre de la ruta (como está pintado en la combi)"
+ data-ph-es="Nombre de la ruta (como está pintado en la combi)"
+ data-ph-en="Route name (as painted on the combi)">
 <textarea name="descripcion" maxlength="1500" rows="5" required
- placeholder="¿Por dónde pasa? Calles, colonias, paradas, de dónde sale y a dónde llega…"></textarea>
+ placeholder="¿Por dónde pasa? Calles, colonias, paradas, de dónde sale y a dónde llega…"
+ data-ph-es="¿Por dónde pasa? Calles, colonias, paradas, de dónde sale y a dónde llega…"
+ data-ph-en="Where does it go? Streets, neighborhoods, stops, where it starts and where it ends…"></textarea>
 <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"
  style="position:absolute;left:-9999px">
-<button type="submit" class="btn" id="report-send">Enviar</button>
+<button type="submit" class="btn" id="report-send">{bi('Enviar', 'Send')}</button>
 <p class="muted" id="report-status"></p>
 </form>
 <script>
+const FM = {{
+  es: {{sending: 'Enviando…', thanks: '¡Gracias! Tu reporte nos ayuda a completar el mapa.',
+       fail: 'No se pudo enviar ahora mismo. Copia tu reporte y mándalo cuando tengas conexión:', route: 'Ruta: '}},
+  en: {{sending: 'Sending…', thanks: 'Thank you! Your report helps us complete the map.',
+       fail: "Couldn't send right now. Copy your report and send it when you have a connection:", route: 'Route: '}}
+}};
+const fmsg = k => (FM[document.documentElement.lang] || FM.es)[k];
 document.getElementById('report-form').addEventListener('submit', async e => {{
   e.preventDefault();
   const f = e.target, st = document.getElementById('report-status');
@@ -158,40 +213,50 @@ document.getElementById('report-form').addEventListener('submit', async e => {{
                website: f.website.value, ciudad: 'tehuacan'}};
   if (!data.nombre || !data.descripcion) return;
   document.getElementById('report-send').disabled = true;
-  st.textContent = 'Enviando…';
+  st.textContent = fmsg('sending');
   try {{
     const r = await fetch('/api/reportes', {{method: 'POST',
       headers: {{'Content-Type': 'application/json'}}, body: JSON.stringify(data)}});
     if (!r.ok) throw new Error(r.status);
-    st.textContent = '¡Gracias! Tu reporte nos ayuda a completar el mapa.';
+    st.textContent = fmsg('thanks');
     f.reset();
   }} catch (err) {{
-    st.innerHTML = 'No se pudo enviar ahora mismo. Copia tu reporte y mándalo cuando tengas conexión:<br><br>' +
-      '<code style="user-select:all;display:block;padding:8px;border:1px solid var(--line);border-radius:8px">Ruta: ' +
+    st.innerHTML = fmsg('fail') + '<br><br>' +
+      '<code style="user-select:all;display:block;padding:8px;border:1px solid var(--line);border-radius:8px">' + fmsg('route') +
       data.nombre.replace(/</g,'&lt;') + ' — ' + data.descripcion.replace(/</g,'&lt;') + '</code>';
   }}
   document.getElementById('report-send').disabled = false;
 }});
 </script>
 
-<h2>Proyecto abierto</h2>
-<p class="muted">Todo el código es libre (AGPL) y los datos son abiertos (ODbL).
+<h2>{bi('Proyecto abierto', 'Open project')}</h2>
+<p class="muted es">Todo el código es libre (AGPL) y los datos son abiertos (ODbL).
 Construido sobre el trabajo de proyectos ciudadanos.
 Problemas de seguridad: security@mitehuacan.mx</p>
-<h2>Créditos y licencias</h2>
-<p class="muted">Mapa base © <a href="https://www.openstreetmap.org/copyright">colaboradores de OpenStreetMap</a> (ODbL) ·
+<p class="muted en">All the code is free software (AGPL) and the data is open (ODbL).
+Built on the work of citizen projects.
+Security issues: security@mitehuacan.mx</p>
+<h2>{bi('Créditos y licencias', 'Credits & licenses')}</h2>
+<p class="muted es">Mapa base © <a href="https://www.openstreetmap.org/copyright">colaboradores de OpenStreetMap</a> (ODbL) ·
 teselas de <a href="https://openfreemap.org">OpenFreeMap</a> ·
 búsqueda de direcciones vía Photon/Nominatim (datos OSM) ·
 geometrías de rutas derivadas de proyectos ciudadanos
 (<a href="http://rutastehuacan.th1.mx/">rutastehuacan</a>, <a href="https://queruta.mx/">queruta</a>) ·
 datos de MiTehuacán publicados bajo ODbL.</p>
+<p class="muted en">Base map © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> (ODbL) ·
+tiles by <a href="https://openfreemap.org">OpenFreeMap</a> ·
+address search via Photon/Nominatim (OSM data) ·
+route geometries derived from citizen projects
+(<a href="http://rutastehuacan.th1.mx/">rutastehuacan</a>, <a href="https://queruta.mx/">queruta</a>) ·
+MiTehuacán data published under ODbL.</p>
 """
     (SITE / SECTION / "acerca" / "index.html").write_text(
         page("Acerca de MiTehuacán — rutas y mapa de combis",
              "MiTehuacán: mapa libre y gratuito de las rutas de combis en México. "
              "Código abierto, datos abiertos. Empezamos en Tehuacán, Puebla.",
              acerca, f"{DOMAIN}/{SECTION}/acerca/", active="acerca",
-             crumb_items=[("Inicio", "/"), ("Acerca", None)]), encoding="utf-8")
+             crumb_items=[(bi("Inicio", "Home"), "/"), (bi("Acerca", "About"), None)],
+             title_en="About MiTehuacán — combi routes and map"), encoding="utf-8")
 
     # ---- homepage: the town portal — brand page with one card per section.
     # Combis is live; the rest launch later. Add a card here when a section ships.
@@ -221,39 +286,49 @@ a.card.live .go{display:inline-block;margin-top:14px;background:var(--accent);co
     home_body = f"""
 <div class="hero">
 <h1>Mi<span>Tehuacán</span></h1>
-<p>El portal de Tehuacán, Puebla — servicios libres y gratuitos, hechos por y para tehuacaneros.</p>
+<p class="es">El portal de Tehuacán, Puebla — servicios libres y gratuitos, hechos por y para tehuacaneros.</p>
+<p class="en">The portal of Tehuacán, Puebla — free, open services made by and for the people of Tehuacán.</p>
 </div>
 <div class="cards">
 <a class="card live" href="/{SECTION}/">
- <span class="badge">Ya disponible</span>
+ <span class="badge">{bi('Ya disponible', 'Live now')}</span>
  <span class="ico">🚐</span>
  <h2>Combis</h2>
- <p>¿En qué combi me voy? Más de 80 rutas en un mapa, con planificador de viajes:
+ <p class="es">¿En qué combi me voy? Más de 80 rutas en un mapa, con planificador de viajes:
  dinos de dónde sales y a dónde vas, y te decimos qué combi tomar.</p>
- <span class="go">Abrir el mapa de combis</span>
+ <p class="en">Which combi do I take? 80+ routes on one map, with a trip planner:
+ tell us where you start and where you're going, and we'll tell you which combi to take.</p>
+ <span class="go">{bi('Abrir el mapa de combis', 'Open the combi map')}</span>
 </a>
 <div class="card soon">
- <span class="badge">Próximamente</span>
+ <span class="badge">{bi('Próximamente', 'Coming soon')}</span>
  <span class="ico">🛒</span>
  <h2>Mi Tianguis</h2>
- <p>El mercado en línea de Tehuacán: compra y vende entre vecinos, sin comisiones.</p>
+ <p class="es">El mercado en línea de Tehuacán: compra y vende entre vecinos, sin comisiones.</p>
+ <p class="en">Tehuacán's online marketplace: buy and sell between neighbors, commission-free.</p>
 </div>
 <div class="card soon">
- <span class="badge">Próximamente</span>
+ <span class="badge">{bi('Próximamente', 'Coming soon')}</span>
  <span class="ico">💼</span>
- <h2>Empleos</h2>
- <p>Chamba local: vacantes de la región y un lugar para ofrecer tu talento.</p>
+ <h2>{bi('Empleos', 'Jobs')}</h2>
+ <p class="es">Chamba local: vacantes de la región y un lugar para ofrecer tu talento.</p>
+ <p class="en">Local work: openings around the region and a place to offer your skills.</p>
 </div>
 <div class="card soon">
- <span class="badge">Próximamente</span>
+ <span class="badge">{bi('Próximamente', 'Coming soon')}</span>
  <span class="ico">🏠</span>
- <h2>Rentas</h2>
- <p>Casas, departamentos y locales en renta, publicados por gente de aquí.</p>
+ <h2>{bi('Rentas', 'Rentals')}</h2>
+ <p class="es">Casas, departamentos y locales en renta, publicados por gente de aquí.</p>
+ <p class="en">Houses, apartments and storefronts for rent, listed by local people.</p>
 </div>
 </div>
-<p class="pitch">Esto apenas empieza — MiTehuacán va a crecer sección por sección.
+<p class="pitch es">Esto apenas empieza — MiTehuacán va a crecer sección por sección.
 ¿Tienes una idea para el portal? <a href="/{SECTION}/acerca/">Cuéntanos</a>.</p>
+<p class="pitch en">This is only the beginning — MiTehuacán will grow section by section.
+Got an idea for the portal? <a href="/{SECTION}/acerca/">Tell us</a>.</p>
 """
+    home_titles = json.dumps({"es": "MiTehuacán — el portal de Tehuacán, Puebla",
+                              "en": "MiTehuacán — the portal of Tehuacán, Puebla"}, ensure_ascii=False)
     (SITE / "index.html").write_text(f"""<!DOCTYPE html>
 <html lang="es">
 <head>
@@ -263,13 +338,16 @@ a.card.live .go{display:inline-block;margin-top:14px;background:var(--accent);co
 <meta name="description" content="El portal de Tehuacán, Puebla: mapa y rutas de combis, y pronto tianguis en línea, empleos y rentas. Libre y gratuito.">
 <link rel="canonical" href="{DOMAIN}/">
 <style>{home_css}</style>
+<script>window.TITLES={home_titles}</script>
+{LANG_JS}
 </head>
 <body>
 <header class="site">
 <a class="brand" href="/">mi<span>tehuacan</span>.mx</a>
 <nav>
 <a href="/{SECTION}/">Combis</a>
-<a href="/{SECTION}/acerca/">Acerca</a>
+<a href="/{SECTION}/acerca/"><span class="es">Acerca</span><span class="en">About</span></a>
+{LANG_LINKS}
 </nav>
 </header>
 <div class="wrap">

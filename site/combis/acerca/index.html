@@ -46,48 +46,89 @@ footer.site a{color:var(--ink2)}
  .btn{display:inline-block;margin:6px 10px 6px 0}
  footer.site .cols{flex-direction:row;justify-content:space-between}
 }
+html[lang=en] .es{display:none!important}
+html[lang=es] .en{display:none!important}
+header.site nav a.lng{padding:6px 8px;font-weight:600;font-size:12px}
+header.site nav a.lng.on{color:var(--ink);background:var(--chip)}
 </style>
+<script>window.TITLES={"es": "Acerca de MiTehuacán — rutas y mapa de combis", "en": "About MiTehuacán — combi routes and map"}</script>
+<script>
+const LANG=(()=>{try{const s=localStorage.mtLang;if(s==='es'||s==='en')return s}catch(e){}
+return (navigator.language||'es').toLowerCase().startsWith('en')?'en':'es'})();
+document.documentElement.lang=LANG;
+function syncLang(){const L=document.documentElement.lang;
+if(window.TITLES&&TITLES[L])document.title=TITLES[L];
+document.querySelectorAll('[data-ph-es]').forEach(el=>el.placeholder=L==='en'?el.dataset.phEn:el.dataset.phEs);
+document.querySelectorAll('a.lng').forEach(a=>a.classList.toggle('on',a.dataset.l===L));}
+function setLang(l){try{localStorage.mtLang=l}catch(e){}document.documentElement.lang=l;syncLang();return false}
+addEventListener('DOMContentLoaded',syncLang);
+</script>
 </head>
 <body>
 <header class="site">
 <a class="brand" href="/">mi<span>tehuacan</span>.mx <span style="color:var(--ink2);font-weight:400">· Combis</span></a>
 <nav>
-<a href="/combis/" >Mapa</a>
-<a href="/combis/acerca/" class="on">Acerca</a>
+<a href="/combis/" ><span class="es">Mapa</span><span class="en">Map</span></a>
+<a href="/combis/acerca/" class="on"><span class="es">Acerca</span><span class="en">About</span></a>
+<a href="#" class="lng" data-l="es" onclick="return setLang('es')">ES</a>
+<a href="#" class="lng" data-l="en" onclick="return setLang('en')">EN</a>
 </nav>
 </header>
 <div class="wrap">
-<nav class="crumbs" aria-label="ruta de navegación"><a href="/">Inicio</a><span class="sep">›</span><span>Acerca</span></nav>
+<nav class="crumbs" aria-label="ruta de navegación"><a href="/"><span class="es">Inicio</span><span class="en">Home</span></a><span class="sep">›</span><span><span class="es">Acerca</span><span class="en">About</span></span></nav>
 
-<h1>¿En qué combi me voy?</h1>
-<p>MiTehuacán es el mapa libre y gratuito de las combis: busca tu ruta, planea tu viaje
+<h1><span class="es">¿En qué combi me voy?</span><span class="en">Which combi do I take?</span></h1>
+<p class="es">MiTehuacán es el mapa libre y gratuito de las combis: busca tu ruta, planea tu viaje
 de un punto a otro, y ayuda a mantener el mapa vivo con tus propios viajes.</p>
+<p class="en">MiTehuacán is the free, open map of the combis: find your route, plan a trip
+from one point to another, and help keep the map alive with your own rides.</p>
 <div class="btnrow">
-<a class="btn" href="/combis/">Abrir el mapa de Tehuacán</a>
+<a class="btn" href="/combis/"><span class="es">Abrir el mapa de Tehuacán</span><span class="en">Open the Tehuacán map</span></a>
 </div>
-<h2>Apps para tu teléfono</h2>
-<p class="muted">Muy pronto: app para Android y iPhone con planificador y modo colaborador.
+<h2><span class="es">Apps para tu teléfono</span><span class="en">Apps for your phone</span></h2>
+<p class="muted es">Muy pronto: app para Android y iPhone con planificador y modo colaborador.
 Mientras tanto, el mapa funciona perfecto desde tu navegador.</p>
-<h2 id="rutas-que-faltan">Rutas que faltan — ¿las conoces?</h2>
-<p>Sabemos que estas rutas existen, pero todavía no están en el mapa:</p>
-<ul>
+<p class="muted en">Coming soon: an Android and iPhone app with a trip planner and contributor mode.
+In the meantime, the map works great from your browser.</p>
+<h2 id="rutas-que-faltan"><span class="es">Rutas que faltan — ¿las conoces?</span><span class="en">Missing routes — do you know them?</span></h2>
+<p class="es">Sabemos que estas rutas existen, pero todavía no están en el mapa:</p>
+<p class="en">We know these routes exist, but they are not on the map yet:</p>
+<ul class="es">
 <li><strong>Las combis «Tecoxteo» (corredor a Coxcatlán)</strong> — Tehuacán → Tequexco →
 San Sebastián Zinacatepec → Coxcatlán; al menos 2 variantes (una conecta desde Ajalpan
 y otra pasa de largo por Zinacatepec)</li>
 <li><strong>San José</strong> — falta la ruta de San José (¿Buena Vista? ¿las Minas? ¿Monte Chiquito?)</li>
 </ul>
-<p>¿Conoces una de estas — o cualquier otra que no aparezca en el mapa? Cuéntanos:</p>
+<ul class="en">
+<li><strong>The «Tecoxteo» combis (Coxcatlán corridor)</strong> — Tehuacán → Tequexco →
+San Sebastián Zinacatepec → Coxcatlán; at least 2 variants (one connects from Ajalpan,
+another passes straight through Zinacatepec)</li>
+<li><strong>San José</strong> — the San José route is missing (Buena Vista? Las Minas? Monte Chiquito?)</li>
+</ul>
+<p class="es">¿Conoces una de estas — o cualquier otra que no aparezca en el mapa? Cuéntanos:</p>
+<p class="en">Do you know one of these — or any other route that isn't on the map? Tell us:</p>
 <form id="report-form">
 <input type="text" name="nombre" maxlength="80" required
- placeholder="Nombre de la ruta (como está pintado en la combi)">
+ placeholder="Nombre de la ruta (como está pintado en la combi)"
+ data-ph-es="Nombre de la ruta (como está pintado en la combi)"
+ data-ph-en="Route name (as painted on the combi)">
 <textarea name="descripcion" maxlength="1500" rows="5" required
- placeholder="¿Por dónde pasa? Calles, colonias, paradas, de dónde sale y a dónde llega…"></textarea>
+ placeholder="¿Por dónde pasa? Calles, colonias, paradas, de dónde sale y a dónde llega…"
+ data-ph-es="¿Por dónde pasa? Calles, colonias, paradas, de dónde sale y a dónde llega…"
+ data-ph-en="Where does it go? Streets, neighborhoods, stops, where it starts and where it ends…"></textarea>
 <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"
  style="position:absolute;left:-9999px">
-<button type="submit" class="btn" id="report-send">Enviar</button>
+<button type="submit" class="btn" id="report-send"><span class="es">Enviar</span><span class="en">Send</span></button>
 <p class="muted" id="report-status"></p>
 </form>
 <script>
+const FM = {
+  es: {sending: 'Enviando…', thanks: '¡Gracias! Tu reporte nos ayuda a completar el mapa.',
+       fail: 'No se pudo enviar ahora mismo. Copia tu reporte y mándalo cuando tengas conexión:', route: 'Ruta: '},
+  en: {sending: 'Sending…', thanks: 'Thank you! Your report helps us complete the map.',
+       fail: "Couldn't send right now. Copy your report and send it when you have a connection:", route: 'Route: '}
+};
+const fmsg = k => (FM[document.documentElement.lang] || FM.es)[k];
 document.getElementById('report-form').addEventListener('submit', async e => {
   e.preventDefault();
   const f = e.target, st = document.getElementById('report-status');
@@ -95,40 +136,49 @@ document.getElementById('report-form').addEventListener('submit', async e => {
                website: f.website.value, ciudad: 'tehuacan'};
   if (!data.nombre || !data.descripcion) return;
   document.getElementById('report-send').disabled = true;
-  st.textContent = 'Enviando…';
+  st.textContent = fmsg('sending');
   try {
     const r = await fetch('/api/reportes', {method: 'POST',
       headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data)});
     if (!r.ok) throw new Error(r.status);
-    st.textContent = '¡Gracias! Tu reporte nos ayuda a completar el mapa.';
+    st.textContent = fmsg('thanks');
     f.reset();
   } catch (err) {
-    st.innerHTML = 'No se pudo enviar ahora mismo. Copia tu reporte y mándalo cuando tengas conexión:<br><br>' +
-      '<code style="user-select:all;display:block;padding:8px;border:1px solid var(--line);border-radius:8px">Ruta: ' +
+    st.innerHTML = fmsg('fail') + '<br><br>' +
+      '<code style="user-select:all;display:block;padding:8px;border:1px solid var(--line);border-radius:8px">' + fmsg('route') +
       data.nombre.replace(/</g,'&lt;') + ' — ' + data.descripcion.replace(/</g,'&lt;') + '</code>';
   }
   document.getElementById('report-send').disabled = false;
 });
 </script>
 
-<h2>Proyecto abierto</h2>
-<p class="muted">Todo el código es libre (AGPL) y los datos son abiertos (ODbL).
+<h2><span class="es">Proyecto abierto</span><span class="en">Open project</span></h2>
+<p class="muted es">Todo el código es libre (AGPL) y los datos son abiertos (ODbL).
 Construido sobre el trabajo de proyectos ciudadanos.
 Problemas de seguridad: security@mitehuacan.mx</p>
-<h2>Créditos y licencias</h2>
-<p class="muted">Mapa base © <a href="https://www.openstreetmap.org/copyright">colaboradores de OpenStreetMap</a> (ODbL) ·
+<p class="muted en">All the code is free software (AGPL) and the data is open (ODbL).
+Built on the work of citizen projects.
+Security issues: security@mitehuacan.mx</p>
+<h2><span class="es">Créditos y licencias</span><span class="en">Credits & licenses</span></h2>
+<p class="muted es">Mapa base © <a href="https://www.openstreetmap.org/copyright">colaboradores de OpenStreetMap</a> (ODbL) ·
 teselas de <a href="https://openfreemap.org">OpenFreeMap</a> ·
 búsqueda de direcciones vía Photon/Nominatim (datos OSM) ·
 geometrías de rutas derivadas de proyectos ciudadanos
 (<a href="http://rutastehuacan.th1.mx/">rutastehuacan</a>, <a href="https://queruta.mx/">queruta</a>) ·
 datos de MiTehuacán publicados bajo ODbL.</p>
+<p class="muted en">Base map © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> (ODbL) ·
+tiles by <a href="https://openfreemap.org">OpenFreeMap</a> ·
+address search via Photon/Nominatim (OSM data) ·
+route geometries derived from citizen projects
+(<a href="http://rutastehuacan.th1.mx/">rutastehuacan</a>, <a href="https://queruta.mx/">queruta</a>) ·
+MiTehuacán data published under ODbL.</p>
 
 </div>
 <footer class="site"><div class="cols">
-<div>MiTehuacán — el portal libre y gratuito de Tehuacán, Puebla.<br>
-Datos abiertos (ODbL) · código abierto (AGPL) · hecho con proyectos ciudadanos y OpenStreetMap.<br>
+<div><span class="es">MiTehuacán — el portal libre y gratuito de Tehuacán, Puebla.</span><span class="en">MiTehuacán — the free, open portal of Tehuacán, Puebla.</span><br>
+<span class="es">Datos abiertos (ODbL) · código abierto (AGPL) · hecho con proyectos ciudadanos y OpenStreetMap.</span><span class="en">Open data (ODbL) · open source (AGPL) · built on citizen projects and OpenStreetMap.</span><br>
 Built with ♥ in Tehuacán · <a href="https://github.com/mauriciotellezdev/mitehuacan" rel="me">GitHub</a></div>
-<div><a href="/">Inicio</a> · <a href="/combis/">Combis</a> · <a href="/combis/acerca/">Acerca</a></div>
+<div><a href="/"><span class="es">Inicio</span><span class="en">Home</span></a> · <a href="/combis/">Combis</a> · <a href="/combis/acerca/"><span class="es">Acerca</span><span class="en">About</span></a></div>
 </div></footer>
 </body>
 </html>

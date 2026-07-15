@@ -46,6 +46,10 @@ footer.site a{color:var(--ink2)}
  .btn{display:inline-block;margin:6px 10px 6px 0}
  footer.site .cols{flex-direction:row;justify-content:space-between}
 }
+html[lang=en] .es{display:none!important}
+html[lang=es] .en{display:none!important}
+header.site nav a.lng{padding:6px 8px;font-weight:600;font-size:12px}
+header.site nav a.lng.on{color:var(--ink);background:var(--chip)}
 
 .hero{padding:34px 0 6px}
 .hero h1{font-size:34px;margin:0;letter-spacing:-.5px}
@@ -69,58 +73,80 @@ a.card.live .go{display:inline-block;margin-top:14px;background:var(--accent);co
 .card.soon{opacity:.75}
 .pitch{font-size:14px;color:var(--ink2);margin:18px 0 0}
 </style>
+<script>window.TITLES={"es": "MiTehuacán — el portal de Tehuacán, Puebla", "en": "MiTehuacán — the portal of Tehuacán, Puebla"}</script>
+<script>
+const LANG=(()=>{try{const s=localStorage.mtLang;if(s==='es'||s==='en')return s}catch(e){}
+return (navigator.language||'es').toLowerCase().startsWith('en')?'en':'es'})();
+document.documentElement.lang=LANG;
+function syncLang(){const L=document.documentElement.lang;
+if(window.TITLES&&TITLES[L])document.title=TITLES[L];
+document.querySelectorAll('[data-ph-es]').forEach(el=>el.placeholder=L==='en'?el.dataset.phEn:el.dataset.phEs);
+document.querySelectorAll('a.lng').forEach(a=>a.classList.toggle('on',a.dataset.l===L));}
+function setLang(l){try{localStorage.mtLang=l}catch(e){}document.documentElement.lang=l;syncLang();return false}
+addEventListener('DOMContentLoaded',syncLang);
+</script>
 </head>
 <body>
 <header class="site">
 <a class="brand" href="/">mi<span>tehuacan</span>.mx</a>
 <nav>
 <a href="/combis/">Combis</a>
-<a href="/combis/acerca/">Acerca</a>
+<a href="/combis/acerca/"><span class="es">Acerca</span><span class="en">About</span></a>
+<a href="#" class="lng" data-l="es" onclick="return setLang('es')">ES</a>
+<a href="#" class="lng" data-l="en" onclick="return setLang('en')">EN</a>
 </nav>
 </header>
 <div class="wrap">
 
 <div class="hero">
 <h1>Mi<span>Tehuacán</span></h1>
-<p>El portal de Tehuacán, Puebla — servicios libres y gratuitos, hechos por y para tehuacaneros.</p>
+<p class="es">El portal de Tehuacán, Puebla — servicios libres y gratuitos, hechos por y para tehuacaneros.</p>
+<p class="en">The portal of Tehuacán, Puebla — free, open services made by and for the people of Tehuacán.</p>
 </div>
 <div class="cards">
 <a class="card live" href="/combis/">
- <span class="badge">Ya disponible</span>
+ <span class="badge"><span class="es">Ya disponible</span><span class="en">Live now</span></span>
  <span class="ico">🚐</span>
  <h2>Combis</h2>
- <p>¿En qué combi me voy? Más de 80 rutas en un mapa, con planificador de viajes:
+ <p class="es">¿En qué combi me voy? Más de 80 rutas en un mapa, con planificador de viajes:
  dinos de dónde sales y a dónde vas, y te decimos qué combi tomar.</p>
- <span class="go">Abrir el mapa de combis</span>
+ <p class="en">Which combi do I take? 80+ routes on one map, with a trip planner:
+ tell us where you start and where you're going, and we'll tell you which combi to take.</p>
+ <span class="go"><span class="es">Abrir el mapa de combis</span><span class="en">Open the combi map</span></span>
 </a>
 <div class="card soon">
- <span class="badge">Próximamente</span>
+ <span class="badge"><span class="es">Próximamente</span><span class="en">Coming soon</span></span>
  <span class="ico">🛒</span>
  <h2>Mi Tianguis</h2>
- <p>El mercado en línea de Tehuacán: compra y vende entre vecinos, sin comisiones.</p>
+ <p class="es">El mercado en línea de Tehuacán: compra y vende entre vecinos, sin comisiones.</p>
+ <p class="en">Tehuacán's online marketplace: buy and sell between neighbors, commission-free.</p>
 </div>
 <div class="card soon">
- <span class="badge">Próximamente</span>
+ <span class="badge"><span class="es">Próximamente</span><span class="en">Coming soon</span></span>
  <span class="ico">💼</span>
- <h2>Empleos</h2>
- <p>Chamba local: vacantes de la región y un lugar para ofrecer tu talento.</p>
+ <h2><span class="es">Empleos</span><span class="en">Jobs</span></h2>
+ <p class="es">Chamba local: vacantes de la región y un lugar para ofrecer tu talento.</p>
+ <p class="en">Local work: openings around the region and a place to offer your skills.</p>
 </div>
 <div class="card soon">
- <span class="badge">Próximamente</span>
+ <span class="badge"><span class="es">Próximamente</span><span class="en">Coming soon</span></span>
  <span class="ico">🏠</span>
- <h2>Rentas</h2>
- <p>Casas, departamentos y locales en renta, publicados por gente de aquí.</p>
+ <h2><span class="es">Rentas</span><span class="en">Rentals</span></h2>
+ <p class="es">Casas, departamentos y locales en renta, publicados por gente de aquí.</p>
+ <p class="en">Houses, apartments and storefronts for rent, listed by local people.</p>
 </div>
 </div>
-<p class="pitch">Esto apenas empieza — MiTehuacán va a crecer sección por sección.
+<p class="pitch es">Esto apenas empieza — MiTehuacán va a crecer sección por sección.
 ¿Tienes una idea para el portal? <a href="/combis/acerca/">Cuéntanos</a>.</p>
+<p class="pitch en">This is only the beginning — MiTehuacán will grow section by section.
+Got an idea for the portal? <a href="/combis/acerca/">Tell us</a>.</p>
 
 </div>
 <footer class="site"><div class="cols">
-<div>MiTehuacán — el portal libre y gratuito de Tehuacán, Puebla.<br>
-Datos abiertos (ODbL) · código abierto (AGPL) · hecho con proyectos ciudadanos y OpenStreetMap.<br>
+<div><span class="es">MiTehuacán — el portal libre y gratuito de Tehuacán, Puebla.</span><span class="en">MiTehuacán — the free, open portal of Tehuacán, Puebla.</span><br>
+<span class="es">Datos abiertos (ODbL) · código abierto (AGPL) · hecho con proyectos ciudadanos y OpenStreetMap.</span><span class="en">Open data (ODbL) · open source (AGPL) · built on citizen projects and OpenStreetMap.</span><br>
 Built with ♥ in Tehuacán · <a href="https://github.com/mauriciotellezdev/mitehuacan" rel="me">GitHub</a></div>
-<div><a href="/">Inicio</a> · <a href="/combis/">Combis</a> · <a href="/combis/acerca/">Acerca</a></div>
+<div><a href="/"><span class="es">Inicio</span><span class="en">Home</span></a> · <a href="/combis/">Combis</a> · <a href="/combis/acerca/"><span class="es">Acerca</span><span class="en">About</span></a></div>
 </div></footer>
 </body>
 </html>
