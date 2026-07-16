@@ -7,12 +7,28 @@
 <meta name="description" content="MiTehuacán: mapa libre y gratuito de las rutas de combis en México. Código abierto, datos abiertos. Empezamos en Tehuacán, Puebla.">
 <link rel="canonical" href="https://mitehuacan.mx/combis/acerca/">
 <style>
-:root{--bg:#fff;--panel:#f7f7f8;--ink:#1a1a1e;--ink2:#55555e;--line:#e2e2e6;--accent:#0f62fe;--chip:#fff}
-@media(prefers-color-scheme:dark){:root{--bg:#17171b;--panel:#1f1f24;--ink:#ececf0;--ink2:#a5a5b0;--line:#33333a;--accent:#6ea6ff;--chip:#26262c}}
+:root{--bg:#f5f5f7;--panel:rgba(255,255,255,.62);--ink:#1d1d1f;--ink2:#6e6e73;--line:rgba(0,0,0,.08);
+ --accent:#0071e3;--chip:rgba(255,255,255,.8);--glass:rgba(255,255,255,.55);--hl:rgba(255,255,255,.75);
+ --shadow:0 8px 32px rgba(0,0,0,.08);--g1:rgba(0,113,227,.10);--g2:rgba(255,150,70,.08);
+ --livebg:rgba(255,255,255,.72);--livebrd:rgba(0,113,227,.35);--accsh:rgba(0,113,227,.30)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0e0e12;--panel:rgba(28,28,34,.6);
+ --ink:#f5f5f7;--ink2:#98989d;--line:rgba(255,255,255,.10);--accent:#0a84ff;--chip:rgba(66,66,74,.5);
+ --glass:rgba(24,24,30,.55);--hl:rgba(255,255,255,.08);--shadow:0 8px 32px rgba(0,0,0,.5);
+ --g1:rgba(10,132,255,.14);--g2:rgba(255,140,60,.05);--livebg:rgba(16,42,74,.45);
+ --livebrd:rgba(10,132,255,.45);--accsh:rgba(10,132,255,.35)}}
+:root[data-theme=dark]{--bg:#0e0e12;--panel:rgba(28,28,34,.6);
+ --ink:#f5f5f7;--ink2:#98989d;--line:rgba(255,255,255,.10);--accent:#0a84ff;--chip:rgba(66,66,74,.5);
+ --glass:rgba(24,24,30,.55);--hl:rgba(255,255,255,.08);--shadow:0 8px 32px rgba(0,0,0,.5);
+ --g1:rgba(10,132,255,.14);--g2:rgba(255,140,60,.05);--livebg:rgba(16,42,74,.45);
+ --livebrd:rgba(10,132,255,.45);--accsh:rgba(10,132,255,.35)}
 *{box-sizing:border-box}
 body{margin:0;font:16px/1.55 system-ui,-apple-system,sans-serif;color:var(--ink);background:var(--bg)}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+ background:radial-gradient(55% 45% at 8% 0%,var(--g1),transparent 65%),
+            radial-gradient(45% 40% at 94% 6%,var(--g2),transparent 60%)}
 header.site{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;
- padding:0 14px;height:50px;border-bottom:1px solid var(--line);background:var(--panel)}
+ padding:0 14px;height:50px;border-bottom:1px solid var(--line);background:var(--glass);
+ -webkit-backdrop-filter:blur(20px) saturate(180%);backdrop-filter:blur(20px) saturate(180%)}
 header.site .brand{color:var(--ink);text-decoration:none;font-weight:700;font-size:17px;flex:none}
 header.site .brand span{color:var(--accent)}
 header.site nav{display:flex;gap:2px;margin-left:auto}
@@ -27,9 +43,9 @@ h1{font-size:23px;margin:.7em 0 .35em;line-height:1.25}
 h2{font-size:18px;margin:1.5em 0 .5em}
 p{margin:.5em 0}.muted{color:var(--ink2);font-size:14px}
 a{color:var(--accent)}
-.btn{display:block;text-align:center;background:var(--accent);color:#fff;padding:12px 20px;border-radius:10px;
- text-decoration:none;font-weight:600;margin:8px 0}
-.btn.ghost{background:var(--panel);color:var(--ink);border:1px solid var(--line)}
+.btn{display:block;text-align:center;background:var(--accent);color:#fff;padding:12px 20px;border-radius:12px;
+ text-decoration:none;font-weight:600;margin:8px 0;box-shadow:0 4px 16px var(--accsh)}
+.btn.ghost{background:var(--panel);color:var(--ink);border:1px solid var(--line);box-shadow:none}
 .btnrow{margin:14px 0}
 form#report-form{display:flex;flex-direction:column;gap:10px;max-width:560px}
 form#report-form input[type=text],form#report-form textarea{width:100%;padding:11px 12px;
@@ -51,16 +67,26 @@ html[lang=es] .en{display:none!important}
 header.site nav a.lng{padding:6px 8px;font-weight:600;font-size:12px;border:1px solid var(--line);border-radius:8px}
 html[lang=es] header.site nav a.lng[data-l=es]{display:none}
 html[lang=en] header.site nav a.lng[data-l=en]{display:none}
+header.site nav a.thm{padding:6px 8px;font-size:14px;line-height:1.3}
+.ic-sun{display:none}
+:root[data-theme=dark] .ic-sun{display:inline}
+:root[data-theme=dark] .ic-moon{display:none}
+@media(max-width:480px){header.site{gap:6px;padding:0 10px}header.site nav a{padding:6px 7px;font-size:13px}}
 </style>
 <script>window.TITLES={"es": "Acerca de MiTehuacán — rutas y mapa de combis", "en": "About MiTehuacán — combi routes and map"}</script>
 <script>
 const LANG=(()=>{try{const s=localStorage.mtLang;if(s==='es'||s==='en')return s}catch(e){}
 return (navigator.language||'es').toLowerCase().startsWith('en')?'en':'es'})();
 document.documentElement.lang=LANG;
+const THEME=(()=>{try{const s=localStorage.mtTheme;if(s==='light'||s==='dark')return s}catch(e){}
+return matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'})();
+document.documentElement.dataset.theme=THEME;
 function syncLang(){const L=document.documentElement.lang;
 if(window.TITLES&&TITLES[L])document.title=TITLES[L];
 document.querySelectorAll('[data-ph-es]').forEach(el=>el.placeholder=L==='en'?el.dataset.phEn:el.dataset.phEs);}
 function setLang(l){try{localStorage.mtLang=l}catch(e){}document.documentElement.lang=l;syncLang();return false}
+function toggleTheme(){const th=document.documentElement.dataset.theme==='dark'?'light':'dark';
+try{localStorage.mtTheme=th}catch(e){}document.documentElement.dataset.theme=th;return false}
 addEventListener('DOMContentLoaded',syncLang);
 </script>
 </head>
@@ -72,6 +98,7 @@ addEventListener('DOMContentLoaded',syncLang);
 <a href="/combis/acerca/" class="on"><span class="es">Acerca</span><span class="en">About</span></a>
 <a href="#" class="lng" data-l="es" onclick="return setLang('es')">ES</a>
 <a href="#" class="lng" data-l="en" onclick="return setLang('en')">EN</a>
+<a href="#" class="thm" onclick="return toggleTheme()" aria-label="tema / theme"><span class="ic-moon">🌙</span><span class="ic-sun">☀️</span></a>
 </nav>
 </header>
 <div class="wrap">

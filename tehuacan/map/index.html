@@ -10,15 +10,25 @@
 <script src="sponsors.js"></script>
 <style>
   :root {
-    --bg: #ffffff; --panel: #f7f7f8; --ink: #1a1a1e; --ink-2: #55555e;
-    --line: #e2e2e6; --accent: #0f62fe; --chip: #ffffff; --ok: #1a7f37;
+    --bg: #f5f5f7; --panel: rgba(248,248,250,.92); --ink: #1d1d1f; --ink-2: #6e6e73;
+    --line: rgba(0,0,0,.08); --accent: #0071e3; --chip: rgba(255,255,255,.85); --ok: #1a7f37;
+    --glass: rgba(255,255,255,.65);
   }
   @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #17171b; --panel: #1f1f24; --ink: #ececf0; --ink-2: #a5a5b0;
-      --line: #33333a; --accent: #6ea6ff; --chip: #26262c; --ok: #4ecb71;
+    :root:not([data-theme=light]) {
+      --bg: #131316; --panel: rgba(24,24,28,.94); --ink: #f5f5f7; --ink-2: #98989d;
+      --line: rgba(255,255,255,.10); --accent: #0a84ff; --chip: rgba(58,58,64,.55); --ok: #4ecb71;
+      --glass: rgba(28,28,32,.6);
     }
   }
+  :root[data-theme=dark] {
+    --bg: #131316; --panel: rgba(24,24,28,.94); --ink: #f5f5f7; --ink-2: #98989d;
+    --line: rgba(255,255,255,.10); --accent: #0a84ff; --chip: rgba(58,58,64,.55); --ok: #4ecb71;
+    --glass: rgba(28,28,32,.6);
+  }
+  .ic-sun { display: none; }
+  :root[data-theme=dark] .ic-sun { display: inline; }
+  :root[data-theme=dark] .ic-moon { display: none; }
   * { box-sizing: border-box; }
   body { margin: 0; font: 14px/1.45 system-ui, -apple-system, sans-serif; color: var(--ink); background: var(--bg);
          display: flex; flex-direction: column; height: 100dvh; }
@@ -65,7 +75,9 @@
   .clear { font-size: 12px; color: var(--accent); cursor: pointer; background: none; border: none; padding: 0; margin-top: 8px; }
   #map { flex: 1; position: relative; }
   .maplibregl-popup-content { font: 13px system-ui, sans-serif; padding: 8px 12px;
-    background: var(--bg); color: var(--ink); }
+    background: var(--glass); color: var(--ink); border-radius: 12px;
+    border: 1px solid var(--line); box-shadow: 0 8px 24px rgba(0,0,0,.18);
+    -webkit-backdrop-filter: blur(18px) saturate(160%); backdrop-filter: blur(18px) saturate(160%); }
   /* planner */
   .field { position: relative; }
   .field .dot { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 9px; height: 9px;
@@ -97,36 +109,47 @@
     #mbar { display: block; position: absolute; top: 10px; left: 10px; right: 10px; z-index: 15; }
     #mrow { display: flex; gap: 8px; align-items: center; }
     #msearch { flex: 1; padding: 11px 14px; border: 1px solid var(--line); border-radius: 999px;
-               background: var(--panel); color: var(--ink); font-size: 15px;
-               box-shadow: 0 2px 10px rgba(0,0,0,.25); }
+               background: var(--glass); color: var(--ink); font-size: 15px;
+               box-shadow: 0 4px 18px rgba(0,0,0,.18);
+               -webkit-backdrop-filter: blur(18px) saturate(160%); backdrop-filter: blur(18px) saturate(160%); }
     #msearch:focus { outline: 2px solid var(--accent); }
     #mreset { width: 42px; height: 42px; flex: none; border-radius: 50%; border: 1px solid var(--line);
-              background: var(--panel); color: var(--ink); font-size: 19px; cursor: pointer;
-              box-shadow: 0 2px 10px rgba(0,0,0,.25); }
-    #msugg { background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
-             margin-top: 6px; overflow: hidden; box-shadow: 0 6px 20px rgba(0,0,0,.35);
+              background: var(--glass); color: var(--ink); font-size: 19px; cursor: pointer;
+              box-shadow: 0 4px 18px rgba(0,0,0,.18);
+              -webkit-backdrop-filter: blur(18px) saturate(160%); backdrop-filter: blur(18px) saturate(160%); }
+    #msugg { background: var(--glass); border: 1px solid var(--line); border-radius: 18px;
+             margin-top: 6px; overflow: hidden; box-shadow: 0 12px 32px rgba(0,0,0,.25);
+             -webkit-backdrop-filter: blur(22px) saturate(160%); backdrop-filter: blur(22px) saturate(160%);
              max-height: 45vh; overflow-y: auto; }
     #msugg div { padding: 11px 14px; font-size: 14.5px; display: flex; align-items: center; gap: 9px; }
     #msugg div:active { background: var(--chip); }
     #mchips { display: flex; gap: 6px; margin-top: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch;
               padding-bottom: 2px; }
     .mchip { display: flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 999px;
-             background: var(--panel); border: 1.5px solid var(--line); font-size: 13px; font-weight: 600;
-             white-space: nowrap; box-shadow: 0 2px 8px rgba(0,0,0,.25); }
+             background: var(--glass); border: 1px solid var(--line); font-size: 13px; font-weight: 600;
+             white-space: nowrap; box-shadow: 0 4px 14px rgba(0,0,0,.18);
+             -webkit-backdrop-filter: blur(18px) saturate(160%); backdrop-filter: blur(18px) saturate(160%); }
     .mchip.off { opacity: .45; }
     .mchip .dot { width: 10px; height: 10px; border-radius: 50%; }
     .mchip .x { color: var(--ink-2); margin-left: 2px; }
+  }
+  @media (max-width: 480px) {
+    #topbar { gap: 8px; padding: 0 10px; }
+    #topbar .brand .suffix { display: none; }
+    #topbar nav { gap: 0; }
+    #topbar nav a { padding: 5px 7px; }
   }
 </style>
 </head>
 <body>
 <header id="topbar">
-  <a class="brand" href="/combis/">mi<span>tehuacan</span>.mx <span style="color:var(--ink-2);font-weight:400">· Combis</span></a>
+  <a class="brand" href="/combis/">mi<span>tehuacan</span>.mx <span class="suffix" style="color:var(--ink-2);font-weight:400">· Combis</span></a>
   <nav>
     <a href="/combis/" class="on" id="nav-map">Mapa</a>
     <a href="/combis/acerca/" id="nav-about">Acerca</a>
     <a href="#" id="lt-es">ES</a>
     <a href="#" id="lt-en">EN</a>
+    <a href="#" id="theme-toggle" aria-label="tema / theme"><span class="ic-moon">🌙</span><span class="ic-sun">☀️</span></a>
   </nav>
 </header>
 <div id="app">
@@ -182,7 +205,12 @@
   </div>
 </div>
 <script>
-const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+const THEME = (() => {
+  try { const s = localStorage.mtTheme; if (s === 'light' || s === 'dark') return s; } catch (e) {}
+  return matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+})();
+const dark = THEME === 'dark';
+document.documentElement.dataset.theme = THEME;
 const params = new URLSearchParams(location.search);
 
 /* ---------- i18n: es is canonical; ES/EN toggle persists in localStorage ---------- */
@@ -280,6 +308,13 @@ document.title = t('title');
   mr.title = t('mreset'); mr.setAttribute('aria-label', t('mreset'));
   // show only the OTHER language as the toggle
   document.getElementById('lt-' + LANG).style.display = 'none';
+  // theme switch: reload so the basemap style + layer colors rebuild consistently
+  document.getElementById('theme-toggle').onclick = e => {
+    e.preventDefault();
+    try { localStorage.mtTheme = dark ? 'light' : 'dark'; } catch (err) {}
+    track('theme_' + (dark ? 'light' : 'dark'));
+    location.reload();
+  };
   // reload on switch: cheapest way to keep every dynamic render consistent
   ['es', 'en'].forEach(l => document.getElementById('lt-' + l).onclick = e => {
     e.preventDefault();
