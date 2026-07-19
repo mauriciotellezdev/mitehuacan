@@ -1397,14 +1397,16 @@ map.on('load', () => {
     if (!ids.length) return;
     const id = nearestRouteId(ids, e.lngLat);
     if (isMobile()) {
-      const already = M.chips.some(c => c.id === id && c.on);
-      if (already && SCHEDULES[id]) {
-        mAddRoute(id);
-        etaPopup(id, e.lngLat);   // second tap = when's the next one here
-      } else {
-        openSheet(id);            // sheet first, so the fit accounts for its height
-        mAddRoute(id);
+      const on = M.chips.filter(c => c.on).map(c => c.id);
+      if (on.length) {
+        // HARD LOCK: while a route is selected, map taps can never switch it.
+        // Same-route tap = next-combi ETA at that point. Unlock only via the
+        // sheet's X or the chip's X; then the next tap selects fresh.
+        if (on.includes(id) && SCHEDULES[id]) etaPopup(id, e.lngLat);
+        return;
       }
+      openSheet(id);              // sheet first, so the fit accounts for its height
+      mAddRoute(id);
     } else if (document.querySelector('#tabs button.on').dataset.pane === 'browse') {
       if (state.sel === id) etaPopup(id, e.lngLat);          // second click on selected route = ETA here
       else select(id, false);
@@ -1751,9 +1753,11 @@ function favToggle(id) {
 
 let SHEET = null, SHEET_MODE = 'full';
 function closeSheet() {
+  const wasRoute = SHEET !== null;   // alerts/settings sheets never hold the lock
   SHEET = null;
   document.getElementById('sheet').classList.remove('show');
-  if (isMobile() && document.body.dataset.mview === 'map') mApply(false);  // hint card comes back
+  if (isMobile() && wasRoute && M.chips.length) M.chips = [];  // dismissing the route sheet unlocks
+  if (isMobile()) mApply(false);
   saveStatus();
 }
 
