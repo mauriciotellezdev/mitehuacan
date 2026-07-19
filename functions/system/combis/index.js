@@ -98,16 +98,6 @@ button:disabled{opacity:.5;cursor:default}
       <div id="inbox"></div>
     </div>
 
-    <div class="box" style="margin-top:16px">
-      <h2>Alertas del servicio</h2>
-      <p class="muted" style="font-size:12px;margin:0 0 8px">se muestran en la pestaña Alertas del mapa; desactívalas cuando pase el problema</p>
-      <div class="row" style="margin:0 0 8px">
-        <input id="a-msg" maxlength="200" placeholder="mensaje, p. ej. desvío por obra en 5 de Mayo…" style="flex:1;min-width:200px">
-        <select id="a-line"><option value="">General</option></select>
-        <button onclick="addAlert()">Publicar</button>
-      </div>
-      <div id="a-list"></div>
-    </div>
   </div>
 </div>
 </div>
@@ -253,51 +243,8 @@ async function reload() {
   LINES = d.lines; DRAFTS = d.drafts;
   renderLines();
   renderDrafts();
-  const sel = byId('a-line');
-  sel.innerHTML = '<option value="">General</option>' +
-    LINES.map(l => '<option value="' + esc(l.slug) + '">' + esc(l.name) + '</option>').join('');
-  await loadAlerts();
 }
 
-/* ---- service alerts ---- */
-let ALERTS = [];
-async function alertsApi(method, body, qs) {
-  const r = await fetch('/api/alertas' + (qs || ''), {method,
-    headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + TOKEN},
-    body: body ? JSON.stringify(body) : undefined});
-  const d = await r.json().catch(() => ({}));
-  if (!r.ok) throw new Error(d.error || r.status);
-  return d;
-}
-async function loadAlerts() {
-  try { ALERTS = (await alertsApi('GET')).alerts || []; } catch (e) { ALERTS = []; }
-  renderAlerts();
-}
-function renderAlerts() {
-  byId('a-list').innerHTML = ALERTS.length ? ALERTS.map(a => {
-    const line = a.line_slug ? (LINES.find(l => l.slug === a.line_slug) || {name: a.line_slug}).name : 'General';
-    return '<div class="draft"' + (a.active ? '' : ' style="opacity:.55"') + '><div class="meta">' + esc(a.message) +
-      '<small>' + esc(line) + ' · ' + esc((a.created_at || '').slice(0, 16)) + (a.active ? '' : ' · inactiva') + '</small></div>' +
-      '<button class="ghost" onclick="toggleAlert(' + a.id + ',' + (a.active ? 0 : 1) + ')">' + (a.active ? 'desactivar' : 'activar') + '</button>' +
-      '<button class="danger" onclick="delAlert(' + a.id + ')">borrar</button></div>';
-  }).join('') : '<div class="empty">sin alertas</div>';
-}
-async function addAlert() {
-  const msg = byId('a-msg').value.trim();
-  if (msg.length < 3) return;
-  try {
-    await alertsApi('POST', {message: msg, line_slug: byId('a-line').value || null});
-    byId('a-msg').value = '';
-    await loadAlerts();
-  } catch (e) { say(e.message, false); }
-}
-async function toggleAlert(id, active) {
-  try { await alertsApi('PATCH', {id, active: !!active}); await loadAlerts(); } catch (e) { say(e.message, false); }
-}
-async function delAlert(id) {
-  if (!confirm('¿Borrar la alerta definitivamente? (para pausarla usa desactivar)')) return;
-  try { await alertsApi('DELETE', null, '?id=' + id); await loadAlerts(); } catch (e) { say(e.message, false); }
-}
 
 async function load(token) {
   TOKEN = token;

@@ -178,13 +178,6 @@
     #mlist { position: absolute; inset: 0; z-index: 18; background: var(--bg); overflow-y: auto;
              -webkit-overflow-scrolling: touch; padding: 10px 14px calc(24px + env(safe-area-inset-bottom)); }
     body[data-mview=list] #mlist { display: block; }
-    .al-item { padding: 12px 2px; border-bottom: 1px solid var(--line); font-size: 14px; }
-    .al-item .tag { margin-bottom: 5px; display: inline-block; }
-    .al-item small { display: block; color: var(--ink-2); margin-top: 4px; font-size: 11.5px; }
-    .al-empty { padding: 28px 10px; text-align: center; color: var(--ink-2); font-size: 13.5px; }
-    #mtop-btns button { position: relative; }
-    .tdot { position: absolute; top: 8px; right: 8px; width: 7px; height: 7px; border-radius: 50%;
-            background: #d4351c; }
     .srch { position: relative; }
     #ml-search { width: 100%; padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px;
                  background: var(--panel); color: var(--ink); font-size: 15px; }
@@ -237,8 +230,9 @@
     #sheet2.show { display: block; animation: panelIn .26s cubic-bezier(.32,.72,0,1) both;
                    transition: max-height .28s cubic-bezier(.32,.72,0,1); }
     #sheet2.min { max-height: 64px; overflow: hidden; }
-    .grabwrap { padding: 2px 0 8px; margin: -8px -16px 0; cursor: pointer; touch-action: manipulation;
+    .grabwrap { padding: 8px 0 8px; margin: -8px -16px 0; cursor: grab; touch-action: none;
                 display: flex; justify-content: center; }
+    .grabwrap:active { cursor: grabbing; }
     .grabwrap:active .grab { background: var(--ink-2); }
     #mtop-btns { display: flex; }
     #mhint[hidden] { display: none; }
@@ -324,7 +318,6 @@
     <a href="#" id="theme-toggle" aria-label="tema / theme"><span class="ic-moon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg></span><span class="ic-sun"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span></a>
   </nav>
   <div id="mtop-btns">
-    <button id="malerts-btn" aria-label="alertas / alerts"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg><span class="tdot" hidden></span></button>
     <button id="mtheme" aria-label="tema / theme"><span class="ic-moon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg></span><span class="ic-sun"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span></button>
     <button id="mcfg-btn" aria-label="ajustes / settings"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.9 2.9l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.2a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.9-2.9l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.2a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.9-2.9l.1.1a1.7 1.7 0 0 0 1.9.3h.1a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.2a1.7 1.7 0 0 0 1 1.5h.1a1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.9 2.9l-.1.1a1.7 1.7 0 0 0-.3 1.9v.1a1.7 1.7 0 0 0 1.5 1h.2a2 2 0 1 1 0 4h-.2a1.7 1.7 0 0 0-1.5 1Z"/></svg></button>
   </div>
@@ -429,7 +422,7 @@ const I18N = {
     fAll: 'Todas', fLocal: 'Locales', fForanea: 'Intermunicipales',
     count: (n, m) => n + ' de ' + m + ' rutas',
     found: n => n + (n === 1 ? ' ruta encontrada' : ' rutas encontradas'),
-    mtList: 'Rutas', mtMap: 'Mapa', segList: 'Lista', mtFav: 'Favoritas', mtCfg: 'Ajustes', mtAlerts: 'Alertas',
+    mtList: 'Rutas', mtMap: 'Mapa', segList: 'Lista', mtFav: 'Favoritas', mtCfg: 'Ajustes',
     viewOnMap: 'Ver en el mapa', shareBtn: 'Compartir', linkCopied: 'Enlace copiado',
     rowRoute: 'Recorrido', rowCols: 'Colonias por las que pasa', rowSched: 'Horario aproximado',
     rowFare: 'Tarifa aproximada',
@@ -438,14 +431,17 @@ const I18N = {
     fareSrc: 'tarifas preferenciales según la SMT de Puebla — pueden variar por ruta',
     rowPois: 'Servicios en la ruta',
     poiCat: c => ({edu: 'Educación', salud: 'Salud', gob: 'Gobierno'}[c] || ''),
+    goFromMe: 'Cómo llegar desde mi ubicación',
+    locating: 'Ubicando…',
+    locErr: 'No pudimos obtener tu ubicación — revisa los permisos de ubicación del navegador.',
+    tripTitle: 'Cómo llegar a',
+    tripNone: 'No encontramos combis para ese destino.',
     poiLine: c => [c.edu ? c.edu + (c.edu === 1 ? ' escuela' : ' escuelas') : null,
                    c.salud ? c.salud + ' de salud' : null,
                    c.gob ? c.gob + ' de gobierno' : null].filter(Boolean).join(' · '),
     nCols: n => n + ' colonias',
     statSched: 'Horarios', statFare: 'Tarifa', statCols: 'Colonias', statLen: 'Longitud',
     verDetalles: 'Ver detalles de la ruta',
-    alertsNone: 'Sin alertas por ahora — el servicio circula normal.',
-    alertsGeneral: 'General',
     cfgLang: 'Idioma', cfgTheme: 'Tema', cfgLight: 'Claro', cfgDark: 'Oscuro',
     cfgAbout: 'Acerca del proyecto',
     fromPh: '¿Dónde estás? (dirección o lugar)', toPh: '¿A dónde vas?',
@@ -505,7 +501,7 @@ const I18N = {
     fAll: 'All', fLocal: 'Local', fForanea: 'Intercity',
     count: (n, m) => n + ' of ' + m + ' routes',
     found: n => n + (n === 1 ? ' route found' : ' routes found'),
-    mtList: 'Routes', mtMap: 'Map', segList: 'List', mtFav: 'Favorites', mtCfg: 'Settings', mtAlerts: 'Alerts',
+    mtList: 'Routes', mtMap: 'Map', segList: 'List', mtFav: 'Favorites', mtCfg: 'Settings',
     viewOnMap: 'View on map', shareBtn: 'Share', linkCopied: 'Link copied',
     rowRoute: 'Route', rowCols: 'Neighborhoods along the way', rowSched: 'Approximate schedule',
     rowFare: 'Approximate fare',
@@ -514,14 +510,17 @@ const I18N = {
     fareSrc: "preferential fares per Puebla's SMT — may vary by route",
     rowPois: 'Services on the route',
     poiCat: c => ({edu: 'Education', salud: 'Health', gob: 'Government'}[c] || ''),
+    goFromMe: 'Directions from my location',
+    locating: 'Locating…',
+    locErr: "Couldn't get your location — check the browser's location permission.",
+    tripTitle: 'Getting to',
+    tripNone: 'No combi options found for that destination.',
     poiLine: c => [c.edu ? c.edu + (c.edu === 1 ? ' school' : ' schools') : null,
                    c.salud ? c.salud + ' health' : null,
                    c.gob ? c.gob + ' government' : null].filter(Boolean).join(' · '),
     nCols: n => n + ' neighborhoods',
     statSched: 'Hours', statFare: 'Fare', statCols: 'Areas', statLen: 'Length',
     verDetalles: 'View route details',
-    alertsNone: 'No alerts right now — service is running normally.',
-    alertsGeneral: 'General',
     cfgLang: 'Language', cfgTheme: 'Theme', cfgLight: 'Light', cfgDark: 'Dark',
     cfgAbout: 'About the project',
     fromPh: 'Where are you? (address or place)', toPh: 'Where are you going?',
@@ -1121,23 +1120,183 @@ function openSpotPanel(type, f) {
     body = '<div class="sh-head"><span class="tile" style="background:' + (pr.color || '#888') + ';color:#fff">' + S_POI + '</span>' +
       '<span class="sh-name"><b>' + String(pr.name).replace(/</g, '&lt;') + '</b>' +
       '<span class="kbadge" style="background:' + pr.color + '22;color:' + pr.color + '">' + t('poiCat')(pr.cat) + '</span></span>' +
-      '<button class="iconbtn" id="p2-close">' + S_X + '</button></div>';
+      '<button class="iconbtn" id="p2-close">' + S_X + '</button></div>' +
+      '<button class="sh-cta" id="d-go">' + S_NAV + t('goFromMe') + '</button>' +
+      '<div class="dt-note" id="d-note" style="margin-top:8px"></div>';
   }
   el.innerHTML = '<div class="grabwrap"><div class="grab"></div></div>' + body;
+  el.style.maxHeight = '';
   el.classList.remove('min');
   el.classList.add('show');
   poiHighlight(type === 'poi' ? pr.idx : null);  // spotlight the tapped dot, soften the rest
   document.getElementById('p2-close').onclick = () => { el.classList.remove('show'); poiHighlight(null); };
+  if (type === 'poi') {
+    const coords = f.geometry.coordinates.slice();
+    document.getElementById('d-go').onclick = () => {
+      document.getElementById('d-note').textContent = t('locating');
+      mPlanTo(coords, pr.name);
+    };
+  }
   track(type + '_tap', (pr.name || pr.sponsor || '').slice(0, 40));
 }
 
 function clearSelection() {
   M.chips = [];
   document.getElementById('sheet2').classList.remove('show');
+  if (typeof clearTrip === 'function') clearTrip();
   if (!isMobile() && typeof select === 'function') select(null, false);
   closeSheet();
   if (isMobile()) mApply(false);
   track('route_clear');
+}
+
+/* ---------- mobile trip planning: "from my location" -> destination.
+   Reuses the desktop planner engine (findTrips) and its plan-walk/plan-pts
+   sources; results (direct or with a transfer) render as selectable options. */
+let TRIP = null;                    // {opts, sel, from, dest, destLabel}
+const MT = {a: null, b: null};      // origin/destination markers
+
+function clearTrip() {
+  if (MT.a) { MT.a.remove(); MT.a = null; }
+  if (MT.b) { MT.b.remove(); MT.b = null; }
+  if (TRIP && map.getSource('plan-walk')) {
+    map.getSource('plan-walk').setData({type: 'FeatureCollection', features: []});
+    map.getSource('plan-pts').setData({type: 'FeatureCollection', features: []});
+  }
+  TRIP = null;
+}
+
+function getMyLocation() {
+  return new Promise((res, rej) => {
+    if (!('geolocation' in navigator)) return rej(new Error('unsupported'));
+    navigator.geolocation.getCurrentPosition(
+      p => res([p.coords.longitude, p.coords.latitude]), rej,
+      {enableHighAccuracy: true, timeout: 12000, maximumAge: 60000});
+  });
+}
+
+async function mPlanTo(dest, label) {
+  let from;
+  try { from = await getMyLocation(); }
+  catch (e) {
+    const note = document.getElementById('d-note');
+    if (note) note.textContent = t('locErr');
+    return;
+  }
+  clearTrip();
+  if (typeof SRCH_MARKER !== 'undefined' && SRCH_MARKER) { SRCH_MARKER.remove(); SRCH_MARKER = null; }
+  const opts = findTrips(from, dest);
+  TRIP = {opts, sel: 0, from, dest, destLabel: label};
+  ensureTripMarkers();
+  document.getElementById('sheet2').classList.remove('show');
+  renderTripSheet();
+  if (opts.length) mSelectTripOption(0);
+  track('trip_from_me', label.slice(0, 40));
+}
+
+// google-maps-style pins: origin (green, seeded from your location) and
+// destination (red, from the pick) are DRAGGABLE — moving either replans
+function ensureTripMarkers() {
+  if (!MT.a) {
+    MT.a = new maplibregl.Marker({color: '#1a7f37', draggable: true}).setLngLat(TRIP.from).addTo(map);
+    MT.a.on('dragend', replanPins);
+  } else MT.a.setLngLat(TRIP.from);
+  if (!MT.b) {
+    MT.b = new maplibregl.Marker({color: '#d4351c', draggable: true}).setLngLat(TRIP.dest).addTo(map);
+    MT.b.on('dragend', replanPins);
+  } else MT.b.setLngLat(TRIP.dest);
+}
+
+function replanPins() {
+  if (!TRIP) return;
+  const a = MT.a.getLngLat(), b = MT.b.getLngLat();
+  TRIP.from = [a.lng, a.lat];
+  TRIP.dest = [b.lng, b.lat];
+  TRIP.opts = findTrips(TRIP.from, TRIP.dest);
+  renderTripSheet();
+  if (TRIP.opts.length) mSelectTripOption(0);
+  else { M.chips = []; mApply(false); }
+  track('trip_pin_drag');
+}
+
+function renderTripSheet() {
+  const el = document.getElementById('sheet');
+  const rows = TRIP.opts.map((o, i) => {
+    const legs = o.legs.map(id => {
+      const p = routeById(id);
+      return '<span class="swatch" style="background:' + p.color + '"></span>' + p.name;
+    }).join(' <span style="color:var(--ink-2)">→</span> ');
+    const eta = nextCombiAt(o.legs[0], o.boardAt);
+    const meta = t('walkTo')(fmt(o.walkA)) + ' · ' +
+      (o.type === 'transfer' ? t('transferTxt')(fmt(o.transfer), '') + ' · ' : t('direct') + ' · ') +
+      t('rideTxt')(fmt(o.ride)) + ' · ' + t('alightTxt')(fmt(o.walkB)) +
+      (eta && !eta.done ? ' · <b style="color:var(--ok)">' + t('etaShort')(Math.max(1, Math.round(eta.wait))) + '</b>' : '');
+    return '<div class="opt" data-i="' + i + '"><div class="legs">' + legs + '</div><div class="meta">' + meta + '</div></div>';
+  }).join('');
+  SHEET = null;  // trip content, not a route sheet
+  el.innerHTML = '<div class="grabwrap"><div class="grab"></div></div>' +
+    '<div class="sh-head"><span class="tile" style="background:var(--accent);color:#fff">' + S_PIN2 + '</span>' +
+    '<span class="sh-name"><b>' + t('tripTitle') + ' ' + String(TRIP.destLabel).replace(/</g, '&lt;') + '</b></span></div>' +
+    (TRIP.opts.length ? rows : '<div class="msg">' + t('tripNone') + '</div>');
+  el.style.maxHeight = '';
+  el.classList.remove('min');
+  el.classList.add('show');
+  el.querySelectorAll('.opt').forEach(d => d.onclick = () => mSelectTripOption(+d.dataset.i));
+}
+
+function mSelectTripOption(i) {
+  const o = TRIP && TRIP.opts[i];
+  if (!o) return;
+  TRIP.sel = i;
+  document.querySelectorAll('#sheet .opt').forEach((el, j) => el.classList.toggle('sel', i === j));
+  M.chips = o.legs.map(id => ({id, on: true}));
+  mSetView('map');
+  mApply(false);
+  const walkFeats = [
+    {type: 'Feature', properties: {}, geometry: {type: 'LineString', coordinates: [TRIP.from, o.board]}},
+    {type: 'Feature', properties: {}, geometry: {type: 'LineString', coordinates: [o.alight, TRIP.dest]}},
+  ];
+  const ptFeats = [];
+  if (o.type === 'transfer') {
+    ptFeats.push({type: 'Feature', properties: {}, geometry: {type: 'Point', coordinates: o.tPoint}});
+    if (o.tPoint2) {
+      ptFeats.push({type: 'Feature', properties: {}, geometry: {type: 'Point', coordinates: o.tPoint2}});
+      walkFeats.push({type: 'Feature', properties: {}, geometry: {type: 'LineString', coordinates: [o.tPoint, o.tPoint2]}});
+    }
+  }
+  if (map.getSource('plan-walk')) {
+    map.getSource('plan-walk').setData({type: 'FeatureCollection', features: walkFeats});
+    map.getSource('plan-pts').setData({type: 'FeatureCollection', features: ptFeats});
+  }
+  ensureTripMarkers();
+  fitToSelection(o.legs, [TRIP.from, TRIP.dest, o.board, o.alight]);
+  track('trip_option', o.type);
+}
+
+const S_NAV = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 19-8-8 19-2.5-8.5L3 11Z"/></svg>';
+
+function openDestPanel(label, coords) {
+  const el = document.getElementById('sheet2');
+  el.innerHTML = '<div class="grabwrap"><div class="grab"></div></div>' +
+    '<div class="sh-head"><span class="tile" style="background:var(--accent);color:#fff">' + S_PIN2 + '</span>' +
+    '<span class="sh-name"><b>' + String(label).replace(/</g, '&lt;') + '</b></span>' +
+    '<button class="iconbtn" id="p2-close">' + S_X + '</button></div>' +
+    '<button class="sh-cta" id="d-go">' + S_NAV + t('goFromMe') + '</button>' +
+    '<div class="dt-note" id="d-note" style="margin-top:8px"></div>';
+  el.style.maxHeight = '';
+  el.classList.remove('min');
+  el.classList.add('show');
+  document.getElementById('p2-close').onclick = () => el.classList.remove('show');
+  document.getElementById('d-go').onclick = async () => {
+    document.getElementById('d-note').textContent = t('locating');
+    let c = coords;
+    if (!c) {  // colonia/town picks carry no coords — geocode on demand
+      const res = await geocode(label + ', Tehuacán');
+      if (res.length) c = res[0].c;
+    }
+    if (!c) { document.getElementById('d-note').textContent = t('tripNone'); return; }
+    mPlanTo(c, label);
+  };
 }
 
 function etaPopup(id, lngLat) {
@@ -1564,7 +1723,7 @@ function mApply(fit) {
 // Deferred a frame so it measures the real geometry AFTER the sheet/chips render,
 // whatever order the caller used (map tap, search pick, deep link, ver-en-el-mapa).
 let FIT_T = null;
-function fitToSelection(ids) {
+function fitToSelection(ids, extra) {
   clearTimeout(FIT_T);
   FIT_T = setTimeout(() => {
     const b = new maplibregl.LngLatBounds();
@@ -1573,6 +1732,7 @@ function fitToSelection(ids) {
       const f = feats.find(f => f.properties.id === id);
       if (f && f.geometry.coordinates.length) { f.geometry.coordinates.flat().forEach(c => b.extend(c)); any = true; }
     });
+    (extra || []).forEach(c => { if (c) { b.extend(c); any = true; } });
     if (!any) return;
     const mapEl = map.getContainer();
     const mapRect = mapEl.getBoundingClientRect();
@@ -1765,32 +1925,6 @@ function mSetView(v) {  // 'map' | 'list' ('fav' arrives via the filter pill)
   saveStatus();
 }
 
-/* ---- service alerts (bell in the header, rendered as a sheet) ---- */
-let ALERTS = null;
-async function loadAlerts() {
-  try { ALERTS = (await (await fetch('/api/alertas')).json()).alerts || []; } catch (e) { ALERTS = []; }
-  const dot = document.querySelector('#mtop-btns .tdot');
-  if (dot) dot.hidden = !ALERTS.length;
-}
-function openAlertsSheet() {
-  SHEET = null;
-  const el = document.getElementById('sheet');
-  const items = !ALERTS || !ALERTS.length
-    ? '<div class="al-empty">' + t('alertsNone') + '</div>'
-    : ALERTS.map(a => {
-        const f = a.line_slug && feats.find(x => x.properties.id === a.line_slug);
-        return '<div class="al-item"><span class="tag">' + (f ? f.properties.name : t('alertsGeneral')) + '</span>' +
-          '<div>' + String(a.message).replace(/</g, '&lt;') + '</div>' +
-          '<small>' + (a.created_at || '').slice(0, 16).replace('T', ' ') + '</small></div>';
-      }).join('');
-  el.innerHTML = '<div class="grabwrap"><div class="grab"></div></div>' +
-    '<div class="sh-head"><span class="sh-name"><b>' + t('mtAlerts') + '</b></span>' +
-    '<button class="iconbtn" id="sh-close">' + S_X + '</button></div>' + items;
-  el.classList.remove('min');
-  el.classList.add('show');
-  document.getElementById('sh-close').onclick = closeSheet;
-  track('alerts_open');
-}
 
 function mlVisible(f) {
   const p = f.properties;
@@ -1809,6 +1943,8 @@ function renderCards() {
   // shows those routes; otherwise the query + pills filter applies
   const on = M.chips.filter(c => c.on).map(c => c.id);
   const vis = on.length ? feats.filter(f => on.includes(f.properties.id)) : feats.filter(mlVisible);
+  // favorites always float to the top (stable within groups)
+  vis.sort((a, b) => (MV.fav.has(b.properties.id) ? 1 : 0) - (MV.fav.has(a.properties.id) ? 1 : 0));
   document.getElementById('ml-count').textContent = t('count')(vis.length, feats.length);
   el.innerHTML = '';
   vis.forEach(f => {
@@ -1854,15 +1990,15 @@ const S_FARE = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stro
 const S_POI = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V10l7-5 7 5v11"/><path d="M9 21v-6h6v6"/></svg>';
 
 function sheetHead(id, p, mode) {
-  // the name itself is the details toggle (no CTA button — saves a whole row)
+  // the name toggles details; the grab handle slides; dismissal is the floating
+  // reset button — so the route sheet carries no X of its own
   return '<div class="grabwrap"><div class="grab"></div></div>' +
     '<div class="sh-head"><span class="tile" style="' + tileStyle(p.color) + '">' + S_BUSW + '</span>' +
     '<span class="sh-name" id="sh-name" style="cursor:pointer"><b>' + p.name +
     ' <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;opacity:.5">' +
     (mode === 'compact' ? '<path d="m6 9 6 6 6-6"/>' : '<path d="m18 15-6-6-6 6"/>') + '</svg></b>' +
     '<span class="kbadge" style="background:' + p.color + '22;color:' + p.color + '">' + t('detKind')(p.kind) + '</span></span>' +
-    '<button class="iconbtn star' + (MV.fav.has(id) ? ' on' : '') + '" id="sh-fav">' + S_STAR + '</button>' +
-    '<button class="iconbtn" id="sh-close">' + S_X + '</button></div>';
+    '<button class="iconbtn star' + (MV.fav.has(id) ? ' on' : '') + '" id="sh-fav">' + S_STAR + '</button></div>';
 }
 
 const DEFAULT_FARE = 8;  // "most combis are 8 pesos per way" — shown as approx when a line has no fare set
@@ -1922,7 +2058,6 @@ function openSheet(id, mode) {
   el.classList.remove('min');
   el.classList.add('show');
   document.getElementById('sheet2').classList.remove('show');  // route panel supersedes spot panel
-  document.getElementById('sh-close').onclick = closeSheet;
   document.getElementById('sh-fav').onclick = () => favToggle(id);
   document.getElementById('sh-name').onclick = () => openSheet(id, mode === 'compact' ? 'full' : 'compact');
   saveStatus();
@@ -1978,25 +2113,66 @@ document.getElementById('mtheme').onclick = () => {
   location.reload();
 };
 document.getElementById('mcfg-btn').onclick = () => openSettings();
-document.getElementById('malerts-btn').onclick = async () => {
-  if (ALERTS === null) await loadAlerts();
-  openAlertsSheet();
-};
 document.getElementById('msrch-btn').onclick = () => {
   SRCH_FORCE = true;
   syncCollapse();
   document.getElementById('ml-search').focus();
 };
 document.getElementById('mclear').onclick = clearSelection;
-// POI/sponsor panel: grab bar slides it, X closes it
+
+// panel handles: tap toggles open/closed, drag resizes vertically (touch + mouse)
+function makeDraggable(sheetEl) {
+  let startY = 0, startH = 0, dragging = false, moved = false;
+  sheetEl.addEventListener('pointerdown', e => {
+    const gw = e.target.closest('.grabwrap');
+    if (!gw) return;
+    dragging = true; moved = false;
+    startY = e.clientY;
+    startH = sheetEl.getBoundingClientRect().height;
+    sheetEl.style.transition = 'none';
+    if (gw.setPointerCapture) try { gw.setPointerCapture(e.pointerId); } catch (err) {}
+  });
+  window.addEventListener('pointermove', e => {
+    if (!dragging) return;
+    const dy = startY - e.clientY;
+    if (Math.abs(dy) > 6) moved = true;
+    if (!moved) return;
+    sheetEl.style.maxHeight = Math.max(64, Math.min(innerHeight * 0.85, startH + dy)) + 'px';
+    sheetEl.classList.remove('min');
+    e.preventDefault();
+  }, {passive: false});
+  const end = () => {
+    if (!dragging) return;
+    dragging = false;
+    sheetEl.style.transition = '';
+    if (!moved) return;
+    sheetEl.dataset.dragged = '1';                       // suppress the tap-toggle that follows
+    setTimeout(() => { delete sheetEl.dataset.dragged; }, 250);
+    if (sheetEl.getBoundingClientRect().height < 110) {  // dragged low -> snap to the slim bar
+      sheetEl.style.maxHeight = '';
+      sheetEl.classList.add('min');
+    }
+    if (isMobile() && sheetEl.id === 'sheet') {
+      const on = M.chips.filter(c => c.on).map(c => c.id);
+      if (on.length) fitToSelection(on);                 // map re-fits to the resized panel
+    }
+  };
+  window.addEventListener('pointerup', end);
+  window.addEventListener('pointercancel', end);
+}
+makeDraggable(document.getElementById('sheet'));
+makeDraggable(document.getElementById('sheet2'));
+
 document.getElementById('sheet2').addEventListener('click', e => {
-  if (!e.target.closest('.grabwrap')) return;
-  document.getElementById('sheet2').classList.toggle('min');
+  const elS = document.getElementById('sheet2');
+  if (!e.target.closest('.grabwrap') || elS.dataset.dragged) return;
+  elS.style.maxHeight = '';
+  elS.classList.toggle('min');
 });
-// drawer handle: tap the grab bar to slide the panel closed/open; re-fit the map to the freed space
 document.getElementById('sheet').addEventListener('click', e => {
-  if (!e.target.closest('.grabwrap')) return;
   const elS = document.getElementById('sheet');
+  if (!e.target.closest('.grabwrap') || elS.dataset.dragged) return;
+  elS.style.maxHeight = '';
   elS.classList.toggle('min');
   track('sheet_' + (elS.classList.contains('min') ? 'min' : 'open'));
   if (isMobile()) {
@@ -2061,7 +2237,7 @@ async function runSugg(q) {
   places.forEach(({pl}) => mlSugg.appendChild(suggRow(
     '<span style="flex:none;color:var(--ink-2)">' + S_PIN2 + '</span><span style="flex:1">' + pl.label + '</span>' +
     '<span class="tag">' + t('nearTag')(pl.ids.size, pl.farKm) + '</span>',
-    () => { hideSugg(); setSearchLabel(pl.label); highlightRoutes([...pl.ids], pl.label); })));
+    () => { hideSugg(); setSearchLabel(pl.label); highlightRoutes([...pl.ids], pl.label); openDestPanel(pl.label, null); })));
   mlSugg.hidden = mlSugg.children.length === 0;
   if (places.length + routes.length < 2 && q.length >= 3) {
     const res = await geocode(q + ', Tehuacán');
@@ -2076,7 +2252,7 @@ async function runSugg(q) {
         '<span style="flex:none;color:var(--ink-2)">' + S_PIN2 + '</span><span style="flex:1">' + r.name +
         (r.detail ? ' <span class="muted2">' + r.detail + '</span>' : '') + '</span>' +
         '<span class="tag">' + t('nearTag')(ids.length, 0) + '</span>',
-        () => { hideSugg(); setSearchLabel(r.name); highlightRoutes(ids, r.name, r.c); }));
+        () => { hideSugg(); setSearchLabel(r.name); highlightRoutes(ids, r.name, r.c); openDestPanel(r.name, r.c); }));
     });
     mlSugg.hidden = mlSugg.children.length === 0;
   }
@@ -2107,7 +2283,6 @@ if (isMobile()) {
   mSyncUI();
   if (BOOT && BOOT.sheet && !params.get('ruta') && feats.some(f => f.properties.id === BOOT.sheet))
     openSheet(BOOT.sheet, v === 'map' ? 'compact' : 'full');
-  loadAlerts();
 }
 
 document.getElementById('search').addEventListener('input', e => {
