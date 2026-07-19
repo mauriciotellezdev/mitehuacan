@@ -1319,7 +1319,9 @@ map.on('load', () => {
   map.addSource('poi-pins', {type: 'geojson', data: {type: 'FeatureCollection', features: []}});
   map.addLayer({
     id: 'poi-pins', type: 'circle', source: 'poi-pins',
-    paint: {'circle-radius': ['interpolate', ['linear'], ['zoom'], 11, 3.5, 15, 6],
+    paint: {'circle-radius': ['interpolate', ['linear'], ['zoom'],
+              11, matchMedia('(hover: hover)').matches ? 3.5 : 4.5,
+              15, matchMedia('(hover: hover)').matches ? 6 : 7.5],
             'circle-color': ['get', 'color'],
             'circle-stroke-width': 1.5, 'circle-stroke-color': dark ? '#0a0b12' : '#ffffff'}
   });
@@ -1370,10 +1372,11 @@ map.on('load', () => {
                e.lngLat.lat.toFixed(4) + ', ' + e.lngLat.lng.toFixed(4) + t('mapPoint'));
       return;
     }
-    // POI tap wins when the tap lands near a dot (finger-sized radius): show its
-    // popup only — the route selection is locked, never switched by a POI tap
+    // POI tap wins when the tap lands near a dot. The POI radius must OUT-RANGE
+    // the route hit box (20px touch) or a finger aimed at a dot still lands in
+    // route-switch territory — that's the bug this guards against.
     if (map.getLayer('poi-pins')) {
-      const PR = matchMedia('(hover: hover)').matches ? 10 : 16;
+      const PR = matchMedia('(hover: hover)').matches ? 12 : 24;
       const ph = map.queryRenderedFeatures(
         [[e.point.x - PR, e.point.y - PR], [e.point.x + PR, e.point.y + PR]], {layers: ['poi-pins']});
       let best = null, bd = Infinity;
