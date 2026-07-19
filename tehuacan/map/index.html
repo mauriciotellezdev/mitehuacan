@@ -134,7 +134,14 @@
   /* mobile: app layout — MAP or LIST view (segmented toggle), never both;
      search + filters live above both views; bottom tab bar; the selected
      route opens a bottom sheet (compact on map, full on list) */
-  #mbar, #mhead, #mlist, #sheet, #mtop-btns, #mhint { display: none; }
+  #mbar, #mhead, #mlist, #sheet, #sheet2, #mtop-btns, #mhint, #mclear { display: none; }
+  /* clear-selection reset button: shown while a route is locked (all widths) */
+  #mclear { position: absolute; top: 10px; right: 54px; z-index: 16; width: 44px; height: 44px; border-radius: 50%;
+            border: 1px solid var(--line); background: var(--glass); color: var(--ink);
+            align-items: center; justify-content: center; cursor: pointer;
+            box-shadow: 0 4px 16px rgba(0,0,0,.25);
+            -webkit-backdrop-filter: blur(18px) saturate(160%); backdrop-filter: blur(18px) saturate(160%); }
+  #mclear:not([hidden]) { display: flex; }
   @media (max-width: 700px) {
     #sidebar { display: none; }
     #mhead { display: block; order: 1; padding: 10px 14px 4px; background: var(--bg);
@@ -161,7 +168,8 @@
                         border: none; cursor: pointer; display: flex; align-items: center;
                         justify-content: center; color: var(--ink-2); }
     #topbar nav { display: none; }
-    #mbar { display: block; position: absolute; top: 10px; left: 10px; right: 10px; z-index: 15; }
+    #mbar { display: block; position: absolute; top: 10px; left: 10px; right: 64px; z-index: 15; }
+    #mclear { right: 10px; }
     #mrow, #msugg { display: none; }
     body[data-mview=list] #mbar { display: none; }
     /* map controls bottom-right like the design */
@@ -220,6 +228,15 @@
     #sheet.show { display: block; animation: panelIn .26s cubic-bezier(.32,.72,0,1) both;
                   transition: max-height .28s cubic-bezier(.32,.72,0,1); }
     #sheet.min { max-height: 64px; overflow: hidden; }
+    /* second panel: POI / sponsor details, slides on TOP of the route sheet */
+    #sheet2 { position: fixed; left: 0; right: 0; bottom: 0; z-index: 34;
+              background: var(--glass); border: 1px solid var(--line); border-bottom: none;
+              border-radius: 20px 20px 0 0; box-shadow: 0 -12px 40px rgba(0,0,0,.5);
+              -webkit-backdrop-filter: blur(26px) saturate(180%); backdrop-filter: blur(26px) saturate(180%);
+              padding: 8px 16px calc(14px + env(safe-area-inset-bottom)); max-height: 45vh; overflow-y: auto; }
+    #sheet2.show { display: block; animation: panelIn .26s cubic-bezier(.32,.72,0,1) both;
+                   transition: max-height .28s cubic-bezier(.32,.72,0,1); }
+    #sheet2.min { max-height: 64px; overflow: hidden; }
     .grabwrap { padding: 2px 0 8px; margin: -8px -16px 0; cursor: pointer; touch-action: manipulation;
                 display: flex; justify-content: center; }
     .grabwrap:active .grab { background: var(--ink-2); }
@@ -363,6 +380,7 @@
       <div id="mchips"></div>
     </div>
     <div id="mhint" hidden><b></b><span></span></div>
+    <button id="mclear" hidden aria-label="quitar selección / clear selection"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
   </div>
   <div id="mlist">
     <div id="ml-count"></div>
@@ -391,6 +409,7 @@
   </div>
 </div>
 <div id="sheet"></div>
+<div id="sheet2"></div>
 <script>
 const THEME = (() => {
   try { const s = localStorage.mtTheme; if (s === 'light' || s === 'dark') return s; } catch (e) {}
@@ -418,6 +437,7 @@ const I18N = {
     fareCats: 'Estudiantes con credencial (L–V escolar): tarifa preferencial · Adultos mayores (INAPAM): ~$4 · Personas con discapacidad: gratis con credencial · Niños de 5 a 12: ~medio pasaje',
     fareSrc: 'tarifas preferenciales según la SMT de Puebla — pueden variar por ruta',
     rowPois: 'Servicios en la ruta',
+    poiCat: c => ({edu: 'Educación', salud: 'Salud', gob: 'Gobierno'}[c] || ''),
     poiLine: c => [c.edu ? c.edu + (c.edu === 1 ? ' escuela' : ' escuelas') : null,
                    c.salud ? c.salud + ' de salud' : null,
                    c.gob ? c.gob + ' de gobierno' : null].filter(Boolean).join(' · '),
@@ -493,6 +513,7 @@ const I18N = {
     fareCats: 'Students with ID (school days): reduced fare · Seniors (INAPAM): ~$4 · Riders with disabilities: free with ID · Kids 5–12: ~half fare',
     fareSrc: "preferential fares per Puebla's SMT — may vary by route",
     rowPois: 'Services on the route',
+    poiCat: c => ({edu: 'Education', salud: 'Health', gob: 'Government'}[c] || ''),
     poiLine: c => [c.edu ? c.edu + (c.edu === 1 ? ' school' : ' schools') : null,
                    c.salud ? c.salud + ' health' : null,
                    c.gob ? c.gob + ' government' : null].filter(Boolean).join(' · '),
@@ -876,6 +897,9 @@ function select(id, fit) {
   paintCurrent();
   setSponsorPins(id ? [id] : []);
   setPoiPins(id ? [id] : []);
+  const mcd = document.getElementById('mclear');
+  if (mcd && !isMobile()) mcd.hidden = !id;
+  if (!id) document.getElementById('sheet2').classList.remove('show');
   renderDetail();
   renderList();
   if (id && fit) {
@@ -927,19 +951,20 @@ function setSponsorPins(routeIds) {
 // selection-driven like sponsor pins, but these are free placements
 const POI_COLORS = {edu: '#2ecc71', salud: '#e05252', gob: '#9b79d4'};
 function setPoiPins(routeIds) {
-  // all POIs stay on the map: dim when idle (like the route lines); a selected
-  // route's POIs light up while the rest stay faint
+  // POIs exist on the map ONLY while a route is selected — the selected route's
+  // services, full strength, nothing else
   const src = map.getSource('poi-pins');
   if (!src || typeof POIS === 'undefined' || !map.getLayer('poi-pins')) return;
-  const onSet = new Set();
-  routeIds.forEach(rid => (POIS.by_route[rid] || []).forEach(i => onSet.add(i)));
-  const fs = POIS.pois.map((p, i) => ({type: 'Feature',
-    properties: {name: p.n, cat: p.k, color: POI_COLORS[p.k] || '#888', on: onSet.has(i)},
-    geometry: {type: 'Point', coordinates: p.c}}));
+  const seen = new Set();
+  const fs = [];
+  routeIds.forEach(rid => (POIS.by_route[rid] || []).forEach(i => {
+    if (seen.has(i)) return;
+    seen.add(i);
+    const p = POIS.pois[i];
+    fs.push({type: 'Feature', properties: {name: p.n, cat: p.k, color: POI_COLORS[p.k] || '#888'},
+             geometry: {type: 'Point', coordinates: p.c}});
+  }));
   src.setData({type: 'FeatureCollection', features: fs});
-  const op = routeIds.length ? ['case', ['get', 'on'], 1, 0.2] : 0.35;
-  map.setPaintProperty('poi-pins', 'circle-opacity', op);
-  map.setPaintProperty('poi-pins', 'circle-stroke-opacity', op);
 }
 
 function poiCounts(routeId) {
@@ -1032,6 +1057,70 @@ function nextCombiAt(routeId, atM) {
   const dep = first + k * s.headway_min;
   if (dep > last) return {done: true, next: first + travel};
   return {arr: dep + travel, wait: Math.max(0, dep + travel - nowMin)};
+}
+
+/* ---------- locked mode: while a route is selected, a map tap can ONLY open a
+   POI/sponsor detail panel or show the same-route ETA. The selection itself is
+   untouchable until the reset button (or sheet X / chip X) clears it. ---------- */
+function onLockedTap(e, lockIds) {
+  const PR = matchMedia('(hover: hover)').matches ? 12 : 26;
+  const box = [[e.point.x - PR, e.point.y - PR], [e.point.x + PR, e.point.y + PR]];
+  if (map.getLayer('sponsor-pins')) {
+    const sh = map.queryRenderedFeatures(box, {layers: ['sponsor-pins']});
+    if (sh.length) { openSpotPanel('sponsor', sh[0]); return; }
+  }
+  if (map.getLayer('poi-pins')) {
+    const ph = map.queryRenderedFeatures(box, {layers: ['poi-pins']});
+    if (ph.length) {
+      let best = null, bd = Infinity;
+      ph.forEach(f => {
+        const pp = map.project(f.geometry.coordinates);
+        const d = Math.hypot(pp.x - e.point.x, pp.y - e.point.y);
+        if (d < bd) { bd = d; best = f; }
+      });
+      openSpotPanel('poi', best);
+      return;
+    }
+  }
+  const ids = routesAt(e.point);
+  if (ids.length) {
+    const id = nearestRouteId(ids, e.lngLat);
+    if (lockIds.includes(id) && SCHEDULES[id]) { etaPopup(id, e.lngLat); return; }
+  }
+  // anything else while locked is swallowed
+}
+
+function openSpotPanel(type, f) {
+  const el = document.getElementById('sheet2');
+  const pr = f.properties;
+  let body;
+  if (type === 'sponsor') {
+    const s = (typeof SPONSORS !== 'undefined' && (SPONSORS.sponsors || {})[pr.sponsor]) || {name: pr.sponsor || ''};
+    body = '<div class="sh-head">' +
+      (s.logo ? '<img src="' + s.logo + '" srcset="' + (s.logo2x || s.logo) + ' 2x" alt="" style="height:26px;flex:none">' : '') +
+      '<span class="sh-name"><b>' + (s.name || '') + '</b>' +
+      (pr.label ? '<span style="display:block;color:var(--ink-2);font-size:12.5px;margin-top:3px">' + String(pr.label).replace(/</g, '&lt;') + '</span>' : '') +
+      '</span><button class="iconbtn" id="p2-close">' + S_X + '</button></div>';
+  } else {
+    body = '<div class="sh-head"><span class="tile" style="background:' + (pr.color || '#888') + ';color:#fff">' + S_POI + '</span>' +
+      '<span class="sh-name"><b>' + String(pr.name).replace(/</g, '&lt;') + '</b>' +
+      '<span class="kbadge" style="background:' + pr.color + '22;color:' + pr.color + '">' + t('poiCat')(pr.cat) + '</span></span>' +
+      '<button class="iconbtn" id="p2-close">' + S_X + '</button></div>';
+  }
+  el.innerHTML = '<div class="grabwrap"><div class="grab"></div></div>' + body;
+  el.classList.remove('min');
+  el.classList.add('show');
+  document.getElementById('p2-close').onclick = () => el.classList.remove('show');
+  track(type + '_tap', (pr.name || pr.sponsor || '').slice(0, 40));
+}
+
+function clearSelection() {
+  M.chips = [];
+  document.getElementById('sheet2').classList.remove('show');
+  if (!isMobile() && typeof select === 'function') select(null, false);
+  closeSheet();
+  if (isMobile()) mApply(false);
+  track('route_clear');
 }
 
 function etaPopup(id, lngLat) {
@@ -1341,6 +1430,8 @@ map.on('load', () => {
   let hoverId = null;
   map.on('mousemove', e => {
     if (P.pickArm) return;
+    // no hover effects while locked — nothing may visually contradict the selection
+    if (isMobile() ? M.chips.some(c => c.on) : !!state.sel) return;
     const ids = routesAt(e.point);
     const id = ids.length ? nearestRouteId(ids, e.lngLat) : null;
     if (id) popup.setLngLat(e.lngLat).setHTML('<b>' + routeById(id).name + '</b>').addTo(map);
@@ -1372,44 +1463,19 @@ map.on('load', () => {
                e.lngLat.lat.toFixed(4) + ', ' + e.lngLat.lng.toFixed(4) + t('mapPoint'));
       return;
     }
-    // POI tap wins when the tap lands near a dot. The POI radius must OUT-RANGE
-    // the route hit box (20px touch) or a finger aimed at a dot still lands in
-    // route-switch territory — that's the bug this guards against.
-    if (map.getLayer('poi-pins')) {
-      const PR = matchMedia('(hover: hover)').matches ? 12 : 24;
-      const ph = map.queryRenderedFeatures(
-        [[e.point.x - PR, e.point.y - PR], [e.point.x + PR, e.point.y + PR]], {layers: ['poi-pins']});
-      let best = null, bd = Infinity;
-      ph.forEach(f => {
-        const pp = map.project(f.geometry.coordinates);
-        const d = Math.hypot(pp.x - e.point.x, pp.y - e.point.y);
-        if (d < bd) { bd = d; best = f; }
-      });
-      if (best && bd <= PR) {
-        new maplibregl.Popup({closeButton: false, offset: 10})
-          .setLngLat(best.geometry.coordinates)
-          .setHTML('<b>' + best.properties.name + '</b>').addTo(map);
-        track('poi_tap', best.properties.cat);
-        return;
-      }
-    }
+    // THE LOCK, structurally: while anything is selected, this handler hands
+    // off to onLockedTap and returns — the selection code below is unreachable.
+    const lockIds = isMobile() ? M.chips.filter(c => c.on).map(c => c.id)
+                               : (state.sel ? [state.sel] : []);
+    if (lockIds.length) { onLockedTap(e, lockIds); return; }
     const ids = routesAt(e.point);
     if (!ids.length) return;
     const id = nearestRouteId(ids, e.lngLat);
     if (isMobile()) {
-      const on = M.chips.filter(c => c.on).map(c => c.id);
-      if (on.length) {
-        // HARD LOCK: while a route is selected, map taps can never switch it.
-        // Same-route tap = next-combi ETA at that point. Unlock only via the
-        // sheet's X or the chip's X; then the next tap selects fresh.
-        if (on.includes(id) && SCHEDULES[id]) etaPopup(id, e.lngLat);
-        return;
-      }
       openSheet(id);              // sheet first, so the fit accounts for its height
       mAddRoute(id);
     } else if (document.querySelector('#tabs button.on').dataset.pane === 'browse') {
-      if (state.sel === id) etaPopup(id, e.lngLat);          // second click on selected route = ETA here
-      else select(id, false);
+      select(id, false);
     }
   });
 
@@ -1469,6 +1535,8 @@ function mApply(fit) {
   paintCurrent();
   setSponsorPins(on);
   setPoiPins(on);
+  const mc = document.getElementById('mclear');
+  if (mc && isMobile()) mc.hidden = !on.length;
   mRenderChips();
   if (typeof syncCollapse === 'function') syncCollapse();
   if (typeof saveStatus === 'function') saveStatus();
@@ -1836,6 +1904,7 @@ function openSheet(id, mode) {
   }
   el.classList.remove('min');
   el.classList.add('show');
+  document.getElementById('sheet2').classList.remove('show');  // route panel supersedes spot panel
   document.getElementById('sh-close').onclick = closeSheet;
   document.getElementById('sh-fav').onclick = () => favToggle(id);
   document.getElementById('sh-name').onclick = () => openSheet(id, mode === 'compact' ? 'full' : 'compact');
@@ -1901,6 +1970,12 @@ document.getElementById('msrch-btn').onclick = () => {
   syncCollapse();
   document.getElementById('ml-search').focus();
 };
+document.getElementById('mclear').onclick = clearSelection;
+// POI/sponsor panel: grab bar slides it, X closes it
+document.getElementById('sheet2').addEventListener('click', e => {
+  if (!e.target.closest('.grabwrap')) return;
+  document.getElementById('sheet2').classList.toggle('min');
+});
 // drawer handle: tap the grab bar to slide the panel closed/open; re-fit the map to the freed space
 document.getElementById('sheet').addEventListener('click', e => {
   if (!e.target.closest('.grabwrap')) return;
