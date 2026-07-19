@@ -1876,14 +1876,15 @@ async function runSugg(q) {
   const places = PLACE_INDEX.map(pl => ({pl, s: fuzzyScore(nq, norm(pl.label))}))
     .filter(x => x.s > 100).sort((a, b) => b.s - a.s || b.pl.ids.size - a.pl.ids.size).slice(0, 3);
   mlSugg.innerHTML = '';
-  places.forEach(({pl}) => mlSugg.appendChild(suggRow(
-    '<span style="flex:none;color:var(--ink-2)">' + S_PIN2 + '</span><span style="flex:1">' + pl.label + '</span>' +
-    '<span class="tag">' + t('nearTag')(pl.ids.size, pl.farKm) + '</span>',
-    () => { hideSugg(); setSearchLabel(pl.label); highlightRoutes([...pl.ids], pl.label); })));
+  // matched routes rank above location results
   routes.forEach(({p}) => mlSugg.appendChild(suggRow(
     '<span class="swatch" style="background:' + p.color + '"></span><span style="flex:1">' + p.name + '</span>' +
     (p.kind === 'foránea' ? '<span class="tag">' + t('tagForanea') + '</span>' : ''),
     () => { hideSugg(); setSearchLabel(p.name); highlightRoutes([p.id], p.name); openSheet(p.id, 'compact'); })));
+  places.forEach(({pl}) => mlSugg.appendChild(suggRow(
+    '<span style="flex:none;color:var(--ink-2)">' + S_PIN2 + '</span><span style="flex:1">' + pl.label + '</span>' +
+    '<span class="tag">' + t('nearTag')(pl.ids.size, pl.farKm) + '</span>',
+    () => { hideSugg(); setSearchLabel(pl.label); highlightRoutes([...pl.ids], pl.label); })));
   mlSugg.hidden = mlSugg.children.length === 0;
   if (places.length + routes.length < 2 && q.length >= 3) {
     const res = await geocode(q + ', Tehuacán');
