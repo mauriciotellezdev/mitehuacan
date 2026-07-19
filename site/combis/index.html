@@ -435,6 +435,8 @@ const I18N = {
     goFromMe: 'Cómo llegar desde mi ubicación',
     locating: 'Ubicando…',
     locErr: 'No pudimos obtener tu ubicación — revisa los permisos de ubicación del navegador.',
+    locFallback: 'No pudimos ubicarte — arrastra el pin verde a tu punto de partida.',
+    locRefresh: 'actualizar mi ubicación',
     tripTitle: 'Cómo llegar a',
     tripNone: 'No encontramos combis para ese destino.',
     alsoRoutes: 'también sirven: ',
@@ -515,6 +517,8 @@ const I18N = {
     goFromMe: 'Directions from my location',
     locating: 'Locating…',
     locErr: "Couldn't get your location — check the browser's location permission.",
+    locFallback: "Couldn't locate you — drag the green pin to your starting point.",
+    locRefresh: 'update my location',
     tripTitle: 'Getting to',
     tripNone: 'No combi options found for that destination.',
     alsoRoutes: 'also served by: ',
@@ -1143,38 +1147,46 @@ function onLockedTap(e, lockIds) {
   // anything else while locked is swallowed
 }
 
+const S_BACK = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>';
+
 function openSpotPanel(type, f) {
-  const el = document.getElementById('sheet2');
+  // POI/sponsor details REPLACE the main panel (no stacking); the back arrow
+  // restores whatever was there — trip options or the route sheet. No
+  // directions button here: the user is already inside a route/trip context.
+  const el = document.getElementById('sheet');
+  const prev = TRIP ? {kind: 'trip'} : (SHEET ? {kind: 'route', id: SHEET, mode: SHEET_MODE} : null);
   const pr = f.properties;
-  let body;
+  let head;
   if (type === 'sponsor') {
     const s = (typeof SPONSORS !== 'undefined' && (SPONSORS.sponsors || {})[pr.sponsor]) || {name: pr.sponsor || ''};
-    body = '<div class="sh-head">' +
-      (s.logo ? '<img src="' + s.logo + '" srcset="' + (s.logo2x || s.logo) + ' 2x" alt="" style="height:26px;flex:none">' : '') +
+    head = (s.logo ? '<img src="' + s.logo + '" srcset="' + (s.logo2x || s.logo) + ' 2x" alt="" style="height:26px;flex:none">' : '') +
       '<span class="sh-name"><b>' + (s.name || '') + '</b>' +
       (pr.label ? '<span style="display:block;color:var(--ink-2);font-size:12.5px;margin-top:3px">' + String(pr.label).replace(/</g, '&lt;') + '</span>' : '') +
-      '</span><button class="iconbtn" id="p2-close">' + S_X + '</button></div>';
+      '</span>';
   } else {
-    body = '<div class="sh-head"><span class="tile" style="background:' + (pr.color || '#888') + ';color:#fff">' + S_POI + '</span>' +
+    head = '<span class="tile" style="background:' + (pr.color || '#888') + ';color:#fff">' + S_POI + '</span>' +
       '<span class="sh-name"><b>' + String(pr.name).replace(/</g, '&lt;') + '</b>' +
-      '<span class="kbadge" style="background:' + pr.color + '22;color:' + pr.color + '">' + t('poiCat')(pr.cat) + '</span></span>' +
-      '<button class="iconbtn" id="p2-close">' + S_X + '</button></div>' +
-      '<button class="sh-cta" id="d-go">' + S_NAV + t('goFromMe') + '</button>' +
-      '<div class="dt-note" id="d-note" style="margin-top:8px"></div>';
+      '<span class="kbadge" style="background:' + pr.color + '22;color:' + pr.color + '">' + t('poiCat')(pr.cat) + '</span></span>';
   }
-  el.innerHTML = '<div class="grabwrap"><div class="grab"></div></div>' + body;
+  SHEET = null;  // spot content owns the panel until back
+  el.innerHTML = '<div class="grabwrap"><div class="grab"></div></div>' +
+    '<div class="sh-head"><button class="iconbtn" id="sp-back">' + S_BACK + '</button>' + head + '</div>';
   el.style.maxHeight = '';
   el.classList.remove('min');
   el.classList.add('show');
   poiHighlight(type === 'poi' ? pr.idx : null);  // spotlight the tapped dot, soften the rest
-  document.getElementById('p2-close').onclick = () => { el.classList.remove('show'); poiHighlight(null); };
-  if (type === 'poi') {
-    const coords = f.geometry.coordinates.slice();
-    document.getElementById('d-go').onclick = () => {
-      document.getElementById('d-note').textContent = t('locating');
-      mPlanTo(coords, pr.name);
-    };
-  }
+  document.getElementById('sp-back').onclick = () => {
+    poiHighlight(null);
+    if (prev && prev.kind === 'trip' && TRIP) {
+      renderTripSheet();
+      const sel = document.querySelectorAll('#sheet .opt')[TRIP.sel];
+      if (sel) sel.classList.add('sel');
+    } else if (prev && prev.kind === 'route') {
+      openSheet(prev.id, prev.mode);
+    } else {
+      el.classList.remove('show');
+    }
+  };
   track(type + '_tap', (pr.name || pr.sponsor || '').slice(0, 40));
 }
 
@@ -1208,27 +1220,69 @@ function clearTrip() {
   TRIP = null;
 }
 
-function getMyLocation() {
-  return new Promise((res, rej) => {
-    if (!('geolocation' in navigator)) return rej(new Error('unsupported'));
-    navigator.geolocation.getCurrentPosition(
-      p => res([p.coords.longitude, p.coords.latitude]), rej,
-      {enableHighAccuracy: true, timeout: 12000, maximumAge: 60000});
-  });
+// location is persisted: cached fixes answer instantly (no repeated prompts/waits);
+// a silent background refresh only rewrites the cache when you actually moved.
+// Failures degrade, never dead-end: high-accuracy -> low-accuracy retry ->
+// stale cache -> caller falls back to a draggable pin.
+let LOC_BUSY = false;
+const geoOnce = opts => new Promise((res, rej) => navigator.geolocation.getCurrentPosition(res, rej, opts));
+const saveLoc = c => { try { localStorage.mtLoc = JSON.stringify({c, ts: Date.now()}); } catch (e) {} };
+
+async function getMyLocation() {
+  let cached = null;
+  try { cached = JSON.parse(localStorage.mtLoc || 'null'); } catch (e) {}
+  if (cached && (Date.now() - cached.ts) < 15 * 60 * 1000) {
+    refreshMyLocation();   // keep it honest in the background
+    return cached.c;
+  }
+  if (!('geolocation' in navigator) || !window.isSecureContext) {
+    if (cached) return cached.c;             // stale beats failing
+    throw new Error('insecure-or-unsupported');
+  }
+  try {
+    const p = await geoOnce({enableHighAccuracy: true, timeout: 8000, maximumAge: 300000});
+    const c = [p.coords.longitude, p.coords.latitude];
+    saveLoc(c);
+    return c;
+  } catch (e1) {
+    if (!(e1 && e1.code === 1)) {            // not permission-denied: low-accuracy rescue
+      try {
+        const p = await geoOnce({enableHighAccuracy: false, timeout: 15000, maximumAge: 600000});
+        const c = [p.coords.longitude, p.coords.latitude];
+        saveLoc(c);
+        return c;
+      } catch (e2) { /* fall through */ }
+    }
+    if (cached) return cached.c;             // any cache beats failing
+    throw e1;
+  }
+}
+function refreshMyLocation() {
+  if (LOC_BUSY || !('geolocation' in navigator)) return;
+  LOC_BUSY = true;
+  navigator.geolocation.getCurrentPosition(p => {
+    LOC_BUSY = false;
+    const c = [p.coords.longitude, p.coords.latitude];
+    let cached = null;
+    try { cached = JSON.parse(localStorage.mtLoc || 'null'); } catch (e) {}
+    const movedM = cached ? Math.hypot((c[0] - cached.c[0]) * MLON, (c[1] - cached.c[1]) * MLAT) : Infinity;
+    try { localStorage.mtLoc = JSON.stringify({c: movedM > 150 ? c : cached.c, ts: Date.now()}); } catch (e) {}
+  }, () => { LOC_BUSY = false; }, {enableHighAccuracy: true, timeout: 15000, maximumAge: 60000});
 }
 
 async function mPlanTo(dest, label) {
-  let from;
+  let from, locFallback = false;
   try { from = await getMyLocation(); }
   catch (e) {
-    const note = document.getElementById('d-note');
-    if (note) note.textContent = t('locErr');
-    return;
+    // never dead-end: drop the origin pin at map center; it's draggable
+    const c = map.getCenter();
+    from = [c.lng, c.lat];
+    locFallback = true;
   }
   clearTrip();
   if (typeof SRCH_MARKER !== 'undefined' && SRCH_MARKER) { SRCH_MARKER.remove(); SRCH_MARKER = null; }
   const opts = findTrips(from, dest);
-  TRIP = {opts, sel: 0, from, dest, destLabel: label};
+  TRIP = {opts, sel: 0, from, dest, destLabel: label, locFallback};
   ensureTripMarkers();
   document.getElementById('sheet2').classList.remove('show');
   renderTripSheet();
@@ -1281,11 +1335,25 @@ function renderTripSheet() {
   el.innerHTML = '<div class="grabwrap"><div class="grab"></div></div>' +
     '<div class="sh-head"><span class="tile" style="background:var(--accent);color:#fff">' + S_PIN2 + '</span>' +
     '<span class="sh-name"><b>' + t('tripTitle') + ' ' + String(TRIP.destLabel).replace(/</g, '&lt;') + '</b></span></div>' +
+    (TRIP.locFallback ? '<div class="dt-note" style="margin-bottom:8px">' + t('locFallback') + '</div>' : '') +
+    '<div class="dt-note" style="margin-bottom:8px"><a href="#" id="t-refresh" style="color:var(--accent)">' + t('locRefresh') + '</a></div>' +
     (TRIP.opts.length ? rows : '<div class="msg">' + t('tripNone') + '</div>');
   el.style.maxHeight = '';
   el.classList.remove('min');
   el.classList.add('show');
   el.querySelectorAll('.opt').forEach(d => d.onclick = () => mSelectTripOption(+d.dataset.i));
+  const tr = document.getElementById('t-refresh');
+  if (tr) tr.onclick = async e => {
+    e.preventDefault();
+    tr.textContent = t('locating');
+    try { localStorage.removeItem('mtLoc'); } catch (err) {}
+    try {
+      const c = await getMyLocation();      // forced fresh fix (cache was just cleared)
+      if (MT.a) MT.a.setLngLat(c);
+      TRIP.locFallback = false;
+      replanPins();
+    } catch (err) { tr.textContent = t('locErr'); }
+  };
 }
 
 function mSelectTripOption(i) {
