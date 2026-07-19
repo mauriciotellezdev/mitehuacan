@@ -689,6 +689,7 @@ function applyFilter() {
 function select(id, fit) {
   if (id && id !== state.sel) track('route_select', id);
   state.sel = id;
+  if (typeof saveStatus === 'function') saveStatus();
   const w = id ? ['case', ['==', ['get', 'id'], id], 4.5, 1.2]
                : ['interpolate', ['linear'], ['zoom'], 11, 1.8, 15, 3.5];
   map.setPaintProperty('routes', 'line-width', w);
@@ -1134,7 +1135,8 @@ map.on('load', () => {
 
   applyFilter();
 
-  // deep link: /combis/?ruta=<id> pre-selects a route (used by sharing + QR)
+  // deep link: /combis/?ruta=<id> pre-selects a route (used by sharing + QR);
+  // otherwise restore the last session's routes from the device
   const ruta = params.get('ruta');
   if (ruta && feats.some(f => f.properties.id === ruta)) {
     if (isMobile()) {
@@ -1143,6 +1145,13 @@ map.on('load', () => {
       mApply(true);
       openSheet(ruta);
     } else select(ruta, true);
+  } else if (BOOT) {
+    if (isMobile() && Array.isArray(BOOT.chips) && BOOT.chips.length) {
+      M.chips = BOOT.chips.filter(c => c && feats.some(f => f.properties.id === c.id));
+      if (M.chips.length) mApply(false);
+    } else if (!isMobile() && BOOT.sel && feats.some(f => f.properties.id === BOOT.sel)) {
+      select(BOOT.sel, true);
+    }
   }
 });
 
@@ -1168,6 +1177,7 @@ function mApply(fit) {
     : ['interpolate', ['linear'], ['zoom'], 11, 1.8, 15, 3.5]);
   setSponsorPins(on);
   mRenderChips();
+  if (typeof saveStatus === 'function') saveStatus();
   if (fit && on.length) {
     const b = new maplibregl.LngLatBounds();
     on.forEach(id => feats.find(f => f.properties.id === id).geometry.coordinates.flat().forEach(c => b.extend(c)));
@@ -1295,16 +1305,38 @@ const MV = {kind: 'all', q: '', fav: new Set()};
 try { MV.fav = new Set(JSON.parse(localStorage.mtFav || '[]')); } catch (e) {}
 const favSave = () => { try { localStorage.mtFav = JSON.stringify([...MV.fav]); } catch (e) {} };
 
-function mSetView(v) {  // list | map | fav | cfg
-  if (v === 'cfg') { openSettings(); return; }
-  if (v === 'fav') { MV.kind = 'fav'; v = 'list'; }
-  else if (v === 'list' && MV.kind === 'fav') MV.kind = 'all';
-  document.body.dataset.mview = v;
+// app status lives on the device: last view, filter, active routes, open sheet,
+// desktop selection — restored on the next visit (deep links take precedence)
+let BOOT = null;
+try { BOOT = JSON.parse(localStorage.mtStatus || 'null'); } catch (e) {}
+function saveStatus() {
+  try {
+    localStorage.mtStatus = JSON.stringify({
+      view: document.body.dataset.mview || 'list',
+      kind: MV.kind,
+      chips: M.chips,
+      sheet: SHEET,
+      sel: state.sel,
+    });
+  } catch (e) {}
+}
+
+function mSyncUI() {
+  const v = document.body.dataset.mview || 'list';
   const activeTab = v === 'list' ? (MV.kind === 'fav' ? 'fav' : 'list') : v;
   document.querySelectorAll('#mtabs button').forEach(b => b.classList.toggle('on', b.dataset.v === activeTab));
   document.querySelectorAll('#ml-pills button').forEach(x => x.classList.toggle('on', x.dataset.mk === MV.kind));
   if (v === 'list') renderCards();
   if (v === 'map') setTimeout(() => map.resize(), 80);
+}
+
+function mSetView(v) {  // list | map | fav | cfg
+  if (v === 'cfg') { openSettings(); return; }
+  if (v === 'fav') { MV.kind = 'fav'; v = 'list'; }
+  else if (v === 'list' && MV.kind === 'fav') MV.kind = 'all';
+  document.body.dataset.mview = v;
+  mSyncUI();
+  saveStatus();
 }
 
 function mlVisible(f) {
@@ -1348,7 +1380,7 @@ function favToggle(id) {
 }
 
 let SHEET = null;
-function closeSheet() { SHEET = null; document.getElementById('sheet').classList.remove('show'); }
+function closeSheet() { SHEET = null; document.getElementById('sheet').classList.remove('show'); saveStatus(); }
 
 function shRow(icon, label, value) {
   return '<div class="sh-row">' + icon + '<div><b>' + label + '</b><span class="v">' + value + '</span></div></div>';
@@ -1382,6 +1414,7 @@ function openSheet(id) {
     mApply(true);
   };
   document.getElementById('sh-share').onclick = () => shareRoute(id);
+  saveStatus();
   track('route_select', id);
 }
 
@@ -1430,12 +1463,15 @@ document.querySelectorAll('#mtabs button').forEach(b => b.onclick = () => mSetVi
 document.getElementById('ml-search').addEventListener('input', e => { MV.q = e.target.value.trim(); renderCards(); });
 document.querySelectorAll('#ml-pills button').forEach(b => b.onclick = () => {
   MV.kind = b.dataset.mk;
-  document.querySelectorAll('#ml-pills button').forEach(x => x.classList.toggle('on', x.dataset.mk === MV.kind));
-  document.querySelectorAll('#mtabs button').forEach(x => x.classList.toggle('on',
-    x.dataset.v === (MV.kind === 'fav' ? 'fav' : 'list')));
-  renderCards();
+  mSyncUI();
+  saveStatus();
 });
-if (isMobile()) mSetView('list');
+if (isMobile()) {
+  if (BOOT && ['all', 'local', 'foránea', 'fav'].includes(BOOT.kind)) MV.kind = BOOT.kind;
+  document.body.dataset.mview = BOOT && BOOT.view === 'map' ? 'map' : 'list';
+  mSyncUI();
+  if (BOOT && BOOT.sheet && !params.get('ruta') && feats.some(f => f.properties.id === BOOT.sheet)) openSheet(BOOT.sheet);
+}
 
 document.getElementById('search').addEventListener('input', e => {
   state.q = e.target.value.trim().toLowerCase();
