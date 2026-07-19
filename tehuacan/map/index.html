@@ -667,10 +667,19 @@ const GEOCTL = new maplibregl.GeolocateControl({
   positionOptions: {enableHighAccuracy: true}, trackUserLocation: true, showUserHeading: true,
 });
 map.addControl(GEOCTL, 'top-right');
-// the locate icon's fixes are the best we ever get (watchPosition stream):
-// cache them, and auto-correct an active trip whose pin the user hasn't moved
+/* LOCATION STATE MODEL — one source of truth, strict priority:
+   1. BLUEDOT (in-memory): the locate control's live watch stream. While it's
+      set, NOBODY else may call the geolocation API (iOS "Allow Once" re-prompts
+      on every call — the stream is the only polite channel).
+   2. localStorage.mtLoc {c, acc, ts}: last good fix from ANY source, survives
+      reloads; served instantly for 3 min to avoid prompt spam.
+   3. geoBurst (watchPosition burst): only when neither of the above exists.
+   TRIP.from consumes this chain once; afterwards only the stream (auto-correct)
+   or the user's own pin drag may move it — drag always wins. */
+let BLUEDOT = null;
 GEOCTL.on('geolocate', p => {
   const c = [p.coords.longitude, p.coords.latitude];
+  BLUEDOT = c;
   if (typeof saveLoc === 'function') saveLoc(c, p.coords.accuracy);
   if (typeof TRIP !== 'undefined' && TRIP && !TRIP.dragged && p.coords.accuracy <= 800) {
     const movedM = Math.hypot((c[0] - TRIP.from[0]) * MLON, (c[1] - TRIP.from[1]) * MLAT);
@@ -681,6 +690,8 @@ GEOCTL.on('geolocate', p => {
     }
   }
 });
+GEOCTL.on('trackuserlocationend', () => { BLUEDOT = null; });
+const geoStreaming = () => BLUEDOT !== null;
 
 const boundaryCircle = (() => {
   const pts = [];
@@ -1261,7 +1272,8 @@ const geoBurst = ms => new Promise((res, rej) => {
 const saveLoc = (c, acc) => { LAST_ACC = acc ?? null; try { localStorage.mtLoc = JSON.stringify({c, acc: LAST_ACC, ts: Date.now()}); } catch (e) {} };
 
 async function getMyLocation() {
-  // the blue dot wins: if the locate control is tracking, that IS the user
+  // 1) the blue dot wins, instantly and silently — no API call, no prompt
+  if (typeof BLUEDOT !== 'undefined' && BLUEDOT) return BLUEDOT;
   const lk = (typeof GEOCTL !== 'undefined' && GEOCTL._lastKnownPosition && GEOCTL._lastKnownPosition.coords)
     ? GEOCTL._lastKnownPosition : null;
   if (lk) {
@@ -1299,6 +1311,7 @@ async function getMyLocation() {
   }
 }
 function refreshMyLocation() {
+  if (typeof geoStreaming === 'function' && geoStreaming()) return;  // stream owns truth: no extra calls, no re-prompts
   if (LOC_BUSY || !('geolocation' in navigator)) return;
   LOC_BUSY = true;
   navigator.geolocation.getCurrentPosition(p => {
@@ -1338,6 +1351,9 @@ async function mPlanTo(dest, label) {
 // silent truth-seeking: a fresh GPS fix that lands far from the planned origin
 // (and the user hasn't touched the pin) moves the pin and replans automatically
 async function autoCorrectOrigin() {
+  // the stream already auto-corrects via the geolocate listener; an extra API
+  // call here would re-prompt iOS "Allow Once" users
+  if (typeof geoStreaming === 'function' && geoStreaming()) return;
   if (!('geolocation' in navigator) || !window.isSecureContext) return;
   try {
     const p = await geoOnce({enableHighAccuracy: true, timeout: 15000, maximumAge: 0});

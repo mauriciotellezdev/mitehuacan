@@ -43,6 +43,36 @@ knows who touched it and when; **the public site consumes only published state.*
                 public map (mitehuacan.mx/combis)
 ```
 
+### 0.1 Deployment split (constraint from Mike, 2026-07-19)
+
+The backoffice **UI runs on a different network** than the public app — it is
+NOT served from the same code/server as the frontend. Consequences baked into
+this spec:
+
+- **The APIs stay where the data is.** All `/api/*` admin endpoints remain
+  Pages Functions on the main project (that's where the D1 binding lives).
+  The backoffice UI is a **separate static deployment** (its own Pages project,
+  a laptop, an office intranet box — anywhere) that calls
+  `https://mitehuacan.mx/api/...` cross-origin.
+- **CORS, explicitly:** admin endpoints answer `OPTIONS` and set
+  `Access-Control-Allow-Origin` from an `ADMIN_ORIGINS` env allowlist (comma
+  separated; e.g. the backoffice host + `http://localhost:*` for dev), plus
+  `Access-Control-Allow-Headers: Authorization, Content-Type`. Public read
+  endpoints (`/api/horarios`, `/api/sponsor-pins`) stay same-origin-only — the
+  map is served from the main site.
+- **Auth is header-only across origins.** The legacy `?token=` query-param
+  fallback is removed from admin endpoints (tokens in URLs leak into logs and
+  referers; unacceptable cross-network). `Authorization: Bearer` only.
+- **The current `/system/*` pages become the seed of the separate app.** They
+  are already static HTML calling APIs with a bearer token, so the migration is
+  mechanical: move them to `backoffice/` (own mini-project, own deploy), point
+  them at the production API base URL (configurable `API_BASE`), delete them
+  from the public project once the crews have switched. Interim: they keep
+  working on the main site during the transition.
+- **Rate limiting / abuse:** admin endpoints get a simple per-IP request cap
+  (D1-free, in-memory per isolate is fine as a tripwire) since they're now
+  reachable cross-origin; real protection remains the tokens.
+
 Two publication lanes, deliberately:
 - **Geometry lane (build-time, git-reviewed):** route shapes change rarely and
   deserve review — drafts → import script → `routes.js` → deploy. Git is the audit log.
