@@ -663,9 +663,24 @@ const map = new maplibregl.Map({
   attributionControl: false  // full data/tile credits live on /acerca/
 });
 map.addControl(new maplibregl.NavigationControl(), 'top-right');
-map.addControl(new maplibregl.GeolocateControl({
+const GEOCTL = new maplibregl.GeolocateControl({
   positionOptions: {enableHighAccuracy: true}, trackUserLocation: true, showUserHeading: true,
-}), 'top-right');
+});
+map.addControl(GEOCTL, 'top-right');
+// the locate icon's fixes are the best we ever get (watchPosition stream):
+// cache them, and auto-correct an active trip whose pin the user hasn't moved
+GEOCTL.on('geolocate', p => {
+  const c = [p.coords.longitude, p.coords.latitude];
+  if (typeof saveLoc === 'function') saveLoc(c, p.coords.accuracy);
+  if (typeof TRIP !== 'undefined' && TRIP && !TRIP.dragged && p.coords.accuracy <= 800) {
+    const movedM = Math.hypot((c[0] - TRIP.from[0]) * MLON, (c[1] - TRIP.from[1]) * MLAT);
+    if (movedM > 200) {
+      if (MT.a) MT.a.setLngLat(c);
+      TRIP.locFallback = false;
+      replanPins();
+    }
+  }
+});
 
 const boundaryCircle = (() => {
   const pts = [];
@@ -1224,14 +1239,40 @@ function clearTrip() {
 // a silent background refresh only rewrites the cache when you actually moved.
 // Failures degrade, never dead-end: high-accuracy -> low-accuracy retry ->
 // stale cache -> caller falls back to a draggable pin.
-let LOC_BUSY = false;
+let LOC_BUSY = false, LAST_ACC = null;
 const geoOnce = opts => new Promise((res, rej) => navigator.geolocation.getCurrentPosition(res, rej, opts));
-const saveLoc = c => { try { localStorage.mtLoc = JSON.stringify({c, ts: Date.now()}); } catch (e) {} };
+// watch-burst: what the locate icon does — stream fixes briefly, keep the best,
+// stop early once accuracy is genuinely good. One-shot lookups return stale OS
+// fixes on laptops; this does not.
+const geoBurst = ms => new Promise((res, rej) => {
+  let best = null, id = null, to = null;
+  const finish = () => {
+    if (id != null) navigator.geolocation.clearWatch(id);
+    clearTimeout(to);
+    best ? res(best) : rej(new Error('timeout'));
+  };
+  to = setTimeout(finish, ms);
+  id = navigator.geolocation.watchPosition(p => {
+    if (!best || p.coords.accuracy < best.coords.accuracy) best = p;
+    if (p.coords.accuracy <= 100) finish();
+  }, err => { if (!best) { clearTimeout(to); navigator.geolocation.clearWatch(id); rej(err); } },
+  {enableHighAccuracy: true, maximumAge: 0, timeout: ms});
+});
+const saveLoc = (c, acc) => { LAST_ACC = acc ?? null; try { localStorage.mtLoc = JSON.stringify({c, acc: LAST_ACC, ts: Date.now()}); } catch (e) {} };
 
 async function getMyLocation() {
+  // the blue dot wins: if the locate control is tracking, that IS the user
+  const lk = (typeof GEOCTL !== 'undefined' && GEOCTL._lastKnownPosition && GEOCTL._lastKnownPosition.coords)
+    ? GEOCTL._lastKnownPosition : null;
+  if (lk) {
+    const c = [lk.coords.longitude, lk.coords.latitude];
+    saveLoc(c, lk.coords.accuracy);
+    return c;
+  }
   let cached = null;
   try { cached = JSON.parse(localStorage.mtLoc || 'null'); } catch (e) {}
-  if (cached && (Date.now() - cached.ts) < 15 * 60 * 1000) {
+  if (cached && (Date.now() - cached.ts) < 3 * 60 * 1000) {   // short TTL: avoid re-prompt spam, not truth
+    LAST_ACC = cached.acc ?? null;
     refreshMyLocation();   // keep it honest in the background
     return cached.c;
   }
@@ -1240,20 +1281,20 @@ async function getMyLocation() {
     throw new Error('insecure-or-unsupported');
   }
   try {
-    const p = await geoOnce({enableHighAccuracy: true, timeout: 8000, maximumAge: 300000});
+    const p = await geoBurst(10000);
     const c = [p.coords.longitude, p.coords.latitude];
-    saveLoc(c);
+    saveLoc(c, p.coords.accuracy);
     return c;
   } catch (e1) {
     if (!(e1 && e1.code === 1)) {            // not permission-denied: low-accuracy rescue
       try {
-        const p = await geoOnce({enableHighAccuracy: false, timeout: 15000, maximumAge: 600000});
+        const p = await geoOnce({enableHighAccuracy: false, timeout: 15000, maximumAge: 120000});
         const c = [p.coords.longitude, p.coords.latitude];
-        saveLoc(c);
+        saveLoc(c, p.coords.accuracy);
         return c;
       } catch (e2) { /* fall through */ }
     }
-    if (cached) return cached.c;             // any cache beats failing
+    if (cached) { LAST_ACC = cached.acc ?? null; return cached.c; }  // any cache beats failing
     throw e1;
   }
 }
@@ -1281,14 +1322,36 @@ async function mPlanTo(dest, label) {
   }
   clearTrip();
   if (typeof SRCH_MARKER !== 'undefined' && SRCH_MARKER) { SRCH_MARKER.remove(); SRCH_MARKER = null; }
+  // a coarse fix (laptop wifi/ip often lands at city center) gets the drag note
+  if (!locFallback && LAST_ACC != null && LAST_ACC > 1200) locFallback = true;
   const opts = findTrips(from, dest);
-  TRIP = {opts, sel: 0, from, dest, destLabel: label, locFallback};
+  TRIP = {opts, sel: 0, from, dest, destLabel: label, locFallback, dragged: false};
   ensureTripMarkers();
   document.getElementById('sheet2').classList.remove('show');
   renderTripSheet();
   mSetView('map');                      // starting a trip shows the map ONCE;
   if (opts.length) mSelectTripOption(0);  // option taps afterwards never switch views
   track('trip_from_me', label.slice(0, 40));
+  autoCorrectOrigin();
+}
+
+// silent truth-seeking: a fresh GPS fix that lands far from the planned origin
+// (and the user hasn't touched the pin) moves the pin and replans automatically
+async function autoCorrectOrigin() {
+  if (!('geolocation' in navigator) || !window.isSecureContext) return;
+  try {
+    const p = await geoOnce({enableHighAccuracy: true, timeout: 15000, maximumAge: 0});
+    if (!TRIP || TRIP.dragged) return;
+    if (p.coords.accuracy > 800) return;   // don't "correct" with garbage
+    const c = [p.coords.longitude, p.coords.latitude];
+    saveLoc(c, p.coords.accuracy);
+    const movedM = Math.hypot((c[0] - TRIP.from[0]) * MLON, (c[1] - TRIP.from[1]) * MLAT);
+    if (movedM > 200) {
+      if (MT.a) MT.a.setLngLat(c);
+      TRIP.locFallback = false;
+      replanPins();
+    }
+  } catch (e) { /* silent — the pin stays where it is */ }
 }
 
 // google-maps-style pins: origin (green, seeded from your location) and
@@ -1296,16 +1359,17 @@ async function mPlanTo(dest, label) {
 function ensureTripMarkers() {
   if (!MT.a) {
     MT.a = new maplibregl.Marker({color: '#1a7f37', draggable: true}).setLngLat(TRIP.from).addTo(map);
-    MT.a.on('dragend', replanPins);
+    MT.a.on('dragend', () => replanPins(true));
   } else MT.a.setLngLat(TRIP.from);
   if (!MT.b) {
     MT.b = new maplibregl.Marker({color: '#d4351c', draggable: true}).setLngLat(TRIP.dest).addTo(map);
-    MT.b.on('dragend', replanPins);
+    MT.b.on('dragend', () => replanPins(true));
   } else MT.b.setLngLat(TRIP.dest);
 }
 
-function replanPins() {
+function replanPins(fromDrag) {
   if (!TRIP) return;
+  if (fromDrag) TRIP.dragged = true;   // user placement always wins over auto-correction
   const a = MT.a.getLngLat(), b = MT.b.getLngLat();
   TRIP.from = [a.lng, a.lat];
   TRIP.dest = [b.lng, b.lat];
@@ -1347,6 +1411,9 @@ function renderTripSheet() {
     e.preventDefault();
     tr.textContent = t('locating');
     try { localStorage.removeItem('mtLoc'); } catch (err) {}
+    if (TRIP) TRIP.dragged = false;         // allow the fresh fix to move the pin
+    // prefer the locate control — its fix also feeds our cache + auto-correct
+    if (typeof GEOCTL !== 'undefined' && GEOCTL.trigger && GEOCTL.trigger()) return;
     try {
       const c = await getMyLocation();      // forced fresh fix (cache was just cleared)
       if (MT.a) MT.a.setLngLat(c);
