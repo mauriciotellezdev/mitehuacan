@@ -116,24 +116,52 @@
   .opt .meta { font-size: 11.5px; color: var(--ink-2); }
   .msg { padding: 14px; font-size: 12.5px; color: var(--ink-2); }
   .wmark { color: #d97706; font-weight: 700; }
-  /* mobile: app layout — LIST view or MAP view, never both; bottom tab bar;
-     selected route opens a bottom sheet in either view */
-  #mbar, #mlist, #mtabs, #sheet { display: none; }
+  /* mobile: app layout — MAP or LIST view (segmented toggle), never both;
+     search + filters live above both views; bottom tab bar; the selected
+     route opens a bottom sheet (compact on map, full on list) */
+  #mbar, #mhead, #mlist, #malerts, #mtabs, #sheet { display: none; }
   @media (max-width: 700px) {
     #sidebar { display: none; }
-    #app { position: relative; margin-bottom: calc(56px + env(safe-area-inset-bottom)); }
+    #mhead { display: block; order: 1; padding: 10px 14px 4px; background: var(--bg);
+             border-bottom: 1px solid var(--line); }
+    body { display: flex; }
+    #app { position: relative; order: 2; margin-bottom: calc(56px + env(safe-area-inset-bottom)); }
+    body[data-mview=alerts] #mhead { display: none; }
+    #mseg { display: flex; background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+            padding: 3px; margin-bottom: 10px; }
+    #mseg button { flex: 1; display: flex; align-items: center; justify-content: center; gap: 7px;
+                   padding: 9px 0; border: none; border-radius: 9px; background: none;
+                   color: var(--ink-2); font-size: 14px; font-weight: 600; cursor: pointer; }
+    #mseg button.on { background: var(--accent); color: #fff; }
     #mbar { display: block; position: absolute; top: 10px; left: 10px; right: 10px; z-index: 15; }
     #mrow, #msugg { display: none; }
-    body[data-mview=list] #mbar { display: none; }
-    /* ---- list view ---- */
-    #mlist { position: absolute; inset: 0; z-index: 18; background: var(--bg); overflow-y: auto;
-             -webkit-overflow-scrolling: touch; padding: 12px 14px 24px; }
+    body[data-mview=list] #mbar, body[data-mview=alerts] #mbar { display: none; }
+    /* map controls bottom-right like the design */
+    #map .maplibregl-ctrl-top-right { top: auto; bottom: 12px; }
+    /* ---- list + alerts views (overlay the map) ---- */
+    #mlist, #malerts { position: absolute; inset: 0; z-index: 18; background: var(--bg); overflow-y: auto;
+             -webkit-overflow-scrolling: touch; padding: 10px 14px 24px; }
     body[data-mview=list] #mlist { display: block; }
+    body[data-mview=alerts] #malerts { display: block; }
+    .al-item { padding: 12px 2px; border-bottom: 1px solid var(--line); font-size: 14px; }
+    .al-item .tag { margin-bottom: 5px; display: inline-block; }
+    .al-item small { display: block; color: var(--ink-2); margin-top: 4px; font-size: 11.5px; }
+    .al-empty { padding: 28px 10px; text-align: center; color: var(--ink-2); font-size: 13.5px; }
+    .tdot { position: absolute; top: 9px; right: 26%; width: 7px; height: 7px; border-radius: 50%;
+            background: #d4351c; }
+    .srch { position: relative; }
     #ml-search { width: 100%; padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px;
                  background: var(--panel); color: var(--ink); font-size: 15px; }
     #ml-search:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+    #ml-sugg { position: absolute; top: 100%; left: 0; right: 0; z-index: 40; margin-top: 6px;
+               background: var(--glass); border: 1px solid var(--line); border-radius: 14px;
+               overflow: hidden; box-shadow: 0 12px 32px rgba(0,0,0,.25); max-height: 45vh; overflow-y: auto;
+               -webkit-backdrop-filter: blur(22px) saturate(160%); backdrop-filter: blur(22px) saturate(160%); }
+    #ml-sugg .it { padding: 11px 14px; font-size: 14px; display: flex; align-items: center; gap: 9px; cursor: pointer; }
+    #ml-sugg .it:active { background: var(--chip); }
+    #ml-sugg .muted2 { font-size: 11px; color: var(--ink-2); }
     #ml-pills { display: flex; gap: 8px; margin: 10px 0 4px; overflow-x: auto;
-                -webkit-overflow-scrolling: touch; padding-bottom: 4px; }
+                -webkit-overflow-scrolling: touch; padding-bottom: 6px; }
     #ml-pills button { flex: none; padding: 8px 15px; border-radius: 999px; border: 1px solid var(--line);
                        background: var(--panel); color: var(--ink-2); font-size: 13px; font-weight: 600; }
     #ml-pills button.on { background: var(--accent); border-color: var(--accent); color: #fff; }
@@ -185,6 +213,15 @@
     .sh-row:first-of-type { border-top: none; }
     .sh-row svg { flex: none; color: var(--accent); margin-top: 2px; }
     .sh-row .v { color: var(--ink-2); display: block; margin-top: 1px; font-size: 12.5px; }
+    /* compact sheet (map view): stat strip + one CTA */
+    .sh-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin: 2px 0 12px; }
+    .sh-stat { min-width: 0; }
+    .sh-stat .ic { display: flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600;
+                   color: var(--ink-2); margin-bottom: 3px; }
+    .sh-stat b { display: block; font-size: 12.5px; line-height: 1.35; }
+    .sh-cta { width: 100%; display: flex; align-items: center; justify-content: center; gap: 9px;
+              padding: 13px 0; border: none; border-radius: 12px; background: var(--accent); color: #fff;
+              font-size: 14.5px; font-weight: 600; cursor: pointer; }
     #msearch { flex: 1; padding: 11px 14px; border: 1px solid var(--line); border-radius: 999px;
                background: var(--glass); color: var(--ink); font-size: 15px;
                box-shadow: 0 4px 18px rgba(0,0,0,.18);
@@ -281,21 +318,31 @@
     </div>
   </div>
   <div id="mlist">
-    <input id="ml-search" type="search" autocomplete="off">
-    <div id="ml-pills">
-      <button data-mk="all" class="on"></button>
-      <button data-mk="local"></button>
-      <button data-mk="foránea"></button>
-      <button data-mk="fav"></button>
-    </div>
     <div id="ml-count"></div>
     <div id="ml-cards"></div>
   </div>
+  <div id="malerts"><div id="al-list"></div></div>
+</div>
+<div id="mhead">
+  <div id="mseg">
+    <button data-v="map"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3 3 5v16l6-2 6 2 6-2V3l-6 2-6-2Z"/><path d="M9 3v16m6-14v16"/></svg><span id="seg-map"></span></button>
+    <button data-v="list"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3 6h.01M3 12h.01M3 18h.01"/></svg><span id="seg-list"></span></button>
+  </div>
+  <div class="srch">
+    <input id="ml-search" type="search" autocomplete="off">
+    <div id="ml-sugg" hidden></div>
+  </div>
+  <div id="ml-pills">
+    <button data-mk="all" class="on"></button>
+    <button data-mk="local"></button>
+    <button data-mk="foránea"></button>
+    <button data-mk="fav"></button>
+  </div>
 </div>
 <nav id="mtabs">
-  <button data-v="list"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3 6h.01M3 12h.01M3 18h.01"/></svg><span id="mt-list"></span></button>
-  <button data-v="map"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3 3 5v16l6-2 6 2 6-2V3l-6 2-6-2Z"/><path d="M9 3v16m6-14v16"/></svg><span id="mt-map"></span></button>
+  <button data-v="rutas"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v11"/><path d="M5 11h14"/><path d="M3 17h18"/><circle cx="8.5" cy="19.5" r="1.3"/><circle cx="15.5" cy="19.5" r="1.3"/></svg><span id="mt-rutas"></span></button>
   <button data-v="fav"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.2-6.2 3.2L7 14.2 2 9.3l6.9-1L12 2Z"/></svg><span id="mt-fav"></span></button>
+  <button data-v="alerts" style="position:relative"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg><span id="mt-alerts"></span><span class="tdot" hidden></span></button>
   <button data-v="cfg"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.9 2.9l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.2a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.9-2.9l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.2a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.9-2.9l.1.1a1.7 1.7 0 0 0 1.9.3h.1a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.2a1.7 1.7 0 0 0 1 1.5h.1a1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.9 2.9l-.1.1a1.7 1.7 0 0 0-.3 1.9v.1a1.7 1.7 0 0 0 1.5 1h.2a2 2 0 1 1 0 4h-.2a1.7 1.7 0 0 0-1.5 1Z"/></svg><span id="mt-cfg"></span></button>
 </nav>
 <div id="sheet"></div>
@@ -318,10 +365,15 @@ const I18N = {
     fAll: 'Todas', fLocal: 'Locales', fForanea: 'Intermunicipales',
     count: (n, m) => n + ' de ' + m + ' rutas',
     found: n => n + (n === 1 ? ' ruta encontrada' : ' rutas encontradas'),
-    mtList: 'Rutas', mtMap: 'Mapa', mtFav: 'Favoritas', mtCfg: 'Ajustes',
+    mtList: 'Rutas', mtMap: 'Mapa', segList: 'Lista', mtFav: 'Favoritas', mtCfg: 'Ajustes', mtAlerts: 'Alertas',
     viewOnMap: 'Ver en el mapa', shareBtn: 'Compartir', linkCopied: 'Enlace copiado',
     rowRoute: 'Recorrido', rowCols: 'Colonias por las que pasa', rowSched: 'Horario aproximado',
+    rowFare: 'Tarifa aproximada',
     nCols: n => n + ' colonias',
+    statSched: 'Horarios', statFare: 'Tarifa', statCols: 'Colonias', statLen: 'Longitud',
+    verDetalles: 'Ver detalles de la ruta',
+    alertsNone: 'Sin alertas por ahora — el servicio circula normal.',
+    alertsGeneral: 'General',
     cfgLang: 'Idioma', cfgTheme: 'Tema', cfgLight: 'Claro', cfgDark: 'Oscuro',
     cfgAbout: 'Acerca del proyecto',
     fromPh: '¿Dónde estás? (dirección o lugar)', toPh: '¿A dónde vas?',
@@ -345,6 +397,13 @@ const I18N = {
       const p = [];
       if (s.first_run) p.push('primera ' + s.first_run);
       if (s.last_run) p.push('última ' + s.last_run);
+      if (s.headway_min) p.push('cada ~' + s.headway_min + ' min');
+      if (s.notes) p.push(String(s.notes).replace(/</g, '&lt;'));
+      return p.join(' · ');
+    },
+    schedRange: s => {
+      const p = [];
+      if (s.first_run || s.last_run) p.push((fmt12(s.first_run) || '—') + ' – ' + (fmt12(s.last_run) || '—'));
       if (s.headway_min) p.push('cada ~' + s.headway_min + ' min');
       if (s.notes) p.push(String(s.notes).replace(/</g, '&lt;'));
       return p.join(' · ');
@@ -373,10 +432,15 @@ const I18N = {
     fAll: 'All', fLocal: 'Local', fForanea: 'Intercity',
     count: (n, m) => n + ' of ' + m + ' routes',
     found: n => n + (n === 1 ? ' route found' : ' routes found'),
-    mtList: 'Routes', mtMap: 'Map', mtFav: 'Favorites', mtCfg: 'Settings',
+    mtList: 'Routes', mtMap: 'Map', segList: 'List', mtFav: 'Favorites', mtCfg: 'Settings', mtAlerts: 'Alerts',
     viewOnMap: 'View on map', shareBtn: 'Share', linkCopied: 'Link copied',
     rowRoute: 'Route', rowCols: 'Neighborhoods along the way', rowSched: 'Approximate schedule',
+    rowFare: 'Approximate fare',
     nCols: n => n + ' neighborhoods',
+    statSched: 'Hours', statFare: 'Fare', statCols: 'Areas', statLen: 'Length',
+    verDetalles: 'View route details',
+    alertsNone: 'No alerts right now — service is running normally.',
+    alertsGeneral: 'General',
     cfgLang: 'Language', cfgTheme: 'Theme', cfgLight: 'Light', cfgDark: 'Dark',
     cfgAbout: 'About the project',
     fromPh: 'Where are you? (address or place)', toPh: 'Where are you going?',
@@ -400,6 +464,13 @@ const I18N = {
       const p = [];
       if (s.first_run) p.push('first run ' + s.first_run);
       if (s.last_run) p.push('last ' + s.last_run);
+      if (s.headway_min) p.push('every ~' + s.headway_min + ' min');
+      if (s.notes) p.push(String(s.notes).replace(/</g, '&lt;'));
+      return p.join(' · ');
+    },
+    schedRange: s => {
+      const p = [];
+      if (s.first_run || s.last_run) p.push((fmt12(s.first_run) || '—') + ' – ' + (fmt12(s.last_run) || '—'));
       if (s.headway_min) p.push('every ~' + s.headway_min + ' min');
       if (s.notes) p.push(String(s.notes).replace(/</g, '&lt;'));
       return p.join(' · ');
@@ -450,9 +521,11 @@ document.title = t('title');
   document.querySelector('#ml-pills [data-mk="local"]').textContent = t('fLocal');
   document.querySelector('#ml-pills [data-mk="foránea"]').textContent = t('fForanea');
   document.querySelector('#ml-pills [data-mk="fav"]').textContent = t('mtFav');
-  document.getElementById('mt-list').textContent = t('mtList');
-  document.getElementById('mt-map').textContent = t('mtMap');
+  document.getElementById('seg-map').textContent = t('mtMap');
+  document.getElementById('seg-list').textContent = t('segList');
+  document.getElementById('mt-rutas').textContent = t('mtList');
   document.getElementById('mt-fav').textContent = t('mtFav');
+  document.getElementById('mt-alerts').textContent = t('mtAlerts');
   document.getElementById('mt-cfg').textContent = t('mtCfg');
   // show only the OTHER language as the toggle
   document.getElementById('lt-' + LANG).style.display = 'none';
@@ -506,6 +579,9 @@ const map = new maplibregl.Map({
   attributionControl: false  // full data/tile credits live on /acerca/
 });
 map.addControl(new maplibregl.NavigationControl(), 'top-right');
+map.addControl(new maplibregl.GeolocateControl({
+  positionOptions: {enableHighAccuracy: true}, trackUserLocation: true, showUserHeading: true,
+}), 'top-right');
 
 const boundaryCircle = (() => {
   const pts = [];
@@ -522,7 +598,11 @@ const state = {kind: 'all', q: '', sel: null, plan: null, planSel: null};
 // per-route service window + headway, edited in /system/horarios (D1-backed)
 let SCHEDULES = {};
 fetch('/api/horarios').then(r => r.json())
-  .then(d => { SCHEDULES = d.schedules || {}; if (state.sel) renderDetail(); })
+  .then(d => {
+    SCHEDULES = d.schedules || {};
+    if (state.sel) renderDetail();
+    if (typeof SHEET !== 'undefined' && SHEET) openSheet(SHEET, SHEET_MODE);  // boot-restored sheet re-renders with data
+  })
   .catch(() => { /* map works fine without schedule data */ });
 
 /* ---------- geometry in meter space ---------- */
@@ -763,11 +843,12 @@ function renderDetail() {
   const towns = (p.places || '').split(',').slice(0, 10).join(',');
   const s = SCHEDULES[p.id];
   const chip = (label, val) => '<div class="dt-chip"><small>' + label + '</small><b>' + val + '</b></div>';
-  const schedHtml = s && (s.first_run || s.last_run || s.headway_min)
+  const schedHtml = s && (s.first_run || s.last_run || s.headway_min || s.fare_mxn)
     ? '<div class="dt-sched">' +
-        (s.first_run ? chip(t('schedFirst'), s.first_run) : '') +
-        (s.last_run ? chip(t('schedLast'), s.last_run) : '') +
+        (s.first_run ? chip(t('schedFirst'), fmt12(s.first_run)) : '') +
+        (s.last_run ? chip(t('schedLast'), fmt12(s.last_run)) : '') +
         (s.headway_min ? chip(t('schedEvery'), '~' + s.headway_min + ' min') : '') +
+        (s.fare_mxn ? chip(t('statFare'), '$' + Number(s.fare_mxn).toFixed(2)) : '') +
       '</div>' +
       (s.notes ? '<div class="dt-note">' + String(s.notes).replace(/</g, '&lt;') + '</div>' : '') +
       (p.has_geom ? '<div class="dt-note">' + t('etaHint') + '</div>' : '')
@@ -794,7 +875,19 @@ function renderDetail() {
 const COMBI_MIN_PER_M = 1 / (16 * 1000 / 60);
 const toMinOfDay = tt => { const [h, m] = tt.split(':').map(Number); return h * 60 + m; };
 const fmtClock = min => { const m = ((Math.round(min) % 1440) + 1440) % 1440;
-  return String(Math.floor(m / 60)).padStart(2, '0') + ':' + String(m % 60).padStart(2, '0'); };
+  let h = Math.floor(m / 60); const ap = h >= 12 ? 'PM' : 'AM'; h = h % 12 || 12;
+  return h + ':' + String(m % 60).padStart(2, '0') + ' ' + ap; };
+function fmt12(tt) {
+  if (!tt) return null;
+  let [h, m] = tt.split(':').map(Number);
+  const ap = h >= 12 ? 'PM' : 'AM'; h = h % 12 || 12;
+  return String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0') + ' ' + ap;
+}
+const fmtFare = f => '$' + Number(f).toFixed(2) + ' MXN';
+const routeKm = id => {
+  const r = flat.find(x => x.id === id);
+  return r && r.cum.length ? (r.cum[r.cum.length - 1] / 1000).toFixed(1) + ' km' : '—';
+};
 
 function nextCombiAt(routeId, atM) {
   const s = SCHEDULES[routeId];
@@ -1148,11 +1241,11 @@ map.on('load', () => {
   } else if (BOOT) {
     if (isMobile() && Array.isArray(BOOT.chips) && BOOT.chips.length) {
       M.chips = BOOT.chips.filter(c => c && feats.some(f => f.properties.id === c.id));
-      if (M.chips.length) mApply(false);
     } else if (!isMobile() && BOOT.sel && feats.some(f => f.properties.id === BOOT.sel)) {
       select(BOOT.sel, true);
     }
   }
+  if (isMobile()) mApply(false);  // apply restored chips / search / pills to the map layers
 });
 
 /* ---------- mobile all-map bar: fuzzy search, chips, reset ---------- */
@@ -1168,8 +1261,12 @@ function fuzzyScore(q, hay) {
 }
 
 function mApply(fit) {
+  if (!map.loaded() && !map.getLayer('routes')) { mRenderChips(); return; }
   const on = M.chips.filter(c => c.on).map(c => c.id);
-  const base = on.length ? on : feats.map(f => f.properties.id);
+  // no explicit chips -> the map respects the search + filter pills;
+  // a query with zero direct matches never blanks the map (suggestions guide instead)
+  const matched = feats.filter(mlVisible);
+  const base = on.length ? on : (matched.length ? matched : feats).map(f => f.properties.id);
   map.setFilter('routes', ['in', ['get', 'id'], ['literal', base]]);
   map.setFilter('routes-casing', ['in', ['get', 'id'], ['literal', base]]);
   map.setPaintProperty('routes', 'line-opacity', on.length ? 1 : 0.85);
@@ -1323,20 +1420,43 @@ function saveStatus() {
 
 function mSyncUI() {
   const v = document.body.dataset.mview || 'list';
-  const activeTab = v === 'list' ? (MV.kind === 'fav' ? 'fav' : 'list') : v;
+  document.querySelectorAll('#mseg button').forEach(b => b.classList.toggle('on', b.dataset.v === v));
+  const activeTab = v === 'alerts' ? 'alerts' : (MV.kind === 'fav' ? 'fav' : 'rutas');
   document.querySelectorAll('#mtabs button').forEach(b => b.classList.toggle('on', b.dataset.v === activeTab));
   document.querySelectorAll('#ml-pills button').forEach(x => x.classList.toggle('on', x.dataset.mk === MV.kind));
   if (v === 'list') renderCards();
-  if (v === 'map') setTimeout(() => map.resize(), 80);
+  if (v === 'map') { setTimeout(() => map.resize(), 80); mApply(false); }
+  if (v === 'alerts') ALERTS === null ? loadAlerts() : renderAlertsView();
 }
 
-function mSetView(v) {  // list | map | fav | cfg
+function mSetView(v) {  // rutas | list | map | alerts | fav | cfg
   if (v === 'cfg') { openSettings(); return; }
-  if (v === 'fav') { MV.kind = 'fav'; v = 'list'; }
-  else if (v === 'list' && MV.kind === 'fav') MV.kind = 'all';
+  if (v === 'rutas') { if (MV.kind === 'fav') MV.kind = 'all'; v = MV.lastRV || 'list'; }
+  else if (v === 'fav') { MV.kind = 'fav'; v = 'list'; }
+  if (v === 'list' || v === 'map') MV.lastRV = v;
   document.body.dataset.mview = v;
   mSyncUI();
   saveStatus();
+}
+
+/* ---- service alerts (Alertas tab) ---- */
+let ALERTS = null;
+async function loadAlerts() {
+  try { ALERTS = (await (await fetch('/api/alertas')).json()).alerts || []; } catch (e) { ALERTS = []; }
+  renderAlertsView();
+  const dot = document.querySelector('#mtabs .tdot');
+  if (dot) dot.hidden = !ALERTS.length;
+}
+function renderAlertsView() {
+  const el = document.getElementById('al-list');
+  if (!el) return;
+  if (!ALERTS || !ALERTS.length) { el.innerHTML = '<div class="al-empty">' + t('alertsNone') + '</div>'; return; }
+  el.innerHTML = ALERTS.map(a => {
+    const f = a.line_slug && feats.find(x => x.properties.id === a.line_slug);
+    return '<div class="al-item"><span class="tag">' + (f ? f.properties.name : t('alertsGeneral')) + '</span>' +
+      '<div>' + String(a.message).replace(/</g, '&lt;') + '</div>' +
+      '<small>' + (a.created_at || '').slice(0, 16).replace('T', ' ') + '</small></div>';
+  }).join('');
 }
 
 function mlVisible(f) {
@@ -1375,45 +1495,72 @@ function favToggle(id) {
   if (MV.fav.has(id)) MV.fav.delete(id); else MV.fav.add(id);
   favSave();
   renderCards();
-  if (SHEET === id) openSheet(id);
+  if (SHEET === id) openSheet(id, SHEET_MODE);
   track('fav_toggle', id);
 }
 
-let SHEET = null;
+let SHEET = null, SHEET_MODE = 'full';
 function closeSheet() { SHEET = null; document.getElementById('sheet').classList.remove('show'); saveStatus(); }
 
 function shRow(icon, label, value) {
   return '<div class="sh-row">' + icon + '<div><b>' + label + '</b><span class="v">' + value + '</span></div></div>';
 }
 
-function openSheet(id) {
-  SHEET = id;
-  const p = routeById(id);
-  const s = SCHEDULES[id];
-  const el = document.getElementById('sheet');
-  const towns = (p.places || '').split(',').map(x => x.trim()).filter(Boolean);
-  const rec = towns.length > 1 ? towns[0] + ' → ' + towns[towns.length - 1] : (towns[0] || p.name);
-  const cols = (p.colonias || '').split(',').map(x => x.trim().replace('Colonia ', '')).filter(Boolean);
-  el.innerHTML = '<div class="grab"></div>' +
+const S_FARE = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>';
+
+function sheetHead(id, p) {
+  return '<div class="grab"></div>' +
     '<div class="sh-head"><span class="tile" style="background:' + p.color + '">' + S_BUS + '</span>' +
     '<span class="sh-name"><b>' + p.name + '</b><span class="tag">' + t('detKind')(p.kind) + '</span></span>' +
     '<button class="iconbtn star' + (MV.fav.has(id) ? ' on' : '') + '" id="sh-fav">' + S_STAR + '</button>' +
-    '<button class="iconbtn" id="sh-close">' + S_X + '</button></div>' +
-    '<div class="sh-actions">' +
-    '<button id="sh-map">' + S_MAPI + t('viewOnMap') + '</button>' +
-    '<button id="sh-share">' + S_SHARE + t('shareBtn') + '</button></div>' +
-    shRow(S_ROUTE, t('rowRoute'), rec) +
-    (cols.length ? shRow(S_PIN2, t('rowCols'), t('nCols')(cols.length) + ' · ' + cols.slice(0, 5).join(', ') + (cols.length > 5 ? '…' : '')) : '') +
-    shRow(S_CLOCK, t('rowSched'), s ? t('schedule')(s) : t('schedNone'));
+    '<button class="iconbtn" id="sh-close">' + S_X + '</button></div>';
+}
+
+function openSheet(id, mode) {
+  SHEET = id;
+  // compact on the map (stats strip + CTA), full on the list — per the design
+  mode = mode || (document.body.dataset.mview === 'map' ? 'compact' : 'full');
+  SHEET_MODE = mode;
+  const p = routeById(id);
+  const s = SCHEDULES[id];
+  const el = document.getElementById('sheet');
+  const cols = (p.colonias || '').split(',').map(x => x.trim().replace('Colonia ', '')).filter(Boolean);
+  if (mode === 'compact') {
+    const stat = (icon, color, label, val) =>
+      '<div class="sh-stat"><span class="ic" style="color:' + color + '">' + icon +
+      '<span style="color:var(--ink-2)">' + label + '</span></span><b>' + val + '</b></div>';
+    el.innerHTML = sheetHead(id, p) +
+      '<div class="sh-stats">' +
+      stat(S_CLOCK, '#34c759', t('statSched'),
+           s && (s.first_run || s.last_run) ? (fmt12(s.first_run) || '—') + ' – ' + (fmt12(s.last_run) || '—') : '—') +
+      stat(S_FARE, '#ff453a', t('statFare'), s && s.fare_mxn ? '$' + Number(s.fare_mxn).toFixed(2) : '—') +
+      stat(S_PIN2, '#bf5af2', t('statCols'), cols.length || '—') +
+      stat(S_ROUTE, 'var(--accent)', t('statLen'), routeKm(id)) +
+      '</div>' +
+      '<button class="sh-cta" id="sh-details">' + S_ROUTE + t('verDetalles') + '</button>';
+    document.getElementById('sh-details').onclick = () => openSheet(id, 'full');
+  } else {
+    const towns = (p.places || '').split(',').map(x => x.trim()).filter(Boolean);
+    const rec = towns.length > 1 ? towns[0] + ' → ' + towns[towns.length - 1] : (towns[0] || p.name);
+    el.innerHTML = sheetHead(id, p) +
+      '<div class="sh-actions">' +
+      '<button id="sh-map">' + S_MAPI + t('viewOnMap') + '</button>' +
+      '<button id="sh-share">' + S_SHARE + t('shareBtn') + '</button></div>' +
+      shRow(S_ROUTE, t('rowRoute'), rec + ' · ' + routeKm(id)) +
+      (cols.length ? shRow(S_PIN2, t('rowCols'), t('nCols')(cols.length) + ' · ' + cols.slice(0, 5).join(', ') + (cols.length > 5 ? '…' : '')) : '') +
+      shRow(S_CLOCK, t('rowSched'), s ? t('schedRange')(s) : t('schedNone')) +
+      (s && s.fare_mxn ? shRow(S_FARE, t('rowFare'), fmtFare(s.fare_mxn)) : '');
+    document.getElementById('sh-map').onclick = () => {
+      M.chips = [{id, on: true}];
+      mSetView('map');
+      mApply(true);
+      openSheet(id, 'compact');
+    };
+    document.getElementById('sh-share').onclick = () => shareRoute(id);
+  }
   el.classList.add('show');
   document.getElementById('sh-close').onclick = closeSheet;
   document.getElementById('sh-fav').onclick = () => favToggle(id);
-  document.getElementById('sh-map').onclick = () => {
-    M.chips = [{id, on: true}];
-    mSetView('map');
-    mApply(true);
-  };
-  document.getElementById('sh-share').onclick = () => shareRoute(id);
   saveStatus();
   track('route_select', id);
 }
@@ -1427,7 +1574,7 @@ async function shareRoute(id) {
     } else {
       await navigator.clipboard.writeText(url);
       const b = document.getElementById('sh-share');
-      if (b) { b.lastChild.textContent = t('linkCopied'); setTimeout(() => { if (SHEET === id) openSheet(id); }, 1600); }
+      if (b) { b.lastChild.textContent = t('linkCopied'); setTimeout(() => { if (SHEET === id) openSheet(id, SHEET_MODE); }, 1600); }
     }
     track('share', id);
   } catch (e) { /* user cancelled the share sheet */ }
@@ -1460,7 +1607,89 @@ function openSettings() {
 }
 
 document.querySelectorAll('#mtabs button').forEach(b => b.onclick = () => mSetView(b.dataset.v));
-document.getElementById('ml-search').addEventListener('input', e => { MV.q = e.target.value.trim(); renderCards(); });
+document.querySelectorAll('#mseg button').forEach(b => b.onclick = () => mSetView(b.dataset.v));
+
+/* unified search: routes -> known places (colonias/towns) -> geocoder fallback
+   (streets, parks, landmarks). Picking a place highlights the routes serving it. */
+let SUG_T = null, SRCH_MARKER = null;
+const mlSugg = document.getElementById('ml-sugg');
+const hideSugg = () => { mlSugg.hidden = true; };
+
+function suggRow(html, cb) {
+  const d = document.createElement('div');
+  d.className = 'it';
+  d.innerHTML = html;
+  d.onmousedown = e => { e.preventDefault(); cb(); };  // beat the input blur
+  return d;
+}
+
+function clearSearch() {
+  document.getElementById('ml-search').value = '';
+  MV.q = '';
+  if (document.body.dataset.mview === 'list') renderCards();
+}
+
+function highlightRoutes(ids, label, lnglat) {
+  M.chips = ids.map(id => ({id, on: true}));
+  mSetView('map');
+  mApply(true);
+  if (SRCH_MARKER) { SRCH_MARKER.remove(); SRCH_MARKER = null; }
+  if (lnglat) {
+    SRCH_MARKER = new maplibregl.Marker({color: '#f5a623'}).setLngLat(lnglat)
+      .setPopup(new maplibregl.Popup({closeButton: false, offset: 18}).setText(label))
+      .addTo(map);
+    SRCH_MARKER.togglePopup();
+  }
+  track('town_select', label);
+}
+
+async function runSugg(q) {
+  const nq = norm(q);
+  if (!PLACE_INDEX) PLACE_INDEX = buildPlaceIndex();
+  // substring matches only (score > 100); loose subsequence hits would crowd
+  // out the geocoder fallback with junk like "paseo" ~ "Paraiso ... Sección"
+  const routes = feats.map(f => ({p: f.properties, s: fuzzyScore(nq, norm(f.properties.name + ' ' + (f.properties.alias || '')))}))
+    .filter(x => x.s > 100).sort((a, b) => b.s - a.s).slice(0, 5);
+  const places = PLACE_INDEX.map(pl => ({pl, s: fuzzyScore(nq, norm(pl.label))}))
+    .filter(x => x.s > 100).sort((a, b) => b.s - a.s || b.pl.ids.size - a.pl.ids.size).slice(0, 3);
+  mlSugg.innerHTML = '';
+  places.forEach(({pl}) => mlSugg.appendChild(suggRow(
+    '<span style="flex:none;color:var(--ink-2)">' + S_PIN2 + '</span><span style="flex:1">' + pl.label + '</span>' +
+    '<span class="tag">' + t('nearTag')(pl.ids.size, pl.farKm) + '</span>',
+    () => { hideSugg(); clearSearch(); highlightRoutes([...pl.ids], pl.label); })));
+  routes.forEach(({p}) => mlSugg.appendChild(suggRow(
+    '<span class="swatch" style="background:' + p.color + '"></span><span style="flex:1">' + p.name + '</span>' +
+    (p.kind === 'foránea' ? '<span class="tag">' + t('tagForanea') + '</span>' : ''),
+    () => { hideSugg(); clearSearch(); highlightRoutes([p.id], p.name); openSheet(p.id, 'compact'); })));
+  mlSugg.hidden = mlSugg.children.length === 0;
+  if (places.length + routes.length < 2 && q.length >= 3) {
+    const res = await geocode(q + ', Tehuacán');
+    if (document.getElementById('ml-search').value.trim() !== q) return;  // stale response
+    res.slice(0, 4).forEach(r => {
+      const ptM = mx(r.c);
+      const near = flat.map(rt => ({id: rt.id, d: nearest(ptM, rt).d})).sort((a, b) => a.d - b.d);
+      let ids = near.filter(x => x.d <= 700).map(x => x.id);
+      if (!ids.length) ids = near.slice(0, 3).map(x => x.id);
+      ids = ids.slice(0, 6);
+      mlSugg.appendChild(suggRow(
+        '<span style="flex:none;color:var(--ink-2)">' + S_PIN2 + '</span><span style="flex:1">' + r.name +
+        (r.detail ? ' <span class="muted2">' + r.detail + '</span>' : '') + '</span>' +
+        '<span class="tag">' + t('nearTag')(ids.length, 0) + '</span>',
+        () => { hideSugg(); clearSearch(); highlightRoutes(ids, r.name, r.c); }));
+    });
+    mlSugg.hidden = mlSugg.children.length === 0;
+  }
+}
+
+document.getElementById('ml-search').addEventListener('input', e => {
+  MV.q = e.target.value.trim();
+  if (document.body.dataset.mview === 'map') mApply(false);
+  else renderCards();
+  clearTimeout(SUG_T);
+  if (MV.q.length < 2) { hideSugg(); return; }
+  SUG_T = setTimeout(() => runSugg(MV.q), 250);
+});
+document.getElementById('ml-search').addEventListener('blur', () => setTimeout(hideSugg, 250));
 document.querySelectorAll('#ml-pills button').forEach(b => b.onclick = () => {
   MV.kind = b.dataset.mk;
   mSyncUI();
@@ -1468,9 +1697,13 @@ document.querySelectorAll('#ml-pills button').forEach(b => b.onclick = () => {
 });
 if (isMobile()) {
   if (BOOT && ['all', 'local', 'foránea', 'fav'].includes(BOOT.kind)) MV.kind = BOOT.kind;
-  document.body.dataset.mview = BOOT && BOOT.view === 'map' ? 'map' : 'list';
+  const v = BOOT && ['list', 'map', 'alerts'].includes(BOOT.view) ? BOOT.view : 'list';
+  if (v === 'list' || v === 'map') MV.lastRV = v;
+  document.body.dataset.mview = v;
   mSyncUI();
-  if (BOOT && BOOT.sheet && !params.get('ruta') && feats.some(f => f.properties.id === BOOT.sheet)) openSheet(BOOT.sheet);
+  if (BOOT && BOOT.sheet && !params.get('ruta') && feats.some(f => f.properties.id === BOOT.sheet))
+    openSheet(BOOT.sheet, v === 'map' ? 'compact' : 'full');
+  loadAlerts();
 }
 
 document.getElementById('search').addEventListener('input', e => {

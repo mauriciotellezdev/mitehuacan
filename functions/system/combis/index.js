@@ -22,7 +22,7 @@ h2{font-size:13px;margin:0 0 8px;text-transform:uppercase;letter-spacing:.5px;co
 .sub{color:var(--ink2);font-size:12.5px;margin:0 0 14px}
 .sub a{color:var(--accent)}
 input,button,select{font:inherit}
-input{padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink)}
+input,select{padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink)}
 #tok{width:280px}
 button{padding:8px 14px;border:none;border-radius:8px;background:var(--accent);color:#fff;font-weight:600;cursor:pointer}
 button.ghost{background:var(--panel);color:var(--ink);border:1px solid var(--line);font-weight:500}
@@ -76,6 +76,7 @@ button:disabled{opacity:.5;cursor:default}
         <div class="field"><label>Primera salida</label><input id="f-first" type="time"></div>
         <div class="field"><label>Última salida</label><input id="f-last" type="time"></div>
         <div class="field"><label>Cada (min)</label><input id="f-headway" type="number" min="1" max="240" placeholder="min"></div>
+        <div class="field"><label>Tarifa (MXN)</label><input id="f-fare" type="number" min="0" max="1000" step="0.5" placeholder="$"></div>
         <div class="field" style="grid-column:1/-1"><label>Notas</label>
           <input id="f-notes" maxlength="160" placeholder="p. ej. domingos cada 20 min"></div>
       </div>
@@ -94,6 +95,17 @@ button:disabled{opacity:.5;cursor:default}
       <h2>Grabaciones sin asignar</h2>
       <p class="muted" style="font-size:12px;margin:0 0 4px">las rutas recién grabadas en el editor aparecen aquí hasta que las adjuntes a una línea</p>
       <div id="inbox"></div>
+    </div>
+
+    <div class="box" style="margin-top:16px">
+      <h2>Alertas del servicio</h2>
+      <p class="muted" style="font-size:12px;margin:0 0 8px">se muestran en la pestaña Alertas del mapa; desactívalas cuando pase el problema</p>
+      <div class="row" style="margin:0 0 8px">
+        <input id="a-msg" maxlength="200" placeholder="mensaje, p. ej. desvío por obra en 5 de Mayo…" style="flex:1;min-width:200px">
+        <select id="a-line"><option value="">General</option></select>
+        <button onclick="addAlert()">Publicar</button>
+      </div>
+      <div id="a-list"></div>
     </div>
   </div>
 </div>
@@ -139,7 +151,7 @@ function pick(sel) {
     byId('p-title').textContent = 'Nueva línea';
     byId('f-name').value = pub ? pub.name : '';
     byId('f-first').value = ''; byId('f-last').value = '';
-    byId('f-headway').value = ''; byId('f-notes').value = '';
+    byId('f-headway').value = ''; byId('f-fare').value = ''; byId('f-notes').value = '';
     byId('p-slug').textContent = pub ? 'slug: ' + pub.id : '';
     byId('del').hidden = true;
   } else {
@@ -149,6 +161,7 @@ function pick(sel) {
     byId('f-first').value = l.first_run || '';
     byId('f-last').value = l.last_run || '';
     byId('f-headway').value = l.headway_min ?? '';
+    byId('f-fare').value = l.fare_mxn ?? '';
     byId('f-notes').value = l.notes || '';
     byId('p-slug').textContent = 'slug: ' + l.slug;
     byId('del').hidden = false;
@@ -203,6 +216,7 @@ async function saveLine() {
     name: byId('f-name').value.trim(),
     first_run: byId('f-first').value, last_run: byId('f-last').value,
     headway_min: byId('f-headway').value === '' ? null : +byId('f-headway').value,
+    fare_mxn: byId('f-fare').value === '' ? null : +byId('f-fare').value,
     notes: byId('f-notes').value.trim(),
   };
   try {
@@ -236,6 +250,50 @@ async function reload() {
   LINES = d.lines; DRAFTS = d.drafts;
   renderLines();
   renderDrafts();
+  const sel = byId('a-line');
+  sel.innerHTML = '<option value="">General</option>' +
+    LINES.map(l => '<option value="' + esc(l.slug) + '">' + esc(l.name) + '</option>').join('');
+  await loadAlerts();
+}
+
+/* ---- service alerts ---- */
+let ALERTS = [];
+async function alertsApi(method, body, qs) {
+  const r = await fetch('/api/alertas' + (qs || ''), {method,
+    headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + TOKEN},
+    body: body ? JSON.stringify(body) : undefined});
+  const d = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(d.error || r.status);
+  return d;
+}
+async function loadAlerts() {
+  try { ALERTS = (await alertsApi('GET')).alerts || []; } catch (e) { ALERTS = []; }
+  renderAlerts();
+}
+function renderAlerts() {
+  byId('a-list').innerHTML = ALERTS.length ? ALERTS.map(a => {
+    const line = a.line_slug ? (LINES.find(l => l.slug === a.line_slug) || {name: a.line_slug}).name : 'General';
+    return '<div class="draft"' + (a.active ? '' : ' style="opacity:.55"') + '><div class="meta">' + esc(a.message) +
+      '<small>' + esc(line) + ' · ' + esc((a.created_at || '').slice(0, 16)) + (a.active ? '' : ' · inactiva') + '</small></div>' +
+      '<button class="ghost" onclick="toggleAlert(' + a.id + ',' + (a.active ? 0 : 1) + ')">' + (a.active ? 'desactivar' : 'activar') + '</button>' +
+      '<button class="danger" onclick="delAlert(' + a.id + ')">borrar</button></div>';
+  }).join('') : '<div class="empty">sin alertas</div>';
+}
+async function addAlert() {
+  const msg = byId('a-msg').value.trim();
+  if (msg.length < 3) return;
+  try {
+    await alertsApi('POST', {message: msg, line_slug: byId('a-line').value || null});
+    byId('a-msg').value = '';
+    await loadAlerts();
+  } catch (e) { say(e.message, false); }
+}
+async function toggleAlert(id, active) {
+  try { await alertsApi('PATCH', {id, active: !!active}); await loadAlerts(); } catch (e) { say(e.message, false); }
+}
+async function delAlert(id) {
+  if (!confirm('¿Borrar la alerta definitivamente? (para pausarla usa desactivar)')) return;
+  try { await alertsApi('DELETE', null, '?id=' + id); await loadAlerts(); } catch (e) { say(e.message, false); }
 }
 
 async function load(token) {
