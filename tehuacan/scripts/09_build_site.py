@@ -110,9 +110,12 @@ try{localStorage.mtTheme=th}catch(e){}document.documentElement.dataset.theme=th;
 addEventListener('DOMContentLoaded',syncLang);
 </script>"""
 
-LANG_LINKS = """<a href="#" class="lng" data-l="es" onclick="return setLang('es')">ES</a>
+SVG_MOON = """<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>"""
+SVG_SUN = """<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>"""
+
+LANG_LINKS = f"""<a href="#" class="lng" data-l="es" onclick="return setLang('es')">ES</a>
 <a href="#" class="lng" data-l="en" onclick="return setLang('en')">EN</a>
-<a href="#" class="thm" onclick="return toggleTheme()" aria-label="tema / theme"><span class="ic-moon">🌙</span><span class="ic-sun">☀️</span></a>"""
+<a href="#" class="thm" onclick="return toggleTheme()" aria-label="tema / theme"><span class="ic-moon">{SVG_MOON}</span><span class="ic-sun">{SVG_SUN}</span></a>"""
 
 NAV = f"""<header class="site">
 <a class="brand" href="/">mi<span>tehuacan</span>.mx <span style="color:var(--ink2);font-weight:400">· Combis</span></a>
@@ -300,7 +303,7 @@ MiTehuacán data published under ODbL.</p>
  box-shadow:var(--shadow),inset 0 1px 0 var(--hl);
  transition:transform .25s ease,box-shadow .25s ease}
 a.card:hover{transform:translateY(-2px);box-shadow:0 14px 40px var(--accsh),inset 0 1px 0 var(--hl)}
-.card .ico{font-size:30px;line-height:1;display:block;margin-bottom:10px}
+.card .ico{display:block;margin-bottom:12px;color:var(--accent)}
 .card h2{font-size:18px;margin:0 0 4px}
 .card p{font-size:14px;color:var(--ink2);margin:0}
 .badge{position:absolute;top:16px;right:16px;font-size:11px;font-weight:600;
@@ -317,6 +320,15 @@ a.card.live:hover .go{filter:brightness(1.08)}
 .card.soon{opacity:.75}
 .pitch{font-size:14px;color:var(--ink2);margin:18px 0 0}
 """
+    icon = lambda paths: ('<span class="ico"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" '
+                          'stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'
+                          + paths + '</svg></span>')
+    ICO_BUS = icon('<path d="M4 17V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v11"/><path d="M4 11h16"/><path d="M2 17h20"/>'
+                   '<circle cx="8" cy="19.5" r="1.5"/><circle cx="16" cy="19.5" r="1.5"/>')
+    ICO_BAG = icon('<path d="M6 7h12l1 13H5L6 7Z"/><path d="M9 10V6a3 3 0 0 1 6 0v4"/>')
+    ICO_CASE = icon('<rect x="3" y="7" width="18" height="13" rx="2"/>'
+                    '<path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><path d="M3 12h18"/>')
+    ICO_HOME = icon('<path d="m3 11 9-8 9 8"/><path d="M5 9.5V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.5"/>')
     home_body = f"""
 <div class="hero">
 <h1>Mi<span>Tehuacán</span></h1>
@@ -326,7 +338,7 @@ a.card.live:hover .go{filter:brightness(1.08)}
 <div class="cards">
 <a class="card live" href="/{SECTION}/">
  <span class="badge">{bi('Ya disponible', 'Live now')}</span>
- <span class="ico">🚐</span>
+ {ICO_BUS}
  <h2>Combis</h2>
  <p class="es">¿En qué combi me voy? Más de 80 rutas en un mapa, con planificador de viajes:
  dinos de dónde sales y a dónde vas, y te decimos qué combi tomar.</p>
@@ -336,21 +348,21 @@ a.card.live:hover .go{filter:brightness(1.08)}
 </a>
 <div class="card soon">
  <span class="badge">{bi('Próximamente', 'Coming soon')}</span>
- <span class="ico">🛒</span>
+ {ICO_BAG}
  <h2>Mi Tianguis</h2>
  <p class="es">El mercado en línea de Tehuacán: compra y vende entre vecinos, sin comisiones.</p>
  <p class="en">Tehuacán's online marketplace: buy and sell between neighbors, commission-free.</p>
 </div>
 <div class="card soon">
  <span class="badge">{bi('Próximamente', 'Coming soon')}</span>
- <span class="ico">💼</span>
+ {ICO_CASE}
  <h2>{bi('Empleos', 'Jobs')}</h2>
  <p class="es">Chamba local: vacantes de la región y un lugar para ofrecer tu talento.</p>
  <p class="en">Local work: openings around the region and a place to offer your skills.</p>
 </div>
 <div class="card soon">
  <span class="badge">{bi('Próximamente', 'Coming soon')}</span>
- <span class="ico">🏠</span>
+ {ICO_HOME}
  <h2>{bi('Rentas', 'Rentals')}</h2>
  <p class="es">Casas, departamentos y locales en renta, publicados por gente de aquí.</p>
  <p class="en">Houses, apartments and storefronts for rent, listed by local people.</p>

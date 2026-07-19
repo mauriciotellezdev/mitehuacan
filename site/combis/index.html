@@ -68,11 +68,24 @@
   .swatch { width: 14px; height: 14px; border-radius: 4px; flex: none; border: 1px solid rgba(0,0,0,.15); }
   .route .nm { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .tag { font-size: 10px; padding: 1px 7px; border-radius: 999px; border: 1px solid var(--line); color: var(--ink-2); flex: none; }
-  #detail { border-top: 1px solid var(--line); padding: 12px 16px; font-size: 13px; display: none; }
+  #detail { border-top: 1px solid var(--line); padding: 14px 16px; font-size: 13px; display: none; }
   #detail.show { display: block; }
-  #detail b { display: block; margin-bottom: 3px; }
-  #detail .meta { color: var(--ink-2); font-size: 12px; }
-  .clear { font-size: 12px; color: var(--accent); cursor: pointer; background: none; border: none; padding: 0; margin-top: 8px; }
+  .dt-head { display: flex; align-items: center; gap: 9px; margin-bottom: 10px; }
+  .dt-dot { width: 12px; height: 12px; border-radius: 50%; flex: none; box-shadow: 0 0 0 3px var(--chip); }
+  .dt-name { font-size: 15px; font-weight: 700; flex: 1; min-width: 0; overflow: hidden;
+             text-overflow: ellipsis; white-space: nowrap; }
+  .dt-pill { font-size: 10px; padding: 2px 9px; border-radius: 999px; border: 1px solid var(--line);
+             color: var(--ink-2); flex: none; text-transform: uppercase; letter-spacing: .4px; }
+  .dt-sched { display: flex; gap: 8px; margin: 2px 0 8px; }
+  .dt-chip { flex: 1; min-width: 0; background: var(--chip); border: 1px solid var(--line);
+             border-radius: 12px; padding: 7px 10px; }
+  .dt-chip small { display: block; font-size: 9.5px; letter-spacing: .5px; text-transform: uppercase;
+                   color: var(--ink-2); margin-bottom: 1px; }
+  .dt-chip b { font-size: 14px; }
+  .dt-note { font-size: 11px; color: var(--ink-2); margin: 0 0 8px; }
+  .dt-meta { font-size: 11.5px; color: var(--ink-2); line-height: 1.55; border-top: 1px solid var(--line);
+             padding-top: 8px; }
+  .clear { font-size: 12px; color: var(--accent); cursor: pointer; background: none; border: none; padding: 0; margin-top: 10px; }
   #map { flex: 1; position: relative; }
   .maplibregl-popup-content { font: 13px system-ui, sans-serif; padding: 8px 12px;
     background: var(--glass); color: var(--ink); border-radius: 12px;
@@ -102,6 +115,7 @@
   .opt .legs .swatch { width: 11px; height: 11px; }
   .opt .meta { font-size: 11.5px; color: var(--ink-2); }
   .msg { padding: 14px; font-size: 12.5px; color: var(--ink-2); }
+  .wmark { color: #d97706; font-weight: 700; }
   /* mobile: all-map layout — sidebar hidden, floating search bar + route chips */
   #mbar { display: none; }
   @media (max-width: 700px) {
@@ -154,7 +168,7 @@
     <a href="/combis/acerca/" id="nav-about">Acerca</a>
     <a href="#" id="lt-es">ES</a>
     <a href="#" id="lt-en">EN</a>
-    <a href="#" id="theme-toggle" aria-label="tema / theme"><span class="ic-moon">🌙</span><span class="ic-sun">☀️</span></a>
+    <a href="#" id="theme-toggle" aria-label="tema / theme"><span class="ic-moon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg></span><span class="ic-sun"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span></a>
   </nav>
 </header>
 <div id="app">
@@ -183,13 +197,13 @@
         <div class="field">
           <span class="dot" style="background:var(--ok)"></span>
           <input type="text" id="from" placeholder="¿Dónde estás? (dirección o lugar)" autocomplete="off">
-          <button class="pin" data-which="from" title="Elegir en el mapa">📍</button>
+          <button class="pin" data-which="from" title="Elegir en el mapa"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></button>
           <div class="sugg" id="sugg-from" hidden></div>
         </div>
         <div class="field">
           <span class="dot" style="background:#d4351c"></span>
           <input type="text" id="to" placeholder="¿A dónde vas?" autocomplete="off">
-          <button class="pin" data-which="to" title="Elegir en el mapa">📍</button>
+          <button class="pin" data-which="to" title="Elegir en el mapa"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></button>
           <div class="sugg" id="sugg-to" hidden></div>
         </div>
         <button id="go" disabled>Buscar combis</button>
@@ -230,34 +244,41 @@ const I18N = {
     count: (n, m) => n + ' de ' + m + ' rutas',
     fromPh: '¿Dónde estás? (dirección o lugar)', toPh: '¿A dónde vas?',
     pickTitle: 'Elegir en el mapa', go: 'Buscar combis', going: 'Buscando…',
-    planNote: 'Sin horarios ni sentido de circulación — muestra qué rutas pasan cerca, no un itinerario exacto. Siempre te lleva a la combi más cercana; los tramos a pie largos se marcan con ⚠️.',
+    planNote: 'Sin sentido de circulación — muestra qué rutas pasan cerca, no un itinerario exacto. Siempre te lleva a la combi más cercana; los tramos a pie largos se marcan con “!”.',
     msearchPh: 'Busca tu ruta o colonia…', mreset: 'Reiniciar',
     tagForanea: 'foránea',
-    detKind: k => k === 'foránea' ? 'Ruta foránea' : 'Ruta local',
-    detGeom: g => ' · geometría: ' + g,
-    detNoGeom: ' · ⚠️ sin geometría — solo sabemos que existe (Moovit); falta mapearla',
+    detKind: k => k === 'foránea' ? 'foránea' : 'local',
+    detNoGeom: 'sin geometría — solo sabemos que existe (Moovit); falta mapearla',
     detSources: 'fuentes: ', detTowns: 'pueblos en el camino: ', detCols: 'colonias: ',
-    detReview: '⚠️ variantes sin conciliar entre fuentes',
+    detReview: 'variantes sin conciliar entre fuentes',
+    schedFirst: 'primera', schedLast: 'última', schedEvery: 'frecuencia',
+    schedNone: 'horario aún no registrado',
+    etaHint: 'toca un punto de la ruta para estimar la próxima combi',
+    etaNext: (time, wait) => 'Próxima combi ~' + time + ' · en ~' + wait + ' min',
+    etaDone: time => 'Servicio terminado por hoy · primera salida mañana ~' + time,
+    etaNoSched: 'sin horario registrado para estimar',
+    etaModel: 'estimación según la frecuencia declarada',
+    etaShort: w => 'próxima ~' + w + ' min',
     schedule: s => {
       const p = [];
       if (s.first_run) p.push('primera ' + s.first_run);
       if (s.last_run) p.push('última ' + s.last_run);
       if (s.headway_min) p.push('cada ~' + s.headway_min + ' min');
       if (s.notes) p.push(String(s.notes).replace(/</g, '&lt;'));
-      return '🕐 ' + p.join(' · ');
+      return p.join(' · ');
     },
     clearSel: 'Quitar selección',
     sponsorLbl: 'Patrocinador: ',
     stores: n => n + (n === 1 ? ' tienda' : ' tiendas') + ' en esta ruta',
     noGeom: 'No hay geometría de rutas cargada.',
-    longWalk: '⚠️ Ninguna ruta mapeada pasa cerca de ambos puntos — te mostramos las combis más cercanas de todos modos. Es posible que a la ruta real le falte un tramo en nuestros datos (mapeados en 2023).',
+    longWalk: 'Ninguna ruta mapeada pasa cerca de ambos puntos — te mostramos las combis más cercanas de todos modos. Es posible que a la ruta real le falte un tramo en nuestros datos (mapeados en 2023).',
     walkTo: s => 'Camina ' + s + ' al abordaje',
     transferTxt: (s, w) => 'transbordo (' + s + ' a pie' + w + ')',
     direct: 'directo',
     rideTxt: s => '~' + s + ' en combi',
     alightTxt: s => 'baja y camina ' + s,
     notFound: okA => 'No se encontró ' + (okA ? 'el destino' : 'el origen') +
-                     '. Intenta con otra dirección o usa 📍 para elegir el punto en el mapa.',
+                     '. Intenta con otra dirección o usa el botón de pin para elegir el punto en el mapa.',
     mapPoint: ' (punto en el mapa)',
     nearTag: (n, km) => km ? n + ' cercana' + (n === 1 ? '' : 's') + ' · ~' + km + ' km'
                            : n + (n === 1 ? ' ruta' : ' rutas'),
@@ -271,34 +292,41 @@ const I18N = {
     count: (n, m) => n + ' of ' + m + ' routes',
     fromPh: 'Where are you? (address or place)', toPh: 'Where are you going?',
     pickTitle: 'Pick on the map', go: 'Find combis', going: 'Searching…',
-    planNote: 'No timetables or direction of travel — this shows which routes pass nearby, not an exact itinerary. It always takes you to the nearest combi; long walks are flagged with ⚠️.',
+    planNote: 'No direction of travel — this shows which routes pass nearby, not an exact itinerary. It always takes you to the nearest combi; long walks are flagged with “!”.',
     msearchPh: 'Search your route or neighborhood…', mreset: 'Reset',
     tagForanea: 'intercity',
-    detKind: k => k === 'foránea' ? 'Intercity route' : 'Local route',
-    detGeom: g => ' · geometry: ' + g,
-    detNoGeom: ' · ⚠️ no geometry — we only know it exists (Moovit); still needs mapping',
+    detKind: k => k === 'foránea' ? 'intercity' : 'local',
+    detNoGeom: 'no geometry — we only know it exists (Moovit); still needs mapping',
     detSources: 'sources: ', detTowns: 'towns along the way: ', detCols: 'neighborhoods: ',
-    detReview: '⚠️ variants not yet reconciled between sources',
+    detReview: 'variants not yet reconciled between sources',
+    schedFirst: 'first run', schedLast: 'last run', schedEvery: 'frequency',
+    schedNone: 'schedule not recorded yet',
+    etaHint: 'tap a point on the route to estimate the next combi',
+    etaNext: (time, wait) => 'Next combi ~' + time + ' · in ~' + wait + ' min',
+    etaDone: time => 'Service done for today · first run tomorrow ~' + time,
+    etaNoSched: 'no schedule data to estimate',
+    etaModel: 'estimate from the declared frequency',
+    etaShort: w => 'next ~' + w + ' min',
     schedule: s => {
       const p = [];
       if (s.first_run) p.push('first run ' + s.first_run);
       if (s.last_run) p.push('last ' + s.last_run);
       if (s.headway_min) p.push('every ~' + s.headway_min + ' min');
       if (s.notes) p.push(String(s.notes).replace(/</g, '&lt;'));
-      return '🕐 ' + p.join(' · ');
+      return p.join(' · ');
     },
     clearSel: 'Clear selection',
     sponsorLbl: 'Sponsor: ',
     stores: n => n + (n === 1 ? ' store' : ' stores') + ' on this route',
     noGeom: 'No route geometry loaded.',
-    longWalk: "⚠️ No mapped route passes near both points — we're showing the nearest combis anyway. The real route may be missing a stretch in our data (mapped in 2023).",
+    longWalk: "No mapped route passes near both points — we're showing the nearest combis anyway. The real route may be missing a stretch in our data (mapped in 2023).",
     walkTo: s => 'Walk ' + s + ' to board',
     transferTxt: (s, w) => 'transfer (' + s + ' on foot' + w + ')',
     direct: 'direct',
     rideTxt: s => '~' + s + ' by combi',
     alightTxt: s => 'get off and walk ' + s,
     notFound: okA => "Couldn't find the " + (okA ? 'destination' : 'starting point') +
-                     '. Try another address or use 📍 to pick the point on the map.',
+                     '. Try another address or use the pin button to pick the point on the map.',
     mapPoint: ' (point on the map)',
     nearTag: (n, km) => km ? n + ' nearby · ~' + km + ' km'
                            : n + (n === 1 ? ' route' : ' routes'),
@@ -480,7 +508,7 @@ function findTrips(A, B) {
     const ride = Math.abs(b.n.at - a.n.at);
     if (ride < 150) return; // walking distance anyway
     opts.push({type: 'direct', legs: [a.r.id], walkA: a.n.d, walkB: b.n.d, ride,
-               board: a.n.lnglat, alight: b.n.lnglat,
+               board: a.n.lnglat, alight: b.n.lnglat, boardAt: a.n.at,
                score: 2 * (a.n.d + b.n.d) + 0.25 * ride});
   });
   // one transfer
@@ -496,7 +524,7 @@ function findTrips(A, B) {
         if (ride1 < 150 || ride2 < 150) return;
         opts.push({type: 'transfer', legs: [a.r.id, b.r.id], walkA: a.n.d, walkB: b.n.d,
                    transfer: x.d, tPoint: x.p1.lnglat, tPoint2: x.p2.lnglat,
-                   board: a.n.lnglat, alight: b.n.lnglat, ride: ride1 + ride2,
+                   board: a.n.lnglat, alight: b.n.lnglat, ride: ride1 + ride2, boardAt: a.n.at,
                    score: 2 * (a.n.d + b.n.d) + 2 * x.d + 0.25 * (ride1 + ride2) + 600});
       });
     });
@@ -634,18 +662,70 @@ function renderDetail() {
   el.className = 'show';
   const cols = (p.colonias || '').split(',').slice(0, 8).join(',');
   const towns = (p.places || '').split(',').slice(0, 10).join(',');
-  const sched = SCHEDULES[p.id];
-  el.innerHTML = '<b>' + p.name + '</b>' +
-    '<div class="meta">' + t('detKind')(p.kind) +
-    (p.has_geom ? t('detGeom')(p.geom_source) : t('detNoGeom')) +
-    (sched ? '<br>' + t('schedule')(sched) : '') +
-    '<br>' + t('detSources') + p.sources +
-    (towns ? '<br>' + t('detTowns') + towns : '') +
-    (cols ? '<br>' + t('detCols') + cols.replaceAll('Colonia ', '') + '…' : '') +
-    (p.review ? '<br>' + t('detReview') : '') + '</div>' +
+  const s = SCHEDULES[p.id];
+  const chip = (label, val) => '<div class="dt-chip"><small>' + label + '</small><b>' + val + '</b></div>';
+  const schedHtml = s && (s.first_run || s.last_run || s.headway_min)
+    ? '<div class="dt-sched">' +
+        (s.first_run ? chip(t('schedFirst'), s.first_run) : '') +
+        (s.last_run ? chip(t('schedLast'), s.last_run) : '') +
+        (s.headway_min ? chip(t('schedEvery'), '~' + s.headway_min + ' min') : '') +
+      '</div>' +
+      (s.notes ? '<div class="dt-note">' + String(s.notes).replace(/</g, '&lt;') + '</div>' : '') +
+      (p.has_geom ? '<div class="dt-note">' + t('etaHint') + '</div>' : '')
+    : '<div class="dt-note">' + t('schedNone') + '</div>';
+  el.innerHTML =
+    '<div class="dt-head"><span class="dt-dot" style="background:' + p.color + '"></span>' +
+    '<span class="dt-name">' + p.name + '</span>' +
+    '<span class="dt-pill">' + t('detKind')(p.kind) + '</span></div>' +
+    schedHtml +
+    '<div class="dt-meta">' +
+      (p.has_geom ? '' : t('detNoGeom') + '<br>') +
+      (towns ? t('detTowns') + towns + '<br>' : '') +
+      (cols ? t('detCols') + cols.replaceAll('Colonia ', '') + '…<br>' : '') +
+      t('detSources') + p.sources + (p.has_geom ? ' · ' + p.geom_source : '') +
+      (p.review ? '<br>' + t('detReview') : '') +
+    '</div>' +
     sponsorRow(p.id) +
     '<button class="clear">' + t('clearSel') + '</button>';
   el.querySelector('.clear').onclick = () => select(null, false);
+}
+
+/* ---------- next-combi estimate: departures every headway from first_run,
+   travel time from route start at ~16 km/h. No live GPS — labeled estimate. */
+const COMBI_MIN_PER_M = 1 / (16 * 1000 / 60);
+const toMinOfDay = tt => { const [h, m] = tt.split(':').map(Number); return h * 60 + m; };
+const fmtClock = min => { const m = ((Math.round(min) % 1440) + 1440) % 1440;
+  return String(Math.floor(m / 60)).padStart(2, '0') + ':' + String(m % 60).padStart(2, '0'); };
+
+function nextCombiAt(routeId, atM) {
+  const s = SCHEDULES[routeId];
+  if (!s || !s.headway_min || !s.first_run) return null;
+  const travel = atM * COMBI_MIN_PER_M;
+  const now = new Date();
+  const nowMin = now.getHours() * 60 + now.getMinutes() + now.getSeconds() / 60;
+  const first = toMinOfDay(s.first_run);
+  const last = s.last_run ? toMinOfDay(s.last_run) : first;
+  let k = Math.ceil((nowMin - travel - first) / s.headway_min);
+  if (k < 0) k = 0;
+  const dep = first + k * s.headway_min;
+  if (dep > last) return {done: true, next: first + travel};
+  return {arr: dep + travel, wait: Math.max(0, dep + travel - nowMin)};
+}
+
+function etaPopup(id, lngLat) {
+  const r = flat.find(x => x.id === id);
+  if (!r || !r.pts.length) return;
+  const n = nearest(mx([lngLat.lng, lngLat.lat]), r);
+  const e = nextCombiAt(id, n.at);
+  const body = !e ? t('etaNoSched')
+    : e.done ? t('etaDone')(fmtClock(e.next))
+    : t('etaNext')(fmtClock(e.arr), Math.max(1, Math.round(e.wait)));
+  new maplibregl.Popup({closeButton: false})
+    .setLngLat(n.lnglat || [lngLat.lng, lngLat.lat])
+    .setHTML('<b>' + routeById(id).name + '</b><br>' + body +
+             (e ? '<br><span style="opacity:.65;font-size:11px">' + t('etaModel') + '</span>' : ''))
+    .addTo(map);
+  track('eta_check', id);
 }
 
 /* ---------- planner pane ---------- */
@@ -742,11 +822,14 @@ function runSearch() {
       const p = routeById(id);
       return '<span class="swatch" style="background:' + p.color + '"></span>' + p.name;
     }).join(' <span style="color:var(--ink-2)">→</span> ');
-    const warn = m => m > WALK_MAX ? ' ⚠️' : '';
+    const warn = m => m > WALK_MAX ? ' <span class="wmark">!</span>' : '';
+    const eta = nextCombiAt(o.legs[0], o.boardAt);
     d.innerHTML = '<div class="legs">' + legs + '</div>' +
       '<div class="meta">' + t('walkTo')(fmt(o.walkA) + warn(o.walkA)) + ' · ' +
-      (o.type === 'transfer' ? t('transferTxt')(fmt(o.transfer), o.transfer > TRANSFER_MAX ? ' ⚠️' : '') + ' · ' : t('direct') + ' · ') +
-      t('rideTxt')(fmt(o.ride)) + ' · ' + t('alightTxt')(fmt(o.walkB) + warn(o.walkB)) + '</div>';
+      (o.type === 'transfer' ? t('transferTxt')(fmt(o.transfer), o.transfer > TRANSFER_MAX ? ' <span class="wmark">!</span>' : '') + ' · ' : t('direct') + ' · ') +
+      t('rideTxt')(fmt(o.ride)) + ' · ' + t('alightTxt')(fmt(o.walkB) + warn(o.walkB)) +
+      (eta && !eta.done ? ' · <b style="color:var(--ok)">' + t('etaShort')(Math.max(1, Math.round(eta.wait))) + '</b>' : '') +
+      '</div>';
     d.onclick = () => selectOption(i);
     el.appendChild(d);
   });
@@ -939,9 +1022,15 @@ map.on('load', () => {
     }
     const hit = map.queryRenderedFeatures(e.point, {layers: ['routes']});
     if (!hit.length) return;
-    if (isMobile()) mAddRoute(hit[0].properties.id);
-    else if (document.querySelector('#tabs button.on').dataset.pane === 'browse')
-      select(hit[0].properties.id, false);
+    const id = hit[0].properties.id;
+    if (isMobile()) {
+      const already = M.chips.some(c => c.id === id && c.on);
+      mAddRoute(id);
+      if (already && SCHEDULES[id]) etaPopup(id, e.lngLat);  // second tap = when's the next one here
+    } else if (document.querySelector('#tabs button.on').dataset.pane === 'browse') {
+      if (state.sel === id) etaPopup(id, e.lngLat);          // second click on selected route = ETA here
+      else select(id, false);
+    }
   });
 
   applyFilter();
@@ -1064,7 +1153,7 @@ msearch.addEventListener('input', () => {
   msugg.innerHTML = '';
   places.forEach(({pl}) => {
     const d = document.createElement('div');
-    d.innerHTML = '<span style="flex:none">📍</span><span style="flex:1">' + pl.label + '</span>' +
+    d.innerHTML = '<span style="flex:none;color:var(--ink-2)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></span><span style="flex:1">' + pl.label + '</span>' +
                   '<span class="tag">' + t('nearTag')(pl.ids.size, pl.farKm) + '</span>';
     d.onclick = () => { msugg.hidden = true; msearch.value = ''; mAddMany([...pl.ids], pl.label); };
     msugg.appendChild(d);
