@@ -5,33 +5,43 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Rutas de Tehuacán — mapa de combis</title>
 <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <script src="routes.js"></script>
 <script src="sponsors.js"></script>
 <style>
+  /* light: apple-glass · dark: "nocturne" (claude-designer redesign) */
   :root {
     --bg: #f5f5f7; --panel: rgba(248,248,250,.92); --ink: #1d1d1f; --ink-2: #6e6e73;
     --line: rgba(0,0,0,.08); --accent: #0071e3; --chip: rgba(255,255,255,.85); --ok: #1a7f37;
     --glass: rgba(255,255,255,.65);
+    --segact-bg: #0071e3; --segact-fg: #fff; --cta-bg: #0071e3; --cta-fg: #fff;
+    --label: #6e6e73; --value: #6e6e73; --faint: #8e8e93;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme=light]) {
-      --bg: #131316; --panel: rgba(24,24,28,.94); --ink: #f5f5f7; --ink-2: #98989d;
-      --line: rgba(255,255,255,.10); --accent: #0a84ff; --chip: rgba(58,58,64,.55); --ok: #4ecb71;
-      --glass: rgba(28,28,32,.6);
+      --bg: #0a0b12; --panel: #111322; --ink: #f0f0f8; --ink-2: #7878a0;
+      --line: rgba(255,255,255,.08); --accent: #4476ff; --chip: #181929; --ok: #2ecc71;
+      --glass: rgba(15,17,32,.94);
+      --segact-bg: #183580; --segact-fg: #d0dcff; --cta-bg: #132870; --cta-fg: #aabbff;
+      --label: #b0b0d0; --value: #55566a; --faint: #44455e;
     }
   }
   :root[data-theme=dark] {
-    --bg: #131316; --panel: rgba(24,24,28,.94); --ink: #f5f5f7; --ink-2: #98989d;
-    --line: rgba(255,255,255,.10); --accent: #0a84ff; --chip: rgba(58,58,64,.55); --ok: #4ecb71;
-    --glass: rgba(28,28,32,.6);
+    --bg: #0a0b12; --panel: #111322; --ink: #f0f0f8; --ink-2: #7878a0;
+    --line: rgba(255,255,255,.08); --accent: #4476ff; --chip: #181929; --ok: #2ecc71;
+    --glass: rgba(15,17,32,.94);
+    --segact-bg: #183580; --segact-fg: #d0dcff; --cta-bg: #132870; --cta-fg: #aabbff;
+    --label: #b0b0d0; --value: #55566a; --faint: #44455e;
   }
   .ic-sun { display: none; }
   :root[data-theme=dark] .ic-sun { display: inline; }
   :root[data-theme=dark] .ic-moon { display: none; }
   * { box-sizing: border-box; }
-  body { margin: 0; font: 14px/1.45 system-ui, -apple-system, sans-serif; color: var(--ink); background: var(--bg);
+  body { margin: 0; font: 14px/1.45 'Inter', system-ui, -apple-system, sans-serif; color: var(--ink); background: var(--bg);
          display: flex; flex-direction: column; height: 100dvh; }
+  @keyframes panelIn { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
   #topbar { display: flex; align-items: center; gap: 14px; padding: 0 14px; height: 46px; flex: none;
             border-bottom: 1px solid var(--line); background: var(--panel); }
   #topbar .brand { color: var(--ink); text-decoration: none; font-weight: 700; font-size: 16px; }
@@ -87,7 +97,11 @@
              padding-top: 8px; }
   .clear { font-size: 12px; color: var(--accent); cursor: pointer; background: none; border: none; padding: 0; margin-top: 10px; }
   #map { flex: 1; position: relative; }
-  .maplibregl-popup-content { font: 13px system-ui, sans-serif; padding: 8px 12px;
+  /* dark theme: navy map controls per the redesign */
+  :root[data-theme=dark] .maplibregl-ctrl-group { background: rgba(14,18,42,.96); border: 1px solid rgba(255,255,255,.1); border-radius: 10px; box-shadow: none; }
+  :root[data-theme=dark] .maplibregl-ctrl-group button + button { border-top: 1px solid rgba(255,255,255,.08); }
+  :root[data-theme=dark] .maplibregl-ctrl-group button .maplibregl-ctrl-icon { filter: invert(.85) hue-rotate(180deg); }
+  .maplibregl-popup-content { font: 13px 'Inter', system-ui, sans-serif; padding: 8px 12px;
     background: var(--glass); color: var(--ink); border-radius: 12px;
     border: 1px solid var(--line); box-shadow: 0 8px 24px rgba(0,0,0,.18);
     -webkit-backdrop-filter: blur(18px) saturate(160%); backdrop-filter: blur(18px) saturate(160%); }
@@ -119,7 +133,7 @@
   /* mobile: app layout — MAP or LIST view (segmented toggle), never both;
      search + filters live above both views; bottom tab bar; the selected
      route opens a bottom sheet (compact on map, full on list) */
-  #mbar, #mhead, #mlist, #malerts, #mtabs, #sheet { display: none; }
+  #mbar, #mhead, #mlist, #malerts, #mtabs, #sheet, #mtop-btns, #mhint { display: none; }
   @media (max-width: 700px) {
     #sidebar { display: none; }
     #mhead { display: block; order: 1; padding: 10px 14px 4px; background: var(--bg);
@@ -127,12 +141,18 @@
     body { display: flex; }
     #app { position: relative; order: 2; margin-bottom: calc(56px + env(safe-area-inset-bottom)); }
     body[data-mview=alerts] #mhead { display: none; }
-    #mseg { display: flex; background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
-            padding: 3px; margin-bottom: 10px; }
+    #mseg { display: flex; background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
+            padding: 4px; gap: 4px; margin-bottom: 10px; }
     #mseg button { flex: 1; display: flex; align-items: center; justify-content: center; gap: 7px;
-                   padding: 9px 0; border: none; border-radius: 9px; background: none;
-                   color: var(--ink-2); font-size: 14px; font-weight: 600; cursor: pointer; }
-    #mseg button.on { background: var(--accent); color: #fff; }
+                   padding: 11px 0; border: none; border-radius: 10px; background: none;
+                   color: var(--faint); font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
+    #mseg button.on { background: var(--segact-bg); color: var(--segact-fg); }
+    /* mobile header: icon buttons instead of text links */
+    #mtop-btns { display: flex; gap: 10px; margin-left: auto; }
+    #mtop-btns button { width: 40px; height: 40px; border-radius: 12px; background: var(--chip);
+                        border: none; cursor: pointer; display: flex; align-items: center;
+                        justify-content: center; color: var(--ink-2); }
+    #topbar nav { display: none; }
     #mbar { display: block; position: absolute; top: 10px; left: 10px; right: 10px; z-index: 15; }
     #mrow, #msugg { display: none; }
     body[data-mview=list] #mbar, body[data-mview=alerts] #mbar { display: none; }
@@ -162,18 +182,19 @@
     #ml-sugg .muted2 { font-size: 11px; color: var(--ink-2); }
     #ml-pills { display: flex; gap: 8px; margin: 10px 0 4px; overflow-x: auto;
                 -webkit-overflow-scrolling: touch; padding-bottom: 6px; }
-    #ml-pills button { flex: none; padding: 8px 15px; border-radius: 999px; border: 1px solid var(--line);
-                       background: var(--panel); color: var(--ink-2); font-size: 13px; font-weight: 600; }
-    #ml-pills button.on { background: var(--accent); border-color: var(--accent); color: #fff; }
-    #ml-count { font-size: 12px; color: var(--ink-2); margin: 4px 0 6px; }
-    .mcard { display: flex; align-items: center; gap: 11px; padding: 10px 2px 10px 0;
-             border-bottom: 1px solid var(--line); cursor: pointer; }
+    #ml-pills button { flex: none; padding: 7px 16px; border-radius: 20px; border: 1px solid rgba(127,127,150,.25);
+                       background: var(--panel); color: var(--ink-2); font-size: 13px; font-weight: 500;
+                       font-family: inherit; }
+    #ml-pills button.on { background: var(--accent); border-color: transparent; color: #fff; font-weight: 600; }
+    #ml-count { font-size: 12px; color: var(--faint); margin: 4px 0 6px; font-weight: 500; }
+    .mcard { display: flex; align-items: center; gap: 12px; padding: 12px 2px 12px 0;
+             border-bottom: 1px solid var(--line); border-left: 3px solid transparent; cursor: pointer; }
     .mcard .bar { width: 3px; align-self: stretch; border-radius: 2px; flex: none; }
-    .mcard .tile { width: 40px; height: 40px; border-radius: 11px; flex: none;
-                   display: flex; align-items: center; justify-content: center; color: #fff; }
+    .mcard .tile { width: 44px; height: 44px; border-radius: 12px; flex: none;
+                   display: flex; align-items: center; justify-content: center; }
     .mcard .nm { flex: 1; min-width: 0; }
-    .mcard .nm b { display: block; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .mcard .nm .tag { margin-top: 3px; display: inline-block; }
+    .mcard .nm b { display: block; font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .mcard .nm .sub { display: block; font-size: 12px; color: var(--faint); margin-top: 2px; }
     .star { background: none; border: none; color: var(--ink-2); padding: 8px; cursor: pointer; }
     .star.on { color: #f5b400; }
     .star .f { fill: none; } .star.on .f { fill: currentColor; }
@@ -193,7 +214,17 @@
              border-radius: 20px 20px 0 0; box-shadow: 0 -12px 40px rgba(0,0,0,.35);
              -webkit-backdrop-filter: blur(24px) saturate(180%); backdrop-filter: blur(24px) saturate(180%);
              padding: 8px 16px 14px; max-height: 62vh; overflow-y: auto; }
-    #sheet.show { display: block; }
+    #sheet.show { display: block; animation: panelIn .26s cubic-bezier(.32,.72,0,1) both; }
+    #mtop-btns { display: flex; }
+    #mhint[hidden] { display: none; }
+    .sh-stat .cir svg { width: 13px; height: 13px; }
+    .kbadge { font-size: 11px; font-weight: 600; padding: 4px 12px; border-radius: 20px;
+              display: inline-block; margin-top: 5px; }
+    #mhint { display: block; position: absolute; bottom: 14px; left: 16px; right: 16px; z-index: 14;
+             background: var(--glass); border: 1px solid var(--line); border-radius: 14px;
+             padding: 13px 16px; -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); }
+    #mhint b { display: block; font-size: 13px; font-weight: 500; color: var(--ink); }
+    #mhint span { display: block; font-size: 11px; color: var(--faint); margin-top: 3px; }
     #sheet .grab { width: 36px; height: 4px; border-radius: 2px; background: var(--line); margin: 2px auto 12px; }
     .sh-head { display: flex; align-items: center; gap: 11px; margin-bottom: 12px; }
     .sh-head .tile { width: 44px; height: 44px; border-radius: 12px; flex: none;
@@ -213,15 +244,17 @@
     .sh-row:first-of-type { border-top: none; }
     .sh-row svg { flex: none; color: var(--accent); margin-top: 2px; }
     .sh-row .v { color: var(--ink-2); display: block; margin-top: 1px; font-size: 12.5px; }
-    /* compact sheet (map view): stat strip + one CTA */
+    /* compact sheet (map view): 4 stat columns with circular icon chips + one CTA */
     .sh-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin: 2px 0 12px; }
     .sh-stat { min-width: 0; }
-    .sh-stat .ic { display: flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600;
-                   color: var(--ink-2); margin-bottom: 3px; }
-    .sh-stat b { display: block; font-size: 12.5px; line-height: 1.35; }
-    .sh-cta { width: 100%; display: flex; align-items: center; justify-content: center; gap: 9px;
-              padding: 13px 0; border: none; border-radius: 12px; background: var(--accent); color: #fff;
-              font-size: 14.5px; font-weight: 600; cursor: pointer; }
+    .sh-stat .ic { display: flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 500;
+                   color: var(--label); margin-bottom: 4px; }
+    .sh-stat .cir { width: 24px; height: 24px; border-radius: 50%; flex: none;
+                    display: flex; align-items: center; justify-content: center; }
+    .sh-stat b { display: block; font-size: 10.5px; font-weight: 400; line-height: 1.4; color: var(--value); }
+    .sh-cta { width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px;
+              padding: 15px 0; border: none; border-radius: 14px; background: var(--cta-bg); color: var(--cta-fg);
+              font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; }
     #msearch { flex: 1; padding: 11px 14px; border: 1px solid var(--line); border-radius: 999px;
                background: var(--glass); color: var(--ink); font-size: 15px;
                box-shadow: 0 4px 18px rgba(0,0,0,.18);
@@ -265,6 +298,10 @@
     <a href="#" id="lt-en">EN</a>
     <a href="#" id="theme-toggle" aria-label="tema / theme"><span class="ic-moon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg></span><span class="ic-sun"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span></a>
   </nav>
+  <div id="mtop-btns">
+    <button id="mtheme" aria-label="tema / theme"><span class="ic-moon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg></span><span class="ic-sun"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span></button>
+    <button id="mmenu" aria-label="menú / menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+  </div>
 </header>
 <div id="app">
   <div id="sidebar">
@@ -316,6 +353,7 @@
       <div id="msugg" hidden></div>
       <div id="mchips"></div>
     </div>
+    <div id="mhint" hidden><b></b><span></span></div>
   </div>
   <div id="mlist">
     <div id="ml-count"></div>
@@ -381,7 +419,8 @@ const I18N = {
     planNote: 'Sin sentido de circulación — muestra qué rutas pasan cerca, no un itinerario exacto. Siempre te lleva a la combi más cercana; los tramos a pie largos se marcan con “!”.',
     msearchPh: 'Busca tu ruta o colonia…', mreset: 'Reiniciar',
     tagForanea: 'intermunicipal',
-    detKind: k => k === 'foránea' ? 'intermunicipal' : 'local',
+    detKind: k => k === 'foránea' ? 'Intermunicipal' : 'Local',
+    tapHint: 'Toca una ruta en el mapa',
     detNoGeom: 'sin geometría — solo sabemos que existe (Moovit); falta mapearla',
     detSources: 'fuentes: ', detTowns: 'pueblos en el camino: ', detCols: 'colonias: ',
     detReview: 'variantes sin conciliar entre fuentes',
@@ -448,7 +487,8 @@ const I18N = {
     planNote: 'No direction of travel — this shows which routes pass nearby, not an exact itinerary. It always takes you to the nearest combi; long walks are flagged with “!”.',
     msearchPh: 'Search your route or neighborhood…', mreset: 'Reset',
     tagForanea: 'intercity',
-    detKind: k => k === 'foránea' ? 'intercity' : 'local',
+    detKind: k => k === 'foránea' ? 'Intercity' : 'Local',
+    tapHint: 'Tap a route on the map',
     detNoGeom: 'no geometry — we only know it exists (Moovit); still needs mapping',
     detSources: 'sources: ', detTowns: 'towns along the way: ', detCols: 'neighborhoods: ',
     detReview: 'variants not yet reconciled between sources',
@@ -1261,12 +1301,21 @@ function fuzzyScore(q, hay) {
 }
 
 function mApply(fit) {
-  if (!map.loaded() && !map.getLayer('routes')) { mRenderChips(); return; }
   const on = M.chips.filter(c => c.on).map(c => c.id);
   // no explicit chips -> the map respects the search + filter pills;
   // a query with zero direct matches never blanks the map (suggestions guide instead)
   const matched = feats.filter(mlVisible);
   const base = on.length ? on : (matched.length ? matched : feats).map(f => f.properties.id);
+  // "tap a route" hint card needs no map layers — update it even before map load
+  const hint = document.getElementById('mhint');
+  if (hint) {
+    hint.hidden = !(document.body.dataset.mview === 'map' && !on.length);
+    if (!hint.hidden) {
+      hint.querySelector('b').textContent = t('tapHint');
+      hint.querySelector('span').textContent = t('count')(base.length, feats.length);
+    }
+  }
+  if (!map.loaded() && !map.getLayer('routes')) { mRenderChips(); return; }
   map.setFilter('routes', ['in', ['get', 'id'], ['literal', base]]);
   map.setFilter('routes-casing', ['in', ['get', 'id'], ['literal', base]]);
   map.setPaintProperty('routes', 'line-opacity', on.length ? 1 : 0.85);
@@ -1389,6 +1438,10 @@ document.getElementById('mreset').onclick = () => {
 /* ---------- mobile app shell: LIST or MAP view (never both), favorites,
    bottom tab bar, selected-route bottom sheet (available in either view) ---------- */
 const S_BUS = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v11"/><path d="M5 11h14"/><path d="M3 17h18"/><circle cx="8.5" cy="19.5" r="1.3"/><circle cx="15.5" cy="19.5" r="1.3"/></svg>';
+// filled bus glyph from the claude-designer redesign (white body, tinted windows)
+const S_BUSW = '<svg width="26" height="26" viewBox="0 0 32 32" fill="none"><rect x="3" y="6" width="26" height="14" rx="4" fill="white"/><rect x="6.5" y="9.5" width="5.5" height="3.5" rx="1" fill="rgba(0,0,0,0.35)"/><rect x="20" y="9.5" width="5.5" height="3.5" rx="1" fill="rgba(0,0,0,0.35)"/><circle cx="9" cy="24" r="3" fill="white"/><circle cx="23" cy="24" r="3" fill="white"/></svg>';
+// dark theme: translucent route-color tile (design); light: solid route color
+const tileStyle = c => dark ? 'background:' + c + '28' : 'background:' + c;
 const S_STAR = '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path class="f" d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.2-6.2 3.2L7 14.2 2 9.3l6.9-1L12 2Z"/></svg>';
 const S_CHEV = '<svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>';
 const S_MAPI = '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3 3 5v16l6-2 6 2 6-2V3l-6 2-6-2Z"/><path d="M9 3v16m6-14v16"/></svg>';
@@ -1476,16 +1529,17 @@ function renderCards() {
   // shows those routes; otherwise the query + pills filter applies
   const on = M.chips.filter(c => c.on).map(c => c.id);
   const vis = on.length ? feats.filter(f => on.includes(f.properties.id)) : feats.filter(mlVisible);
-  document.getElementById('ml-count').textContent = t('found')(vis.length);
+  document.getElementById('ml-count').textContent = t('count')(vis.length, feats.length);
   el.innerHTML = '';
   vis.forEach(f => {
     const p = f.properties;
     const d = document.createElement('div');
     d.className = 'mcard';
-    d.innerHTML = '<span class="bar" style="background:' + p.color + '"></span>' +
-      '<span class="tile" style="background:' + p.color + '">' + S_BUS + '</span>' +
-      '<span class="nm"><b>' + p.name + '</b>' +
-      (p.kind === 'foránea' ? '<span class="tag">' + t('tagForanea') + '</span>' : '') + '</span>' +
+    d.style.borderLeftColor = p.color;
+    if (on.includes(p.id)) d.style.background = p.color + '14';
+    d.innerHTML =
+      '<span class="tile" style="' + tileStyle(p.color) + '">' + S_BUSW + '</span>' +
+      '<span class="nm"><b>' + p.name + '</b><span class="sub">' + t('detKind')(p.kind) + '</span></span>' +
       '<button class="star' + (MV.fav.has(p.id) ? ' on' : '') + '" aria-label="favorita">' + S_STAR + '</button>' +
       S_CHEV;
     d.querySelector('.star').onclick = e => { e.stopPropagation(); favToggle(p.id); };
@@ -1503,7 +1557,12 @@ function favToggle(id) {
 }
 
 let SHEET = null, SHEET_MODE = 'full';
-function closeSheet() { SHEET = null; document.getElementById('sheet').classList.remove('show'); saveStatus(); }
+function closeSheet() {
+  SHEET = null;
+  document.getElementById('sheet').classList.remove('show');
+  if (isMobile() && document.body.dataset.mview === 'map') mApply(false);  // hint card comes back
+  saveStatus();
+}
 
 function shRow(icon, label, value) {
   return '<div class="sh-row">' + icon + '<div><b>' + label + '</b><span class="v">' + value + '</span></div></div>';
@@ -1513,8 +1572,8 @@ const S_FARE = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stro
 
 function sheetHead(id, p) {
   return '<div class="grab"></div>' +
-    '<div class="sh-head"><span class="tile" style="background:' + p.color + '">' + S_BUS + '</span>' +
-    '<span class="sh-name"><b>' + p.name + '</b><span class="tag">' + t('detKind')(p.kind) + '</span></span>' +
+    '<div class="sh-head"><span class="tile" style="' + tileStyle(p.color) + '">' + S_BUSW + '</span>' +
+    '<span class="sh-name"><b>' + p.name + '</b><span class="kbadge" style="background:' + p.color + '22;color:' + p.color + '">' + t('detKind')(p.kind) + '</span></span>' +
     '<button class="iconbtn star' + (MV.fav.has(id) ? ' on' : '') + '" id="sh-fav">' + S_STAR + '</button>' +
     '<button class="iconbtn" id="sh-close">' + S_X + '</button></div>';
 }
@@ -1529,16 +1588,16 @@ function openSheet(id, mode) {
   const el = document.getElementById('sheet');
   const cols = (p.colonias || '').split(',').map(x => x.trim().replace('Colonia ', '')).filter(Boolean);
   if (mode === 'compact') {
-    const stat = (icon, color, label, val) =>
-      '<div class="sh-stat"><span class="ic" style="color:' + color + '">' + icon +
-      '<span style="color:var(--ink-2)">' + label + '</span></span><b>' + val + '</b></div>';
+    const stat = (icon, color, bg, label, val) =>
+      '<div class="sh-stat"><span class="ic"><span class="cir" style="background:' + bg + ';color:' + color + '">' +
+      icon + '</span>' + label + '</span><b>' + val + '</b></div>';
     el.innerHTML = sheetHead(id, p) +
       '<div class="sh-stats">' +
-      stat(S_CLOCK, '#34c759', t('statSched'),
+      stat(S_CLOCK, '#2ecc71', 'rgba(46,204,113,.16)', t('statSched'),
            s && (s.first_run || s.last_run) ? (fmt12(s.first_run) || '—') + ' – ' + (fmt12(s.last_run) || '—') : '—') +
-      stat(S_FARE, '#ff453a', t('statFare'), s && s.fare_mxn ? '$' + Number(s.fare_mxn).toFixed(2) : '—') +
-      stat(S_PIN2, '#bf5af2', t('statCols'), cols.length || '—') +
-      stat(S_ROUTE, 'var(--accent)', t('statLen'), routeKm(id)) +
+      stat(S_FARE, '#e05252', 'rgba(220,60,60,.14)', t('statFare'), s && s.fare_mxn ? '$' + Number(s.fare_mxn).toFixed(2) + ' MXN' : '—') +
+      stat(S_PIN2, '#9b79d4', 'rgba(155,121,212,.14)', t('statCols'), cols.length ? t('nCols')(cols.length) : '—') +
+      stat(S_ROUTE, 'var(--accent)', 'rgba(68,118,255,.14)', t('statLen'), routeKm(id)) +
       '</div>' +
       '<button class="sh-cta" id="sh-details">' + S_ROUTE + t('verDetalles') + '</button>';
     document.getElementById('sh-details').onclick = () => openSheet(id, 'full');
@@ -1611,6 +1670,12 @@ function openSettings() {
 
 document.querySelectorAll('#mtabs button').forEach(b => b.onclick = () => mSetView(b.dataset.v));
 document.querySelectorAll('#mseg button').forEach(b => b.onclick = () => mSetView(b.dataset.v));
+document.getElementById('mtheme').onclick = () => {
+  try { localStorage.mtTheme = dark ? 'light' : 'dark'; } catch (e) {}
+  track('theme_' + (dark ? 'light' : 'dark'));
+  location.reload();
+};
+document.getElementById('mmenu').onclick = () => openSettings();
 
 /* unified search: routes -> known places (colonias/towns) -> geocoder fallback
    (streets, parks, landmarks). Picking a place highlights the routes serving it. */
