@@ -1252,12 +1252,6 @@ map.on('load', () => {
     } catch (e) { /* logo missing: pins just won't render */ }
   });
   map.addLayer({
-    id: 'sponsor-pins', type: 'symbol', source: 'sponsor-pins',
-    layout: {'icon-image': ['get', 'icon'], 'icon-allow-overlap': true,
-             // shrink logos when zoomed out (icon-size 1 = 64px with our @2x asset)
-             'icon-size': ['interpolate', ['linear'], ['zoom'], 10, 0.28, 13, 0.55, 16, 0.9]},
-  });
-  map.addLayer({
     id: 'routes-casing', type: 'line', source: 'routes',
     layout: {'line-cap': 'round', 'line-join': 'round'},
     paint: {'line-color': dark ? '#141419' : '#f2f2f5',
@@ -1279,6 +1273,14 @@ map.on('load', () => {
     id: 'plan-pts', type: 'circle', source: 'plan-pts',
     paint: {'circle-radius': 7, 'circle-color': '#f5a623',
             'circle-stroke-width': 2.5, 'circle-stroke-color': dark ? '#141419' : '#f2f2f5'}
+  });
+  // sponsor pins go LAST so they render on top of the route lines; the source
+  // stays empty until a route is selected (setSponsorPins is selection-driven)
+  map.addLayer({
+    id: 'sponsor-pins', type: 'symbol', source: 'sponsor-pins',
+    layout: {'icon-image': ['get', 'icon'], 'icon-allow-overlap': true,
+             // shrink logos when zoomed out (icon-size 1 = 64px with our @2x asset)
+             'icon-size': ['interpolate', ['linear'], ['zoom'], 10, 0.28, 13, 0.55, 16, 0.9]},
   });
 
   // hover: highlight the route under the cursor, dim the rest. Attached
