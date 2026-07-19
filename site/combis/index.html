@@ -172,8 +172,9 @@
     #mclear { right: 10px; }
     #mrow, #msugg { display: none; }
     body[data-mview=list] #mbar { display: none; }
-    /* map controls bottom-right like the design */
-    #map .maplibregl-ctrl-top-right { top: auto; bottom: 12px; }
+    /* map controls upper-right, below the clear button — bottom placement hid
+       them behind every open sheet (that's where the "missing" locate button went) */
+    #map .maplibregl-ctrl-top-right { top: 62px; bottom: auto; }
     /* ---- list view (overlays the map) ---- */
     #mlist { position: absolute; inset: 0; z-index: 18; background: var(--bg); overflow-y: auto;
              -webkit-overflow-scrolling: touch; padding: 10px 14px calc(24px + env(safe-area-inset-bottom)); }
@@ -436,6 +437,7 @@ const I18N = {
     locErr: 'No pudimos obtener tu ubicación — revisa los permisos de ubicación del navegador.',
     tripTitle: 'Cómo llegar a',
     tripNone: 'No encontramos combis para ese destino.',
+    alsoRoutes: 'también sirven: ',
     poiLine: c => [c.edu ? c.edu + (c.edu === 1 ? ' escuela' : ' escuelas') : null,
                    c.salud ? c.salud + ' de salud' : null,
                    c.gob ? c.gob + ' de gobierno' : null].filter(Boolean).join(' · '),
@@ -515,6 +517,7 @@ const I18N = {
     locErr: "Couldn't get your location — check the browser's location permission.",
     tripTitle: 'Getting to',
     tripNone: 'No combi options found for that destination.',
+    alsoRoutes: 'also served by: ',
     poiLine: c => [c.edu ? c.edu + (c.edu === 1 ? ' school' : ' schools') : null,
                    c.salud ? c.salud + ' health' : null,
                    c.gob ? c.gob + ' government' : null].filter(Boolean).join(' · '),
@@ -751,6 +754,13 @@ function paintHover(id) {
 }
 
 function paintCurrent() {  // restore paint to whatever the selection state says
+  // trip mode: full routes all stay faint — the trip-legs layer draws the
+  // actual ridden segments, so whole-route highlighting would be noise
+  if (typeof TRIP !== 'undefined' && TRIP) {
+    map.setPaintProperty('routes', 'line-width', W_BASE);
+    map.setPaintProperty('routes', 'line-opacity', 0.15);
+    return;
+  }
   const on = isMobile() ? M.chips.filter(c => c.on).map(c => c.id)
                         : (state.sel ? [state.sel] : []);
   if (on.length) {
@@ -809,7 +819,7 @@ function findTrips(A, B) {
     const ride = Math.abs(b.n.at - a.n.at);
     if (ride < 150) return; // walking distance anyway
     opts.push({type: 'direct', legs: [a.r.id], walkA: a.n.d, walkB: b.n.d, ride,
-               board: a.n.lnglat, alight: b.n.lnglat, boardAt: a.n.at,
+               board: a.n.lnglat, alight: b.n.lnglat, boardAt: a.n.at, alightAt: b.n.at,
                score: 2 * (a.n.d + b.n.d) + 0.25 * ride});
   });
   // one transfer
@@ -825,7 +835,8 @@ function findTrips(A, B) {
         if (ride1 < 150 || ride2 < 150) return;
         opts.push({type: 'transfer', legs: [a.r.id, b.r.id], walkA: a.n.d, walkB: b.n.d,
                    transfer: x.d, tPoint: x.p1.lnglat, tPoint2: x.p2.lnglat,
-                   board: a.n.lnglat, alight: b.n.lnglat, ride: ride1 + ride2, boardAt: a.n.at,
+                   board: a.n.lnglat, alight: b.n.lnglat, ride: ride1 + ride2,
+                   boardAt: a.n.at, t1At: x.p1.at, t2At: x.p2.at, alightAt: b.n.at,
                    score: 2 * (a.n.d + b.n.d) + 2 * x.d + 0.25 * (ride1 + ride2) + 600});
       });
     });
@@ -840,7 +851,34 @@ function findTrips(A, B) {
     const sig = o.legs.join('|');
     if (!bySig[sig] || o.score < bySig[sig].score) bySig[sig] = o;
   });
-  return Object.values(bySig).sort((a, b) => a.score - b.score).slice(0, 5);
+  let out = Object.values(bySig).sort((a, b) => a.score - b.score);
+  // a transfer must be CLEARLY better than the best direct to be worth showing
+  const bestDirect = out.find(o => o.type === 'direct');
+  if (bestDirect) out = out.filter(o => o.type === 'direct' || o.score < bestDirect.score * 0.75);
+  // collapse parallel-corridor near-duplicates (same walks, same ride) into one
+  // option that lists the alternates — five identical rides is noise, not choice
+  const kept = [];
+  out.forEach(o => {
+    const dup = kept.find(k => k.type === o.type &&
+      Math.abs(k.walkA - o.walkA) < 80 && Math.abs(k.walkB - o.walkB) < 80 &&
+      Math.abs(k.ride - o.ride) / Math.max(k.ride, 1) < 0.25);
+    if (dup) { (dup.alts = dup.alts || []).push(o.legs[0]); return; }
+    kept.push(o);
+  });
+  return kept.slice(0, 3);
+}
+
+// coordinates of the RIDDEN stretch of a route (between two along-route positions)
+function routeSegment(id, at1, at2) {
+  const r = flat.find(x => x.id === id);
+  if (!r) return [];
+  const lo = Math.min(at1, at2), hi = Math.max(at1, at2);
+  const coords = [];
+  for (let i = 0; i < r.pts.length; i++) {
+    if (r.cum[i] >= lo - 40 && r.cum[i] <= hi + 40)
+      coords.push([r.pts[i][0] / MLON, r.pts[i][1] / MLAT]);
+  }
+  return coords;
 }
 
 /* ---------- geocoding (Photon primary, Nominatim fallback; no Google) ---------- */
@@ -1141,9 +1179,14 @@ function openSpotPanel(type, f) {
 }
 
 function clearSelection() {
+  // the reset button resets EVERYTHING: selection, trip, pins, search, panels
   M.chips = [];
   document.getElementById('sheet2').classList.remove('show');
   if (typeof clearTrip === 'function') clearTrip();
+  if (typeof SRCH_MARKER !== 'undefined' && SRCH_MARKER) { SRCH_MARKER.remove(); SRCH_MARKER = null; }
+  const inp = document.getElementById('ml-search');
+  if (inp) { inp.value = ''; MV.q = ''; }
+  if (typeof poiHighlight === 'function') poiHighlight(null);
   if (!isMobile() && typeof select === 'function') select(null, false);
   closeSheet();
   if (isMobile()) mApply(false);
@@ -1159,10 +1202,9 @@ const MT = {a: null, b: null};      // origin/destination markers
 function clearTrip() {
   if (MT.a) { MT.a.remove(); MT.a = null; }
   if (MT.b) { MT.b.remove(); MT.b = null; }
-  if (TRIP && map.getSource('plan-walk')) {
-    map.getSource('plan-walk').setData({type: 'FeatureCollection', features: []});
-    map.getSource('plan-pts').setData({type: 'FeatureCollection', features: []});
-  }
+  ['plan-walk', 'plan-pts', 'trip-legs'].forEach(s => {
+    if (map.getSource(s)) map.getSource(s).setData({type: 'FeatureCollection', features: []});
+  });
   TRIP = null;
 }
 
@@ -1230,7 +1272,8 @@ function renderTripSheet() {
     const meta = t('walkTo')(fmt(o.walkA)) + ' · ' +
       (o.type === 'transfer' ? t('transferTxt')(fmt(o.transfer), '') + ' · ' : t('direct') + ' · ') +
       t('rideTxt')(fmt(o.ride)) + ' · ' + t('alightTxt')(fmt(o.walkB)) +
-      (eta && !eta.done ? ' · <b style="color:var(--ok)">' + t('etaShort')(Math.max(1, Math.round(eta.wait))) + '</b>' : '');
+      (eta && !eta.done ? ' · <b style="color:var(--ok)">' + t('etaShort')(Math.max(1, Math.round(eta.wait))) + '</b>' : '') +
+      (o.alts && o.alts.length ? '<br>' + t('alsoRoutes') + [...new Set(o.alts)].map(id => routeById(id).name).join(', ') : '');
     return '<div class="opt" data-i="' + i + '"><div class="legs">' + legs + '</div><div class="meta">' + meta + '</div></div>';
   }).join('');
   SHEET = null;  // trip content, not a route sheet
@@ -1252,6 +1295,17 @@ function mSelectTripOption(i) {
   M.chips = o.legs.map(id => ({id, on: true}));
   mSetView('map');
   mApply(false);
+  // draw ONLY the ridden stretch of each leg — never the whole route out of town
+  const segFeat = (id, a, b) => ({type: 'Feature', properties: {color: routeById(id).color},
+    geometry: {type: 'LineString', coordinates: routeSegment(id, a, b)}});
+  const legFeats = o.type === 'direct'
+    ? [segFeat(o.legs[0], o.boardAt, o.alightAt)]
+    : [segFeat(o.legs[0], o.boardAt, o.t1At), segFeat(o.legs[1], o.t2At, o.alightAt)];
+  const legCoords = [];
+  legFeats.forEach(f => legCoords.push(...f.geometry.coordinates));
+  if (map.getSource('trip-legs'))
+    map.getSource('trip-legs').setData({type: 'FeatureCollection',
+      features: legFeats.filter(f => f.geometry.coordinates.length > 1)});
   const walkFeats = [
     {type: 'Feature', properties: {}, geometry: {type: 'LineString', coordinates: [TRIP.from, o.board]}},
     {type: 'Feature', properties: {}, geometry: {type: 'LineString', coordinates: [o.alight, TRIP.dest]}},
@@ -1269,7 +1323,7 @@ function mSelectTripOption(i) {
     map.getSource('plan-pts').setData({type: 'FeatureCollection', features: ptFeats});
   }
   ensureTripMarkers();
-  fitToSelection(o.legs, [TRIP.from, TRIP.dest, o.board, o.alight]);
+  fitToSelection([], [TRIP.from, TRIP.dest, o.board, o.alight, ...legCoords]);
   track('trip_option', o.type);
 }
 
@@ -1416,6 +1470,7 @@ function runSearch() {
       (o.type === 'transfer' ? t('transferTxt')(fmt(o.transfer), o.transfer > TRANSFER_MAX ? ' <span class="wmark">!</span>' : '') + ' · ' : t('direct') + ' · ') +
       t('rideTxt')(fmt(o.ride)) + ' · ' + t('alightTxt')(fmt(o.walkB) + warn(o.walkB)) +
       (eta && !eta.done ? ' · <b style="color:var(--ok)">' + t('etaShort')(Math.max(1, Math.round(eta.wait))) + '</b>' : '') +
+      (o.alts && o.alts.length ? '<br>' + t('alsoRoutes') + [...new Set(o.alts)].map(id => routeById(id).name).join(', ') : '') +
       '</div>';
     d.onclick = () => selectOption(i);
     el.appendChild(d);
@@ -1550,6 +1605,7 @@ map.on('load', () => {
   map.addSource('routes', {type: 'geojson', data: ROUTES});
   map.addSource('plan-walk', {type: 'geojson', data: {type: 'FeatureCollection', features: []}});
   map.addSource('plan-pts', {type: 'geojson', data: {type: 'FeatureCollection', features: []}});
+  map.addSource('trip-legs', {type: 'geojson', data: {type: 'FeatureCollection', features: []}});
   map.addSource('sponsor-pins', {type: 'geojson', data: {type: 'FeatureCollection', features: []}});
   Object.entries(SPONSORS.sponsors || {}).forEach(async ([sid, s]) => {
     try {
@@ -1570,6 +1626,12 @@ map.on('load', () => {
     paint: {'line-color': ['get', 'color'],
             'line-width': ['interpolate', ['linear'], ['zoom'], 11, 1.8, 15, 3.5],
             'line-opacity': 0.85}
+  });
+  // the RIDDEN stretches only — the answer to "which segment do I actually ride"
+  map.addLayer({
+    id: 'trip-legs', type: 'line', source: 'trip-legs',
+    layout: {'line-cap': 'round', 'line-join': 'round'},
+    paint: {'line-color': ['get', 'color'], 'line-width': 5.5, 'line-opacity': 0.95}
   });
   map.addLayer({
     id: 'plan-walk', type: 'line', source: 'plan-walk',
@@ -1777,7 +1839,8 @@ function mRenderChips() {
 }
 
 function mAddRoute(id) {
-  // one active route at a time — tapping another route switches the highlight
+  // one active route at a time; a fresh selection resets any trip leftovers
+  if (typeof clearTrip === 'function') clearTrip();
   M.chips = [{id, on: true}];
   track('route_select', id);
   mApply(true);
@@ -2206,6 +2269,7 @@ function setSearchLabel(label) {
 }
 
 function highlightRoutes(ids, label, lnglat) {
+  if (typeof clearTrip === 'function') clearTrip();
   M.chips = ids.map(id => ({id, on: true}));
   mSetView('map');
   mApply(true);

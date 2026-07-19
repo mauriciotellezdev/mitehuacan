@@ -20,7 +20,8 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-WALK_M = 400  # a POI belongs to a route if the line passes within this many meters
+WALK_M = 180  # a POI belongs to a route if the line passes within this many meters
+              # (400 read as "too far from the line" on the map — keep it tight)
 
 CAT = {
     "school": "edu", "kindergarten": "edu", "college": "edu", "university": "edu", "library": "edu",
