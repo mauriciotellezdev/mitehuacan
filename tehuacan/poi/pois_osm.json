@@ -1,0 +1,1502 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-07-19T15:12:56Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 2006800195,
+  "lat": 18.3238866,
+  "lon": -97.3514097,
+  "tags": {
+    "amenity": "school",
+    "name": "Primaria Meliton Ramirez Valdez"
+  }
+},
+{
+  "type": "node",
+  "id": 2006800424,
+  "lat": 18.3306097,
+  "lon": -97.3463733,
+  "tags": {
+    "amenity": "school",
+    "name": "Escuela Rafael Avila camacho"
+  }
+},
+{
+  "type": "node",
+  "id": 2006832242,
+  "lat": 18.3302564,
+  "lon": -97.3494959,
+  "tags": {
+    "amenity": "school",
+    "name": "Telesecundaria Lauro Aguirre"
+  }
+},
+{
+  "type": "node",
+  "id": 2006849933,
+  "lat": 18.3286167,
+  "lon": -97.3596883,
+  "tags": {
+    "amenity": "school",
+    "name": "Bachillerato Oficial Alfonso Reyes"
+  }
+},
+{
+  "type": "node",
+  "id": 2634022648,
+  "lat": 18.4629277,
+  "lon": -97.3850730,
+  "tags": {
+    "name": "Oficinas Gubernamentales",
+    "office": "government"
+  }
+},
+{
+  "type": "node",
+  "id": 2634022650,
+  "lat": 18.4661379,
+  "lon": -97.3933354,
+  "tags": {
+    "name": "Unidad de Transparencia",
+    "office": "government"
+  }
+},
+{
+  "type": "node",
+  "id": 2634022651,
+  "lat": 18.4684690,
+  "lon": -97.4199947,
+  "tags": {
+    "name": "Seguridad Pública y Tránsito Municipal",
+    "office": "government"
+  }
+},
+{
+  "type": "node",
+  "id": 3243956165,
+  "lat": 18.3297074,
+  "lon": -97.4753641,
+  "tags": {
+    "amenity": "townhall",
+    "name": "H. Ayuntamiento Municipal de Zapotitlán Salinas"
+  }
+},
+{
+  "type": "node",
+  "id": 4109083089,
+  "lat": 18.4618913,
+  "lon": -97.3924767,
+  "tags": {
+    "addr:street": "1 Oriente",
+    "amenity": "post_office",
+    "name": "Correos de Tehuacán"
+  }
+},
+{
+  "type": "node",
+  "id": 4109093189,
+  "lat": 18.4384609,
+  "lon": -97.3995968,
+  "tags": {
+    "addr:street": "Libramiento Tecnológico",
+    "amenity": "school",
+    "name": "Instituto Tecnológico de Tehuacán"
+  }
+},
+{
+  "type": "node",
+  "id": 4109095490,
+  "lat": 18.4767037,
+  "lon": -97.3961122,
+  "tags": {
+    "amenity": "school",
+    "name": "UPT"
+  }
+},
+{
+  "type": "node",
+  "id": 4109095592,
+  "lat": 18.4652312,
+  "lon": -97.3741820,
+  "tags": {
+    "addr:street": "Calle 27 Norte",
+    "amenity": "school",
+    "name": "Preparatoria Federal por Coperación Contador Público Gilberto Martínez Gutiérrez"
+  }
+},
+{
+  "type": "node",
+  "id": 4109098889,
+  "lat": 18.4766338,
+  "lon": -97.3959714,
+  "tags": {
+    "amenity": "school",
+    "name": "IME"
+  }
+},
+{
+  "type": "node",
+  "id": 4109122594,
+  "lat": 18.4618927,
+  "lon": -97.3922429,
+  "tags": {
+    "addr:street": "1 Oriente",
+    "name": "Secretaría de Hacienda y Crédito Público",
+    "office": "government"
+  }
+},
+{
+  "type": "node",
+  "id": 4109123692,
+  "lat": 18.4608867,
+  "lon": -97.4078556,
+  "tags": {
+    "amenity": "school",
+    "name": "Escuela Secundaria Ing. Jorge L. Tamayo"
+  }
+},
+{
+  "type": "node",
+  "id": 4109130694,
+  "lat": 18.4648929,
+  "lon": -97.4170946,
+  "tags": {
+    "addr:street": "Miguel Lerdo de Tejada",
+    "amenity": "school",
+    "name": "Colegio Salesiano Benavente"
+  }
+},
+{
+  "type": "node",
+  "id": 4109149991,
+  "lat": 18.4763555,
+  "lon": -97.4386443,
+  "tags": {
+    "name": "CIS",
+    "office": "government"
+  }
+},
+{
+  "type": "node",
+  "id": 4109156890,
+  "lat": 18.4689132,
+  "lon": -97.4204453,
+  "tags": {
+    "addr:street": "Avenida Adolfo López Mateos",
+    "amenity": "police",
+    "name": "Cereso Regional Tehuacan"
+  }
+},
+{
+  "type": "node",
+  "id": 4111749899,
+  "lat": 18.4664515,
+  "lon": -97.3894835,
+  "tags": {
+    "addr:street": "5 Norte",
+    "amenity": "school",
+    "name": "Bachillerato Simón Bolívar"
+  }
+},
+{
+  "type": "node",
+  "id": 4111774490,
+  "lat": 18.3805847,
+  "lon": -97.2661685,
+  "tags": {
+    "amenity": "hospital",
+    "name": "Hospital Integral de Ajalpan"
+  }
+},
+{
+  "type": "node",
+  "id": 4111774491,
+  "lat": 18.4630300,
+  "lon": -97.3885264,
+  "tags": {
+    "addr:street": "Avenida Independencia Oriente",
+    "amenity": "school",
+    "name": "CEUT"
+  }
+},
+{
+  "type": "node",
+  "id": 4111777892,
+  "lat": 18.4648535,
+  "lon": -97.3874716,
+  "tags": {
+    "addr:street": "Calle 2 Oriente",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Hospital Municipal de Tehuacán"
+  }
+},
+{
+  "type": "node",
+  "id": 4111777893,
+  "lat": 18.4644962,
+  "lon": -97.3858297,
+  "tags": {
+    "addr:street": "Calle 2 Oriente",
+    "amenity": "school",
+    "name": "UGM Preparatoria"
+  }
+},
+{
+  "type": "node",
+  "id": 4111782789,
+  "lat": 18.4638193,
+  "lon": -97.3893139,
+  "tags": {
+    "addr:street": "5 Norte",
+    "amenity": "school",
+    "name": "CEUT Prepa"
+  }
+},
+{
+  "type": "node",
+  "id": 4122111737,
+  "lat": 18.4664362,
+  "lon": -97.3735358,
+  "tags": {
+    "addr:street": "Calle 27 Norte",
+    "amenity": "kindergarten",
+    "name": "Jardin de niños Amanecer"
+  }
+},
+{
+  "type": "node",
+  "id": 4122112111,
+  "lat": 18.4668708,
+  "lon": -97.3817416,
+  "tags": {
+    "addr:street": "4 Oriente",
+    "amenity": "kindergarten",
+    "name": "Kinder Paredes Colín"
+  }
+},
+{
+  "type": "node",
+  "id": 4616424889,
+  "lat": 18.4785011,
+  "lon": -97.3786158,
+  "tags": {
+    "addr:housenumber": "1526",
+    "addr:postcode": "75740",
+    "addr:street": "Priv. 24 Oriente",
+    "amenity": "clinic",
+    "name": "CLINICA OFTALMOLOGICA LA LUZ TEHUACAN",
+    "name:es": "CLINICA OFTALMOLOGICA LA LUZ TEHUACAN"
+  }
+},
+{
+  "type": "node",
+  "id": 4616427289,
+  "lat": 18.4784935,
+  "lon": -97.3786227,
+  "tags": {
+    "addr:postcode": "75740",
+    "addr:street": "Priv. 24 Oriente",
+    "amenity": "clinic",
+    "name": "CLINICA OFTALMOLOGICA LA LUZ TEHUACAN",
+    "name:es": "CLINICA OFTALMOLOGICA LA LUZ TEHUACAN"
+  }
+},
+{
+  "type": "node",
+  "id": 4627569895,
+  "lat": 18.4631886,
+  "lon": -97.3992629,
+  "tags": {
+    "addr:street": "Avenida Independencia Poniente",
+    "amenity": "school",
+    "name": "Unidad Escolar High Freedom",
+    "name:en": "Unidad Escolar High Fredoom",
+    "name:es": "Unidad Escolar High Freedom"
+  }
+},
+{
+  "type": "node",
+  "id": 4627570890,
+  "lat": 18.4633105,
+  "lon": -97.4005361,
+  "tags": {
+    "addr:street": "Avenida Independencia Poniente",
+    "name": "Procuraduria General de la República",
+    "name:en": "Procuraduria General de la República",
+    "name:es": "Procuraduria General de la República",
+    "office": "government"
+  }
+},
+{
+  "type": "node",
+  "id": 4627575391,
+  "lat": 18.4630940,
+  "lon": -97.3970679,
+  "tags": {
+    "addr:street": "Avenida Independencia Poniente",
+    "amenity": "clinic",
+    "healthcare": "clinic",
+    "name": "MEDICAL CENTER",
+    "name:en": "MEDICAL CENTER",
+    "name:es": "MEDICAL CENTER"
+  }
+},
+{
+  "type": "node",
+  "id": 4627595589,
+  "lat": 18.4630957,
+  "lon": -97.3969194,
+  "tags": {
+    "addr:street": "Avenida Independencia Poniente",
+    "amenity": "clinic",
+    "healthcare": "clinic",
+    "name": "Clínica Independencia",
+    "name:en": "Clínica Independencia",
+    "name:es": "Clínica Independencia"
+  }
+},
+{
+  "type": "node",
+  "id": 5722922317,
+  "lat": 18.4968583,
+  "lon": -97.4130744,
+  "tags": {
+    "amenity": "townhall",
+    "name": "Junta Auxiliar San Vicente Ferrer"
+  }
+},
+{
+  "type": "node",
+  "id": 5722973290,
+  "lat": 18.4965976,
+  "lon": -97.4115665,
+  "tags": {
+    "amenity": "school",
+    "name": "Centro de Educacion Preescolar CALMECAC"
+  }
+},
+{
+  "type": "node",
+  "id": 5722973292,
+  "lat": 18.4981731,
+  "lon": -97.4141199,
+  "tags": {
+    "amenity": "school",
+    "name": "Bachillerato General Quetzalcoalt"
+  }
+},
+{
+  "type": "node",
+  "id": 5725357188,
+  "lat": 18.4422662,
+  "lon": -97.3674417,
+  "tags": {
+    "amenity": "school",
+    "name": "Escuela Primaria Cuitlahuac"
+  }
+},
+{
+  "type": "node",
+  "id": 5725369488,
+  "lat": 18.4384138,
+  "lon": -97.3792554,
+  "tags": {
+    "amenity": "school",
+    "name": "UNIDAD ESCOLAR LICENCIADO BENITO JUAREZ"
+  }
+},
+{
+  "type": "node",
+  "id": 5781048112,
+  "lat": 18.3773547,
+  "lon": -97.2582749,
+  "tags": {
+    "addr:city": "Ciudad de Ajalpan",
+    "addr:housenumber": "1",
+    "addr:postcode": "75910",
+    "addr:street": "R. Avila Camacho Pres. Mun. 1, Ajalpan, Centro, Coculco, 75911 Ajalpan, Pue.",
+    "amenity": "library",
+    "name": "Biblioteca Municipal de Ajalpan",
+    "service_times": "9/10"
+  }
+},
+{
+  "type": "node",
+  "id": 5781048114,
+  "lat": 18.3792100,
+  "lon": -97.2599329,
+  "tags": {
+    "addr:city": "Ciudad de Ajalpan",
+    "addr:housenumber": "70",
+    "addr:postcode": "75910",
+    "addr:street": "calle, Calle Juárez Pte 70, Tequexco, Fátima, 75910 Ajalpan, Puebla",
+    "amenity": "library",
+    "name": "Biblioteca histórica y museo de Ajalpan, José Gomez Manrique"
+  }
+},
+{
+  "type": "node",
+  "id": 5903164231,
+  "lat": 18.3793041,
+  "lon": -97.2651063,
+  "tags": {
+    "amenity": "school"
+  }
+},
+{
+  "type": "node",
+  "id": 5903164232,
+  "lat": 18.3774703,
+  "lon": -97.2567490,
+  "tags": {
+    "amenity": "school"
+  }
+},
+{
+  "type": "node",
+  "id": 5994288035,
+  "lat": 18.3235316,
+  "lon": -97.3512890,
+  "tags": {
+    "amenity": "clinic",
+    "healthcare": "clinic",
+    "name": "Centro de Salud"
+  }
+},
+{
+  "type": "node",
+  "id": 9166356732,
+  "lat": 18.4664660,
+  "lon": -97.3931276,
+  "tags": {
+    "amenity": "library",
+    "name": "Archivo historico Tehuacán"
+  }
+},
+{
+  "type": "node",
+  "id": 11883039187,
+  "lat": 18.4437410,
+  "lon": -97.3861626,
+  "tags": {
+    "amenity": "school",
+    "name": "Cobaep"
+  }
+},
+{
+  "type": "node",
+  "id": 11884823839,
+  "lat": 18.4906392,
+  "lon": -97.4080953,
+  "tags": {
+    "amenity": "school",
+    "name": "Telesecundaria Gilberto Valenzuela Vera"
+  }
+},
+{
+  "type": "node",
+  "id": 11892515800,
+  "lat": 18.4401331,
+  "lon": -97.3812169,
+  "tags": {
+    "amenity": "university",
+    "name": "UPAEP Campus Tehuacán"
+  }
+},
+{
+  "type": "node",
+  "id": 11892517508,
+  "lat": 18.4694132,
+  "lon": -97.3971095,
+  "tags": {
+    "amenity": "college",
+    "name": "Centro Escolar Presidente Venuestiano Carranza"
+  }
+},
+{
+  "type": "node",
+  "id": 11892526631,
+  "lat": 18.4770826,
+  "lon": -97.3967457,
+  "tags": {
+    "amenity": "school",
+    "name": "Escuela Primaria Federal Liberacion"
+  }
+},
+{
+  "type": "node",
+  "id": 11892538569,
+  "lat": 18.4960529,
+  "lon": -97.4159149,
+  "tags": {
+    "amenity": "kindergarten",
+    "name": "Jardin de Niños Emanuel Kant"
+  }
+},
+{
+  "type": "node",
+  "id": 13203465538,
+  "lat": 18.3212113,
+  "lon": -97.5089940,
+  "tags": {
+    "amenity": "school",
+    "name": "Campus de educación a distancia Zapotitlán Salinas"
+  }
+},
+{
+  "type": "node",
+  "id": 13637433461,
+  "lat": 18.3779449,
+  "lon": -97.2558037,
+  "tags": {
+    "addr:city": "Ciudad de Ajalpan",
+    "addr:postcode": "75910",
+    "addr:state": "Puebla",
+    "addr:street": "Calle Rafaél Ávila Camacho Oriente",
+    "amenity": "school",
+    "education": "school",
+    "grades": "1-6",
+    "name": "Colegio Montessori"
+  }
+},
+{
+  "type": "node",
+  "id": 13663869402,
+  "lat": 18.3779518,
+  "lon": -97.2558004,
+  "tags": {
+    "addr:city": "Ciudad de Ajalpan",
+    "addr:housenumber": "316",
+    "addr:postcode": "75910",
+    "addr:state": "Puebla",
+    "addr:street": "Calle Rafaél Ávila Camacho Oriente",
+    "amenity": "school",
+    "education": "school",
+    "email": "montessori_ajalpan@hotmail.com",
+    "name": "Montessori",
+    "operator": "Maria"
+  }
+},
+{
+  "type": "node",
+  "id": 13663869403,
+  "lat": 18.3779536,
+  "lon": -97.2558042,
+  "tags": {
+    "amenity": "school",
+    "education": "school"
+  }
+},
+{
+  "type": "way",
+  "id": 459012125,
+  "center": {
+    "lat": 18.4977839,
+    "lon": -97.4536202
+  },
+  "tags": {
+    "amenity": "police",
+    "building": "yes",
+    "name": "Policía Federal"
+  }
+},
+{
+  "type": "way",
+  "id": 490462582,
+  "center": {
+    "lat": 18.4619867,
+    "lon": -97.3843587
+  },
+  "tags": {
+    "addr:street": "9 Sur",
+    "amenity": "school",
+    "name": "Escuela Primaria Josefa Ortiz de Domínguez"
+  }
+},
+{
+  "type": "way",
+  "id": 490473218,
+  "center": {
+    "lat": 18.4757913,
+    "lon": -97.3952010
+  },
+  "tags": {
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "IMSS Hospital General de Zona 15 Tehuacán",
+    "operator": "Instituto Mexicano del Seguro Social",
+    "operator:short": "IMSS",
+    "operator:wikidata": "Q904999"
+  }
+},
+{
+  "type": "way",
+  "id": 490544487,
+  "center": {
+    "lat": 18.4662498,
+    "lon": -97.3990116
+  },
+  "tags": {
+    "addr:street": "Rotonda Zaragoza",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Centro de Salud Urbano de Tehuacán"
+  }
+},
+{
+  "type": "way",
+  "id": 490544545,
+  "center": {
+    "lat": 18.4761079,
+    "lon": -97.4386986
+  },
+  "tags": {
+    "building": "yes",
+    "ele": "3",
+    "name": "CIS",
+    "office": "government"
+  }
+},
+{
+  "type": "way",
+  "id": 490544549,
+  "center": {
+    "lat": 18.4370197,
+    "lon": -97.3970032
+  },
+  "tags": {
+    "addr:street": "Libramiento Tecnológico",
+    "amenity": "university",
+    "name": "Instituto Tecnológico de Tehuacán"
+  }
+},
+{
+  "type": "way",
+  "id": 518748084,
+  "center": {
+    "lat": 18.4657636,
+    "lon": -97.3974985
+  },
+  "tags": {
+    "addr:street": "4 Norte",
+    "amenity": "school",
+    "name": "Escuela Primaria Ignacio Zaragoza"
+  }
+},
+{
+  "type": "way",
+  "id": 518748085,
+  "center": {
+    "lat": 18.4697923,
+    "lon": -97.3970967
+  },
+  "tags": {
+    "addr:street": "6 Poniente",
+    "amenity": "school",
+    "name": "C.E.P.V.C."
+  }
+},
+{
+  "type": "way",
+  "id": 518757732,
+  "center": {
+    "lat": 18.4718800,
+    "lon": -97.3989485
+  },
+  "tags": {
+    "addr:street": "Doctor Manuel Pereyra Mejía",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Hospital ISSSTE",
+    "operator": "Instituto de Seguridad y Servicios Sociales de los Trabajadores del Estado",
+    "operator:short": "ISSSTE",
+    "operator:wikidata": "Q954557"
+  }
+},
+{
+  "type": "way",
+  "id": 518776149,
+  "center": {
+    "lat": 18.4607770,
+    "lon": -97.4076297
+  },
+  "tags": {
+    "amenity": "school"
+  }
+},
+{
+  "type": "way",
+  "id": 550735639,
+  "center": {
+    "lat": 18.4380275,
+    "lon": -97.3996539
+  },
+  "tags": {
+    "amenity": "school",
+    "name": "Plaza Tec"
+  }
+},
+{
+  "type": "way",
+  "id": 550767848,
+  "center": {
+    "lat": 18.4402503,
+    "lon": -97.3812794
+  },
+  "tags": {
+    "amenity": "university",
+    "internet_access": "wlan",
+    "name": "UPAEP Campus Tehuacán"
+  }
+},
+{
+  "type": "way",
+  "id": 550984357,
+  "center": {
+    "lat": 18.4584170,
+    "lon": -97.4071771
+  },
+  "tags": {
+    "amenity": "school"
+  }
+},
+{
+  "type": "way",
+  "id": 550984366,
+  "center": {
+    "lat": 18.4573217,
+    "lon": -97.4044581
+  },
+  "tags": {
+    "amenity": "kindergarten"
+  }
+},
+{
+  "type": "way",
+  "id": 551131170,
+  "center": {
+    "lat": 18.4598303,
+    "lon": -97.4125834
+  },
+  "tags": {
+    "amenity": "school"
+  }
+},
+{
+  "type": "way",
+  "id": 551131171,
+  "center": {
+    "lat": 18.4595730,
+    "lon": -97.4121125
+  },
+  "tags": {
+    "amenity": "kindergarten"
+  }
+},
+{
+  "type": "way",
+  "id": 551568775,
+  "center": {
+    "lat": 18.4618655,
+    "lon": -97.4170050
+  },
+  "tags": {
+    "amenity": "school"
+  }
+},
+{
+  "type": "way",
+  "id": 551568824,
+  "center": {
+    "lat": 18.4616118,
+    "lon": -97.4179445
+  },
+  "tags": {
+    "amenity": "kindergarten"
+  }
+},
+{
+  "type": "way",
+  "id": 551568959,
+  "center": {
+    "lat": 18.4541711,
+    "lon": -97.4069740
+  },
+  "tags": {
+    "amenity": "kindergarten"
+  }
+},
+{
+  "type": "way",
+  "id": 551568960,
+  "center": {
+    "lat": 18.4544767,
+    "lon": -97.4053106
+  },
+  "tags": {
+    "amenity": "school",
+    "name": "Primaria Jose Ma. Morelos"
+  }
+},
+{
+  "type": "way",
+  "id": 552533494,
+  "center": {
+    "lat": 18.4526967,
+    "lon": -97.4052479
+  },
+  "tags": {
+    "amenity": "school",
+    "name": "CONALEP"
+  }
+},
+{
+  "type": "way",
+  "id": 552533498,
+  "center": {
+    "lat": 18.4539152,
+    "lon": -97.4031887
+  },
+  "tags": {
+    "amenity": "kindergarten"
+  }
+},
+{
+  "type": "way",
+  "id": 556638764,
+  "center": {
+    "lat": 18.5540388,
+    "lon": -97.5610352
+  },
+  "tags": {
+    "amenity": "school",
+    "name": "Primaria Miguel Hidalgo"
+  }
+},
+{
+  "type": "way",
+  "id": 556638765,
+  "center": {
+    "lat": 18.5549533,
+    "lon": -97.5614580
+  },
+  "tags": {
+    "amenity": "townhall",
+    "building": "yes",
+    "name": "Palacio Municipal"
+  }
+},
+{
+  "type": "way",
+  "id": 556638767,
+  "center": {
+    "lat": 18.5581662,
+    "lon": -97.5615569
+  },
+  "tags": {
+    "amenity": "school",
+    "name": "Tecnica 17"
+  }
+},
+{
+  "type": "way",
+  "id": 568555886,
+  "center": {
+    "lat": 18.4578971,
+    "lon": -97.3982668
+  },
+  "tags": {
+    "amenity": "university"
+  }
+},
+{
+  "type": "way",
+  "id": 587740950,
+  "center": {
+    "lat": 18.4480624,
+    "lon": -97.4197779
+  },
+  "tags": {
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Hospital General de Tehuacán"
+  }
+},
+{
+  "type": "way",
+  "id": 596615770,
+  "center": {
+    "lat": 18.4673149,
+    "lon": -97.4044590
+  },
+  "tags": {
+    "amenity": "school"
+  }
+},
+{
+  "type": "way",
+  "id": 596643299,
+  "center": {
+    "lat": 18.4668570,
+    "lon": -97.4044811
+  },
+  "tags": {
+    "amenity": "school",
+    "name": "U.E.P.O.M."
+  }
+},
+{
+  "type": "way",
+  "id": 597447667,
+  "center": {
+    "lat": 18.4584600,
+    "lon": -97.4017190
+  },
+  "tags": {
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "C.R.I.T."
+  }
+},
+{
+  "type": "way",
+  "id": 600864042,
+  "center": {
+    "lat": 18.4559844,
+    "lon": -97.3910417
+  },
+  "tags": {
+    "amenity": "school",
+    "name": "Escuela Primaria Manuel Ávila Camacho"
+  }
+},
+{
+  "type": "way",
+  "id": 602566812,
+  "center": {
+    "lat": 18.4959303,
+    "lon": -97.4161540
+  },
+  "tags": {
+    "amenity": "school",
+    "name": "Jardin de Niños Emanuel Kant"
+  }
+},
+{
+  "type": "way",
+  "id": 602566825,
+  "center": {
+    "lat": 18.4992801,
+    "lon": -97.4164622
+  },
+  "tags": {
+    "amenity": "school",
+    "name": "Escuela Primaria 5 de Mayo"
+  }
+},
+{
+  "type": "way",
+  "id": 602567699,
+  "center": {
+    "lat": 18.4991133,
+    "lon": -97.4173271
+  },
+  "tags": {
+    "amenity": "school",
+    "name": "Esc. Sec. Gral. Est. Niños Heroes de Chapultepec"
+  }
+},
+{
+  "type": "way",
+  "id": 602574690,
+  "center": {
+    "lat": 18.5012682,
+    "lon": -97.4116118
+  },
+  "tags": {
+    "amenity": "school",
+    "name": "Jardin de Niños Frida Khalo"
+  }
+},
+{
+  "type": "way",
+  "id": 602631964,
+  "center": {
+    "lat": 18.4949226,
+    "lon": -97.3878848
+  },
+  "tags": {
+    "amenity": "school",
+    "name": "C.B.T.i.s 229"
+  }
+},
+{
+  "type": "way",
+  "id": 602631965,
+  "center": {
+    "lat": 18.4949364,
+    "lon": -97.3898482
+  },
+  "tags": {
+    "amenity": "school",
+    "name": "Esc. Sec. Tec. 57"
+  }
+},
+{
+  "type": "way",
+  "id": 602631966,
+  "center": {
+    "lat": 18.4942330,
+    "lon": -97.3902612
+  },
+  "tags": {
+    "amenity": "school"
+  }
+},
+{
+  "type": "way",
+  "id": 602882881,
+  "center": {
+    "lat": 18.4365677,
+    "lon": -97.3818138
+  },
+  "tags": {
+    "amenity": "school"
+  }
+},
+{
+  "type": "way",
+  "id": 605727410,
+  "center": {
+    "lat": 18.4586276,
+    "lon": -97.4003828
+  },
+  "tags": {
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Cruz Roja Urgencias",
+    "operator": "Cruz Roja",
+    "operator:wikidata": "Q7178"
+  }
+},
+{
+  "type": "way",
+  "id": 616719800,
+  "center": {
+    "lat": 18.4653606,
+    "lon": -97.3875854
+  },
+  "tags": {
+    "amenity": "school",
+    "name": "Escuela Primaria Manuel Pereyra Mejía"
+  }
+},
+{
+  "type": "way",
+  "id": 616719813,
+  "center": {
+    "lat": 18.4666433,
+    "lon": -97.3814948
+  },
+  "tags": {
+    "amenity": "kindergarten",
+    "name": "Kinder Paredes Colín"
+  }
+},
+{
+  "type": "way",
+  "id": 630446691,
+  "center": {
+    "lat": 18.4394228,
+    "lon": -97.4087349
+  },
+  "tags": {
+    "amenity": "school",
+    "name": "Esc. Sec. Fed. No. 3 Valerio Trujano"
+  }
+},
+{
+  "type": "way",
+  "id": 630453279,
+  "center": {
+    "lat": 18.4437365,
+    "lon": -97.3861256
+  },
+  "tags": {
+    "amenity": "school",
+    "name": "COBAEP",
+    "name:en": "COBAEP",
+    "name:es": "COBAEP"
+  }
+},
+{
+  "type": "way",
+  "id": 630453281,
+  "center": {
+    "lat": 18.4448152,
+    "lon": -97.3853737
+  },
+  "tags": {
+    "amenity": "school",
+    "name": "Secundaria Mártires de Cananea",
+    "name:en": "Secundaria Mártires de Cananea",
+    "name:es": "Secundaria Mártires de Cananea"
+  }
+},
+{
+  "type": "way",
+  "id": 677662230,
+  "center": {
+    "lat": 18.4410468,
+    "lon": -97.3698252
+  },
+  "tags": {
+    "amenity": "school",
+    "name": "Telesecundaria Julio Verne"
+  }
+},
+{
+  "type": "way",
+  "id": 677662231,
+  "center": {
+    "lat": 18.4410570,
+    "lon": -97.3690381
+  },
+  "tags": {
+    "amenity": "school",
+    "name": "Jardín de Niños José Vasconcelos"
+  }
+},
+{
+  "type": "way",
+  "id": 678712363,
+  "center": {
+    "lat": 18.4619839,
+    "lon": -97.3687100
+  },
+  "tags": {
+    "amenity": "school",
+    "name": "Escuela Sor Juana Ines de la Cruz"
+  }
+},
+{
+  "type": "way",
+  "id": 889081560,
+  "center": {
+    "lat": 18.4764774,
+    "lon": -97.4395553
+  },
+  "tags": {
+    "amenity": "hospital",
+    "name": "Hospital de la Mujer Tehuacan"
+  }
+},
+{
+  "type": "way",
+  "id": 992106272,
+  "center": {
+    "lat": 18.4795136,
+    "lon": -97.4165649
+  },
+  "tags": {
+    "addr:housenumber": "3401",
+    "addr:postcode": "75855",
+    "addr:street": "Avenida Nacional",
+    "amenity": "school",
+    "denomination": "catholic",
+    "name": "Karol Wojtyla",
+    "religion": "christian",
+    "website": "https://colegiokarol.com"
+  }
+},
+{
+  "type": "way",
+  "id": 1104130702,
+  "center": {
+    "lat": 18.5378749,
+    "lon": -97.2024442
+  },
+  "tags": {
+    "amenity": "townhall",
+    "building": "yes",
+    "name": "Palacio Municipal"
+  }
+},
+{
+  "type": "way",
+  "id": 1105394251,
+  "center": {
+    "lat": 18.4774629,
+    "lon": -97.3835296
+  },
+  "tags": {
+    "amenity": "school",
+    "grades": "3-6",
+    "name": "Preescolar  \"Jorge L. Tamayo (matutino) y Octavio Paz (vespertino)\"",
+    "operator": "SEP",
+    "operator:type": "government",
+    "religion": "none"
+  }
+},
+{
+  "type": "way",
+  "id": 1147987703,
+  "center": {
+    "lat": 18.6204638,
+    "lon": -97.4111194
+  },
+  "tags": {
+    "amenity": "townhall",
+    "building": "yes",
+    "name": "Palacio Municipal"
+  }
+},
+{
+  "type": "way",
+  "id": 1187438478,
+  "center": {
+    "lat": 18.4466133,
+    "lon": -97.3815581
+  },
+  "tags": {
+    "amenity": "school",
+    "name": "Escuela Primaria Benito Juárez"
+  }
+},
+{
+  "type": "way",
+  "id": 1187439769,
+  "center": {
+    "lat": 18.4549327,
+    "lon": -97.3909791
+  },
+  "tags": {
+    "amenity": "school",
+    "name": "Escuela Primaria Ingeniero Pastor Rouaix"
+  }
+},
+{
+  "type": "way",
+  "id": 1187439770,
+  "center": {
+    "lat": 18.4550684,
+    "lon": -97.3907641
+  },
+  "tags": {
+    "amenity": "school",
+    "name": "Jardín de Niños Germán List Arzubide"
+  }
+},
+{
+  "type": "way",
+  "id": 1206695826,
+  "center": {
+    "lat": 18.4633847,
+    "lon": -97.3965971
+  },
+  "tags": {
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "IMSS UMF (Unidad Médica Familiar) 30",
+    "operator": "Instituto Mexicano del Seguro Social",
+    "operator:short": "IMSS",
+    "operator:wikidata": "Q904999"
+  }
+},
+{
+  "type": "way",
+  "id": 1206696607,
+  "center": {
+    "lat": 18.4417057,
+    "lon": -97.4075177
+  },
+  "tags": {
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "IMSS UMF No. 9",
+    "operator": "Instituto Mexicano del Seguro Social",
+    "operator:short": "IMSS",
+    "operator:wikidata": "Q904999"
+  }
+},
+{
+  "type": "way",
+  "id": 1249513836,
+  "center": {
+    "lat": 18.6130763,
+    "lon": -97.3058341
+  },
+  "tags": {
+    "amenity": "townhall",
+    "building": "yes",
+    "name": "Palacio Municipal"
+  }
+},
+{
+  "type": "way",
+  "id": 1280357402,
+  "center": {
+    "lat": 18.4906042,
+    "lon": -97.4082121
+  },
+  "tags": {
+    "amenity": "school",
+    "name": "Telesecundaria Gilberto Valenzuela Vera"
+  }
+},
+{
+  "type": "way",
+  "id": 1281322513,
+  "center": {
+    "lat": 18.4772819,
+    "lon": -97.3967714
+  },
+  "tags": {
+    "amenity": "school",
+    "name": "Escuela Primaria Federal Liberacion"
+  }
+},
+{
+  "type": "way",
+  "id": 1290110357,
+  "center": {
+    "lat": 18.2256218,
+    "lon": -97.4872420
+  },
+  "tags": {
+    "amenity": "school",
+    "name": "Escuela Primaria Fransico I. Madero"
+  }
+},
+{
+  "type": "way",
+  "id": 1290110359,
+  "center": {
+    "lat": 18.2280211,
+    "lon": -97.4848147
+  },
+  "tags": {
+    "amenity": "school",
+    "grades": "7-9",
+    "name": "Telesecundaria Genaro Ponce"
+  }
+},
+{
+  "type": "way",
+  "id": 1290110360,
+  "center": {
+    "lat": 18.2303139,
+    "lon": -97.4866497
+  },
+  "tags": {
+    "amenity": "school",
+    "name": "Bachillerato Octavio Paz"
+  }
+},
+{
+  "type": "way",
+  "id": 1292518359,
+  "center": {
+    "lat": 18.5461556,
+    "lon": -97.4230732
+  },
+  "tags": {
+    "amenity": "university",
+    "name": "Instituto de Estudios Superiores del Estado"
+  }
+},
+{
+  "type": "way",
+  "id": 1394009433,
+  "center": {
+    "lat": 18.7168940,
+    "lon": -97.3131308
+  },
+  "tags": {
+    "amenity": "kindergarten",
+    "name": "Jardín de Niños Guadalupe Victoria"
+  }
+},
+{
+  "type": "way",
+  "id": 1476532510,
+  "center": {
+    "lat": 18.4606568,
+    "lon": -97.3722627
+  },
+  "tags": {
+    "amenity": "school",
+    "education": "school"
+  }
+},
+{
+  "type": "relation",
+  "id": 9727059,
+  "center": {
+    "lat": 18.4195778,
+    "lon": -97.3647361
+  },
+  "tags": {
+    "amenity": "university",
+    "int_ref": "UVP",
+    "isced:level": "7",
+    "name": "Universidad del Valle de Puebla, Campus Tehuacán",
+    "short_name": "UVP Tehuacán; UVP",
+    "type": "multipolygon"
+  }
+},
+{
+  "type": "relation",
+  "id": 9816805,
+  "center": {
+    "lat": 18.4165989,
+    "lon": -97.3642570
+  },
+  "tags": {
+    "amenity": "university",
+    "int_ref": "BUAP",
+    "isced:level": "6",
+    "name": "Benemérita Universidad Autónoma de Puebla, Complejo Regional Sur",
+    "short_name": "BUAP Tehuacán; BUAP URT, BUAP CRS, BUAP",
+    "type": "multipolygon"
+  }
+},
+{
+  "type": "relation",
+  "id": 16750741,
+  "center": {
+    "lat": 18.4699881,
+    "lon": -97.3933184
+  },
+  "tags": {
+    "amenity": "townhall",
+    "building": "roof",
+    "name": "H. Ayuntamiento de Tehuacán",
+    "type": "multipolygon"
+  }
+},
+{
+  "type": "relation",
+  "id": 20200538,
+  "center": {
+    "lat": 18.4621692,
+    "lon": -97.3917781
+  },
+  "tags": {
+    "amenity": "townhall",
+    "building": "commercial",
+    "level": "2",
+    "name": "H. Ayuntamiento de Tehuacán",
+    "type": "multipolygon"
+  }
+}
+
+  ]
+}

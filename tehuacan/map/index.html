@@ -10,6 +10,7 @@
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <script src="routes.js"></script>
 <script src="sponsors.js"></script>
+<script src="pois.js"></script>
 <style>
   /* light: apple-glass · dark: "nocturne" (claude-designer redesign) */
   :root {
@@ -416,6 +417,10 @@ const I18N = {
     fareLine: (b, m, a) => 'Adulto: $' + b.toFixed(2) + (m ? ' – $' + m.toFixed(2) + ' según destino' : '') + (a ? ' (aprox.)' : ''),
     fareCats: 'Estudiantes con credencial (L–V escolar): tarifa preferencial · Adultos mayores (INAPAM): ~$4 · Personas con discapacidad: gratis con credencial · Niños de 5 a 12: ~medio pasaje',
     fareSrc: 'tarifas preferenciales según la SMT de Puebla — pueden variar por ruta',
+    rowPois: 'Servicios en la ruta',
+    poiLine: c => [c.edu ? c.edu + (c.edu === 1 ? ' escuela' : ' escuelas') : null,
+                   c.salud ? c.salud + ' de salud' : null,
+                   c.gob ? c.gob + ' de gobierno' : null].filter(Boolean).join(' · '),
     nCols: n => n + ' colonias',
     statSched: 'Horarios', statFare: 'Tarifa', statCols: 'Colonias', statLen: 'Longitud',
     verDetalles: 'Ver detalles de la ruta',
@@ -487,6 +492,10 @@ const I18N = {
     fareLine: (b, m, a) => 'Adult: $' + b.toFixed(2) + (m ? ' – $' + m.toFixed(2) + ' by destination' : '') + (a ? ' (approx.)' : ''),
     fareCats: 'Students with ID (school days): reduced fare · Seniors (INAPAM): ~$4 · Riders with disabilities: free with ID · Kids 5–12: ~half fare',
     fareSrc: "preferential fares per Puebla's SMT — may vary by route",
+    rowPois: 'Services on the route',
+    poiLine: c => [c.edu ? c.edu + (c.edu === 1 ? ' school' : ' schools') : null,
+                   c.salud ? c.salud + ' health' : null,
+                   c.gob ? c.gob + ' government' : null].filter(Boolean).join(' · '),
     nCols: n => n + ' neighborhoods',
     statSched: 'Hours', statFare: 'Fare', statCols: 'Areas', statLen: 'Length',
     verDetalles: 'View route details',
@@ -866,6 +875,7 @@ function select(id, fit) {
   if (typeof saveStatus === 'function') saveStatus();
   paintCurrent();
   setSponsorPins(id ? [id] : []);
+  setPoiPins(id ? [id] : []);
   renderDetail();
   renderList();
   if (id && fit) {
@@ -913,6 +923,33 @@ function setSponsorPins(routeIds) {
   src.setData({type: 'FeatureCollection', features: feats});
 }
 
+// public-service POIs (schools, health, government) near the given routes —
+// selection-driven like sponsor pins, but these are free placements
+const POI_COLORS = {edu: '#2ecc71', salud: '#e05252', gob: '#9b79d4'};
+function setPoiPins(routeIds) {
+  const src = map.getSource('poi-pins');
+  if (!src || typeof POIS === 'undefined') return;
+  const seen = new Set();
+  const fs = [];
+  routeIds.forEach(rid => (POIS.by_route[rid] || []).forEach(i => {
+    if (seen.has(i)) return;
+    seen.add(i);
+    const p = POIS.pois[i];
+    fs.push({type: 'Feature', properties: {name: p.n, cat: p.k, color: POI_COLORS[p.k] || '#888'},
+             geometry: {type: 'Point', coordinates: p.c}});
+  }));
+  src.setData({type: 'FeatureCollection', features: fs});
+}
+
+function poiCounts(routeId) {
+  if (typeof POIS === 'undefined') return null;
+  const idx = POIS.by_route[routeId] || [];
+  if (!idx.length) return null;
+  const c = {edu: 0, salud: 0, gob: 0};
+  idx.forEach(i => c[POIS.pois[i].k]++);
+  return c;
+}
+
 function sponsorRow(routeId) {
   const entries = Object.entries(SPONSORS.sponsors || {});
   if (!entries.length) return '';
@@ -953,6 +990,7 @@ function renderDetail() {
       (p.has_geom ? '' : t('detNoGeom') + '<br>') +
       (towns ? t('detTowns') + towns + '<br>' : '') +
       (cols ? t('detCols') + cols.replaceAll('Colonia ', '') + '…<br>' : '') +
+      (poiCounts(p.id) ? t('rowPois') + ': ' + t('poiLine')(poiCounts(p.id)) + '<br>' : '') +
       t('detSources') + p.sources + (p.has_geom ? ' · ' + p.geom_source : '') +
       (p.review ? '<br>' + t('detReview') : '') +
     '</div>' +
@@ -1125,6 +1163,7 @@ function selectOption(i) {
   const o = state.plan[i];
   const ids = o.legs;
   setSponsorPins(ids);
+  setPoiPins(ids);
   map.setFilter('routes', ['in', ['get', 'id'], ['literal', ids]]);
   map.setFilter('routes-casing', ['in', ['get', 'id'], ['literal', ids]]);
   map.setPaintProperty('routes', 'line-opacity', 1);
@@ -1155,6 +1194,7 @@ function clearPlanLayers() {
   map.getSource('plan-walk').setData({type: 'FeatureCollection', features: []});
   map.getSource('plan-pts').setData({type: 'FeatureCollection', features: []});
   setSponsorPins([]);
+  setPoiPins([]);
 }
 
 document.getElementById('go').onclick = async () => {
@@ -1273,6 +1313,20 @@ map.on('load', () => {
     id: 'plan-pts', type: 'circle', source: 'plan-pts',
     paint: {'circle-radius': 7, 'circle-color': '#f5a623',
             'circle-stroke-width': 2.5, 'circle-stroke-color': dark ? '#141419' : '#f2f2f5'}
+  });
+  // public-service POI pins (schools, health, government) — above routes, below sponsors
+  map.addSource('poi-pins', {type: 'geojson', data: {type: 'FeatureCollection', features: []}});
+  map.addLayer({
+    id: 'poi-pins', type: 'circle', source: 'poi-pins',
+    paint: {'circle-radius': ['interpolate', ['linear'], ['zoom'], 11, 3.5, 15, 6],
+            'circle-color': ['get', 'color'],
+            'circle-stroke-width': 1.5, 'circle-stroke-color': dark ? '#0a0b12' : '#ffffff'}
+  });
+  map.on('click', 'poi-pins', e => {
+    const f = e.features[0];
+    new maplibregl.Popup({closeButton: false, offset: 10})
+      .setLngLat(f.geometry.coordinates).setHTML('<b>' + f.properties.name + '</b>').addTo(map);
+    e.preventDefault();
   });
   // sponsor pins go LAST so they render on top of the route lines; the source
   // stays empty until a route is selected (setSponsorPins is selection-driven)
@@ -1393,6 +1447,7 @@ function mApply(fit) {
   map.setFilter('routes-casing', ['in', ['get', 'id'], ['literal', base]]);
   paintCurrent();
   setSponsorPins(on);
+  setPoiPins(on);
   mRenderChips();
   if (typeof syncCollapse === 'function') syncCollapse();
   if (typeof saveStatus === 'function') saveStatus();
@@ -1688,6 +1743,7 @@ function shRow(icon, label, value) {
 }
 
 const S_FARE = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>';
+const S_POI = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V10l7-5 7 5v11"/><path d="M9 21v-6h6v6"/></svg>';
 
 function sheetHead(id, p, mode) {
   // the name itself is the details toggle (no CTA button — saves a whole row)
@@ -1745,7 +1801,8 @@ function openSheet(id, mode) {
       shRow(S_CLOCK, t('rowSched'), s ? t('schedRange')(s) : t('schedNone')) +
       shRow(S_FARE, t('rowFare'),
         t('fareLine')(fr.base, fr.max, fr.approx) + '<br>' + t('fareCats') +
-        '<br><span style="opacity:.7">' + t('fareSrc') + '</span>');
+        '<br><span style="opacity:.7">' + t('fareSrc') + '</span>') +
+      (poiCounts(id) ? shRow(S_POI, t('rowPois'), t('poiLine')(poiCounts(id))) : '');
     document.getElementById('sh-map').onclick = () => {
       M.chips = [{id, on: true}];
       mSetView('map');
