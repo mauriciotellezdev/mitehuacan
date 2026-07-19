@@ -1232,7 +1232,8 @@ async function mPlanTo(dest, label) {
   ensureTripMarkers();
   document.getElementById('sheet2').classList.remove('show');
   renderTripSheet();
-  if (opts.length) mSelectTripOption(0);
+  mSetView('map');                      // starting a trip shows the map ONCE;
+  if (opts.length) mSelectTripOption(0);  // option taps afterwards never switch views
   track('trip_from_me', label.slice(0, 40));
 }
 
@@ -1293,7 +1294,8 @@ function mSelectTripOption(i) {
   TRIP.sel = i;
   document.querySelectorAll('#sheet .opt').forEach((el, j) => el.classList.toggle('sel', i === j));
   M.chips = o.legs.map(id => ({id, on: true}));
-  mSetView('map');
+  // stay in whichever view the user is in — picking an option never yanks
+  // them to the map; the map state updates underneath either way
   mApply(false);
   // draw ONLY the ridden stretch of each leg — never the whole route out of town
   const segFeat = (id, a, b) => ({type: 'Feature', properties: {color: routeById(id).color},
