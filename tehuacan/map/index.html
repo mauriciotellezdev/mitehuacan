@@ -927,18 +927,19 @@ function setSponsorPins(routeIds) {
 // selection-driven like sponsor pins, but these are free placements
 const POI_COLORS = {edu: '#2ecc71', salud: '#e05252', gob: '#9b79d4'};
 function setPoiPins(routeIds) {
+  // all POIs stay on the map: dim when idle (like the route lines); a selected
+  // route's POIs light up while the rest stay faint
   const src = map.getSource('poi-pins');
-  if (!src || typeof POIS === 'undefined') return;
-  const seen = new Set();
-  const fs = [];
-  routeIds.forEach(rid => (POIS.by_route[rid] || []).forEach(i => {
-    if (seen.has(i)) return;
-    seen.add(i);
-    const p = POIS.pois[i];
-    fs.push({type: 'Feature', properties: {name: p.n, cat: p.k, color: POI_COLORS[p.k] || '#888'},
-             geometry: {type: 'Point', coordinates: p.c}});
-  }));
+  if (!src || typeof POIS === 'undefined' || !map.getLayer('poi-pins')) return;
+  const onSet = new Set();
+  routeIds.forEach(rid => (POIS.by_route[rid] || []).forEach(i => onSet.add(i)));
+  const fs = POIS.pois.map((p, i) => ({type: 'Feature',
+    properties: {name: p.n, cat: p.k, color: POI_COLORS[p.k] || '#888', on: onSet.has(i)},
+    geometry: {type: 'Point', coordinates: p.c}}));
   src.setData({type: 'FeatureCollection', features: fs});
+  const op = routeIds.length ? ['case', ['get', 'on'], 1, 0.2] : 0.35;
+  map.setPaintProperty('poi-pins', 'circle-opacity', op);
+  map.setPaintProperty('poi-pins', 'circle-stroke-opacity', op);
 }
 
 function poiCounts(routeId) {
@@ -1375,6 +1376,10 @@ map.on('load', () => {
                e.lngLat.lat.toFixed(4) + ', ' + e.lngLat.lng.toFixed(4) + t('mapPoint'));
       return;
     }
+    // tapping a POI shows its popup only — the route selection is locked
+    if (map.getLayer('poi-pins') &&
+        map.queryRenderedFeatures([[e.point.x - 8, e.point.y - 8], [e.point.x + 8, e.point.y + 8]],
+                                  {layers: ['poi-pins']}).length) return;
     const ids = routesAt(e.point);
     if (!ids.length) return;
     const id = nearestRouteId(ids, e.lngLat);
@@ -1394,6 +1399,7 @@ map.on('load', () => {
   });
 
   applyFilter();
+  setPoiPins(isMobile() ? M.chips.filter(c => c.on).map(c => c.id) : (state.sel ? [state.sel] : []));
 
   // deep link: /combis/?ruta=<id> pre-selects a route (used by sharing + QR);
   // otherwise restore the last session's routes from the device
