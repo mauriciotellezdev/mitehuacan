@@ -961,10 +961,25 @@ function setPoiPins(routeIds) {
     if (seen.has(i)) return;
     seen.add(i);
     const p = POIS.pois[i];
-    fs.push({type: 'Feature', properties: {name: p.n, cat: p.k, color: POI_COLORS[p.k] || '#888'},
+    fs.push({type: 'Feature', properties: {name: p.n, cat: p.k, color: POI_COLORS[p.k] || '#888', idx: i},
              geometry: {type: 'Point', coordinates: p.c}});
   }));
   src.setData({type: 'FeatureCollection', features: fs});
+  poiHighlight(null);  // selection change resets any single-dot highlight
+}
+
+function poiHighlight(idx) {
+  if (!map.getLayer('poi-pins')) return;
+  if (idx === null || idx === undefined) {
+    map.setPaintProperty('poi-pins', 'circle-opacity', 1);
+    map.setPaintProperty('poi-pins', 'circle-stroke-opacity', 1);
+    map.setPaintProperty('poi-pins', 'circle-stroke-width', 1.5);
+  } else {
+    const isIt = ['==', ['get', 'idx'], idx];
+    map.setPaintProperty('poi-pins', 'circle-opacity', ['case', isIt, 1, 0.45]);
+    map.setPaintProperty('poi-pins', 'circle-stroke-opacity', ['case', isIt, 1, 0.45]);
+    map.setPaintProperty('poi-pins', 'circle-stroke-width', ['case', isIt, 2.5, 1.5]);
+  }
 }
 
 function poiCounts(routeId) {
@@ -1065,22 +1080,23 @@ function nextCombiAt(routeId, atM) {
 function onLockedTap(e, lockIds) {
   const PR = matchMedia('(hover: hover)').matches ? 12 : 26;
   const box = [[e.point.x - PR, e.point.y - PR], [e.point.x + PR, e.point.y + PR]];
-  if (map.getLayer('sponsor-pins')) {
-    const sh = map.queryRenderedFeatures(box, {layers: ['sponsor-pins']});
-    if (sh.length) { openSpotPanel('sponsor', sh[0]); return; }
-  }
-  if (map.getLayer('poi-pins')) {
-    const ph = map.queryRenderedFeatures(box, {layers: ['poi-pins']});
-    if (ph.length) {
-      let best = null, bd = Infinity;
-      ph.forEach(f => {
-        const pp = map.project(f.geometry.coordinates);
-        const d = Math.hypot(pp.x - e.point.x, pp.y - e.point.y);
-        if (d < bd) { bd = d; best = f; }
-      });
-      openSpotPanel('poi', best);
-      return;
-    }
+  // fair contest between sponsors and POIs: nearest CENTER wins, with a small
+  // penalty on sponsors — their big logos already query far beyond their center,
+  // which was eating taps meant for POI dots next to them
+  const cand = [];
+  if (map.getLayer('sponsor-pins'))
+    map.queryRenderedFeatures(box, {layers: ['sponsor-pins']}).forEach(f => cand.push({type: 'sponsor', f}));
+  if (map.getLayer('poi-pins'))
+    map.queryRenderedFeatures(box, {layers: ['poi-pins']}).forEach(f => cand.push({type: 'poi', f}));
+  if (cand.length) {
+    let best = null, bd = Infinity;
+    cand.forEach(c => {
+      const pp = map.project(c.f.geometry.coordinates);
+      const d = Math.hypot(pp.x - e.point.x, pp.y - e.point.y) + (c.type === 'sponsor' ? 8 : 0);
+      if (d < bd) { bd = d; best = c; }
+    });
+    openSpotPanel(best.type, best.f);
+    return;
   }
   const ids = routesAt(e.point);
   if (ids.length) {
@@ -1110,7 +1126,8 @@ function openSpotPanel(type, f) {
   el.innerHTML = '<div class="grabwrap"><div class="grab"></div></div>' + body;
   el.classList.remove('min');
   el.classList.add('show');
-  document.getElementById('p2-close').onclick = () => el.classList.remove('show');
+  poiHighlight(type === 'poi' ? pr.idx : null);  // spotlight the tapped dot, soften the rest
+  document.getElementById('p2-close').onclick = () => { el.classList.remove('show'); poiHighlight(null); };
   track(type + '_tap', (pr.name || pr.sponsor || '').slice(0, 40));
 }
 
