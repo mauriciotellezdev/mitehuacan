@@ -683,6 +683,47 @@ function nearest(ptM, r) {
   return best;
 }
 
+/* ---------- route hit-testing + hover paint ---------- */
+// tap/click tolerance in px: generous on touch, tighter for a pointer
+const HIT_R = () => (matchMedia('(hover: hover)').matches ? 10 : 20);
+
+function routesAt(point) {  // unique route ids within the hit box around a screen point
+  const R = HIT_R();
+  const hits = map.queryRenderedFeatures([[point.x - R, point.y - R], [point.x + R, point.y + R]], {layers: ['routes']});
+  return [...new Set(hits.map(h => h.properties.id))];
+}
+
+function nearestRouteId(ids, lngLat) {
+  if (ids.length === 1) return ids[0];
+  const ptM = mx([lngLat.lng, lngLat.lat]);
+  let best = null, bd = Infinity;
+  ids.forEach(id => {
+    const r = flat.find(x => x.id === id);
+    if (!r || !r.pts.length) return;
+    const d = nearest(ptM, r).d;
+    if (d < bd) { bd = d; best = id; }
+  });
+  return best;
+}
+
+function paintHover(id) {
+  map.setPaintProperty('routes', 'line-width', ['case', ['==', ['get', 'id'], id], 4.5, 1.4]);
+  map.setPaintProperty('routes', 'line-opacity', ['case', ['==', ['get', 'id'], id], 1, 0.12]);
+}
+
+function paintCurrent() {  // restore paint to whatever the selection state says
+  if (!isMobile() && state.sel) {
+    map.setPaintProperty('routes', 'line-width', ['case', ['==', ['get', 'id'], state.sel], 4.5, 1.2]);
+    map.setPaintProperty('routes', 'line-opacity', ['case', ['==', ['get', 'id'], state.sel], 1, 0.18]);
+  } else if (isMobile() && M.chips.some(c => c.on)) {
+    map.setPaintProperty('routes', 'line-width', 4);
+    map.setPaintProperty('routes', 'line-opacity', 1);
+  } else {
+    map.setPaintProperty('routes', 'line-width', ['interpolate', ['linear'], ['zoom'], 11, 1.8, 15, 3.5]);
+    map.setPaintProperty('routes', 'line-opacity', 0.85);
+  }
+}
+
 function routePairMinDist(r1, r2) {
   let best = {d: Infinity, p1: null, p2: null};
   const step1 = Math.max(1, Math.floor(r1.pts.length / 250));
@@ -1230,18 +1271,34 @@ map.on('load', () => {
             'circle-stroke-width': 2.5, 'circle-stroke-color': dark ? '#141419' : '#f2f2f5'}
   });
 
+  // hover (pointer devices): highlight the route under the cursor, dim the rest
   const popup = new maplibregl.Popup({closeButton: false, closeOnClick: false});
-  map.on('mousemove', 'routes', e => {
-    if (P.pickArm) return;
-    map.getCanvas().style.cursor = 'pointer';
-    const names = [...new Set(e.features.map(f => f.properties.name))].slice(0, 4);
-    popup.setLngLat(e.lngLat).setHTML(names.join('<br>')).addTo(map);
-  });
-  map.on('mouseleave', 'routes', () => {
-    if (P.pickArm) return;
-    map.getCanvas().style.cursor = '';
-    popup.remove();
-  });
+  if (matchMedia('(hover: hover)').matches) {
+    let hoverId = null;
+    map.on('mousemove', e => {
+      if (P.pickArm) return;
+      const ids = routesAt(e.point);
+      const id = ids.length ? nearestRouteId(ids, e.lngLat) : null;
+      if (id) popup.setLngLat(e.lngLat).setHTML('<b>' + routeById(id).name + '</b>').addTo(map);
+      if (id === hoverId) return;
+      hoverId = id;
+      if (id) {
+        map.getCanvas().style.cursor = 'pointer';
+        paintHover(id);
+      } else {
+        map.getCanvas().style.cursor = '';
+        popup.remove();
+        paintCurrent();
+      }
+    });
+    map.getCanvas().addEventListener('mouseleave', () => {
+      if (!hoverId) return;
+      hoverId = null;
+      popup.remove();
+      map.getCanvas().style.cursor = '';
+      paintCurrent();
+    });
+  }
   map.on('click', e => {
     if (P.pickArm) {
       const which = P.pickArm;
@@ -1252,9 +1309,9 @@ map.on('load', () => {
                e.lngLat.lat.toFixed(4) + ', ' + e.lngLat.lng.toFixed(4) + t('mapPoint'));
       return;
     }
-    const hit = map.queryRenderedFeatures(e.point, {layers: ['routes']});
-    if (!hit.length) return;
-    const id = hit[0].properties.id;
+    const ids = routesAt(e.point);
+    if (!ids.length) return;
+    const id = nearestRouteId(ids, e.lngLat);
     if (isMobile()) {
       const already = M.chips.some(c => c.id === id && c.on);
       if (already && SCHEDULES[id]) {
