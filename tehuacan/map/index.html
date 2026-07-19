@@ -730,7 +730,7 @@ function paintCurrent() {  // restore paint to whatever the selection state says
     const inSel = ['in', ['get', 'id'], ['literal', on]];
     map.setPaintProperty('routes', 'line-width', ['interpolate', ['linear'], ['zoom'],
       11, ['case', inSel, 4.5, 1.8], 15, ['case', inSel, 4.5, 3.5]]);
-    map.setPaintProperty('routes', 'line-opacity', ['case', inSel, 1, 0.28]);
+    map.setPaintProperty('routes', 'line-opacity', ['case', inSel, 1, 0.15]);
   } else {
     map.setPaintProperty('routes', 'line-width', W_BASE);
     map.setPaintProperty('routes', 'line-opacity', 0.85);
