@@ -1848,8 +1848,11 @@ function suggRow(html, cb) {
 }
 
 function setSearchLabel(label) {
-  // keep the picked place/route visible in the box; results live in the chips
-  document.getElementById('ml-search').value = label;
+  // keep the picked place/route visible in the box; results live in the chips.
+  // blur dismisses the phone keyboard (our mousedown preventDefault keeps focus otherwise)
+  const inp = document.getElementById('ml-search');
+  inp.value = label;
+  inp.blur();
   MV.q = '';
   if (document.body.dataset.mview === 'list') renderCards();
 }
