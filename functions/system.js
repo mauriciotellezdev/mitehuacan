@@ -31,6 +31,8 @@ th{background:var(--panel);position:sticky;top:0}
 <body>
 <div class="wrap">
 <h1>MiTehuacán · sistema</h1>
+<p style="margin:0 0 14px;font-size:12.5px"><a href="/system/map" style="color:var(--accent)">editor de rutas</a> ·
+<a href="/system/horarios" style="color:var(--accent)">horarios</a></p>
 <div id="auth"><input id="tok" type="password" placeholder="token"><button onclick="go()">Entrar</button> <span id="err"></span></div>
 <div id="dash" hidden>
   <div class="cards" id="cards"></div>

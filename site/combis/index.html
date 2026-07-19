@@ -132,6 +132,11 @@
     .mchip.off { opacity: .45; }
     .mchip .dot { width: 10px; height: 10px; border-radius: 50%; }
     .mchip .x { color: var(--ink-2); margin-left: 2px; }
+    #msched { display: inline-block; margin-top: 8px; padding: 7px 12px; border-radius: 999px;
+              background: var(--glass); border: 1px solid var(--line); font-size: 12.5px; color: var(--ink);
+              box-shadow: 0 4px 14px rgba(0,0,0,.18);
+              -webkit-backdrop-filter: blur(18px) saturate(160%); backdrop-filter: blur(18px) saturate(160%); }
+    #msched[hidden] { display: none; }
   }
   @media (max-width: 480px) {
     #topbar { gap: 8px; padding: 0 10px; }
@@ -201,6 +206,7 @@
       </div>
       <div id="msugg" hidden></div>
       <div id="mchips"></div>
+      <div id="msched" hidden></div>
     </div>
   </div>
 </div>
@@ -232,6 +238,14 @@ const I18N = {
     detNoGeom: ' · ⚠️ sin geometría — solo sabemos que existe (Moovit); falta mapearla',
     detSources: 'fuentes: ', detTowns: 'pueblos en el camino: ', detCols: 'colonias: ',
     detReview: '⚠️ variantes sin conciliar entre fuentes',
+    schedule: s => {
+      const p = [];
+      if (s.first_run) p.push('primera ' + s.first_run);
+      if (s.last_run) p.push('última ' + s.last_run);
+      if (s.headway_min) p.push('cada ~' + s.headway_min + ' min');
+      if (s.notes) p.push(String(s.notes).replace(/</g, '&lt;'));
+      return '🕐 ' + p.join(' · ');
+    },
     clearSel: 'Quitar selección',
     sponsorLbl: 'Patrocinador: ',
     stores: n => n + (n === 1 ? ' tienda' : ' tiendas') + ' en esta ruta',
@@ -265,6 +279,14 @@ const I18N = {
     detNoGeom: ' · ⚠️ no geometry — we only know it exists (Moovit); still needs mapping',
     detSources: 'sources: ', detTowns: 'towns along the way: ', detCols: 'neighborhoods: ',
     detReview: '⚠️ variants not yet reconciled between sources',
+    schedule: s => {
+      const p = [];
+      if (s.first_run) p.push('first run ' + s.first_run);
+      if (s.last_run) p.push('last ' + s.last_run);
+      if (s.headway_min) p.push('every ~' + s.headway_min + ' min');
+      if (s.notes) p.push(String(s.notes).replace(/</g, '&lt;'));
+      return '🕐 ' + p.join(' · ');
+    },
     clearSel: 'Clear selection',
     sponsorLbl: 'Sponsor: ',
     stores: n => n + (n === 1 ? ' store' : ' stores') + ' on this route',
@@ -370,6 +392,12 @@ const boundaryCircle = (() => {
 
 const feats = ROUTES.features;
 const state = {kind: 'all', q: '', sel: null, plan: null, planSel: null};
+
+// per-route service window + headway, edited in /system/horarios (D1-backed)
+let SCHEDULES = {};
+fetch('/api/horarios').then(r => r.json())
+  .then(d => { SCHEDULES = d.schedules || {}; if (state.sel) renderDetail(); })
+  .catch(() => { /* map works fine without schedule data */ });
 
 /* ---------- geometry in meter space ---------- */
 const MLAT = 110570, MLON = 111320 * Math.cos(18.462 * Math.PI / 180);
@@ -606,9 +634,11 @@ function renderDetail() {
   el.className = 'show';
   const cols = (p.colonias || '').split(',').slice(0, 8).join(',');
   const towns = (p.places || '').split(',').slice(0, 10).join(',');
+  const sched = SCHEDULES[p.id];
   el.innerHTML = '<b>' + p.name + '</b>' +
     '<div class="meta">' + t('detKind')(p.kind) +
     (p.has_geom ? t('detGeom')(p.geom_source) : t('detNoGeom')) +
+    (sched ? '<br>' + t('schedule')(sched) : '') +
     '<br>' + t('detSources') + p.sources +
     (towns ? '<br>' + t('detTowns') + towns : '') +
     (cols ? '<br>' + t('detCols') + cols.replaceAll('Colonia ', '') + '…' : '') +
@@ -943,6 +973,11 @@ function mApply(fit) {
     : ['interpolate', ['linear'], ['zoom'], 11, 1.8, 15, 3.5]);
   setSponsorPins(on);
   mRenderChips();
+  // one active route with schedule data -> show it under the chips
+  const ms = document.getElementById('msched');
+  const sched = on.length === 1 && SCHEDULES[on[0]];
+  ms.hidden = !sched;
+  if (sched) ms.innerHTML = t('schedule')(sched);  // schedule() escapes notes
   if (fit && on.length) {
     const b = new maplibregl.LngLatBounds();
     on.forEach(id => feats.find(f => f.properties.id === id).geometry.coordinates.flat().forEach(c => b.extend(c)));
