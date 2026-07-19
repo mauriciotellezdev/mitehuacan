@@ -116,12 +116,75 @@
   .opt .meta { font-size: 11.5px; color: var(--ink-2); }
   .msg { padding: 14px; font-size: 12.5px; color: var(--ink-2); }
   .wmark { color: #d97706; font-weight: 700; }
-  /* mobile: all-map layout — sidebar hidden, floating search bar + route chips */
-  #mbar { display: none; }
+  /* mobile: app layout — LIST view or MAP view, never both; bottom tab bar;
+     selected route opens a bottom sheet in either view */
+  #mbar, #mlist, #mtabs, #sheet { display: none; }
   @media (max-width: 700px) {
     #sidebar { display: none; }
+    #app { position: relative; margin-bottom: calc(56px + env(safe-area-inset-bottom)); }
     #mbar { display: block; position: absolute; top: 10px; left: 10px; right: 10px; z-index: 15; }
-    #mrow { display: flex; gap: 8px; align-items: center; }
+    #mrow, #msugg { display: none; }
+    body[data-mview=list] #mbar { display: none; }
+    /* ---- list view ---- */
+    #mlist { position: absolute; inset: 0; z-index: 18; background: var(--bg); overflow-y: auto;
+             -webkit-overflow-scrolling: touch; padding: 12px 14px 24px; }
+    body[data-mview=list] #mlist { display: block; }
+    #ml-search { width: 100%; padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px;
+                 background: var(--panel); color: var(--ink); font-size: 15px; }
+    #ml-search:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+    #ml-pills { display: flex; gap: 8px; margin: 10px 0 4px; overflow-x: auto;
+                -webkit-overflow-scrolling: touch; padding-bottom: 4px; }
+    #ml-pills button { flex: none; padding: 8px 15px; border-radius: 999px; border: 1px solid var(--line);
+                       background: var(--panel); color: var(--ink-2); font-size: 13px; font-weight: 600; }
+    #ml-pills button.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+    #ml-count { font-size: 12px; color: var(--ink-2); margin: 4px 0 6px; }
+    .mcard { display: flex; align-items: center; gap: 11px; padding: 10px 2px 10px 0;
+             border-bottom: 1px solid var(--line); cursor: pointer; }
+    .mcard .bar { width: 3px; align-self: stretch; border-radius: 2px; flex: none; }
+    .mcard .tile { width: 40px; height: 40px; border-radius: 11px; flex: none;
+                   display: flex; align-items: center; justify-content: center; color: #fff; }
+    .mcard .nm { flex: 1; min-width: 0; }
+    .mcard .nm b { display: block; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .mcard .nm .tag { margin-top: 3px; display: inline-block; }
+    .star { background: none; border: none; color: var(--ink-2); padding: 8px; cursor: pointer; }
+    .star.on { color: #f5b400; }
+    .star .f { fill: none; } .star.on .f { fill: currentColor; }
+    .mcard .chev { color: var(--ink-2); flex: none; }
+    /* ---- bottom tab bar ---- */
+    #mtabs { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
+             height: calc(56px + env(safe-area-inset-bottom)); padding-bottom: env(safe-area-inset-bottom);
+             background: var(--glass); border-top: 1px solid var(--line);
+             -webkit-backdrop-filter: blur(20px) saturate(180%); backdrop-filter: blur(20px) saturate(180%); }
+    #mtabs button { flex: 1; background: none; border: none; color: var(--ink-2); font-size: 10.5px;
+                    font-weight: 600; display: flex; flex-direction: column; align-items: center;
+                    gap: 3px; justify-content: center; cursor: pointer; }
+    #mtabs button.on { color: var(--accent); }
+    /* ---- selected route bottom sheet ---- */
+    #sheet { position: fixed; left: 0; right: 0; bottom: calc(56px + env(safe-area-inset-bottom));
+             z-index: 28; background: var(--glass); border: 1px solid var(--line); border-bottom: none;
+             border-radius: 20px 20px 0 0; box-shadow: 0 -12px 40px rgba(0,0,0,.35);
+             -webkit-backdrop-filter: blur(24px) saturate(180%); backdrop-filter: blur(24px) saturate(180%);
+             padding: 8px 16px 14px; max-height: 62vh; overflow-y: auto; }
+    #sheet.show { display: block; }
+    #sheet .grab { width: 36px; height: 4px; border-radius: 2px; background: var(--line); margin: 2px auto 12px; }
+    .sh-head { display: flex; align-items: center; gap: 11px; margin-bottom: 12px; }
+    .sh-head .tile { width: 44px; height: 44px; border-radius: 12px; flex: none;
+                     display: flex; align-items: center; justify-content: center; color: #fff; }
+    .sh-name { flex: 1; min-width: 0; }
+    .sh-name b { display: block; font-size: 17px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .iconbtn { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line);
+               background: var(--chip); color: var(--ink-2); flex: none; cursor: pointer;
+               display: flex; align-items: center; justify-content: center; padding: 0; }
+    .sh-actions { display: flex; gap: 10px; margin-bottom: 4px; }
+    .sh-actions button { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px;
+                         padding: 12px 6px; border: 1px solid var(--line); border-radius: 14px;
+                         background: var(--chip); color: var(--ink); font-size: 12.5px; font-weight: 600; cursor: pointer; }
+    .sh-actions button svg { color: var(--accent); }
+    .sh-row { display: flex; gap: 11px; align-items: flex-start; padding: 12px 2px; margin-top: 8px;
+              border-top: 1px solid var(--line); font-size: 13.5px; }
+    .sh-row:first-of-type { border-top: none; }
+    .sh-row svg { flex: none; color: var(--accent); margin-top: 2px; }
+    .sh-row .v { color: var(--ink-2); display: block; margin-top: 1px; font-size: 12.5px; }
     #msearch { flex: 1; padding: 11px 14px; border: 1px solid var(--line); border-radius: 999px;
                background: var(--glass); color: var(--ink); font-size: 15px;
                box-shadow: 0 4px 18px rgba(0,0,0,.18);
@@ -146,11 +209,6 @@
     .mchip.off { opacity: .45; }
     .mchip .dot { width: 10px; height: 10px; border-radius: 50%; }
     .mchip .x { color: var(--ink-2); margin-left: 2px; }
-    #msched { display: inline-block; margin-top: 8px; padding: 7px 12px; border-radius: 999px;
-              background: var(--glass); border: 1px solid var(--line); font-size: 12.5px; color: var(--ink);
-              box-shadow: 0 4px 14px rgba(0,0,0,.18);
-              -webkit-backdrop-filter: blur(18px) saturate(160%); backdrop-filter: blur(18px) saturate(160%); }
-    #msched[hidden] { display: none; }
   }
   @media (max-width: 480px) {
     #topbar { gap: 8px; padding: 0 10px; }
@@ -220,10 +278,27 @@
       </div>
       <div id="msugg" hidden></div>
       <div id="mchips"></div>
-      <div id="msched" hidden></div>
     </div>
   </div>
+  <div id="mlist">
+    <input id="ml-search" type="search" autocomplete="off">
+    <div id="ml-pills">
+      <button data-mk="all" class="on"></button>
+      <button data-mk="local"></button>
+      <button data-mk="foránea"></button>
+      <button data-mk="fav"></button>
+    </div>
+    <div id="ml-count"></div>
+    <div id="ml-cards"></div>
+  </div>
 </div>
+<nav id="mtabs">
+  <button data-v="list"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3 6h.01M3 12h.01M3 18h.01"/></svg><span id="mt-list"></span></button>
+  <button data-v="map"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3 3 5v16l6-2 6 2 6-2V3l-6 2-6-2Z"/><path d="M9 3v16m6-14v16"/></svg><span id="mt-map"></span></button>
+  <button data-v="fav"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.2-6.2 3.2L7 14.2 2 9.3l6.9-1L12 2Z"/></svg><span id="mt-fav"></span></button>
+  <button data-v="cfg"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.9 2.9l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.2a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.9-2.9l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.2a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.9-2.9l.1.1a1.7 1.7 0 0 0 1.9.3h.1a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.2a1.7 1.7 0 0 0 1 1.5h.1a1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.9 2.9l-.1.1a1.7 1.7 0 0 0-.3 1.9v.1a1.7 1.7 0 0 0 1.5 1h.2a2 2 0 1 1 0 4h-.2a1.7 1.7 0 0 0-1.5 1Z"/></svg><span id="mt-cfg"></span></button>
+</nav>
+<div id="sheet"></div>
 <script>
 const THEME = (() => {
   try { const s = localStorage.mtTheme; if (s === 'light' || s === 'dark') return s; } catch (e) {}
@@ -240,14 +315,21 @@ const I18N = {
     navMap: 'Mapa', navAbout: 'Acerca',
     tabRoutes: 'Rutas', tabPlan: '¿Cómo llego?',
     searchPh: 'Buscar ruta o colonia…',
-    fAll: 'Todas', fLocal: 'Locales', fForanea: 'Foráneas',
+    fAll: 'Todas', fLocal: 'Locales', fForanea: 'Intermunicipales',
     count: (n, m) => n + ' de ' + m + ' rutas',
+    found: n => n + (n === 1 ? ' ruta encontrada' : ' rutas encontradas'),
+    mtList: 'Rutas', mtMap: 'Mapa', mtFav: 'Favoritas', mtCfg: 'Ajustes',
+    viewOnMap: 'Ver en el mapa', shareBtn: 'Compartir', linkCopied: 'Enlace copiado',
+    rowRoute: 'Recorrido', rowCols: 'Colonias por las que pasa', rowSched: 'Horario aproximado',
+    nCols: n => n + ' colonias',
+    cfgLang: 'Idioma', cfgTheme: 'Tema', cfgLight: 'Claro', cfgDark: 'Oscuro',
+    cfgAbout: 'Acerca del proyecto',
     fromPh: '¿Dónde estás? (dirección o lugar)', toPh: '¿A dónde vas?',
     pickTitle: 'Elegir en el mapa', go: 'Buscar combis', going: 'Buscando…',
     planNote: 'Sin sentido de circulación — muestra qué rutas pasan cerca, no un itinerario exacto. Siempre te lleva a la combi más cercana; los tramos a pie largos se marcan con “!”.',
     msearchPh: 'Busca tu ruta o colonia…', mreset: 'Reiniciar',
-    tagForanea: 'foránea',
-    detKind: k => k === 'foránea' ? 'foránea' : 'local',
+    tagForanea: 'intermunicipal',
+    detKind: k => k === 'foránea' ? 'intermunicipal' : 'local',
     detNoGeom: 'sin geometría — solo sabemos que existe (Moovit); falta mapearla',
     detSources: 'fuentes: ', detTowns: 'pueblos en el camino: ', detCols: 'colonias: ',
     detReview: 'variantes sin conciliar entre fuentes',
@@ -290,6 +372,13 @@ const I18N = {
     searchPh: 'Search route or neighborhood…',
     fAll: 'All', fLocal: 'Local', fForanea: 'Intercity',
     count: (n, m) => n + ' of ' + m + ' routes',
+    found: n => n + (n === 1 ? ' route found' : ' routes found'),
+    mtList: 'Routes', mtMap: 'Map', mtFav: 'Favorites', mtCfg: 'Settings',
+    viewOnMap: 'View on map', shareBtn: 'Share', linkCopied: 'Link copied',
+    rowRoute: 'Route', rowCols: 'Neighborhoods along the way', rowSched: 'Approximate schedule',
+    nCols: n => n + ' neighborhoods',
+    cfgLang: 'Language', cfgTheme: 'Theme', cfgLight: 'Light', cfgDark: 'Dark',
+    cfgAbout: 'About the project',
     fromPh: 'Where are you? (address or place)', toPh: 'Where are you going?',
     pickTitle: 'Pick on the map', go: 'Find combis', going: 'Searching…',
     planNote: 'No direction of travel — this shows which routes pass nearby, not an exact itinerary. It always takes you to the nearest combi; long walks are flagged with “!”.',
@@ -356,6 +445,15 @@ document.title = t('title');
   document.getElementById('msearch').placeholder = t('msearchPh');
   const mr = document.getElementById('mreset');
   mr.title = t('mreset'); mr.setAttribute('aria-label', t('mreset'));
+  document.getElementById('ml-search').placeholder = t('searchPh');
+  document.querySelector('#ml-pills [data-mk="all"]').textContent = t('fAll');
+  document.querySelector('#ml-pills [data-mk="local"]').textContent = t('fLocal');
+  document.querySelector('#ml-pills [data-mk="foránea"]').textContent = t('fForanea');
+  document.querySelector('#ml-pills [data-mk="fav"]').textContent = t('mtFav');
+  document.getElementById('mt-list').textContent = t('mtList');
+  document.getElementById('mt-map').textContent = t('mtMap');
+  document.getElementById('mt-fav').textContent = t('mtFav');
+  document.getElementById('mt-cfg').textContent = t('mtCfg');
   // show only the OTHER language as the toggle
   document.getElementById('lt-' + LANG).style.display = 'none';
   // theme switch: reload so the basemap style + layer colors rebuild consistently
@@ -1027,6 +1125,7 @@ map.on('load', () => {
       const already = M.chips.some(c => c.id === id && c.on);
       mAddRoute(id);
       if (already && SCHEDULES[id]) etaPopup(id, e.lngLat);  // second tap = when's the next one here
+      else openSheet(id);                                    // first tap = route panel (sheet)
     } else if (document.querySelector('#tabs button.on').dataset.pane === 'browse') {
       if (state.sel === id) etaPopup(id, e.lngLat);          // second click on selected route = ETA here
       else select(id, false);
@@ -1035,9 +1134,16 @@ map.on('load', () => {
 
   applyFilter();
 
-  // deep link: /combis/?ruta=<id> pre-selects a route (used by route pages + sharing)
+  // deep link: /combis/?ruta=<id> pre-selects a route (used by sharing + QR)
   const ruta = params.get('ruta');
-  if (ruta && feats.some(f => f.properties.id === ruta)) select(ruta, true);
+  if (ruta && feats.some(f => f.properties.id === ruta)) {
+    if (isMobile()) {
+      M.chips = [{id: ruta, on: true}];
+      mSetView('map');
+      mApply(true);
+      openSheet(ruta);
+    } else select(ruta, true);
+  }
 });
 
 /* ---------- mobile all-map bar: fuzzy search, chips, reset ---------- */
@@ -1062,11 +1168,6 @@ function mApply(fit) {
     : ['interpolate', ['linear'], ['zoom'], 11, 1.8, 15, 3.5]);
   setSponsorPins(on);
   mRenderChips();
-  // one active route with schedule data -> show it under the chips
-  const ms = document.getElementById('msched');
-  const sched = on.length === 1 && SCHEDULES[on[0]];
-  ms.hidden = !sched;
-  if (sched) ms.innerHTML = t('schedule')(sched);  // schedule() escapes notes
   if (fit && on.length) {
     const b = new maplibregl.LngLatBounds();
     on.forEach(id => feats.find(f => f.properties.id === id).geometry.coordinates.flat().forEach(c => b.extend(c)));
@@ -1177,6 +1278,164 @@ document.getElementById('mreset').onclick = () => {
   mApply(false);
   map.flyTo({center: CENTER, zoom: 12.4, duration: 500});
 };
+
+/* ---------- mobile app shell: LIST or MAP view (never both), favorites,
+   bottom tab bar, selected-route bottom sheet (available in either view) ---------- */
+const S_BUS = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v11"/><path d="M5 11h14"/><path d="M3 17h18"/><circle cx="8.5" cy="19.5" r="1.3"/><circle cx="15.5" cy="19.5" r="1.3"/></svg>';
+const S_STAR = '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path class="f" d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.2-6.2 3.2L7 14.2 2 9.3l6.9-1L12 2Z"/></svg>';
+const S_CHEV = '<svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>';
+const S_MAPI = '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3 3 5v16l6-2 6 2 6-2V3l-6 2-6-2Z"/><path d="M9 3v16m6-14v16"/></svg>';
+const S_SHARE = '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>';
+const S_ROUTE = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="19" r="2"/><circle cx="18" cy="5" r="2"/><path d="M8 19h6a4 4 0 0 0 0-8H10a4 4 0 0 1 0-8h6"/></svg>';
+const S_PIN2 = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>';
+const S_CLOCK = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
+const S_X = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>';
+
+const MV = {kind: 'all', q: '', fav: new Set()};
+try { MV.fav = new Set(JSON.parse(localStorage.mtFav || '[]')); } catch (e) {}
+const favSave = () => { try { localStorage.mtFav = JSON.stringify([...MV.fav]); } catch (e) {} };
+
+function mSetView(v) {  // list | map | fav | cfg
+  if (v === 'cfg') { openSettings(); return; }
+  if (v === 'fav') { MV.kind = 'fav'; v = 'list'; }
+  else if (v === 'list' && MV.kind === 'fav') MV.kind = 'all';
+  document.body.dataset.mview = v;
+  const activeTab = v === 'list' ? (MV.kind === 'fav' ? 'fav' : 'list') : v;
+  document.querySelectorAll('#mtabs button').forEach(b => b.classList.toggle('on', b.dataset.v === activeTab));
+  document.querySelectorAll('#ml-pills button').forEach(x => x.classList.toggle('on', x.dataset.mk === MV.kind));
+  if (v === 'list') renderCards();
+  if (v === 'map') setTimeout(() => map.resize(), 80);
+}
+
+function mlVisible(f) {
+  const p = f.properties;
+  if (MV.kind === 'fav') { if (!MV.fav.has(p.id)) return false; }
+  else if (MV.kind !== 'all' && p.kind !== MV.kind) return false;
+  if (MV.q) {
+    const hay = norm('ruta ' + p.name + ' ' + (p.alias || '') + ' ' + (p.colonias || '') + ' ' + (p.places || ''));
+    if (!hay.includes(norm(MV.q))) return false;
+  }
+  return true;
+}
+
+function renderCards() {
+  const el = document.getElementById('ml-cards');
+  const vis = feats.filter(mlVisible);
+  document.getElementById('ml-count').textContent = t('found')(vis.length);
+  el.innerHTML = '';
+  vis.forEach(f => {
+    const p = f.properties;
+    const d = document.createElement('div');
+    d.className = 'mcard';
+    d.innerHTML = '<span class="bar" style="background:' + p.color + '"></span>' +
+      '<span class="tile" style="background:' + p.color + '">' + S_BUS + '</span>' +
+      '<span class="nm"><b>' + p.name + '</b>' +
+      (p.kind === 'foránea' ? '<span class="tag">' + t('tagForanea') + '</span>' : '') + '</span>' +
+      '<button class="star' + (MV.fav.has(p.id) ? ' on' : '') + '" aria-label="favorita">' + S_STAR + '</button>' +
+      S_CHEV;
+    d.querySelector('.star').onclick = e => { e.stopPropagation(); favToggle(p.id); };
+    d.onclick = () => openSheet(p.id);
+    el.appendChild(d);
+  });
+}
+
+function favToggle(id) {
+  if (MV.fav.has(id)) MV.fav.delete(id); else MV.fav.add(id);
+  favSave();
+  renderCards();
+  if (SHEET === id) openSheet(id);
+  track('fav_toggle', id);
+}
+
+let SHEET = null;
+function closeSheet() { SHEET = null; document.getElementById('sheet').classList.remove('show'); }
+
+function shRow(icon, label, value) {
+  return '<div class="sh-row">' + icon + '<div><b>' + label + '</b><span class="v">' + value + '</span></div></div>';
+}
+
+function openSheet(id) {
+  SHEET = id;
+  const p = routeById(id);
+  const s = SCHEDULES[id];
+  const el = document.getElementById('sheet');
+  const towns = (p.places || '').split(',').map(x => x.trim()).filter(Boolean);
+  const rec = towns.length > 1 ? towns[0] + ' → ' + towns[towns.length - 1] : (towns[0] || p.name);
+  const cols = (p.colonias || '').split(',').map(x => x.trim().replace('Colonia ', '')).filter(Boolean);
+  el.innerHTML = '<div class="grab"></div>' +
+    '<div class="sh-head"><span class="tile" style="background:' + p.color + '">' + S_BUS + '</span>' +
+    '<span class="sh-name"><b>' + p.name + '</b><span class="tag">' + t('detKind')(p.kind) + '</span></span>' +
+    '<button class="iconbtn star' + (MV.fav.has(id) ? ' on' : '') + '" id="sh-fav">' + S_STAR + '</button>' +
+    '<button class="iconbtn" id="sh-close">' + S_X + '</button></div>' +
+    '<div class="sh-actions">' +
+    '<button id="sh-map">' + S_MAPI + t('viewOnMap') + '</button>' +
+    '<button id="sh-share">' + S_SHARE + t('shareBtn') + '</button></div>' +
+    shRow(S_ROUTE, t('rowRoute'), rec) +
+    (cols.length ? shRow(S_PIN2, t('rowCols'), t('nCols')(cols.length) + ' · ' + cols.slice(0, 5).join(', ') + (cols.length > 5 ? '…' : '')) : '') +
+    shRow(S_CLOCK, t('rowSched'), s ? t('schedule')(s) : t('schedNone'));
+  el.classList.add('show');
+  document.getElementById('sh-close').onclick = closeSheet;
+  document.getElementById('sh-fav').onclick = () => favToggle(id);
+  document.getElementById('sh-map').onclick = () => {
+    M.chips = [{id, on: true}];
+    mSetView('map');
+    mApply(true);
+  };
+  document.getElementById('sh-share').onclick = () => shareRoute(id);
+  track('route_select', id);
+}
+
+async function shareRoute(id) {
+  const url = location.origin + '/combis/?ruta=' + encodeURIComponent(id);
+  const p = routeById(id);
+  try {
+    if (navigator.share) {
+      await navigator.share({title: 'Combi ' + p.name + ' — MiTehuacán', url});
+    } else {
+      await navigator.clipboard.writeText(url);
+      const b = document.getElementById('sh-share');
+      if (b) { b.lastChild.textContent = t('linkCopied'); setTimeout(() => { if (SHEET === id) openSheet(id); }, 1600); }
+    }
+    track('share', id);
+  } catch (e) { /* user cancelled the share sheet */ }
+}
+
+function openSettings() {
+  SHEET = null;
+  const el = document.getElementById('sheet');
+  const TH = document.documentElement.dataset.theme;
+  const on = ' style="border-color:var(--accent);color:var(--accent)"';
+  el.innerHTML = '<div class="grab"></div>' +
+    '<div class="sh-head"><span class="sh-name"><b>' + t('mtCfg') + '</b></span>' +
+    '<button class="iconbtn" id="sh-close">' + S_X + '</button></div>' +
+    '<div class="sh-row"><div style="flex:1;padding-top:9px"><b>' + t('cfgLang') + '</b></div>' +
+    '<div class="sh-actions" style="margin:0;flex:1.4">' +
+    '<button id="cfg-es"' + (LANG === 'es' ? on : '') + '>ES</button>' +
+    '<button id="cfg-en"' + (LANG === 'en' ? on : '') + '>EN</button></div></div>' +
+    '<div class="sh-row"><div style="flex:1;padding-top:9px"><b>' + t('cfgTheme') + '</b></div>' +
+    '<div class="sh-actions" style="margin:0;flex:1.4">' +
+    '<button id="cfg-light"' + (TH === 'light' ? on : '') + '>' + t('cfgLight') + '</button>' +
+    '<button id="cfg-dark"' + (TH === 'dark' ? on : '') + '>' + t('cfgDark') + '</button></div></div>' +
+    '<div class="sh-row"><a href="/combis/acerca/" style="color:var(--accent);font-weight:600">' + t('cfgAbout') + '</a></div>';
+  el.classList.add('show');
+  document.getElementById('sh-close').onclick = closeSheet;
+  const save = (k, v) => { try { localStorage[k] = v; } catch (e) {} location.reload(); };
+  document.getElementById('cfg-es').onclick = () => save('mtLang', 'es');
+  document.getElementById('cfg-en').onclick = () => save('mtLang', 'en');
+  document.getElementById('cfg-light').onclick = () => save('mtTheme', 'light');
+  document.getElementById('cfg-dark').onclick = () => save('mtTheme', 'dark');
+}
+
+document.querySelectorAll('#mtabs button').forEach(b => b.onclick = () => mSetView(b.dataset.v));
+document.getElementById('ml-search').addEventListener('input', e => { MV.q = e.target.value.trim(); renderCards(); });
+document.querySelectorAll('#ml-pills button').forEach(b => b.onclick = () => {
+  MV.kind = b.dataset.mk;
+  document.querySelectorAll('#ml-pills button').forEach(x => x.classList.toggle('on', x.dataset.mk === MV.kind));
+  document.querySelectorAll('#mtabs button').forEach(x => x.classList.toggle('on',
+    x.dataset.v === (MV.kind === 'fav' ? 'fav' : 'list')));
+  renderCards();
+});
+if (isMobile()) mSetView('list');
 
 document.getElementById('search').addEventListener('input', e => {
   state.q = e.target.value.trim().toLowerCase();
