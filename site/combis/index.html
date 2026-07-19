@@ -1323,12 +1323,6 @@ map.on('load', () => {
             'circle-color': ['get', 'color'],
             'circle-stroke-width': 1.5, 'circle-stroke-color': dark ? '#0a0b12' : '#ffffff'}
   });
-  map.on('click', 'poi-pins', e => {
-    const f = e.features[0];
-    new maplibregl.Popup({closeButton: false, offset: 10})
-      .setLngLat(f.geometry.coordinates).setHTML('<b>' + f.properties.name + '</b>').addTo(map);
-    e.preventDefault();
-  });
   // sponsor pins go LAST so they render on top of the route lines; the source
   // stays empty until a route is selected (setSponsorPins is selection-driven)
   map.addLayer({
@@ -1376,10 +1370,26 @@ map.on('load', () => {
                e.lngLat.lat.toFixed(4) + ', ' + e.lngLat.lng.toFixed(4) + t('mapPoint'));
       return;
     }
-    // tapping a POI shows its popup only — the route selection is locked
-    if (map.getLayer('poi-pins') &&
-        map.queryRenderedFeatures([[e.point.x - 8, e.point.y - 8], [e.point.x + 8, e.point.y + 8]],
-                                  {layers: ['poi-pins']}).length) return;
+    // POI tap wins when the tap lands near a dot (finger-sized radius): show its
+    // popup only — the route selection is locked, never switched by a POI tap
+    if (map.getLayer('poi-pins')) {
+      const PR = matchMedia('(hover: hover)').matches ? 10 : 16;
+      const ph = map.queryRenderedFeatures(
+        [[e.point.x - PR, e.point.y - PR], [e.point.x + PR, e.point.y + PR]], {layers: ['poi-pins']});
+      let best = null, bd = Infinity;
+      ph.forEach(f => {
+        const pp = map.project(f.geometry.coordinates);
+        const d = Math.hypot(pp.x - e.point.x, pp.y - e.point.y);
+        if (d < bd) { bd = d; best = f; }
+      });
+      if (best && bd <= PR) {
+        new maplibregl.Popup({closeButton: false, offset: 10})
+          .setLngLat(best.geometry.coordinates)
+          .setHTML('<b>' + best.properties.name + '</b>').addTo(map);
+        track('poi_tap', best.properties.cat);
+        return;
+      }
+    }
     const ids = routesAt(e.point);
     if (!ids.length) return;
     const id = nearestRouteId(ids, e.lngLat);
