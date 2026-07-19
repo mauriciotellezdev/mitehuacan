@@ -76,7 +76,8 @@ button:disabled{opacity:.5;cursor:default}
         <div class="field"><label>Primera salida</label><input id="f-first" type="time"></div>
         <div class="field"><label>Última salida</label><input id="f-last" type="time"></div>
         <div class="field"><label>Cada (min)</label><input id="f-headway" type="number" min="1" max="240" placeholder="min"></div>
-        <div class="field"><label>Tarifa (MXN)</label><input id="f-fare" type="number" min="0" max="1000" step="0.5" placeholder="$"></div>
+        <div class="field"><label>Tarifa (MXN)</label><input id="f-fare" type="number" min="0" max="1000" step="0.5" placeholder="$ 8"></div>
+        <div class="field"><label>Tarifa máx (según destino)</label><input id="f-faremax" type="number" min="0" max="1000" step="0.5" placeholder="$ (foráneas)"></div>
         <div class="field" style="grid-column:1/-1"><label>Notas</label>
           <input id="f-notes" maxlength="160" placeholder="p. ej. domingos cada 20 min"></div>
       </div>
@@ -151,7 +152,7 @@ function pick(sel) {
     byId('p-title').textContent = 'Nueva línea';
     byId('f-name').value = pub ? pub.name : '';
     byId('f-first').value = ''; byId('f-last').value = '';
-    byId('f-headway').value = ''; byId('f-fare').value = ''; byId('f-notes').value = '';
+    byId('f-headway').value = ''; byId('f-fare').value = ''; byId('f-faremax').value = ''; byId('f-notes').value = '';
     byId('p-slug').textContent = pub ? 'slug: ' + pub.id : '';
     byId('del').hidden = true;
   } else {
@@ -162,6 +163,7 @@ function pick(sel) {
     byId('f-last').value = l.last_run || '';
     byId('f-headway').value = l.headway_min ?? '';
     byId('f-fare').value = l.fare_mxn ?? '';
+    byId('f-faremax').value = l.fare_max_mxn ?? '';
     byId('f-notes').value = l.notes || '';
     byId('p-slug').textContent = 'slug: ' + l.slug;
     byId('del').hidden = false;
@@ -217,6 +219,7 @@ async function saveLine() {
     first_run: byId('f-first').value, last_run: byId('f-last').value,
     headway_min: byId('f-headway').value === '' ? null : +byId('f-headway').value,
     fare_mxn: byId('f-fare').value === '' ? null : +byId('f-fare').value,
+    fare_max_mxn: byId('f-faremax').value === '' ? null : +byId('f-faremax').value,
     notes: byId('f-notes').value.trim(),
   };
   try {

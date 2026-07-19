@@ -407,6 +407,9 @@ const I18N = {
     viewOnMap: 'Ver en el mapa', shareBtn: 'Compartir', linkCopied: 'Enlace copiado',
     rowRoute: 'Recorrido', rowCols: 'Colonias por las que pasa', rowSched: 'Horario aproximado',
     rowFare: 'Tarifa aproximada',
+    fareLine: (b, m, a) => 'Adulto: $' + b.toFixed(2) + (m ? ' – $' + m.toFixed(2) + ' según destino' : '') + (a ? ' (aprox.)' : ''),
+    fareCats: 'Estudiantes con credencial (L–V escolar): tarifa preferencial · Adultos mayores (INAPAM): ~$4 · Personas con discapacidad: gratis con credencial · Niños de 5 a 12: ~medio pasaje',
+    fareSrc: 'tarifas preferenciales según la SMT de Puebla — pueden variar por ruta',
     nCols: n => n + ' colonias',
     statSched: 'Horarios', statFare: 'Tarifa', statCols: 'Colonias', statLen: 'Longitud',
     verDetalles: 'Ver detalles de la ruta',
@@ -475,6 +478,9 @@ const I18N = {
     viewOnMap: 'View on map', shareBtn: 'Share', linkCopied: 'Link copied',
     rowRoute: 'Route', rowCols: 'Neighborhoods along the way', rowSched: 'Approximate schedule',
     rowFare: 'Approximate fare',
+    fareLine: (b, m, a) => 'Adult: $' + b.toFixed(2) + (m ? ' – $' + m.toFixed(2) + ' by destination' : '') + (a ? ' (approx.)' : ''),
+    fareCats: 'Students with ID (school days): reduced fare · Seniors (INAPAM): ~$4 · Riders with disabilities: free with ID · Kids 5–12: ~half fare',
+    fareSrc: "preferential fares per Puebla's SMT — may vary by route",
     nCols: n => n + ' neighborhoods',
     statSched: 'Hours', statFare: 'Fare', statCols: 'Areas', statLen: 'Length',
     verDetalles: 'View route details',
@@ -929,7 +935,7 @@ function renderDetail() {
         (s.first_run ? chip(t('schedFirst'), fmt12(s.first_run)) : '') +
         (s.last_run ? chip(t('schedLast'), fmt12(s.last_run)) : '') +
         (s.headway_min ? chip(t('schedEvery'), '~' + s.headway_min + ' min') : '') +
-        (s.fare_mxn ? chip(t('statFare'), '$' + Number(s.fare_mxn).toFixed(2)) : '') +
+        (s.fare_mxn ? chip(t('statFare'), '$' + Number(s.fare_mxn) + (s.fare_max_mxn ? '–$' + Number(s.fare_max_mxn) : '')) : '') +
       '</div>' +
       (s.notes ? '<div class="dt-note">' + String(s.notes).replace(/</g, '&lt;') + '</div>' : '') +
       (p.has_geom ? '<div class="dt-note">' + t('etaHint') + '</div>' : '')
@@ -1673,6 +1679,15 @@ function sheetHead(id, p) {
     '<button class="iconbtn" id="sh-close">' + S_X + '</button></div>';
 }
 
+const DEFAULT_FARE = 8;  // "most combis are 8 pesos per way" — shown as approx when a line has no fare set
+
+function fareParts(s) {
+  const approx = !(s && s.fare_mxn);
+  const base = approx ? DEFAULT_FARE : Number(s.fare_mxn);
+  const max = s && s.fare_max_mxn ? Number(s.fare_max_mxn) : null;
+  return {base, max, approx};
+}
+
 function openSheet(id, mode) {
   SHEET = id;
   // compact on the map (stats strip + CTA), full on the list — per the design
@@ -1682,6 +1697,7 @@ function openSheet(id, mode) {
   const s = SCHEDULES[id];
   const el = document.getElementById('sheet');
   const cols = (p.colonias || '').split(',').map(x => x.trim().replace('Colonia ', '')).filter(Boolean);
+  const fr = fareParts(s);
   if (mode === 'compact') {
     const stat = (icon, color, bg, label, val) =>
       '<div class="sh-stat"><span class="ic"><span class="cir" style="background:' + bg + ';color:' + color + '">' +
@@ -1690,7 +1706,8 @@ function openSheet(id, mode) {
       '<div class="sh-stats">' +
       stat(S_CLOCK, '#2ecc71', 'rgba(46,204,113,.16)', t('statSched'),
            s && (s.first_run || s.last_run) ? (fmt12(s.first_run) || '—') + ' – ' + (fmt12(s.last_run) || '—') : '—') +
-      stat(S_FARE, '#e05252', 'rgba(220,60,60,.14)', t('statFare'), s && s.fare_mxn ? '$' + Number(s.fare_mxn).toFixed(2) + ' MXN' : '—') +
+      stat(S_FARE, '#e05252', 'rgba(220,60,60,.14)', t('statFare'),
+           (fr.approx ? '~' : '') + '$' + fr.base + (fr.max ? '–$' + fr.max : '') + ' MXN') +
       stat(S_PIN2, '#9b79d4', 'rgba(155,121,212,.14)', t('statCols'), cols.length ? t('nCols')(cols.length) : '—') +
       stat(S_ROUTE, 'var(--accent)', 'rgba(68,118,255,.14)', t('statLen'), routeKm(id)) +
       '</div>' +
@@ -1706,7 +1723,9 @@ function openSheet(id, mode) {
       shRow(S_ROUTE, t('rowRoute'), rec + ' · ' + routeKm(id)) +
       (cols.length ? shRow(S_PIN2, t('rowCols'), t('nCols')(cols.length) + ' · ' + cols.slice(0, 5).join(', ') + (cols.length > 5 ? '…' : '')) : '') +
       shRow(S_CLOCK, t('rowSched'), s ? t('schedRange')(s) : t('schedNone')) +
-      (s && s.fare_mxn ? shRow(S_FARE, t('rowFare'), fmtFare(s.fare_mxn)) : '');
+      shRow(S_FARE, t('rowFare'),
+        t('fareLine')(fr.base, fr.max, fr.approx) + '<br>' + t('fareCats') +
+        '<br><span style="opacity:.7">' + t('fareSrc') + '</span>');
     document.getElementById('sh-map').onclick = () => {
       M.chips = [{id, on: true}];
       mSetView('map');

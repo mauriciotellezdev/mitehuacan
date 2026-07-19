@@ -9,12 +9,12 @@ const json = (obj, status = 200, cache = "public, max-age=300") =>
 
 export async function onRequestGet({ env }) {
   const { results } = await env.DB.prepare(
-    "SELECT slug, first_run, last_run, headway_min, fare_mxn, notes FROM combi_lines " +
+    "SELECT slug, first_run, last_run, headway_min, fare_mxn, fare_max_mxn, notes FROM combi_lines " +
     "WHERE first_run IS NOT NULL OR last_run IS NOT NULL OR headway_min IS NOT NULL OR fare_mxn IS NOT NULL").all();
   const schedules = {};
   for (const r of results) {
-    schedules[r.slug] = { first_run: r.first_run, last_run: r.last_run,
-                          headway_min: r.headway_min, fare_mxn: r.fare_mxn, notes: r.notes };
+    schedules[r.slug] = { first_run: r.first_run, last_run: r.last_run, headway_min: r.headway_min,
+                          fare_mxn: r.fare_mxn, fare_max_mxn: r.fare_max_mxn, notes: r.notes };
   }
   return json({ schedules });
 }

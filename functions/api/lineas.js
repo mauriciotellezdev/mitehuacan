@@ -24,7 +24,7 @@ const slugify = (s) => s.toString().trim().toLowerCase()
 export async function onRequestGet({ request, env }) {
   if (!auth(request, env)) return json({ error: "unauthorized" }, 401);
   const lines = (await env.DB.prepare(
-    "SELECT slug, name, first_run, last_run, headway_min, fare_mxn, notes, updated_at FROM combi_lines ORDER BY name").all()).results;
+    "SELECT slug, name, first_run, last_run, headway_min, fare_mxn, fare_max_mxn, notes, updated_at FROM combi_lines ORDER BY name").all()).results;
   const drafts = (await env.DB.prepare(
     "SELECT slug, name, device, t0, t1, n_source, status, line_slug, created_at FROM route_drafts ORDER BY id DESC").all()).results;
   return json({ lines, drafts });
@@ -51,11 +51,17 @@ export async function onRequestPost({ request, env }) {
     ? null : Number(b.fare_mxn);
   if (fare !== null && (!isFinite(fare) || fare <= 0 || fare > 1000))
     return json({ error: "tarifa debe ser un monto entre 0 y 1000 MXN" }, 422);
+  const fareMax = b.fare_max_mxn === null || b.fare_max_mxn === undefined || b.fare_max_mxn === ""
+    ? null : Number(b.fare_max_mxn);
+  if (fareMax !== null && (!isFinite(fareMax) || fareMax <= 0 || fareMax > 1000))
+    return json({ error: "tarifa máxima debe ser un monto entre 0 y 1000 MXN" }, 422);
+  if (fare !== null && fareMax !== null && fareMax < fare)
+    return json({ error: "tarifa máxima debe ser mayor o igual a la tarifa base" }, 422);
   await env.DB.prepare(
-    `INSERT INTO combi_lines (slug, name, first_run, last_run, headway_min, fare_mxn, notes, updated_at)
-     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, datetime('now'))
-     ON CONFLICT(slug) DO UPDATE SET name=?2, first_run=?3, last_run=?4, headway_min=?5, fare_mxn=?6, notes=?7, updated_at=datetime('now')`
-  ).bind(slug, name, first || null, last || null, headway, fare, notes || null).run();
+    `INSERT INTO combi_lines (slug, name, first_run, last_run, headway_min, fare_mxn, fare_max_mxn, notes, updated_at)
+     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, datetime('now'))
+     ON CONFLICT(slug) DO UPDATE SET name=?2, first_run=?3, last_run=?4, headway_min=?5, fare_mxn=?6, fare_max_mxn=?7, notes=?8, updated_at=datetime('now')`
+  ).bind(slug, name, first || null, last || null, headway, fare, fareMax, notes || null).run();
   return json({ ok: true, slug });
 }
 
