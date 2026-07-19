@@ -1323,7 +1323,8 @@ function mSelectTripOption(i) {
     map.getSource('plan-pts').setData({type: 'FeatureCollection', features: ptFeats});
   }
   ensureTripMarkers();
-  fitToSelection([], [TRIP.from, TRIP.dest, o.board, o.alight, ...legCoords]);
+  // the view is bounded by the two pins — origin and destination frame the trip
+  fitToSelection([], [TRIP.from, TRIP.dest]);
   track('trip_option', o.type);
 }
 
