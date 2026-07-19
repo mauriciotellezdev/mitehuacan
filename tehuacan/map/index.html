@@ -180,7 +180,11 @@
     #ml-search { width: 100%; padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px;
                  background: var(--panel); color: var(--ink); font-size: 15px; }
     #ml-search:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
-    #ml-sugg { position: absolute; top: 100%; left: 0; right: 0; z-index: 40; margin-top: 6px;
+    /* suggestions must float above the map, sheet, and controls — and escape
+       the roll-up wrapper's overflow clip while open */
+    #mcollapse:has(#ml-sugg:not([hidden])) { overflow: visible; }
+    #mhead { position: relative; z-index: 45; }
+    #ml-sugg { position: absolute; top: 100%; left: 0; right: 0; z-index: 60; margin-top: 6px;
                background: var(--glass); border: 1px solid var(--line); border-radius: 14px;
                overflow: hidden; box-shadow: 0 12px 32px rgba(0,0,0,.25); max-height: 45vh; overflow-y: auto;
                -webkit-backdrop-filter: blur(22px) saturate(160%); backdrop-filter: blur(22px) saturate(160%); }
@@ -212,7 +216,12 @@
              border-radius: 20px 20px 0 0; box-shadow: 0 -12px 40px rgba(0,0,0,.35);
              -webkit-backdrop-filter: blur(24px) saturate(180%); backdrop-filter: blur(24px) saturate(180%);
              padding: 8px 16px calc(14px + env(safe-area-inset-bottom)); max-height: 62vh; overflow-y: auto; }
-    #sheet.show { display: block; animation: panelIn .26s cubic-bezier(.32,.72,0,1) both; }
+    #sheet.show { display: block; animation: panelIn .26s cubic-bezier(.32,.72,0,1) both;
+                  transition: max-height .28s cubic-bezier(.32,.72,0,1); }
+    #sheet.min { max-height: 64px; overflow: hidden; }
+    .grabwrap { padding: 2px 0 8px; margin: -8px -16px 0; cursor: pointer; touch-action: manipulation;
+                display: flex; justify-content: center; }
+    .grabwrap:active .grab { background: var(--ink-2); }
     #mtop-btns { display: flex; }
     #mhint[hidden] { display: none; }
     .sh-stat .cir svg { width: 13px; height: 13px; }
@@ -223,7 +232,7 @@
              padding: 13px 16px; -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); }
     #mhint b { display: block; font-size: 13px; font-weight: 500; color: var(--ink); }
     #mhint span { display: block; font-size: 11px; color: var(--faint); margin-top: 3px; }
-    #sheet .grab { width: 36px; height: 4px; border-radius: 2px; background: var(--line); margin: 2px auto 12px; }
+    #sheet .grab { width: 36px; height: 4px; border-radius: 2px; background: var(--line); }
     .sh-head { display: flex; align-items: center; gap: 11px; margin-bottom: 12px; }
     .sh-head .tile { width: 44px; height: 44px; border-radius: 12px; flex: none;
                      display: flex; align-items: center; justify-content: center; color: #fff; }
@@ -1611,9 +1620,10 @@ function openAlertsSheet() {
           '<div>' + String(a.message).replace(/</g, '&lt;') + '</div>' +
           '<small>' + (a.created_at || '').slice(0, 16).replace('T', ' ') + '</small></div>';
       }).join('');
-  el.innerHTML = '<div class="grab"></div>' +
+  el.innerHTML = '<div class="grabwrap"><div class="grab"></div></div>' +
     '<div class="sh-head"><span class="sh-name"><b>' + t('mtAlerts') + '</b></span>' +
     '<button class="iconbtn" id="sh-close">' + S_X + '</button></div>' + items;
+  el.classList.remove('min');
   el.classList.add('show');
   document.getElementById('sh-close').onclick = closeSheet;
   track('alerts_open');
@@ -1679,7 +1689,7 @@ const S_FARE = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stro
 
 function sheetHead(id, p, mode) {
   // the name itself is the details toggle (no CTA button — saves a whole row)
-  return '<div class="grab"></div>' +
+  return '<div class="grabwrap"><div class="grab"></div></div>' +
     '<div class="sh-head"><span class="tile" style="' + tileStyle(p.color) + '">' + S_BUSW + '</span>' +
     '<span class="sh-name" id="sh-name" style="cursor:pointer"><b>' + p.name +
     ' <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;opacity:.5">' +
@@ -1742,6 +1752,7 @@ function openSheet(id, mode) {
     };
     document.getElementById('sh-share').onclick = () => shareRoute(id);
   }
+  el.classList.remove('min');
   el.classList.add('show');
   document.getElementById('sh-close').onclick = closeSheet;
   document.getElementById('sh-fav').onclick = () => favToggle(id);
@@ -1770,7 +1781,7 @@ function openSettings() {
   const el = document.getElementById('sheet');
   const TH = document.documentElement.dataset.theme;
   const on = ' style="border-color:var(--accent);color:var(--accent)"';
-  el.innerHTML = '<div class="grab"></div>' +
+  el.innerHTML = '<div class="grabwrap"><div class="grab"></div></div>' +
     '<div class="sh-head"><span class="sh-name"><b>' + t('mtCfg') + '</b></span>' +
     '<button class="iconbtn" id="sh-close">' + S_X + '</button></div>' +
     '<div class="sh-row"><div style="flex:1;padding-top:9px"><b>' + t('cfgLang') + '</b></div>' +
@@ -1782,6 +1793,7 @@ function openSettings() {
     '<button id="cfg-light"' + (TH === 'light' ? on : '') + '>' + t('cfgLight') + '</button>' +
     '<button id="cfg-dark"' + (TH === 'dark' ? on : '') + '>' + t('cfgDark') + '</button></div></div>' +
     '<div class="sh-row"><a href="/combis/acerca/" style="color:var(--accent);font-weight:600">' + t('cfgAbout') + '</a></div>';
+  el.classList.remove('min');
   el.classList.add('show');
   document.getElementById('sh-close').onclick = closeSheet;
   const save = (k, v) => { try { localStorage[k] = v; } catch (e) {} location.reload(); };
@@ -1807,6 +1819,17 @@ document.getElementById('msrch-btn').onclick = () => {
   syncCollapse();
   document.getElementById('ml-search').focus();
 };
+// drawer handle: tap the grab bar to slide the panel closed/open; re-fit the map to the freed space
+document.getElementById('sheet').addEventListener('click', e => {
+  if (!e.target.closest('.grabwrap')) return;
+  const elS = document.getElementById('sheet');
+  elS.classList.toggle('min');
+  track('sheet_' + (elS.classList.contains('min') ? 'min' : 'open'));
+  if (isMobile()) {
+    const on = M.chips.filter(c => c.on).map(c => c.id);
+    if (on.length) setTimeout(() => fitToSelection(on), 300);  // after the slide transition
+  }
+});
 
 /* unified search: routes -> known places (colonias/towns) -> geocoder fallback
    (streets, parks, landmarks). Picking a place highlights the routes serving it. */
