@@ -1257,9 +1257,13 @@ map.on('load', () => {
     const id = hit[0].properties.id;
     if (isMobile()) {
       const already = M.chips.some(c => c.id === id && c.on);
-      mAddRoute(id);
-      if (already && SCHEDULES[id]) etaPopup(id, e.lngLat);  // second tap = when's the next one here
-      else openSheet(id);                                    // first tap = route panel (sheet)
+      if (already && SCHEDULES[id]) {
+        mAddRoute(id);
+        etaPopup(id, e.lngLat);   // second tap = when's the next one here
+      } else {
+        openSheet(id);            // sheet first, so the fit accounts for its height
+        mAddRoute(id);
+      }
     } else if (document.querySelector('#tabs button.on').dataset.pane === 'browse') {
       if (state.sel === id) etaPopup(id, e.lngLat);          // second click on selected route = ETA here
       else select(id, false);
@@ -1275,8 +1279,8 @@ map.on('load', () => {
     if (isMobile()) {
       M.chips = [{id: ruta, on: true}];
       mSetView('map');
+      openSheet(ruta, 'compact');  // sheet first, so the fit accounts for its height
       mApply(true);
-      openSheet(ruta);
     } else select(ruta, true);
   } else if (BOOT) {
     if (isMobile() && Array.isArray(BOOT.chips) && BOOT.chips.length) {
@@ -1326,8 +1330,24 @@ function mApply(fit) {
   if (typeof saveStatus === 'function') saveStatus();
   if (fit && on.length) {
     const b = new maplibregl.LngLatBounds();
-    on.forEach(id => feats.find(f => f.properties.id === id).geometry.coordinates.flat().forEach(c => b.extend(c)));
-    map.fitBounds(b, {padding: {top: 130, left: 30, right: 30, bottom: 40}, duration: 500});
+    let any = false;
+    on.forEach(id => {
+      const f = feats.find(f => f.properties.id === id);
+      if (f && f.geometry.coordinates.length) { f.geometry.coordinates.flat().forEach(c => b.extend(c)); any = true; }
+    });
+    if (any) {
+      // fill the visible map area: pad for the chips row on top and the open
+      // sheet on the bottom; maxZoom keeps short routes sane and maxBounds
+      // (set at map init) keeps the fit inside the service area
+      const sheetEl = document.getElementById('sheet');
+      const sheetH = sheetEl && sheetEl.classList.contains('show')
+        ? Math.min(sheetEl.offsetHeight, Math.round(innerHeight * 0.55)) : 0;
+      const mapH = map.getContainer().clientHeight;
+      const pad = {top: 66, left: 28, right: 28, bottom: 28 + sheetH};
+      // never let padding eat the whole viewport on short screens
+      if (pad.top + pad.bottom > mapH - 80) pad.bottom = Math.max(28, mapH - 80 - pad.top);
+      map.fitBounds(b, {padding: pad, maxZoom: 15.5, duration: 500});
+    }
   }
 }
 
@@ -1484,7 +1504,7 @@ function mSyncUI() {
 
 function mSetView(v) {  // rutas | list | map | alerts | fav | cfg
   if (v === 'cfg') { openSettings(); return; }
-  if (v === 'rutas') { if (MV.kind === 'fav') MV.kind = 'all'; v = MV.lastRV || 'list'; }
+  if (v === 'rutas') { if (MV.kind === 'fav') MV.kind = 'all'; v = MV.lastRV || 'map'; }
   else if (v === 'fav') { MV.kind = 'fav'; v = 'list'; }
   if (v === 'list' || v === 'map') MV.lastRV = v;
   document.body.dataset.mview = v;
@@ -1615,8 +1635,8 @@ function openSheet(id, mode) {
     document.getElementById('sh-map').onclick = () => {
       M.chips = [{id, on: true}];
       mSetView('map');
+      openSheet(id, 'compact');   // sheet first, so the fit accounts for its height
       mApply(true);
-      openSheet(id, 'compact');
     };
     document.getElementById('sh-share').onclick = () => shareRoute(id);
   }
@@ -1768,7 +1788,8 @@ document.querySelectorAll('#ml-pills button').forEach(b => b.onclick = () => {
 });
 if (isMobile()) {
   if (BOOT && ['all', 'local', 'foránea', 'fav'].includes(BOOT.kind)) MV.kind = BOOT.kind;
-  const v = BOOT && ['list', 'map', 'alerts'].includes(BOOT.view) ? BOOT.view : 'list';
+  // map is the home view; a saved session still restores wherever you left off
+  const v = BOOT && ['list', 'map', 'alerts'].includes(BOOT.view) ? BOOT.view : 'map';
   if (v === 'list' || v === 'map') MV.lastRV = v;
   document.body.dataset.mview = v;
   mSyncUI();
