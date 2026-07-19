@@ -1328,27 +1328,45 @@ function mApply(fit) {
   setSponsorPins(on);
   mRenderChips();
   if (typeof saveStatus === 'function') saveStatus();
-  if (fit && on.length) {
+  if (fit && on.length) fitToSelection(on);
+}
+
+// fit the selection into the map area that is ACTUALLY visible on this device.
+// Deferred a frame so it measures the real geometry AFTER the sheet/chips render,
+// whatever order the caller used (map tap, search pick, deep link, ver-en-el-mapa).
+let FIT_T = null;
+function fitToSelection(ids) {
+  clearTimeout(FIT_T);
+  FIT_T = setTimeout(() => {
     const b = new maplibregl.LngLatBounds();
     let any = false;
-    on.forEach(id => {
+    ids.forEach(id => {
       const f = feats.find(f => f.properties.id === id);
       if (f && f.geometry.coordinates.length) { f.geometry.coordinates.flat().forEach(c => b.extend(c)); any = true; }
     });
-    if (any) {
-      // fill the visible map area: pad for the chips row on top and the open
-      // sheet on the bottom; maxZoom keeps short routes sane and maxBounds
-      // (set at map init) keeps the fit inside the service area
-      const sheetEl = document.getElementById('sheet');
-      const sheetH = sheetEl && sheetEl.classList.contains('show')
-        ? Math.min(sheetEl.offsetHeight, Math.round(innerHeight * 0.55)) : 0;
-      const mapH = map.getContainer().clientHeight;
-      const pad = {top: 66, left: 28, right: 28, bottom: 28 + sheetH};
-      // never let padding eat the whole viewport on short screens
-      if (pad.top + pad.bottom > mapH - 80) pad.bottom = Math.max(28, mapH - 80 - pad.top);
-      map.fitBounds(b, {padding: pad, maxZoom: 15.5, duration: 500});
+    if (!any) return;
+    const mapEl = map.getContainer();
+    const mapRect = mapEl.getBoundingClientRect();
+    // measured overlap of the open sheet with the map container (device-real)
+    const sheetEl = document.getElementById('sheet');
+    let sheetOverlap = 0;
+    if (sheetEl && sheetEl.classList.contains('show')) {
+      const r = sheetEl.getBoundingClientRect();
+      sheetOverlap = Math.max(0, Math.round(mapRect.bottom - r.top));
     }
-  }
+    // measured overlap of the chips bar at the top
+    const barEl = document.getElementById('mbar');
+    let topOverlap = 60;
+    if (barEl && barEl.offsetParent) {
+      const r = barEl.getBoundingClientRect();
+      if (r.height) topOverlap = Math.max(60, Math.round(r.bottom - mapRect.top) + 10);
+    }
+    const pad = {top: topOverlap, left: 28, right: 28, bottom: sheetOverlap + 24};
+    // keep at least 120px of usable viewport on short screens
+    const usable = mapRect.height - pad.top - pad.bottom;
+    if (usable < 120) pad.bottom = Math.max(24, mapRect.height - pad.top - 120);
+    try { map.fitBounds(b, {padding: pad, maxZoom: 15.5, duration: 500}); } catch (e) { /* mid-teardown */ }
+  }, 60);
 }
 
 function mRenderChips() {
