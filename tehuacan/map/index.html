@@ -1472,7 +1472,10 @@ function mlVisible(f) {
 
 function renderCards() {
   const el = document.getElementById('ml-cards');
-  const vis = feats.filter(mlVisible);
+  // same result state as the map: an active selection (from search or taps)
+  // shows those routes; otherwise the query + pills filter applies
+  const on = M.chips.filter(c => c.on).map(c => c.id);
+  const vis = on.length ? feats.filter(f => on.includes(f.properties.id)) : feats.filter(mlVisible);
   document.getElementById('ml-count').textContent = t('found')(vis.length);
   el.innerHTML = '';
   vis.forEach(f => {
@@ -1623,8 +1626,9 @@ function suggRow(html, cb) {
   return d;
 }
 
-function clearSearch() {
-  document.getElementById('ml-search').value = '';
+function setSearchLabel(label) {
+  // keep the picked place/route visible in the box; results live in the chips
+  document.getElementById('ml-search').value = label;
   MV.q = '';
   if (document.body.dataset.mview === 'list') renderCards();
 }
@@ -1656,11 +1660,11 @@ async function runSugg(q) {
   places.forEach(({pl}) => mlSugg.appendChild(suggRow(
     '<span style="flex:none;color:var(--ink-2)">' + S_PIN2 + '</span><span style="flex:1">' + pl.label + '</span>' +
     '<span class="tag">' + t('nearTag')(pl.ids.size, pl.farKm) + '</span>',
-    () => { hideSugg(); clearSearch(); highlightRoutes([...pl.ids], pl.label); })));
+    () => { hideSugg(); setSearchLabel(pl.label); highlightRoutes([...pl.ids], pl.label); })));
   routes.forEach(({p}) => mlSugg.appendChild(suggRow(
     '<span class="swatch" style="background:' + p.color + '"></span><span style="flex:1">' + p.name + '</span>' +
     (p.kind === 'foránea' ? '<span class="tag">' + t('tagForanea') + '</span>' : ''),
-    () => { hideSugg(); clearSearch(); highlightRoutes([p.id], p.name); openSheet(p.id, 'compact'); })));
+    () => { hideSugg(); setSearchLabel(p.name); highlightRoutes([p.id], p.name); openSheet(p.id, 'compact'); })));
   mlSugg.hidden = mlSugg.children.length === 0;
   if (places.length + routes.length < 2 && q.length >= 3) {
     const res = await geocode(q + ', Tehuacán');
@@ -1675,7 +1679,7 @@ async function runSugg(q) {
         '<span style="flex:none;color:var(--ink-2)">' + S_PIN2 + '</span><span style="flex:1">' + r.name +
         (r.detail ? ' <span class="muted2">' + r.detail + '</span>' : '') + '</span>' +
         '<span class="tag">' + t('nearTag')(ids.length, 0) + '</span>',
-        () => { hideSugg(); clearSearch(); highlightRoutes(ids, r.name, r.c); }));
+        () => { hideSugg(); setSearchLabel(r.name); highlightRoutes(ids, r.name, r.c); }));
     });
     mlSugg.hidden = mlSugg.children.length === 0;
   }
@@ -1683,6 +1687,8 @@ async function runSugg(q) {
 
 document.getElementById('ml-search').addEventListener('input', e => {
   MV.q = e.target.value.trim();
+  if (M.chips.length) M.chips = [];   // editing the query starts a new search in BOTH views
+  if (SRCH_MARKER) { SRCH_MARKER.remove(); SRCH_MARKER = null; }
   if (document.body.dataset.mview === 'map') mApply(false);
   else renderCards();
   clearTimeout(SUG_T);
